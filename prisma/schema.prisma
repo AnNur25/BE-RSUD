@@ -1,0 +1,205 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Kamar {
+  id_Kamar                    Int     @id @default(autoincrement())
+  Total_tempat_tidur          Int
+  biaya                       Float
+  total_bad_laki_laki         Int
+  total_bad_perempuan         Int
+  total_bad_umum              Int
+  jumlah_tersedia_tempat_tidur Int @default(0)
+  id_ruangan                  Int
+  id_kelas_ruangan_SK         Int
+  id_kelas_ruangan_NON_SK     Int
+  id_user_admin                  Int
+
+  ruangan Ruangan @relation(fields: [id_ruangan], references: [id_ruangan])
+  kelasRuanganSK KelasRuanganSK @relation(fields: [id_kelas_ruangan_SK], references: [id_kelas_ruangan_SK])
+  kelasRuanganNONSK KelasRuanganNONSK @relation(fields: [id_kelas_ruangan_NON_SK], references: [id_kelas_ruangan_NON_SK])
+  user User @relation(fields: [id_user_admin], references: [id_user])
+  tempat_tidur TempatTidur[]
+}
+
+model TempatTidur {
+  id_TempatTidur   Int     @id @default(autoincrement())
+  status          KetersedianTempatTidur
+  no_tempat_tidur String
+  jenis_kelamin   JenisKelamin
+  id_Kamar        Int
+  id_user_PJ      Int
+  kamar Kamar @relation(fields: [id_Kamar], references: [id_Kamar])
+  user User @relation(fields: [id_user_PJ], references: [id_user])
+}
+
+enum KetersedianTempatTidur{
+  Tersedia
+  Rusak
+  Terpakai
+}
+
+enum JenisKelamin{
+  P
+  L
+}
+
+model User {
+  id_user   Int    @id @default(autoincrement())
+  nama      String
+  email     String  @unique
+  password  String
+  role      userRole @default(ADMIN)
+
+
+  TempatTidur TempatTidur[] 
+  kamar Kamar[]
+  ruangan Ruangan[]
+  kelasRuanganSK KelasRuanganSK[]
+  kelasRuanganNONSK KelasRuanganNONSK[]
+  fasilitas Fasilitas[]
+  berita Berita[]
+ 
+  responAdmin ResponAdmin[]
+  pelayananDokter PelayananDokter[]
+  dokter Dokter[]
+  spesialis Spesialis[]
+}
+enum userRole{
+  ADMIN
+  PJ
+}
+
+model KelasRuanganSK {
+  id_kelas_ruangan_SK Int    @id @default(autoincrement())
+  nama_kelas         String
+  deskripsi          String
+  id_user_admin Int
+
+  user User @relation(fields: [id_user_admin], references: [id_user])
+  fasilitas Fasilitas[]
+  kamar Kamar[]
+}
+
+model Ruangan {
+  id_ruangan   Int    @id @default(autoincrement())
+  nama_ruangan String
+  lantai       lantaiRuangan
+  deskripsi    String
+  id_user_admin Int
+
+  user User @relation(fields: [id_user_admin], references: [id_user])
+  kamar Kamar[]
+}
+
+enum lantaiRuangan{
+  lantai_1
+  lantai_2
+  lantai_3
+}
+
+model KelasRuanganNONSK {
+  id_kelas_ruangan_NON_SK Int    @id @default(autoincrement())
+  nama_kelas             String
+  deskripsi              String
+  id_user_admin Int
+
+  user User @relation(fields: [id_user_admin], references: [id_user])
+  fasilitas Fasilitas[]
+  kamar Kamar[]
+}
+
+model Fasilitas {
+  id_fasilitas            Int  @id @default(autoincrement())
+  TV                      Boolean
+  AC                      Boolean
+  kamar_mandi_dalam       Boolean
+  wifi                    Boolean
+  meja_kursi              Boolean
+  lemari                  Boolean
+  kipas_angin             Boolean
+  kelas_ruangan_SK_id     Int
+  kelas_ruangan_NON_SK_id Int
+  id_user_admin Int
+
+  kelasRuanganSK KelasRuanganSK @relation(fields: [kelas_ruangan_SK_id], references: [id_kelas_ruangan_SK])
+  kelasRuanganNONSK KelasRuanganNONSK @relation(fields: [kelas_ruangan_NON_SK_id], references: [id_kelas_ruangan_NON_SK])
+  user User @relation(fields: [id_user_admin], references: [id_user])
+}
+
+model Berita {
+  id_berita  Int    @id @default(autoincrement())
+  judul      String
+  deskripsi  String
+  gambar     String
+  waktu      DateTime
+  id_user_admin Int
+
+  user User @relation(fields: [id_user_admin], references: [id_user])
+}
+
+model Aduan {
+  id_aduan     Int    @id @default(autoincrement())
+  judul        String
+  deskripsi    String
+  createdAt    DateTime @default(now())
+  no_wa        String
+
+  responAdmin ResponAdmin[]
+}
+
+model ResponAdmin {
+  id_respon_admin Int    @id @default(autoincrement())
+  message        String
+  createdAt      DateTime @default(now())
+  id_user_admin Int
+  id_aduan Int
+
+  aduan Aduan @relation(fields: [id_aduan], references: [id_aduan])
+  user User @relation(fields: [id_user_admin], references: [id_user])
+}
+
+model PelayananDokter {
+  id_pelayanan_dokter Int    @id @default(autoincrement())
+  nama_pelayanan     String
+  deskripsi          String
+  id_user_admin Int
+
+  user User @relation(fields: [id_user_admin], references: [id_user])
+  dokter Dokter[]
+}
+
+model Dokter {
+  id_dokter            Int    @id @default(autoincrement())
+  nama                String
+  kontak              String
+  gambar              String
+  id_user_admin Int
+  spesialis_id Int
+  pelayanan_dokter_id Int
+
+  spesialis Spesialis @relation(fields: [spesialis_id], references: [id_Spesialis])
+  pelayananDokter PelayananDokter @relation(fields: [pelayanan_dokter_id], references: [id_pelayanan_dokter])
+  user User @relation(fields: [id_user_admin], references: [id_user])
+}
+
+model Spesialis {
+  id_Spesialis Int    @id @default(autoincrement())
+  nama_spesialis String
+  deskripsi      String
+  id_user_admin Int
+
+  user User @relation(fields: [id_user_admin], references: [id_user])
+  dokter Dokter[]
+}
