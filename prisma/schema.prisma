@@ -75,6 +75,11 @@ model User {
   pelayananDokter PelayananDokter[]
   dokter Dokter[]
   spesialis Spesialis[]
+  hariSesi HariSesi[]
+  jamkerja Jamkerja[]
+  tanggalKerja TanggalKerja[]
+  jadwaldokter JadwalDokter[]
+
 }
 enum userRole{
   ADMIN
@@ -186,11 +191,12 @@ model Dokter {
   kontak              String
   gambar              String
   id_user_admin Int
-  spesialis_id Int
-  pelayanan_dokter_id Int
-
-  spesialis Spesialis @relation(fields: [spesialis_id], references: [id_Spesialis])
-  pelayananDokter PelayananDokter @relation(fields: [pelayanan_dokter_id], references: [id_pelayanan_dokter])
+  id_spesialis Int
+  id_pelayanan_dokter Int
+  
+  jadwalDokter JadwalDokter[]
+  spesialis Spesialis @relation(fields: [id_spesialis], references: [id_Spesialis])
+  pelayananDokter PelayananDokter @relation(fields: [id_pelayanan_dokter], references: [id_pelayanan_dokter])
   user User @relation(fields: [id_user_admin], references: [id_user])
 }
 
@@ -202,4 +208,57 @@ model Spesialis {
 
   user User @relation(fields: [id_user_admin], references: [id_user])
   dokter Dokter[]
+  
 }
+
+model JadwalDokter {
+  id_jadwal_dokter Int    @id @default(autoincrement())
+  id_hari_sesi Int
+  id_dokter Int
+  id_jamkerja Int
+  id_user_admin Int
+ 
+  dokter Dokter @relation(fields: [id_dokter], references: [id_dokter])
+  hariSesi HariSesi @relation(fields: [id_hari_sesi], references: [id_HariSesi])
+  jamkerja Jamkerja @relation(fields: [id_jamkerja], references: [id_Jamkerja])
+  user User @relation(fields: [id_user_admin], references: [id_user])
+ 
+}
+
+model HariSesi{
+  id_HariSesi Int    @id @default(autoincrement())
+  hari         String
+  sesi        Sesi
+  id_user_admin Int
+
+  jadwalDokter JadwalDokter[]
+  user User @relation(fields: [id_user_admin], references: [id_user])
+}
+enum Sesi{
+  Pagi
+  Sore
+  Malam
+}
+
+model Jamkerja{
+  id_Jamkerja Int    @id @default(autoincrement())
+  jam_mulai    DateTime
+  jam_selesai  DateTime
+  id_user_admin Int
+  id_TanggalKerja Int
+
+  jadwalDokter JadwalDokter[]
+  tanggalKerja TanggalKerja @relation(fields: [id_TanggalKerja], references: [id_TanggalKerja])
+  user User @relation(fields: [id_user_admin], references: [id_user])
+}
+
+model TanggalKerja{
+  id_TanggalKerja Int    @id @default(autoincrement())
+  tanggal     DateTime
+
+
+  id_user_admin Int
+  jamkerja Jamkerja[]
+  user User @relation(fields: [id_user_admin], references: [id_user])
+}
+
