@@ -41,7 +41,6 @@ class ProfilController {
       const userEmail = req.user.email;
       const { oldPassword, newPassword } = req.body;
 
-      // Validasi input
       if (!oldPassword || !newPassword) {
         return res.status(400).json({
           success: false,
@@ -49,13 +48,11 @@ class ProfilController {
         });
       }
 
-      // Cek password lama
       const user = await prisma.user.findUnique({
         where: { email: userEmail },
         select: { password: true },
       });
 
-      // Ini contoh, sebaiknya gunakan bcrypt untuk compare password
       const bcrypt = require("bcrypt");
       const isPasswordValid = await bcrypt.compare(oldPassword, user.password);
 
@@ -66,10 +63,8 @@ class ProfilController {
         });
       }
 
-      // Hash password baru
       const hashedPassword = await bcrypt.hash(newPassword, 10);
 
-      // Update password
       await prisma.user.update({
         where: { email: userEmail },
         data: { password: hashedPassword },
@@ -82,10 +77,7 @@ class ProfilController {
     } catch (error) {
       console.error("Error changing password:", error);
       return res.status(500).json({
-        success: false,
         message: "Terjadi kesalahan saat mengubah password",
-        error:
-          process.env.NODE_ENV === "development" ? error.message : undefined,
       });
     }
   }

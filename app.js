@@ -2,12 +2,20 @@ const express = require("express");
 const config = require("./config/config");
 const authRoute = require("./routes/authRoute");
 const profileRoute = require("./routes/profilRoute");
+const dokterRoute = require("./routes/dokterRoute");
+const pelayananDokterRoute = require("./routes/pelayananDokterRoute");
+const spesialisRoute = require("./routes/spesialisRoute");
+const cors = require("cors");
 const port = config.port;
 const app = express();
 
+app.use(cors());
 app.use(express.json());
 app.use("/auth", authRoute);
 app.use("/", profileRoute);
+app.use("/jadwal-dokter", dokterRoute);
+app.use("/pelayanan-dokter", pelayananDokterRoute);
+app.use("/spesialis", spesialisRoute);
 
 app.use((err, req, res, next) => {
   console.error(err);
