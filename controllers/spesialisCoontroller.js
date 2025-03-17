@@ -25,6 +25,47 @@ class SpesialisController {
       res.json({ error: error.message });
     }
   }
+
+  static async getSpesialis(req, res) {
+    try {
+      const spesialis = await prisma.spesialis.findMany({
+        select: {
+          id_Spesialis: true,
+          nama_spesialis: true,
+          deskripsi: true,
+        },
+      });
+      res.json(spesialis);
+    } catch (error) {
+      res.json({ error: error.message });
+    }
+  }
+
+  static async updateSpesialis(req, res) {
+    const { id } = req.params;
+    const { nama_spesialis, deskripsi } = req.body;
+    try {
+      const spesialis = await prisma.spesialis.update({
+        where: { id_Spesialis: parseInt(id) },
+        data: { nama_spesialis, deskripsi },
+      });
+      res.json(spesialis);
+    } catch (error) {
+      res.json({ error: error.message });
+    }
+  }
+
+  static async deleteSpesialis(req, res) {
+    const { id } = req.params;
+    try {
+      const spesialis = await prisma.spesialis.delete({
+        where: { id_Spesialis : parseInt(id) },
+      });
+      res.json(spesialis);
+    } catch (error) {
+      res.json({ error: error.message });
+    }
+  }
 }
 
 module.exports = SpesialisController;
