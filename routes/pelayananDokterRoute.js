@@ -1,7 +1,7 @@
 const express = require("express");
 const Route = express.Router();
 const pelayananDokterController = require("../controllers/pelayananDokterController");
-const { auth } = require("../middleware/authMiddleware");
+const { auth } = require("../middlewares/authMiddleware");
 
 Route.post("/", auth, pelayananDokterController.createPelayananDokter);
 Route.get("/", auth, pelayananDokterController.getPelayananDokter);

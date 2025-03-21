@@ -11,9 +11,10 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use("/auth", authRoute);
 app.use("/", profileRoute);
-app.use("/jadwal-dokter", dokterRoute);
+app.use("/dokter", dokterRoute);
 app.use("/pelayanan-dokter", pelayananDokterRoute);
 app.use("/spesialis", spesialisRoute);
 
