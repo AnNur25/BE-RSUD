@@ -35,6 +35,7 @@ function auth(req, res, next) {
   });
 }
 
+/*
 function authorizeRole(...roles) {
   return (req, res, next) => {
     if (!req.user || !roles.includes(req.user.role)) {
@@ -46,5 +47,6 @@ function authorizeRole(...roles) {
     next();
   };
 }
+*/
 
 module.exports = { auth, authorizeRole };

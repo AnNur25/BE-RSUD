@@ -59,8 +59,7 @@ model User {
   id_user   Int    @id @default(autoincrement())
   nama      String
   email     String  @unique
-  password  String
-  role      userRole
+  password  String 
 
 
   TempatTidur TempatTidur[] 
@@ -81,18 +80,15 @@ model User {
   jadwaldokter JadwalDokter[]
 
 }
-enum userRole{
-  ADMIN
-  PJ
-}
+
 
 model KelasRuanganSK {
   id_kelas_ruangan_SK Int    @id @default(autoincrement())
   nama_kelas         String
   deskripsi          String
-  id_user_admin Int
+  id_user Int
 
-  user User @relation(fields: [id_user_admin], references: [id_user])
+  user User @relation(fields: [id_user], references: [id_user])
   fasilitas Fasilitas[]
   kamar Kamar[]
 }
@@ -102,9 +98,9 @@ model Ruangan {
   nama_ruangan String
   lantai       lantaiRuangan
   deskripsi    String
-  id_user_admin Int
+  id_user Int
 
-  user User @relation(fields: [id_user_admin], references: [id_user])
+  user User @relation(fields: [id_user], references: [id_user])
   kamar Kamar[]
 }
 
@@ -118,9 +114,9 @@ model KelasRuanganNONSK {
   id_kelas_ruangan_NON_SK Int    @id @default(autoincrement())
   nama_kelas             String
   deskripsi              String
-  id_user_admin Int
+  id_user Int
 
-  user User @relation(fields: [id_user_admin], references: [id_user])
+  user User @relation(fields: [id_user], references: [id_user])
   fasilitas Fasilitas[]
   kamar Kamar[]
 }
@@ -136,11 +132,11 @@ model Fasilitas {
   kipas_angin             Boolean
   kelas_ruangan_SK_id     Int
   kelas_ruangan_NON_SK_id Int
-  id_user_admin Int
+  id_user Int
 
   kelasRuanganSK KelasRuanganSK @relation(fields: [kelas_ruangan_SK_id], references: [id_kelas_ruangan_SK])
   kelasRuanganNONSK KelasRuanganNONSK @relation(fields: [kelas_ruangan_NON_SK_id], references: [id_kelas_ruangan_NON_SK])
-  user User @relation(fields: [id_user_admin], references: [id_user])
+  user User @relation(fields: [id_user], references: [id_user])
 }
 
 model Berita {
@@ -149,9 +145,9 @@ model Berita {
   deskripsi  String
   gambar     String
   waktu      DateTime
-  id_user_admin Int
+  id_user Int
 
-  user User @relation(fields: [id_user_admin], references: [id_user])
+  user User @relation(fields: [id_user], references: [id_user])
 }
 
 model Aduan {
@@ -168,20 +164,20 @@ model ResponAdmin {
   id_respon_admin Int    @id @default(autoincrement())
   message        String
   createdAt      DateTime @default(now())
-  id_user_admin Int
+  id_user Int
   id_aduan Int
 
   aduan Aduan @relation(fields: [id_aduan], references: [id_aduan])
-  user User @relation(fields: [id_user_admin], references: [id_user])
+  user User @relation(fields: [id_user], references: [id_user])
 }
 
 model PelayananDokter {
   id_pelayanan_dokter Int    @id @default(autoincrement())
   nama_pelayanan     String
   deskripsi          String
-  id_user_admin Int
+  id_user Int
 
-  user User @relation(fields: [id_user_admin], references: [id_user])
+  user User @relation(fields: [id_user], references: [id_user])
   dokter Dokter[]
 }
 
@@ -190,23 +186,23 @@ model Dokter {
   nama                String
   kontak              String
   gambar              String
-  id_user_admin Int
+  id_user Int
   id_spesialis Int
-  id_pelayanan_dokter Int
+  id_pelayanan_dokter Int @default(1)
   
   jadwalDokter JadwalDokter[]
   spesialis Spesialis @relation(fields: [id_spesialis], references: [id_Spesialis])
   pelayananDokter PelayananDokter @relation(fields: [id_pelayanan_dokter], references: [id_pelayanan_dokter])
-  user User @relation(fields: [id_user_admin], references: [id_user])
+  user User @relation(fields: [id_user], references: [id_user])
 }
 
 model Spesialis {
   id_Spesialis Int    @id @default(autoincrement())
   nama_spesialis String
   deskripsi      String
-  id_user_admin Int
+  id_user Int
 
-  user User @relation(fields: [id_user_admin], references: [id_user])
+  user User @relation(fields: [id_user], references: [id_user])
   dokter Dokter[]
   
 }
@@ -216,12 +212,12 @@ model JadwalDokter {
   id_hari_sesi Int
   id_dokter Int
   id_jamkerja Int
-  id_user_admin Int
+  id_user Int
  
   dokter Dokter @relation(fields: [id_dokter], references: [id_dokter])
   hariSesi HariSesi @relation(fields: [id_hari_sesi], references: [id_HariSesi])
   jamkerja Jamkerja @relation(fields: [id_jamkerja], references: [id_Jamkerja])
-  user User @relation(fields: [id_user_admin], references: [id_user])
+  user User @relation(fields: [id_user], references: [id_user])
  
 }
 
@@ -229,10 +225,10 @@ model HariSesi{
   id_HariSesi Int    @id @default(autoincrement())
   hari         String
   sesi        Sesi
-  id_user_admin Int
+  id_user Int
 
   jadwalDokter JadwalDokter[]
-  user User @relation(fields: [id_user_admin], references: [id_user])
+  user User @relation(fields: [id_user], references: [id_user])
 }
 enum Sesi{
   Pagi
@@ -244,12 +240,12 @@ model Jamkerja{
   id_Jamkerja Int    @id @default(autoincrement())
   jam_mulai    DateTime
   jam_selesai  DateTime
-  id_user_admin Int
+  id_user Int
   id_TanggalKerja Int
 
   jadwalDokter JadwalDokter[]
   tanggalKerja TanggalKerja @relation(fields: [id_TanggalKerja], references: [id_TanggalKerja])
-  user User @relation(fields: [id_user_admin], references: [id_user])
+  user User @relation(fields: [id_user], references: [id_user])
 }
 
 model TanggalKerja{
