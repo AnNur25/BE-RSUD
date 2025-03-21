@@ -21,6 +21,8 @@ class AuthController {
       res.json({ error: error.message });
     }
   }
+
+  /*
   static async registerPJ(req, res) {
     const { nama, email, password, role } = req.body;
     try {
@@ -37,6 +39,7 @@ class AuthController {
       res.json({ error: error.message });
     }
   }
+*/
 
   static async login(req, res) {
     const { email, password } = req.body;
@@ -64,8 +67,8 @@ class AuthController {
 
       const payload = {
         id_user: user.id_user,
+        nama: user.nama,
         email: user.email,
-        role: user.role,
       };
 
       const token = jwt.sign(payload, secret, { expiresIn: "1h" });
