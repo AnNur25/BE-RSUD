@@ -33,6 +33,7 @@ const swaggerOptions = {
     "./routes/hariSesiRoute.js",
     "./routes/pelayananRSRoute.js",
     "./routes/jamKerjaRoute.js",
+    "./routes/jadwalDokterRoute.js",
   ],
 };
 

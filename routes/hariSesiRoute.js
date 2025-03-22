@@ -12,7 +12,7 @@ const { auth } = require("../middlewares/authMiddleware");
  *     tags:
  *       - Sesi
  *     security:
- *       - BearerAuth: []
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -173,7 +173,7 @@ route.get("/sesi", hariSesiController.getSesi);
  *     tags:
  *       - Sesi
  *     security:
- *       - BearerAuth: []
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -299,7 +299,7 @@ route.put("/sesi/:id", auth, hariSesiController.updateSesi);
  *     tags:
  *       - Sesi
  *     security:
- *       - BearerAuth: []
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -396,7 +396,7 @@ route.delete("/sesi/:id", auth, hariSesiController.deleteSesi);
  *     tags:
  *       - Hari
  *     security:
- *       - BearerAuth: []
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -553,6 +553,8 @@ route.get("/hari", hariSesiController.getHari);
  *     description: Endpoint ini digunakan untuk memperbarui informasi hari berdasarkan ID.
  *     tags:
  *       - Hari
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -659,7 +661,7 @@ route.put("/hari/:id", auth, hariSesiController.updateHari);
  *     tags:
  *       - Hari
  *     security:
- *       - BearerAuth: []
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
