@@ -32,7 +32,7 @@ const swaggerOptions = {
     "./routes/spesialisRoute.js",
     "./routes/hariSesiRoute.js",
     "./routes/pelayananRSRoute.js",
-
+    "./routes/jamKerjaRoute.js",
   ],
 };
 
