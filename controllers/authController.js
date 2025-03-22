@@ -1,11 +1,19 @@
 const prisma = require("../prisma/prismaClient");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const secret = process.env.JWT_SECRET;
+const config = require("../config/config");
+const secret = config.secretKey;
 
 class AuthController {
   static async registerAdmin(req, res) {
     const { nama, email, password } = req.body;
+    if (!nama || !email || !password) {
+      return res.status(400).json({
+        statusCode: 400,
+        status: "Failed",
+        message: "Semua field (nama, email, password) harus diisi",
+      });
+    }
     try {
       const hashedPassword = await bcrypt.hash(password, 10);
       const admin = await prisma.user.create({
@@ -13,12 +21,22 @@ class AuthController {
           nama,
           email,
           password: hashedPassword,
-       
         },
       });
-      res.json(admin);
+      res.status(201).json({
+        statusCode: 201,
+        status: "Success",
+        message: "Akun Admin berhasil registrasi",
+        data: admin,
+      });
     } catch (error) {
-      res.json({ error: error.message });
+      console.error("Error saat registrasi admin:", error);
+      res.status(500).json({
+        statusCode: 500,
+        status: "Failed",
+        message: "Internal Server Error.",
+        error: error.message,
+      });
     }
   }
 
@@ -43,14 +61,21 @@ class AuthController {
 
   static async login(req, res) {
     const { email, password } = req.body;
+    if (!email || !password) {
+      return res.status(400).json({
+        statusCode: 400,
+        status: "Failed",
+        message: "Email dan password harus diisi.",
+      });
+    }
     try {
       const user = await prisma.user.findUnique({
         where: { email },
       });
 
       if (!user) {
-        return res.status(400).json({
-          statusCode: 400,
+        return res.status(401).json({
+          statusCode: 401,
           status: "Failed",
           message: "Invalid email or password",
         });
@@ -58,8 +83,8 @@ class AuthController {
 
       const match = await bcrypt.compare(password, user.password);
       if (!match) {
-        return res.status(400).json({
-          statusCode: 400,
+        return res.status(401).json({
+          statusCode: 401,
           status: "Failed",
           message: "Invalid email or password",
         });
@@ -79,10 +104,16 @@ class AuthController {
         token,
       });
     } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: "Internal Server Error" });
+      cconsole.error("Error saat registrasi admin:", error);
+      res.status(500).json({
+        statusCode: 500,
+        status: "Failed",
+        message: "Internal Server Error.",
+        error: error.message,
+      });
     }
   }
 }
 
 module.exports = AuthController;
+//brute-force attack

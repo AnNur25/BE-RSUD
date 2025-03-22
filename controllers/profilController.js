@@ -11,8 +11,15 @@ const bcrypt = require("bcrypt");
 class ProfilController {
   static async getProfile(req, res) {
     try {
+      if (!req.user || !req.user.id_user) {
+        return res.status(401).json({
+          statusCode: 401,
+          status: "Failed",
+          message: "Unauthorized. Silakan login kembali.",
+          data: null,
+        });
+      }
       const userId = req.user.id_user;
-
       const user = await prisma.user.findUnique({
         where: { id_user: userId },
       });
@@ -21,19 +28,28 @@ class ProfilController {
         return res.status(404).json({
           statusCode: 404,
           status: "Failed",
-          message: "User not found",
+          message: "User tidak ditemukan.",
+          data: null,
         });
       }
 
       res.status(200).json({
         statusCode: 200,
         status: "Success",
-        message: "Profile fetched successfully",
-        data: user,
+        message: "Profile berhasil diambil.",
+        data: {
+          id_user: user.id_user,
+          nama: user.nama,
+          email: user.email,
+        },
       });
     } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: "Internal Server Error" });
+      res.status(500).json({
+        statusCode: 500,
+        status: "Failed",
+        message: "Internal Server Error.",
+        error: error.message,
+      });
     }
   }
 
@@ -41,8 +57,10 @@ class ProfilController {
     try {
       if (!req.user || !req.user.email) {
         return res.status(401).json({
-          success: false,
-          message: "Tidak terautentikasi atau data user tidak lengkap",
+          statusCode: 401,
+          status: "Failed",
+          message: "Tidak terautentikasi. Silakan login kembali.",
+          data: null,
         });
       }
 
@@ -51,11 +69,20 @@ class ProfilController {
 
       if (!oldPassword || !newPassword) {
         return res.status(400).json({
-          success: false,
-          message: "Password lama dan baru harus diisi",
+          statusCode: 400,
+          status: "Failed",
+          message: "Password lama dan password baru harus diisi.",
+          data: null,
         });
       }
-
+      if (newPassword.length < 8) {
+        return res.status(400).json({
+          statusCode: 400,
+          status: "Failed",
+          message: "Password baru harus minimal 8 karakter.",
+          data: null,
+        });
+      }
       const user = await prisma.user.findUnique({
         where: { email: userEmail },
         select: { password: true },
@@ -66,8 +93,10 @@ class ProfilController {
 
       if (!isPasswordValid) {
         return res.status(400).json({
-          success: false,
-          message: "Password lama tidak valid",
+          statusCode: 400,
+          status: "Failed",
+          message: "Password lama tidak valid.",
+          data: null,
         });
       }
 
@@ -79,18 +108,30 @@ class ProfilController {
       });
 
       return res.status(200).json({
-        success: true,
-        message: "Password berhasil diubah",
+        statusCode: 200,
+        status: "Success",
+        message: "Password berhasil diubah.",
+        data: null,
       });
     } catch (error) {
-      console.error("Error changing password:", error);
-      return res.status(500).json({
-        message: "Terjadi kesalahan saat mengubah password",
+      res.status(500).json({
+        statusCode: 500,
+        status: "Failed",
+        message: "Internal Server Error.",
+        error: error.message,
       });
     }
   }
 
   static async forgetPassword(req, res) {
+    if (!req.user.email) {
+      return res.status(401).json({
+        statusCode: 401,
+        status: "Failed",
+        message: "Tidak terautentikasi. Silakan login kembali.",
+        data: null,
+      });
+    }
     const email = req.user.email;
 
     try {
@@ -98,7 +139,12 @@ class ProfilController {
         where: { email: email },
       });
       if (!user) {
-        return res.status(404).json({ message: "User tidak ditemukan" });
+        return res.status(404).json({
+          statusCode: 404,
+          status: "Failed",
+          message: "User tidak ditemukan.",
+          data: null,
+        });
       }
 
       const payload = {
@@ -112,13 +158,21 @@ class ProfilController {
 
       await sendForgotPasswordEmail(email, resetLink);
       res.status(200).json({
-        message: "Link reset password telah dikirim ke email",
-        reset_link: resetLink,
-        resetToken,
+        statusCode: 200,
+        status: "Success",
+        message: "Link reset password telah dikirim ke email.",
+        data: {
+          reset_link: resetLink,
+          resetToken,
+        },
       });
-    } catch (err) {
-      console.error("Error:", err.message);
-      res.status(500).json({ message: "Terjadi kesalahan pada server" });
+    } catch (error) {
+      res.status(500).json({
+        statusCode: 500,
+        status: "Failed",
+        message: "Internal Server Error.",
+        error: error.message,
+      });
     }
   }
 
@@ -126,24 +180,33 @@ class ProfilController {
     try {
       const { token } = req.query;
       const { newPassw, confirmPassw } = req.body;
-      if (!token || !newPassw) {
-        return res
-          .status(400)
-          .json({ message: "Token dan password baru diperlukan." });
+      if (!token || !newPassw || !confirmPassw) {
+        return res.status(400).json({
+          statusCode: 400,
+          status: "Failed",
+          message: "Token, password baru, dan konfirmasi password diperlukan.",
+          data: null,
+        });
       }
 
-      if (newPassw != confirmPassw) {
-        return res.json({
-          messag: "konfirmasi password tidak sama dengan password",
+      if (newPassw !== confirmPassw) {
+        return res.status(400).json({
+          statusCode: 400,
+          status: "Failed",
+          message: "Konfirmasi password tidak sama dengan password baru.",
+          data: null,
         });
       }
 
       const secret = process.env.JWT_SECRET;
       jwt.verify(token, secret, async (err, decoded) => {
         if (err) {
-          return res
-            .status(401)
-            .json({ message: "Token tidak valid atau sudah kadaluarsa." });
+          return res.status(401).json({
+            statusCode: 401,
+            status: "Failed",
+            message: "Token tidak valid atau sudah kadaluarsa.",
+            data: null,
+          });
         }
 
         const { email } = decoded;
@@ -152,7 +215,12 @@ class ProfilController {
         });
 
         if (!user) {
-          return res.status(404).json({ message: "Akun tidak ditemukan." });
+          return res.status(404).json({
+            statusCode: 404,
+            status: "Failed",
+            message: "Akun tidak ditemukan.",
+            data: null,
+          });
         }
 
         const hashedPassword = await bcrypt.hash(newPassw, 10);
@@ -164,13 +232,21 @@ class ProfilController {
 
         await sendSuccesPasswordEmail(email);
 
-        return res.status(200).json({ message: "Password berhasil direset." });
+        return res.status(200).json({
+          statusCode: 200,
+          status: "Success",
+          message: "Password berhasil direset.",
+          data: null,
+        });
       });
     } catch (error) {
       console.error("Kesalahan saat reset password:", error);
-      return res
-        .status(500)
-        .json({ message: "Terjadi kesalahan pada server." });
+      res.status(500).json({
+        statusCode: 500,
+        status: "Failed",
+        message: "Internal Server Error.",
+        error: error.message,
+      });
     }
   }
 }
