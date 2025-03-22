@@ -4,10 +4,20 @@ const imageKit = require("../config/imagekit");
 class DokterController {
   static async createDokter(req, res) {
     try {
-      console.log("Request Body:", req.body);
+      if (!req.user.id_user) {
+        return res.status(401).json({
+          statusCode: 401,
+          status: "Failed",
+          message: "Unauthorized: User ID not found",
+        });
+      }
       const userId = req.user.id_user;
       if (!req.file) {
-        return res.status(400).json({ error: "No file uploaded" });
+        return res.status(400).json({
+          statusCode: 400,
+          status: "Failed",
+          message: "No file uploaded",
+        });
       }
       console.log("Received file:", req.file);
 
@@ -38,15 +48,16 @@ class DokterController {
       });
 
       return res.status(201).json({
-        status: 201,
-        message: "Successfully added uploaded file",
+        statusCode: 201,
+        status: "Success",
+        message: "Dokter berhasil ditambahkan",
         data: addData,
       });
     } catch (error) {
-      console.error("Error in addFile method:", error);
-      return res.status(500).json({
-        status: 500,
-        message: "Failed to add uploaded file",
+      res.status(500).json({
+        statusCode: 500,
+        status: "Failed",
+        message: "Internal Server Error.",
         error: error.message,
       });
     }
@@ -71,16 +82,49 @@ class DokterController {
           },
         },
       });
-      res.json(dokter);
+      if (!dokter || dokter.length === 0) {
+        return res.status(404).json({
+          statusCode: 404,
+          status: "Failed",
+          message: "Data dokter tidak ditemukan",
+          data: [],
+        });
+      }
+
+      return res.status(200).json({
+        statusCode: 200,
+        status: "Success",
+        message: "Data dokter berhasil diambil",
+        data: dokter,
+      });
     } catch (error) {
-      res.json({ error: error.message });
+      res.status(500).json({
+        statusCode: 500,
+        status: "Failed",
+        message: "Internal Server Error.",
+        error: error.message,
+      });
     }
   }
   static async updateDokter(req, res) {
-    console.log("Request Body:", req.body);
     try {
+      const existingDokter = await prisma.dokter.findUnique({
+        where: { id_dokter: dokterId },
+      });
+
+      if (!existingDokter) {
+        return res.status(404).json({
+          statusCode: 404,
+          status: "Failed",
+          message: "Dokter not found",
+        });
+      }
       if (!req.file) {
-        return res.status(400).json({ error: "No file uploaded" });
+        return res.status(400).json({
+          statusCode: 400,
+          status: "Failed",
+          message: "No file uploaded",
+        });
       }
       console.log("Received file:", req.file);
 
@@ -111,52 +155,74 @@ class DokterController {
         },
       });
       return res.status(200).json({
-        status: 200,
-        message: "Successfully updated file",
+        statusCode: 200,
+        status: "Success",
+        message: "Dokter berhasil diperbarui",
         data: updatedFile,
       });
     } catch (error) {
       console.error("Error in updateFile method:", error);
-      return res.status(500).json({
-        status: 500,
-        message: "Failed to update file",
+      res.status(500).json({
+        statusCode: 500,
+        status: "Failed",
+        message: "Internal Server Error.",
         error: error.message,
       });
     }
   }
 
   static async deleteDokter(req, res) {
-    const { id } = req.params;
-    console.log("Received fileUpload ID:", id);
     try {
-      const fileUploadExists = await prisma.dokter.findUnique({
-        where: { id },
-        include: { image: true },
-      });
+      const dokterId = parseInt(req.params.id);
 
-      if (!fileUploadExists) {
-        return res.status(404).json({
-          status: 404,
-          message: `FileUpload with ID ${id} not found`,
+      if (isNaN(dokterId)) {
+        return res.status(400).json({
+          statusCode: 400,
+          status: "Failed",
+          message: "Invalid dokter ID format",
         });
       }
 
-      const result = await prisma.$transaction([
-        prisma.fileUpload.delete({
-          where: { id },
-        }),
-      ]);
+      console.log("Received dokter ID:", dokterId);
 
-      res.status(200).json({
-        status: 200,
-        message: "Successfully deleted fileUpload and its associated image",
-        data: result,
+      const dokterExists = await prisma.dokter.findUnique({
+        where: { id_dokter: dokterId },
+      });
+
+      if (!dokterExists) {
+        return res.status(404).json({
+          statusCode: 404,
+          status: "Failed",
+          message: `Dokter dengan ID ${dokterId} tidak ditemukan`,
+        });
+      }
+
+      let deleteResult;
+      try {
+        deleteResult = await prisma.dokter.delete({
+          where: { id_dokter: dokterId },
+        });
+      } catch (prismaError) {
+        console.error("Database error:", prismaError);
+        return res.status(500).json({
+          statusCode: 500,
+          status: "Failed",
+          message: "Database error: Unable to delete dokter",
+        });
+      }
+
+      return res.status(200).json({
+        statusCode: 200,
+        status: "Success",
+        message: "Dokter berhasil dihapus",
+        data: deleteResult,
       });
     } catch (error) {
-      console.error(error, "Error while deleting fileUpload and image");
+      console.error("Unexpected error in deleteDokter method:", error);
       return res.status(500).json({
-        status: 500,
-        message: "Failed to delete fileUpload and associated image",
+        statusCode: 500,
+        status: "Failed",
+        message: "Unexpected error occurred",
         error: error.message,
       });
     }
