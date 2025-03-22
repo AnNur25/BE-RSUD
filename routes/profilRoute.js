@@ -42,7 +42,7 @@ const { auth } = require("../middlewares/authMiddleware");
  *                       example: "John Doe"
  *                     email:
  *                       type: string
- *                       example: "johndoe@example.com"
+ *                       example: "binar@gmail.com"
  *       401:
  *         description: Unauthorized - Pengguna tidak memiliki izin.
  *         content:
