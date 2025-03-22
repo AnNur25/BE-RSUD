@@ -23,7 +23,7 @@ class AuthController {
           password: hashedPassword,
         },
       });
-    
+
       res.status(201).json({
         statusCode: 201,
         status: "Success",
@@ -95,26 +95,29 @@ class AuthController {
       });
     }
   }
-}
-
-
-module.exports = AuthController;
-//brute-force attack
-/*
-  static async registerPJ(req, res) {
-    const { nama, email, password, role } = req.body;
+  static async logout(req, res) {
     try {
-      const admin = await prisma.user.create({
-        data: {
-          nama,
-          email,
-          password,
-          role: "PJ",
-        },
+      res.clearCookie("refreshToken", null,{
+        expires: new Date(Date.now()),
+        httpOnly: true,
+        secure: true,
+        sameSite: "Strict",
       });
-      res.json(admin);
+
+      return res.status(200).json({
+        statusCode: 200,
+        status: "success",
+        message: "Berhasil logout",
+      });
     } catch (error) {
-      res.json({ error: error.message });
+      res.status(500).json({
+        statusCode: 500,
+        status: "Failed",
+        message: "Internal Server Error.",
+        error: error.message,
+      });
     }
   }
-*/
+}
+
+module.exports = AuthController;
