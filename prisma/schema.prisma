@@ -13,47 +13,47 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Kamar {
-  id_Kamar                    Int     @id @default(autoincrement())
-  Total_tempat_tidur          Int
-  biaya                       Float
-  total_bad_laki_laki         Int
-  total_bad_perempuan         Int
-  total_bad_umum              Int
-  jumlah_tersedia_tempat_tidur Int @default(0)
-  id_ruangan                  Int
-  id_kelas_ruangan_SK         Int
-  id_kelas_ruangan_NON_SK     Int
-  id_user_admin                  Int
+// model Kamar {
+//   id_Kamar                    Int     @id @default(autoincrement())
+//   Total_tempat_tidur          Int
+//   biaya                       Float
+//   total_bad_laki_laki         Int
+//   total_bad_perempuan         Int
+//   total_bad_umum              Int
+//   jumlah_tersedia_tempat_tidur Int @default(0)
+//   id_ruangan                  Int
+//   id_kelas_ruangan_SK         Int
+//   id_kelas_ruangan_NON_SK     Int
+//   id_user_admin                  Int
 
-  ruangan Ruangan @relation(fields: [id_ruangan], references: [id_ruangan])
-  kelasRuanganSK KelasRuanganSK @relation(fields: [id_kelas_ruangan_SK], references: [id_kelas_ruangan_SK])
-  kelasRuanganNONSK KelasRuanganNONSK @relation(fields: [id_kelas_ruangan_NON_SK], references: [id_kelas_ruangan_NON_SK])
-  user User @relation(fields: [id_user_admin], references: [id_user])
-  tempat_tidur TempatTidur[]
-}
+//   ruangan Ruangan @relation(fields: [id_ruangan], references: [id_ruangan])
+//   kelasRuanganSK KelasRuanganSK @relation(fields: [id_kelas_ruangan_SK], references: [id_kelas_ruangan_SK])
+//   kelasRuanganNONSK KelasRuanganNONSK @relation(fields: [id_kelas_ruangan_NON_SK], references: [id_kelas_ruangan_NON_SK])
+//   user User @relation(fields: [id_user_admin], references: [id_user])
+//   tempat_tidur TempatTidur[]
+// }
 
-model TempatTidur {
-  id_TempatTidur   Int     @id @default(autoincrement())
-  status          KetersedianTempatTidur
-  no_tempat_tidur String
-  jenis_kelamin   JenisKelamin
-  id_Kamar        Int
-  id_user_PJ      Int
-  kamar Kamar @relation(fields: [id_Kamar], references: [id_Kamar])
-  user User @relation(fields: [id_user_PJ], references: [id_user])
-}
+// model TempatTidur {
+//   id_TempatTidur   Int     @id @default(autoincrement())
+//   status          KetersedianTempatTidur
+//   no_tempat_tidur String
+//   jenis_kelamin   JenisKelamin
+//   id_Kamar        Int
+//   id_user_PJ      Int
+//   kamar Kamar @relation(fields: [id_Kamar], references: [id_Kamar])
+//   user User @relation(fields: [id_user_PJ], references: [id_user])
+// }
 
-enum KetersedianTempatTidur{
-  Tersedia
-  Rusak
-  Terpakai
-}
+// enum KetersedianTempatTidur{
+//   Tersedia
+//   Rusak
+//   Terpakai
+// }
 
-enum JenisKelamin{
-  P
-  L
-}
+// enum JenisKelamin{
+//   P
+//   L
+// }
 
 model User {
   id_user   Int    @id @default(autoincrement())
@@ -62,19 +62,20 @@ model User {
   password  String 
 
 
-  TempatTidur TempatTidur[] 
-  kamar Kamar[]
-  ruangan Ruangan[]
-  kelasRuanganSK KelasRuanganSK[]
-  kelasRuanganNONSK KelasRuanganNONSK[]
-  fasilitas Fasilitas[]
+  // TempatTidur TempatTidur[] 
+  // kamar Kamar[]
+  // ruangan Ruangan[]
+  // kelasRuanganSK KelasRuanganSK[]
+  // kelasRuanganNONSK KelasRuanganNONSK[]
+  // fasilitas Fasilitas[]
   berita Berita[]
- 
+  pelayananRS PelayananRumahSakit[]
   responAdmin ResponAdmin[]
   pelayananDokter PelayananDokter[]
   dokter Dokter[]
   spesialis Spesialis[]
-  hariSesi HariSesi[]
+  Hari Hari[]
+  Sesi Sesi[]
   jamkerja Jamkerja[]
   tanggalKerja TanggalKerja[]
   jadwaldokter JadwalDokter[]
@@ -82,62 +83,62 @@ model User {
 }
 
 
-model KelasRuanganSK {
-  id_kelas_ruangan_SK Int    @id @default(autoincrement())
-  nama_kelas         String
-  deskripsi          String
-  id_user Int
+// model KelasRuanganSK {
+//   id_kelas_ruangan_SK Int    @id @default(autoincrement())
+//   nama_kelas         String
+//   deskripsi          String
+//   id_user Int
 
-  user User @relation(fields: [id_user], references: [id_user])
-  fasilitas Fasilitas[]
-  kamar Kamar[]
-}
+//   user User @relation(fields: [id_user], references: [id_user])
+//   fasilitas Fasilitas[]
+//   kamar Kamar[]
+// }
 
-model Ruangan {
-  id_ruangan   Int    @id @default(autoincrement())
-  nama_ruangan String
-  lantai       lantaiRuangan
-  deskripsi    String
-  id_user Int
+// model Ruangan {
+//   id_ruangan   Int    @id @default(autoincrement())
+//   nama_ruangan String
+//   lantai       lantaiRuangan
+//   deskripsi    String
+//   id_user Int
 
-  user User @relation(fields: [id_user], references: [id_user])
-  kamar Kamar[]
-}
+//   user User @relation(fields: [id_user], references: [id_user])
+//   kamar Kamar[]
+// }
 
-enum lantaiRuangan{
-  lantai_1
-  lantai_2
-  lantai_3
-}
+// enum lantaiRuangan{
+//   lantai_1
+//   lantai_2
+//   lantai_3
+// }
 
-model KelasRuanganNONSK {
-  id_kelas_ruangan_NON_SK Int    @id @default(autoincrement())
-  nama_kelas             String
-  deskripsi              String
-  id_user Int
+// model KelasRuanganNONSK {
+//   id_kelas_ruangan_NON_SK Int    @id @default(autoincrement())
+//   nama_kelas             String
+//   deskripsi              String
+//   id_user Int
 
-  user User @relation(fields: [id_user], references: [id_user])
-  fasilitas Fasilitas[]
-  kamar Kamar[]
-}
+//   user User @relation(fields: [id_user], references: [id_user])
+//   fasilitas Fasilitas[]
+//   kamar Kamar[]
+// }
 
-model Fasilitas {
-  id_fasilitas            Int  @id @default(autoincrement())
-  TV                      Boolean
-  AC                      Boolean
-  kamar_mandi_dalam       Boolean
-  wifi                    Boolean
-  meja_kursi              Boolean
-  lemari                  Boolean
-  kipas_angin             Boolean
-  kelas_ruangan_SK_id     Int
-  kelas_ruangan_NON_SK_id Int
-  id_user Int
+// model Fasilitas {
+//   id_fasilitas            Int  @id @default(autoincrement())
+//   TV                      Boolean
+//   AC                      Boolean
+//   kamar_mandi_dalam       Boolean
+//   wifi                    Boolean
+//   meja_kursi              Boolean
+//   lemari                  Boolean
+//   kipas_angin             Boolean
+//   kelas_ruangan_SK_id     Int
+//   kelas_ruangan_NON_SK_id Int
+//   id_user Int
 
-  kelasRuanganSK KelasRuanganSK @relation(fields: [kelas_ruangan_SK_id], references: [id_kelas_ruangan_SK])
-  kelasRuanganNONSK KelasRuanganNONSK @relation(fields: [kelas_ruangan_NON_SK_id], references: [id_kelas_ruangan_NON_SK])
-  user User @relation(fields: [id_user], references: [id_user])
-}
+//   kelasRuanganSK KelasRuanganSK @relation(fields: [kelas_ruangan_SK_id], references: [id_kelas_ruangan_SK])
+//   kelasRuanganNONSK KelasRuanganNONSK @relation(fields: [kelas_ruangan_NON_SK_id], references: [id_kelas_ruangan_NON_SK])
+//   user User @relation(fields: [id_user], references: [id_user])
+// }
 
 model Berita {
   id_berita  Int    @id @default(autoincrement())
@@ -181,6 +182,17 @@ model PelayananDokter {
   dokter Dokter[]
 }
 
+model PelayananRumahSakit{
+  id_pelayananRS Int @id @default(autoincrement())
+  Persyaratan String
+  Prosedur String
+  JangkaWaktu String
+  Biaya   Float
+  id_user Int
+
+  user User @relation(fields: [id_user], references: [id_user])
+}
+
 model Dokter {
   id_dokter            Int    @id @default(autoincrement())
   nama                String
@@ -209,32 +221,38 @@ model Spesialis {
 
 model JadwalDokter {
   id_jadwal_dokter Int    @id @default(autoincrement())
-  id_hari_sesi Int
+  id_Sesi Int
+  id_Hari  Int
   id_dokter Int
   id_jamkerja Int
   id_user Int
  
   dokter Dokter @relation(fields: [id_dokter], references: [id_dokter])
-  hariSesi HariSesi @relation(fields: [id_hari_sesi], references: [id_HariSesi])
+  Sesi Sesi @relation(fields: [id_Sesi], references: [id_Sesi])
+  Hari Hari @relation(fields: [id_Hari], references: [id_Hari])
   jamkerja Jamkerja @relation(fields: [id_jamkerja], references: [id_Jamkerja])
   user User @relation(fields: [id_user], references: [id_user])
  
 }
 
-model HariSesi{
-  id_HariSesi Int    @id @default(autoincrement())
-  hari         String
-  sesi        Sesi
+model Sesi{
+  id_Sesi Int    @id @default(autoincrement())
+  sesi    String
   id_user Int
 
   jadwalDokter JadwalDokter[]
   user User @relation(fields: [id_user], references: [id_user])
 }
-enum Sesi{
-  Pagi
-  Sore
-  Malam
+
+model Hari{
+  id_Hari Int    @id @default(autoincrement())
+  hari    String
+  id_user Int
+
+  jadwalDokter JadwalDokter[]
+  user User @relation(fields: [id_user], references: [id_user])
 }
+
 
 model Jamkerja{
   id_Jamkerja Int    @id @default(autoincrement())
