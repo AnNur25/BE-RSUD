@@ -10,6 +10,7 @@ const spesialisRoute = require("./routes/spesialisRoute");
 const hariSesi = require("./routes/hariSesiRoute");
 const pelayananRS = require("./routes/pelayananRSRoute");
 const jamKerja = require("./routes/jamKerjaRoute");
+const jadwalDokter = require("./routes/jadwalDokterRoute");
 const cors = require("cors");
 const port = config.port;
 const app = express();
@@ -27,12 +28,16 @@ app.use("/spesialis", spesialisRoute);
 app.use("/", hariSesi);
 app.use("/pelayananRS", pelayananRS);
 app.use("/jam-kerja", jamKerja);
+app.use("/jadwal-dokter", jadwalDokter);
 
 app.use((err, req, res, next) => {
   console.error(err);
-  res.status(500).json({ message: "Internal Server Error" });
+  res.status(500).json({
+    statusCode: err.statusCode || 500,
+    status: err.status || "Failed",
+    message: err.message || "Internal Server Error.",
+  });
 });
-
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });

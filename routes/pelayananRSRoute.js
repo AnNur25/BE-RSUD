@@ -12,7 +12,7 @@ const { auth } = require("../middlewares/authMiddleware");
  *     tags:
  *       - Pelayanan Rumah Sakit
  *     security:
- *       - BearerAuth: []
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -180,6 +180,8 @@ route.get("/", pelayananRS.getPelayananRS);
  *     description: Endpoint ini digunakan untuk memperbarui informasi pelayanan rumah sakit berdasarkan ID.
  *     tags:
  *       - Pelayanan Rumah Sakit
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -322,6 +324,8 @@ route.put("/:id", auth, pelayananRS.updatePelayananRS);
  *     description: Endpoint ini digunakan untuk menghapus informasi pelayanan rumah sakit berdasarkan ID.
  *     tags:
  *       - Pelayanan Rumah Sakit
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
