@@ -7,6 +7,8 @@ const profileRoute = require("./routes/profilRoute");
 const dokterRoute = require("./routes/dokterRoute");
 const pelayananDokterRoute = require("./routes/pelayananDokterRoute");
 const spesialisRoute = require("./routes/spesialisRoute");
+const hariSesi = require("./routes/hariSesiRoute");
+const pelayananRS = require("./routes/pelayananRSRoute");
 const cors = require("cors");
 const port = config.port;
 const app = express();
@@ -21,6 +23,8 @@ app.use("/", profileRoute);
 app.use("/dokter", dokterRoute);
 app.use("/pelayanan-dokter", pelayananDokterRoute);
 app.use("/spesialis", spesialisRoute);
+app.use("/", hariSesi);
+app.use("/pelayananRS", pelayananRS);
 
 app.use((err, req, res, next) => {
   console.error(err);

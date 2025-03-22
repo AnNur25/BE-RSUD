@@ -30,6 +30,9 @@ const swaggerOptions = {
     "./routes/pelayananDokterRoute.js",
     "./routes/profilRoute.js",
     "./routes/spesialisRoute.js",
+    "./routes/hariSesiRoute.js",
+    "./routes/pelayananRSRoute.js",
+
   ],
 };
 
