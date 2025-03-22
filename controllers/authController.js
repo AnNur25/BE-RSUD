@@ -40,25 +40,6 @@ class AuthController {
     }
   }
 
-  /*
-  static async registerPJ(req, res) {
-    const { nama, email, password, role } = req.body;
-    try {
-      const admin = await prisma.user.create({
-        data: {
-          nama,
-          email,
-          password,
-          role: "PJ",
-        },
-      });
-      res.json(admin);
-    } catch (error) {
-      res.json({ error: error.message });
-    }
-  }
-*/
-
   static async login(req, res) {
     const { email, password } = req.body;
     if (!email || !password) {
@@ -115,5 +96,24 @@ class AuthController {
   }
 }
 
+
 module.exports = AuthController;
 //brute-force attack
+/*
+  static async registerPJ(req, res) {
+    const { nama, email, password, role } = req.body;
+    try {
+      const admin = await prisma.user.create({
+        data: {
+          nama,
+          email,
+          password,
+          role: "PJ",
+        },
+      });
+      res.json(admin);
+    } catch (error) {
+      res.json({ error: error.message });
+    }
+  }
+*/

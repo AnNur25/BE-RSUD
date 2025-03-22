@@ -1,5 +1,7 @@
 const express = require("express");
 const config = require("./config/config");
+const swaggerUi = require("swagger-ui-express");
+const swaggerSpec = require("./swagger/swaggerConfig");
 const authRoute = require("./routes/authRoute");
 const profileRoute = require("./routes/profilRoute");
 const dokterRoute = require("./routes/dokterRoute");
@@ -13,7 +15,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use("/auth", authRoute);
 app.use("/", profileRoute);
 app.use("/dokter", dokterRoute);
