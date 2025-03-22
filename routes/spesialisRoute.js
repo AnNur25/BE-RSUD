@@ -1,6 +1,6 @@
 const express = require("express");
 const Route = express.Router();
-const spesialisController = require("../controllers/spesialisCoontroller");
+const spesialisController = require("../controllers/spesialisController");
 const { auth } = require("../middlewares/authMiddleware");
 
 Route.post("/", auth, spesialisController.createSpesialis);

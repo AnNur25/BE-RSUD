@@ -23,6 +23,7 @@ class AuthController {
           password: hashedPassword,
         },
       });
+    
       res.status(201).json({
         statusCode: 201,
         status: "Success",
