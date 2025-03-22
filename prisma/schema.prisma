@@ -259,10 +259,8 @@ model Jamkerja{
   jam_mulai    DateTime
   jam_selesai  DateTime
   id_user Int
-  id_TanggalKerja Int
-
+ 
   jadwalDokter JadwalDokter[]
-  tanggalKerja TanggalKerja @relation(fields: [id_TanggalKerja], references: [id_TanggalKerja])
   user User @relation(fields: [id_user], references: [id_user])
 }
 
@@ -271,8 +269,7 @@ model TanggalKerja{
   tanggal     DateTime
 
 
-  id_user_admin Int
-  jamkerja Jamkerja[]
-  user User @relation(fields: [id_user_admin], references: [id_user])
+  id_user Int
+  user User @relation(fields: [id_user], references: [id_user])
 }
 
