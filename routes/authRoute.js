@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const authController = require("../controllers/authController");
+const { auth } = require("../middlewares/authMiddleware");
 
 /**
  * @swagger
@@ -182,6 +183,65 @@ router.post("/register-admin", authController.registerAdmin);
  */
 router.post("/login", authController.login);
 
+/**
+ * @swagger
+ * /auth/logout:
+ *   post:
+ *     summary: Logout
+ *     description: API untuk logout admin.
+ *     tags:
+ *       - Autentikasi
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Berhasil logout.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 200
+ *                 status:
+ *                   type: string
+ *                   example: "success"
+ *                 message:
+ *                   type: string
+ *                   example: "berhasil logout"
+ *       500:
+ *         description: Terjadi kesalahan pada server.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 500
+ *                 status:
+ *                   type: string
+ *                   example: "Failed"
+ *                 message:
+ *                   type: string
+ *                   example: "Internal Server Error."
+ *                 error:
+ *                   type: string
+ *                   example: "Unexpected error occurred."
+ */
+router.post("/logout", auth, authController.logout);
+
+/**
+ * @swagger
+ * components:
+ *   securitySchemes:
+ *     bearerAuth:
+ *       type: http
+ *       scheme: bearer
+ *       bearerFormat: JWT
+ *       description: Masukkan token JWT di sini
+ */
 module.exports = router;
 
 // router.post("/register-pj", authController.registerPJ);
