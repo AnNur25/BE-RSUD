@@ -1,7 +1,5 @@
 const jwt = require("jsonwebtoken");
 const config = require("../config/config");
-// const secret = process.env.JWT_SECRET;
-
 const secret = config.secretKey;
 
 function auth(req, res, next) {
@@ -29,7 +27,7 @@ function auth(req, res, next) {
       error.status = "Failed";
       return next(error);
     }
-   
+
     req.user = user;
     next();
   });
@@ -49,4 +47,4 @@ function authorizeRole(...roles) {
 }
 */
 
-module.exports = { auth, authorizeRole };
+module.exports = { auth };

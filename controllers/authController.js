@@ -5,7 +5,7 @@ const secret = process.env.JWT_SECRET;
 
 class AuthController {
   static async registerAdmin(req, res) {
-    const { nama, email, password, role } = req.body;
+    const { nama, email, password } = req.body;
     try {
       const hashedPassword = await bcrypt.hash(password, 10);
       const admin = await prisma.user.create({
@@ -13,7 +13,7 @@ class AuthController {
           nama,
           email,
           password: hashedPassword,
-          role: "ADMIN",
+       
         },
       });
       res.json(admin);
