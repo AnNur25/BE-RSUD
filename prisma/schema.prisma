@@ -139,7 +139,8 @@ model Sesi{
 
 model Hari{
   id_Hari Int    @id @default(autoincrement())
-  hari    String
+  hari_mulai    String
+  hari_selesai  String
   id_user Int
 
   jadwalDokter JadwalDokter[]

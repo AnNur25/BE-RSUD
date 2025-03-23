@@ -166,7 +166,8 @@ class JadwalDokterController {
     }
   }
 
-  
+  static async searchJadwalDokter(req, res) {}
+
   static async updateJadwalDokter(req, res) {
     try {
       const id = parseInt(req.params.id);

@@ -404,9 +404,12 @@ route.delete("/sesi/:id", auth, hariSesiController.deleteSesi);
  *           schema:
  *             type: object
  *             properties:
- *               hari:
+ *               hari_mulai:
  *                 type: string
  *                 example: "Senin"
+ *               hari_selesai:
+ *                 type: string
+ *                 example: "Rabu"
  *     responses:
  *       201:
  *         description: Hari berhasil ditambahkan.
@@ -430,9 +433,12 @@ route.delete("/sesi/:id", auth, hariSesiController.deleteSesi);
  *                     id_Hari:
  *                       type: integer
  *                       example: 1
- *                     hari:
+ *                     hari_mulai:
  *                       type: string
  *                       example: "Senin"
+ *                     hari_selesai:
+ *                       type: string
+ *                       example: "Rabu"
  *       400:
  *         description: Input hari tidak boleh kosong.
  *         content:
@@ -520,9 +526,12 @@ route.post("/hari", auth, hariSesiController.createHari);
  *                       id_Hari:
  *                         type: integer
  *                         example: 1
- *                       hari:
+ *                       hari_mulai:
  *                         type: string
  *                         example: "Senin"
+ *                       hari_selesai:
+ *                         type: string
+ *                         example: "Rabu"
  *       500:
  *         description: Terjadi kesalahan server internal.
  *         content:
@@ -549,8 +558,7 @@ route.get("/hari", hariSesiController.getHari);
  * @swagger
  * /hari/{id}:
  *   put:
- *     summary: Memperbarui data hari berdasarkan ID
- *     description: Endpoint ini digunakan untuk memperbarui informasi hari berdasarkan ID.
+ *     summary: Update hari berdasarkan ID
  *     tags:
  *       - Hari
  *     security:
@@ -562,19 +570,22 @@ route.get("/hari", hariSesiController.getHari);
  *         schema:
  *           type: integer
  *         description: ID hari yang akan diperbarui
- *       - in: body
- *         name: body
- *         required: true
- *         description: Data hari yang akan diperbarui
- *         schema:
- *           type: object
- *           properties:
- *             hari:
- *               type: string
- *               example: "Selasa"
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               hari_mulai:
+ *                 type: string
+ *                 example: "Selasa"
+ *               hari_selesai:
+ *                 type: string
+ *                 example: "Rabu"
  *     responses:
  *       200:
- *         description: Berhasil memperbarui hari.
+ *         description: Hari berhasil diperbarui
  *         content:
  *           application/json:
  *             schema:
@@ -595,11 +606,14 @@ route.get("/hari", hariSesiController.getHari);
  *                     id_Hari:
  *                       type: integer
  *                       example: 1
- *                     hari:
+ *                     hari_mulai:
  *                       type: string
  *                       example: "Selasa"
+ *                     hari_selesai:
+ *                       type: string
+ *                       example: "Rabu"
  *       400:
- *         description: Format ID tidak valid.
+ *         description: Kesalahan input data
  *         content:
  *           application/json:
  *             schema:
@@ -613,9 +627,25 @@ route.get("/hari", hariSesiController.getHari);
  *                   example: "Failed"
  *                 message:
  *                   type: string
- *                   example: "Format ID hari tidak valid"
+ *                   example: "hari harus diisi"
+ *       401:
+ *         description: Unauthorized (Token tidak valid atau tidak ditemukan)
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 401
+ *                 status:
+ *                   type: string
+ *                   example: "Failed"
+ *                 message:
+ *                   type: string
+ *                   example: "Token tidak valid atau tidak ditemukan"
  *       404:
- *         description: Data hari tidak ditemukan.
+ *         description: Hari tidak ditemukan
  *         content:
  *           application/json:
  *             schema:
@@ -629,9 +659,9 @@ route.get("/hari", hariSesiController.getHari);
  *                   example: "Failed"
  *                 message:
  *                   type: string
- *                   example: "hari dengan ID 5 tidak ditemukan"
+ *                   example: "hari dengan ID 1 tidak ditemukan"
  *       500:
- *         description: Terjadi kesalahan server internal.
+ *         description: Kesalahan server
  *         content:
  *           application/json:
  *             schema:
@@ -646,9 +676,6 @@ route.get("/hari", hariSesiController.getHari);
  *                 message:
  *                   type: string
  *                   example: "Internal Server Error."
- *                 error:
- *                   type: string
- *                   example: "Database connection failed"
  */
 route.put("/hari/:id", auth, hariSesiController.updateHari);
 
@@ -693,9 +720,12 @@ route.put("/hari/:id", auth, hariSesiController.updateHari);
  *                     id_Hari:
  *                       type: integer
  *                       example: 1
- *                     hari:
+ *                     hari_mulai:
  *                       type: string
  *                       example: "Senin"
+ *                     hari_selesai:
+ *                       type: string
+ *                       example: "Kamis"
  *       400:
  *         description: Format ID hari tidak valid.
  *         content:
