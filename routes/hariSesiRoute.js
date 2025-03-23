@@ -179,7 +179,7 @@ route.get("/sesi", hariSesiController.getSesi);
  *         name: id
  *         required: true
  *         schema:
- *           type: integer
+ *           type: string
  *         description: ID sesi yang akan diperbarui
  *       - in: body
  *         name: body
@@ -212,14 +212,14 @@ route.get("/sesi", hariSesiController.getSesi);
  *                   type: object
  *                   properties:
  *                     id_Sesi:
- *                       type: integer
- *                       example: 1
+ *                       type: string
+ *                       example: "bf27354f-6d82-4e25-9541-b9efc8bf57ed"
  *                     sesi:
  *                       type: string
- *                       example: "Sesi Pagi"
+ *                       example: "Pagi"
  *                     id_user:
- *                       type: integer
- *                       example: 2
+ *                       type: string
+ *                       example: "bf23457354f-6d82-4e25-9541-b9efc8bf57ed"
  *       400:
  *         description: Format ID tidak valid.
  *         content:
@@ -305,7 +305,7 @@ route.put("/sesi/:id", auth, hariSesiController.updateSesi);
  *         name: id
  *         required: true
  *         schema:
- *           type: integer
+ *           type: string
  *         description: ID sesi yang akan dihapus
  *     responses:
  *       200:
@@ -328,11 +328,11 @@ route.put("/sesi/:id", auth, hariSesiController.updateSesi);
  *                   type: object
  *                   properties:
  *                     id_Sesi:
- *                       type: integer
- *                       example: 1
+ *                       type: string
+ *                       example: "bf27354f-6d82-4e25-9541-b9efc8bf57ed"
  *                     sesi:
  *                       type: string
- *                       example: "Sesi Pagi"
+ *                       example: "Pagi"
  *       400:
  *         description: Format ID tidak valid.
  *         content:
@@ -568,7 +568,7 @@ route.get("/hari", hariSesiController.getHari);
  *         name: id
  *         required: true
  *         schema:
- *           type: integer
+ *           type: string
  *         description: ID hari yang akan diperbarui
  *     requestBody:
  *       required: true
@@ -604,8 +604,8 @@ route.get("/hari", hariSesiController.getHari);
  *                   type: object
  *                   properties:
  *                     id_Hari:
- *                       type: integer
- *                       example: 1
+ *                       type: string
+ *                       example: "bf27354f-6d82-4e25-9541-b9efc8bf57ed"
  *                     hari_mulai:
  *                       type: string
  *                       example: "Selasa"
@@ -694,7 +694,7 @@ route.put("/hari/:id", auth, hariSesiController.updateHari);
  *         name: id
  *         required: true
  *         schema:
- *           type: integer
+ *           type: string
  *         description: ID hari yang akan dihapus
  *         example: 1
  *     responses:
@@ -718,8 +718,8 @@ route.put("/hari/:id", auth, hariSesiController.updateHari);
  *                   type: object
  *                   properties:
  *                     id_Hari:
- *                       type: integer
- *                       example: 1
+ *                       type: string
+ *                       example: "bf27354f-6d82-4e25-9541-b9efc8bf57ed"
  *                     hari_mulai:
  *                       type: string
  *                       example: "Senin"

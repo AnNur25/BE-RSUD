@@ -97,7 +97,9 @@ class JadwalDokterController {
             },
           },
           Sesi: { select: { id_Sesi: true, sesi: true } },
-          Hari: { select: { id_Hari: true, hari: true } },
+          Hari: {
+            select: { id_Hari: true, hari_mulai: true, hari_selesai: true },
+          },
           jamkerja: {
             select: {
               id_Jamkerja: true,
@@ -125,24 +127,16 @@ class JadwalDokterController {
         },
         hari: {
           id: jadwal.Hari.id_Hari,
-          nama: jadwal.Hari.hari,
+          hari_mulai: jadwal.Hari.hari_mulai,
+          hari_selesai: jadwal.Hari.hari_selesai,
         },
         jam_kerja: {
           id: jadwal.jamkerja.id_Jamkerja,
-          jam_mulai: new Date(jadwal.jamkerja.jam_mulai).toLocaleTimeString(
-            "id-ID",
-            {
-              hour: "2-digit",
-              minute: "2-digit",
-            }
-          ),
-          jam_selesai: new Date(jadwal.jamkerja.jam_selesai).toLocaleTimeString(
-            "id-ID",
-            {
-              hour: "2-digit",
-              minute: "2-digit",
-            }
-          ),
+          jam_kerja: {
+            id: jadwal.jamkerja.id_Jamkerja,
+            jam_mulai: jadwal.jamkerja.jam_mulai,
+            jam_selesai: jadwal.jamkerja.jam_selesai,
+          },
         },
         dibuat_oleh: {
           id: jadwal.user.id_user,
@@ -166,7 +160,159 @@ class JadwalDokterController {
     }
   }
 
-  static async searchJadwalDokter(req, res) {}
+  static async searchJadwalDokter(req, res) {
+    try {
+      const {
+        nama_dokter,
+        sesi,
+        jam_mulai,
+        jam_selesai,
+        hari_mulai,
+        hari_selesai,
+        spesialis,
+      } = req.query;
+
+      const whereClause = {};
+
+      if (nama_dokter) {
+        whereClause.dokter = {
+          nama: {
+            contains: nama_dokter,
+            mode: "insensitive",
+          },
+        };
+      }
+
+      if (spesialis) {
+        whereClause.dokter = {
+          ...whereClause.dokter,
+          spesialis: {
+            nama_spesialis: {
+              contains: spesialis,
+              mode: "insensitive",
+            },
+          },
+        };
+      }
+
+      if (sesi) {
+        whereClause.Sesi = {
+          sesi: {
+            contains: sesi,
+            mode: "insensitive",
+          },
+        };
+      }
+
+      if (hari_mulai) {
+        whereClause.Hari = {
+          hari_mulai: {
+            contains: hari_mulai,
+            mode: "insensitive",
+          },
+        };
+      }
+
+      if (hari_selesai) {
+        whereClause.Hari = {
+          ...whereClause.Hari,
+          hari_selesai: {
+            contains: hari_selesai,
+            mode: "insensitive",
+          },
+        };
+      }
+
+      // Filter jam mulai dan jam selesai dengan membandingkan string "HH:mm"
+      if (jam_mulai || jam_selesai) {
+        whereClause.jamkerja = {};
+
+        if (jam_mulai) {
+          whereClause.jamkerja.jam_mulai = {
+            gte: jam_mulai, // Mencari jam >= jam_mulai (string)
+          };
+        }
+
+        if (jam_selesai) {
+          whereClause.jamkerja.jam_selesai = {
+            lte: jam_selesai, // Mencari jam <= jam_selesai (string)
+          };
+        }
+      }
+
+      const filteredJadwal = await prisma.jadwalDokter.findMany({
+        where: whereClause,
+        include: {
+          dokter: {
+            select: {
+              id_dokter: true,
+              nama: true,
+              kontak: true,
+              gambar: true,
+              spesialis: { select: { nama_spesialis: true } },
+              pelayananDokter: { select: { nama_pelayanan: true } },
+            },
+          },
+          Sesi: { select: { id_Sesi: true, sesi: true } },
+          Hari: {
+            select: { id_Hari: true, hari_mulai: true, hari_selesai: true },
+          },
+          jamkerja: {
+            select: {
+              id_Jamkerja: true,
+              jam_mulai: true,
+              jam_selesai: true,
+            },
+          },
+          user: { select: { id_user: true, nama: true } },
+        },
+      });
+
+      const formattedData = filteredJadwal.map((jadwal) => ({
+        id_jadwal_dokter: jadwal.id_jadwal_dokter,
+        dokter: {
+          id: jadwal.dokter.id_dokter,
+          nama: jadwal.dokter.nama,
+          kontak: jadwal.dokter.kontak,
+          gambar: jadwal.dokter.gambar,
+          spesialis: jadwal.dokter.spesialis.nama_spesialis,
+          pelayanan: jadwal.dokter.pelayananDokter.nama_pelayanan,
+        },
+        sesi: {
+          id: jadwal.Sesi.id_Sesi,
+          nama: jadwal.Sesi.sesi,
+        },
+        hari: {
+          id: jadwal.Hari.id_Hari,
+          hari_mulai: jadwal.Hari.hari_mulai,
+          hari_selesai: jadwal.Hari.hari_selesai,
+        },
+        jam_kerja: {
+          id: jadwal.jamkerja.id_Jamkerja,
+          jam_mulai: jadwal.jamkerja.jam_mulai, // Tidak perlu konversi
+          jam_selesai: jadwal.jamkerja.jam_selesai, // Tidak perlu konversi
+        },
+        dibuat_oleh: {
+          id: jadwal.user.id_user,
+          nama: jadwal.user.nama,
+        },
+      }));
+
+      res.status(200).json({
+        statusCode: 200,
+        status: "Success",
+        message: "Berhasil menampilkan jadwal dokter berdasarkan filter.",
+        data: formattedData,
+      });
+    } catch (error) {
+      res.status(500).json({
+        statusCode: 500,
+        status: "Failed",
+        message: "Internal Server Error.",
+        error: error.message,
+      });
+    }
+  }
 
   static async updateJadwalDokter(req, res) {
     try {

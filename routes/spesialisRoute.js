@@ -59,8 +59,8 @@ const { auth } = require("../middlewares/authMiddleware");
  *                       type: object
  *                       properties:
  *                         id_Spesialis:
- *                           type: integer
- *                           example: 2
+ *                           type: string
+ *                           example: "bf27354f-6d82-4e25-9541-b9efc8bf57ed"
  *                         nama_spesialis:
  *                           type: string
  *                           example: "spesialis baru 1"
@@ -68,8 +68,8 @@ const { auth } = require("../middlewares/authMiddleware");
  *                           type: string
  *                           example: "baru baru"
  *                         id_user:
- *                           type: integer
- *                           example: 6
+ *                           type: string
+ *                           example: "bf27354f-6d82-4e25-9541-b9e"
  *       400:
  *         description: Nama spesialis dan deskripsi harus diisi.
  *         content:
@@ -155,8 +155,8 @@ Route.post("/", auth, spesialisController.createSpesialis);
  *                     type: object
  *                     properties:
  *                       id_Spesialis:
- *                         type: integer
- *                         example: 2
+ *                         type: string
+ *                         example: "bf27354f-6d82-4e25-9541-b9efc8bf57ed"
  *                       nama_spesialis:
  *                         type: string
  *                         example: "spesialis baru 1"
@@ -238,8 +238,8 @@ Route.get("/", spesialisController.getSpesialis);
  *                     type: object
  *                     properties:
  *                       id_Spesialis:
- *                         type: integer
- *                         example: 1
+ *                         type: string
+ *                         example: "bf27354f-6d82-4e25-9541-b9efc8bf57ed"
  *                       nama_spesialis:
  *                         type: string
  *                         example: "Spesialis Bedah"
@@ -315,7 +315,7 @@ Route.put("/:id", spesialisController.updateSpesialis);
  *         in: path
  *         required: true
  *         schema:
- *           type: integer
+ *           type: string
  *         description: ID spesialis yang akan dihapus.
  *     responses:
  *       200:
@@ -338,8 +338,8 @@ Route.put("/:id", spesialisController.updateSpesialis);
  *                   type: object
  *                   properties:
  *                     id_Spesialis:
- *                       type: integer
- *                       example: 2
+ *                       type: string
+ *                       example: "bf27354f-6d82-4e25-9541-b9efc8bf57ed"
  *                     nama_spesialis:
  *                       type: string
  *                       example: "spesialis baru 1"

@@ -35,8 +35,8 @@ const { auth } = require("../middlewares/authMiddleware");
  *                   type: object
  *                   properties:
  *                     id_user:
- *                       type: integer
- *                       example: 1
+ *                       type: string
+ *                       example: "bf27354f-6d82-4e25-9541-b9efc8bf57ed"
  *                     nama:
  *                       type: string
  *                       example: "John Doe"
