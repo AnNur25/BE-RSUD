@@ -14,7 +14,7 @@ datasource db {
 }
 
 model User {
-  id_user   Int    @id @default(autoincrement())
+  id_user   String   @id @default(uuid())
   nama      String
   email     String  @unique
   password  String 
@@ -34,18 +34,18 @@ model User {
 }
 
 model Berita {
-  id_berita  Int    @id @default(autoincrement())
+  id_berita  String    @id @default(uuid())
   judul      String
   deskripsi  String
   gambar     String
   waktu      DateTime
-  id_user Int
+  id_user   String
 
   user User @relation(fields: [id_user], references: [id_user])
 }
 
 model Aduan {
-  id_aduan     Int    @id @default(autoincrement())
+  id_aduan     String    @id @default(uuid())
   judul        String
   deskripsi    String
   createdAt    DateTime @default(now())
@@ -55,45 +55,45 @@ model Aduan {
 }
 
 model ResponAdmin {
-  id_respon_admin Int    @id @default(autoincrement())
+  id_respon_admin String    @id @default(uuid())
   message        String
   createdAt      DateTime @default(now())
-  id_user Int
-  id_aduan Int
+  id_user String
+  id_aduan String
 
   aduan Aduan @relation(fields: [id_aduan], references: [id_aduan])
   user User @relation(fields: [id_user], references: [id_user])
 }
 
+
+model PelayananRumahSakit{
+  id_pelayananRS String @id @default(uuid())
+  Persyaratan String
+  Prosedur String
+  JangkaWaktu String
+  Biaya   Float
+  id_user String
+
+  user User @relation(fields: [id_user], references: [id_user])
+}
 model PelayananDokter {
-  id_pelayanan_dokter Int    @id @default(autoincrement())
+  id_pelayanan_dokter String    @id @default(uuid())
   nama_pelayanan     String
   deskripsi          String
-  id_user Int
+  id_user String
 
   user User @relation(fields: [id_user], references: [id_user])
   dokter Dokter[]
 }
 
-model PelayananRumahSakit{
-  id_pelayananRS Int @id @default(autoincrement())
-  Persyaratan String
-  Prosedur String
-  JangkaWaktu String
-  Biaya   Float
-  id_user Int
-
-  user User @relation(fields: [id_user], references: [id_user])
-}
-
 model Dokter {
-  id_dokter            Int    @id @default(autoincrement())
+  id_dokter            String    @id @default(uuid())
   nama                String
   kontak              String
   gambar              String
-  id_user Int
-  id_spesialis Int
-  id_pelayanan_dokter Int @default(1)
+  id_user String
+  id_spesialis String
+  id_pelayanan_dokter String
   
   jadwalDokter JadwalDokter[]
   spesialis Spesialis @relation(fields: [id_spesialis], references: [id_Spesialis])
@@ -102,10 +102,10 @@ model Dokter {
 }
 
 model Spesialis {
-  id_Spesialis Int    @id @default(autoincrement())
+  id_Spesialis String    @id @default(uuid())
   nama_spesialis String
   deskripsi      String
-  id_user Int
+  id_user String
 
   user User @relation(fields: [id_user], references: [id_user])
   dokter Dokter[]
@@ -113,12 +113,12 @@ model Spesialis {
 }
 
 model JadwalDokter {
-  id_jadwal_dokter Int    @id @default(autoincrement())
-  id_Sesi Int
-  id_Hari  Int
-  id_dokter Int
-  id_jamkerja Int
-  id_user Int
+  id_jadwal_dokter String    @id @default(uuid())
+  id_Sesi String
+  id_Hari  String
+  id_dokter String
+  id_jamkerja String
+  id_user String
  
   dokter Dokter @relation(fields: [id_dokter], references: [id_dokter])
   Sesi Sesi @relation(fields: [id_Sesi], references: [id_Sesi])
@@ -129,18 +129,19 @@ model JadwalDokter {
 }
 
 model Sesi{
-  id_Sesi Int    @id @default(autoincrement())
+  id_Sesi String    @id @default(uuid())
   sesi    String
-  id_user Int
+  id_user String
 
   jadwalDokter JadwalDokter[]
   user User @relation(fields: [id_user], references: [id_user])
 }
 
 model Hari{
-  id_Hari Int    @id @default(autoincrement())
-  hari    String
-  id_user Int
+  id_Hari String    @id @default(uuid())
+  hari_mulai    String
+  hari_selesai  String
+  id_user String
 
   jadwalDokter JadwalDokter[]
   user User @relation(fields: [id_user], references: [id_user])
@@ -148,10 +149,10 @@ model Hari{
 
 
 model Jamkerja{
-  id_Jamkerja Int    @id @default(autoincrement())
-  jam_mulai    DateTime
-  jam_selesai  DateTime
-  id_user Int
+  id_Jamkerja String    @id @default(uuid())
+  jam_mulai    String
+  jam_selesai  String
+  id_user String
  
   jadwalDokter JadwalDokter[]
   user User @relation(fields: [id_user], references: [id_user])

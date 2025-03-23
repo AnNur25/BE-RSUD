@@ -47,8 +47,8 @@ const { auth } = require("../middlewares/authMiddleware");
  *                   type: object
  *                   properties:
  *                     id_pelayanan:
- *                       type: integer
- *                       example: 1
+ *                       type: string
+ *                       example: "bf27354f-6d82-4e25-9541-b9efc8bf57ed"
  *                     nama_pelayanan:
  *                       type: string
  *                       example: "Pelayanan Konsultasi"
@@ -56,8 +56,8 @@ const { auth } = require("../middlewares/authMiddleware");
  *                       type: string
  *                       example: "Konsultasi medis dengan dokter spesialis."
  *                     id_user:
- *                       type: integer
- *                       example: 10
+ *                       type: string
+ *                       example: "bf27354f-6d82-4e25-95"
  *       400:
  *         description: Data input tidak lengkap atau tidak valid.
  *         content:
@@ -143,8 +143,8 @@ Route.post("/", auth, pelayananDokterController.createPelayananDokter);
  *                     type: object
  *                     properties:
  *                       id_pelayanan_dokter:
- *                         type: integer
- *                         example: 1
+ *                         type: string
+ *                         example: "bf27354f-6d82-4e25-9541-b9efc8bf57ed"
  *                       nama_pelayanan:
  *                         type: string
  *                         example: "Pelayanan Konsultasi"
@@ -188,7 +188,7 @@ Route.get("/", pelayananDokterController.getPelayananDokter);
  *         in: path
  *         required: true
  *         schema:
- *           type: integer
+ *           type: string
  *         description: ID pelayanan dokter yang akan diperbarui.
  *     requestBody:
  *       required: true
@@ -224,8 +224,8 @@ Route.get("/", pelayananDokterController.getPelayananDokter);
  *                   type: object
  *                   properties:
  *                     id_pelayanan_dokter:
- *                       type: integer
- *                       example: 1
+ *                       type: string
+ *                       example: "bf27354f-6d82-4e25-9541-b9efc8bf57ed"
  *                     nama_pelayanan:
  *                       type: string
  *                       example: "Pelayanan Gawat Darurat"
@@ -301,7 +301,7 @@ Route.put("/:id", auth, pelayananDokterController.updatePelayananDokter);
  *         in: path
  *         required: true
  *         schema:
- *           type: integer
+ *           type: string
  *         description: ID pelayanan dokter yang akan dihapus.
  *     responses:
  *       200:

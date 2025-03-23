@@ -49,8 +49,8 @@ const { auth } = require("../middlewares/authMiddleware");
  *                   type: object
  *                   properties:
  *                     id_jamkerja:
- *                       type: integer
- *                       example: 1
+ *                       type: string
+ *                       example: "bf27354f-6d82-4e25-9541-b9efc8bf57ed"
  *                     jam_mulai:
  *                       type: string
  *                       format: date-time
@@ -60,8 +60,8 @@ const { auth } = require("../middlewares/authMiddleware");
  *                       format: date-time
  *                       example: "16:00"
  *                     id_user:
- *                       type: integer
- *                       example: 123
+ *                       type: string
+ *                       example: "bf27-4e25-9541-b9efc8bf57ed"
  *       400:
  *         description: Jam mulai dan jam selesai wajib diisi.
  *         content:
@@ -131,8 +131,8 @@ route.post("/", auth, jamKerjaController.createJamKerja);
  *                     type: object
  *                     properties:
  *                       id_jamkerja:
- *                         type: integer
- *                         example: 1
+ *                         type: string
+ *                         example: "bf27354f-6d82-4e25-9541-b9efc8bf57ed"
  *                       jam_mulai:
  *                         type: string
  *                         format: date-time
@@ -142,8 +142,8 @@ route.post("/", auth, jamKerjaController.createJamKerja);
  *                         format: date-time
  *                         example: "17:00"
  *                       id_user:
- *                         type: integer
- *                         example: 123
+ *                         type: string
+ *                         example: "bf27354f-6d-9541-b9efc8bf57ed"
  *       500:
  *         description: Kesalahan server internal.
  *         content:
@@ -181,7 +181,7 @@ route.get("/", jamKerjaController.getJamKerja);
  *         name: id
  *         required: true
  *         schema:
- *           type: integer
+ *           type: string
  *         description: ID jam kerja yang akan diperbarui.
  *     requestBody:
  *       required: true
@@ -219,8 +219,8 @@ route.get("/", jamKerjaController.getJamKerja);
  *                   type: object
  *                   properties:
  *                     id_Jamkerja:
- *                       type: integer
- *                       example: 1
+ *                       type: string
+ *                       example: "bf273-6d82-4e25-9541-b9efc8bf57ed"
  *                     jam_mulai:
  *                       type: string
  *                       format: date-time
@@ -230,8 +230,8 @@ route.get("/", jamKerjaController.getJamKerja);
  *                       format: date-time
  *                       example: "16:00"
  *                     id_user:
- *                       type: integer
- *                       example: 123
+ *                       type: string
+ *                       example: "bf27-6d82-4e25-9541-b9efd"
  *       400:
  *         description: Format ID tidak valid atau input tidak lengkap.
  *         content:
@@ -301,7 +301,7 @@ route.put("/:id", auth, jamKerjaController.updateJamKerja);
  *         name: id
  *         required: true
  *         schema:
- *           type: integer
+ *           type: string
  *         description: ID jam kerja yang akan dihapus.
  *     responses:
  *       200:

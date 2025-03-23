@@ -10,20 +10,25 @@ class JamKerjaController {
         return res.status(400).json({
           statusCode: 400,
           status: "Failed",
-          message: "jam mulai dan jam selesai wajib diisi.",
+          message: "Jam mulai dan jam selesai wajib diisi.",
         });
       }
 
-      const today = new Date();
-      const toDateTime = (timeString) => {
-        const [hour, minute] = timeString.split(":").map(Number);
-        return new Date(today.setHours(hour, minute, 0, 0));
-      };
+      const timeRegex = /^([01]\d|2[0-3]):([0-5]\d)$/;
+
+      if (!timeRegex.test(jam_mulai) || !timeRegex.test(jam_selesai)) {
+        return res.status(400).json({
+          statusCode: 400,
+          status: "Failed",
+          message:
+            "Format jam tidak valid. Gunakan format HH:mm (contoh: 08:00 atau 23:30).",
+        });
+      }
 
       const newJamKerja = await prisma.jamkerja.create({
         data: {
-          jam_mulai: toDateTime(jam_mulai),
-          jam_selesai: toDateTime(jam_selesai),
+          jam_mulai,
+          jam_selesai,
           user: { connect: { id_user: userId } },
         },
       });
@@ -34,8 +39,8 @@ class JamKerjaController {
         message: "Jam kerja berhasil ditambahkan.",
         data: {
           id_Jamkerja: newJamKerja.id_Jamkerja,
-          jam_mulai: jam_mulai,
-          jam_selesai: jam_selesai,
+          jam_mulai,
+          jam_selesai,
         },
       });
     } catch (error) {
@@ -50,19 +55,18 @@ class JamKerjaController {
   static async getJamKerja(req, res) {
     try {
       const allJamKerja = await prisma.jamkerja.findMany();
-      const formatTime = (dateTime) => {
-        const date = new Date(dateTime);
-        return date.toTimeString().slice(0, 5); //format "HH:mm"
-      };
+
+      // Langsung mengembalikan data tanpa konversi ke format HH:mm
       const formattedData = allJamKerja.map((jamkerja) => ({
         id_Jamkerja: jamkerja.id_Jamkerja,
-        jam_mulai: formatTime(jamkerja.jam_mulai),
-        jam_selesai: formatTime(jamkerja.jam_selesai),
+        jam_mulai: jamkerja.jam_mulai, // Tidak perlu format ulang
+        jam_selesai: jamkerja.jam_selesai, // Tidak perlu format ulang
       }));
+
       res.status(200).json({
         statusCode: 200,
         status: "Success",
-        message: "berhasil menampilkan jam kerja",
+        message: "Berhasil menampilkan jam kerja",
         data: formattedData,
       });
     } catch (error) {
@@ -100,29 +104,44 @@ class JamKerjaController {
         });
       }
 
-      const today = new Date();
-      const toDateTime = (timeString) => {
-        const [hour, minute] = timeString.split(":").map(Number);
-        return new Date(today.setHours(hour, minute, 0, 0));
-      };
+      // Validasi format HH:mm
+      const timeRegex = /^([01]\d|2[0-3]):([0-5]\d)$/;
+      if (jam_mulai && !timeRegex.test(jam_mulai)) {
+        return res.status(400).json({
+          statusCode: 400,
+          status: "Failed",
+          message:
+            "Format jam mulai tidak valid. Gunakan format HH:mm (contoh: 08:00 atau 23:30).",
+        });
+      }
 
+      if (jam_selesai && !timeRegex.test(jam_selesai)) {
+        return res.status(400).json({
+          statusCode: 400,
+          status: "Failed",
+          message:
+            "Format jam selesai tidak valid. Gunakan format HH:mm (contoh: 08:00 atau 23:30).",
+        });
+      }
+
+      // Update data tanpa konversi ke Date
       const updateJamKerja = await prisma.jamkerja.update({
         where: { id_Jamkerja: id },
         data: {
-          jam_mulai: toDateTime(jam_mulai),
-          jam_selesai: toDateTime(jam_selesai),
+          jam_mulai: jam_mulai ?? existingData.jam_mulai, // Pastikan nilai tetap ada jika tidak diupdate
+          jam_selesai: jam_selesai ?? existingData.jam_selesai,
           user: { connect: { id_user: userId } },
         },
       });
 
       res.status(200).json({
-        statusCode: 201,
+        statusCode: 200,
         status: "Success",
-        message: "Jam kerja berhasil dirubah.",
+        message: "Jam kerja berhasil diperbarui.",
         data: {
           id_Jamkerja: updateJamKerja.id_Jamkerja,
-          jam_mulai: jam_mulai,
-          jam_selesai: jam_selesai,
+          jam_mulai: updateJamKerja.jam_mulai,
+          jam_selesai: updateJamKerja.jam_selesai,
         },
       });
     } catch (error) {
@@ -141,6 +160,7 @@ class JamKerjaController {
       });
     }
   }
+
   static async deleteJamKerja(req, res) {
     try {
       const id = parseInt(req.params.id);

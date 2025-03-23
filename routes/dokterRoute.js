@@ -29,11 +29,11 @@ const multer = require("multer");
  *                 type: string
  *                 example: "081234567890"
  *               id_Spesialis:
- *                 type: integer
- *                 example: 2
+ *                 type: string
+ *                 example: "io5"
  *               id_pelayanan_dokter:
- *                 type: integer
- *                 example: 3
+ *                 type: string
+ *                 example: "oi6"
  *               file:
  *                 type: string
  *                 format: binary
@@ -71,11 +71,11 @@ const multer = require("multer");
  *                       type: string
  *                       example: "https://ik.imagekit.io/example.jpg"
  *                     id_Spesialis:
- *                       type: integer
- *                       example: 2
+ *                       type: string
+ *                       example: "io6"
  *                     id_pelayanan_dokter:
- *                       type: integer
- *                       example: 3
+ *                       type: string
+ *                       example: "kjji8"
  *       400:
  *         description: Data tidak lengkap atau file tidak diunggah.
  *         content:
@@ -245,7 +245,7 @@ Route.get("/", dokterController.getDokter);
  *         in: path
  *         required: true
  *         schema:
- *           type: integer
+ *           type: string
  *         description: ID dokter yang akan diperbarui.
  *     requestBody:
  *       required: true
@@ -265,11 +265,11 @@ Route.get("/", dokterController.getDokter);
  *                 format: binary
  *                 description: File gambar dokter yang akan diunggah.
  *               id_Spesialis:
- *                 type: integer
- *                 example: 2
+ *                 type: string
+ *                 example: "bf27354f-6d82-4e25-9541-b9efc8bf57ed"
  *               id_pelayanan_dokter:
- *                 type: integer
- *                 example: 3
+ *                 type: string
+ *                 example: "bf27354f-333-4e25-9541-b9efc8bf57ed"
  *     responses:
  *       200:
  *         description: Dokter berhasil diperbarui.
@@ -291,8 +291,8 @@ Route.get("/", dokterController.getDokter);
  *                   type: object
  *                   properties:
  *                     id_dokter:
- *                       type: integer
- *                       example: 1
+ *                       type: string
+ *                       example: "090gf"
  *                     nama:
  *                       type: string
  *                       example: "Dr. Budi Santoso"
@@ -306,14 +306,14 @@ Route.get("/", dokterController.getDokter);
  *                       type: object
  *                       properties:
  *                         id_Spesialis:
- *                           type: integer
- *                           example: 2
+ *                           type: string
+ *                           example: "bf27354f-www-4e25-9541-b9efc8bf57ed"
  *                     pelayananDokter:
  *                       type: object
  *                       properties:
  *                         id_pelayanan_dokter:
- *                           type: integer
- *                           example: 3
+ *                           type: string
+ *                           example: "popouuh-6d82-4e25-9541-b9efc8bf57ed"
  *       400:
  *         description: Data yang dikirimkan tidak lengkap atau tidak valid.
  *         content:
@@ -383,7 +383,7 @@ Route.put("/:id", auth, dokterController.updateDokter);
  *         in: path
  *         required: true
  *         schema:
- *           type: integer
+ *           type: string
  *         description: ID dokter yang akan dihapus.
  *     responses:
  *       200:
@@ -406,8 +406,8 @@ Route.put("/:id", auth, dokterController.updateDokter);
  *                   type: object
  *                   properties:
  *                     id_dokter:
- *                       type: integer
- *                       example: 1
+ *                       type: string
+ *                       example: "jikhio-6d82-4e25-9541-b9efc8bf57ed"
  *                     nama:
  *                       type: string
  *                       example: "Dr. Budi Santoso"

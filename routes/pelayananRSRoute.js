@@ -53,8 +53,8 @@ const { auth } = require("../middlewares/authMiddleware");
  *                   type: object
  *                   properties:
  *                     id:
- *                       type: integer
- *                       example: 1
+ *                       type: string
+ *                       example: "bf27354f-6d82-4e25-9541-b9efc8bf57ed"
  *                     Persyaratan:
  *                       type: string
  *                       example: "Fotokopi KTP, Kartu BPJS"
@@ -136,8 +136,8 @@ route.post("/", auth, pelayananRS.createPelayananRS);
  *                     type: object
  *                     properties:
  *                       id:
- *                         type: integer
- *                         example: 1
+ *                         type: string
+ *                         example: "bf27354f-6d82-4e2fc8bf57ed"
  *                       Persyaratan:
  *                         type: string
  *                         example: "Fotokopi KTP, Kartu BPJS"
@@ -187,7 +187,7 @@ route.get("/", pelayananRS.getPelayananRS);
  *         name: id
  *         required: true
  *         schema:
- *           type: integer
+ *           type: string
  *         description: ID pelayanan rumah sakit yang akan diperbarui.
  *       - in: header
  *         name: Authorization
@@ -232,8 +232,8 @@ route.get("/", pelayananRS.getPelayananRS);
  *                   type: object
  *                   properties:
  *                     id_pelayananRS:
- *                       type: integer
- *                       example: 1
+ *                       type: string
+ *                       example: "bf27354f-6d82-4e25-9541-b9efc8bf57ed"
  *                     Persyaratan:
  *                       type: string
  *                       example: "Fotokopi KTP, Kartu BPJS"
@@ -331,7 +331,7 @@ route.put("/:id", auth, pelayananRS.updatePelayananRS);
  *         name: id
  *         required: true
  *         schema:
- *           type: integer
+ *           type: string
  *         description: ID pelayanan rumah sakit yang akan dihapus.
  *     responses:
  *       200:

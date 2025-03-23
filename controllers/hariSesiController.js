@@ -44,9 +44,9 @@ class HariSesi {
   }
   static async createHari(req, res) {
     try {
-      const { hari } = req.body;
-      const userId = req.user.id_user;
-      if (!hari) {
+      const { hari_mulai, hari_selesai } = req.body;
+      const userId = parseInt(req.user.id_user);
+      if (!hari_mulai || !hari_selesai) {
         return res.status(400).json({
           statusCode: 400,
           status: "Failed",
@@ -62,8 +62,8 @@ class HariSesi {
       }
       const data = await prisma.hari.create({
         data: {
-          hari,
-
+          hari_mulai,
+          hari_selesai,
           user: {
             connect: { id_user: userId },
           },
@@ -114,7 +114,8 @@ class HariSesi {
       const data = await prisma.hari.findMany({
         select: {
           id_Hari: true,
-          hari: true,
+          hari_mulai: true,
+          hari_selesai: true,
         },
       });
 
@@ -137,12 +138,27 @@ class HariSesi {
   static async updateHari(req, res) {
     try {
       const id_hari = parseInt(req.params.id);
-      const { hari } = req.body;
+      const userId = parseInt(req.user.id_user);
+      const { hari_mulai, hari_selesai } = req.body;
       if (isNaN(id_hari)) {
         return res.status(400).json({
           statusCode: 400,
           status: "Failed",
           message: "Format ID hari tidak valid",
+        });
+      }
+      if (!userId) {
+        return res.status(401).json({
+          statusCode: 401,
+          status: "Failed",
+          message: "User tidak ditemukan. Pastikan sudah login.",
+        });
+      }
+      if (!hari_mulai || !hari_selesai) {
+        return res.status(400).json({
+          statusCode: 400,
+          status: "Failed",
+          message: "hari harus diisi",
         });
       }
 
@@ -160,7 +176,13 @@ class HariSesi {
 
       const data = await prisma.hari.update({
         where: { id_Hari: id_hari },
-        data: { hari },
+        data: {
+          hari_mulai,
+          hari_selesai,
+          user: {
+            connect: { id_user: userId },
+          },
+        },
       });
 
       return res.status(200).json({
