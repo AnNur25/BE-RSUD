@@ -1,7 +1,7 @@
-const prisma = require("../prisma/prismaClient");
+const prisma = require("../../prisma/prismaClient");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const config = require("../config/config");
+const config = require("../../config/config");
 const secret = config.secretKey;
 
 class AuthController {

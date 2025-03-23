@@ -1,11 +1,11 @@
-const prisma = require("../prisma/prismaClient");
+const prisma = require("../../prisma/prismaClient");
 const jwt = require("jsonwebtoken");
-const config = require("../config/config");
+const config = require("../../config/config");
 const frontend_url = config.frontend;
 const {
   sendSuccesPasswordEmail,
   sendForgotPasswordEmail,
-} = require("../utils/mailer");
+} = require("../../utils/mailer");
 const bcrypt = require("bcrypt");
 
 class ProfilController {

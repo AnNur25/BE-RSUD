@@ -1,6 +1,6 @@
 const express = require("express");
 const Route = express.Router();
-const spesialisController = require("../controllers/spesialisController");
+const spesialisController = require("../controllers/jadwalDokter/spesialisController");
 const { auth } = require("../middlewares/authMiddleware");
 
 /**

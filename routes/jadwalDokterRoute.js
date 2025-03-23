@@ -1,6 +1,6 @@
 const express = require("express");
 const route = express.Router();
-const JadwalDokterController = require("../controllers/jadwalDokterController");
+const JadwalDokterController = require("../controllers/jadwalDokter/jadwalDokterController");
 const { auth } = require("../middlewares/authMiddleware");
 
 /**

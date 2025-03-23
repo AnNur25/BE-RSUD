@@ -1,6 +1,6 @@
 const express = require("express");
 const Route = express.Router();
-const dokterController = require("../controllers/dokterController");
+const dokterController = require("../controllers/jadwalDokter/dokterController");
 const multerConfig = require("../middlewares/multerConfig");
 const { auth } = require("../middlewares/authMiddleware");
 const multer = require("multer");

@@ -1,6 +1,6 @@
 const express = require("express");
 const Route = express.Router();
-const pelayananDokterController = require("../controllers/pelayananDokterController");
+const pelayananDokterController = require("../controllers/jadwalDokter/pelayananDokterController");
 const { auth } = require("../middlewares/authMiddleware");
 
 /**
