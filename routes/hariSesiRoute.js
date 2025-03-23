@@ -1,6 +1,6 @@
 const express = require("express");
 const route = express.Router();
-const hariSesiController = require("../controllers/hariSesiController");
+const hariSesiController = require("../controllers/jadwalDokter/hariSesiController");
 const { auth } = require("../middlewares/authMiddleware");
 
 /**

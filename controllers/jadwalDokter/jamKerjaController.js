@@ -1,4 +1,4 @@
-const prisma = require("../prisma/prismaClient");
+const prisma = require("../../prisma/prismaClient");
 
 class JamKerjaController {
   static async createJamKerja(req, res) {

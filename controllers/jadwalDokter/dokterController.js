@@ -1,5 +1,5 @@
-const prisma = require("../prisma/prismaClient");
-const imageKit = require("../config/imagekit");
+const prisma = require("../../prisma/prismaClient");
+const imageKit = require("../../config/imagekit");
 
 class DokterController {
   static async createDokter(req, res) {
