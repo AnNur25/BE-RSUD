@@ -30,19 +30,36 @@ model User {
   Sesi Sesi[]
   jamkerja Jamkerja[]
   jadwaldokter JadwalDokter[]
+  gambar Gambar[]
 
 }
 
 model Berita {
-  id_berita  String    @id @default(uuid())
-  judul      String
-  deskripsi  String
-  gambar     String
-  waktu      DateTime
+  id_berita          String    @id @default(uuid())
+  judul              String
+  ringkasan          String
+  isi                String
+  gambar_sampul      String
+  tanggal_terbit     DateTime  
+  createdAt          DateTime @default(now())
+  updateAt           DateTime @default(now())
+  id_user            String
+
+  user User @relation(fields: [id_user], references: [id_user])
+  gambar_tambahan Gambar[]
+}
+
+model Gambar {
+  id        String    @id @default(uuid())
+  url       String
+  beritaId  String
   id_user   String
 
   user User @relation(fields: [id_user], references: [id_user])
+  berita   Berita @relation(fields: [beritaId], references: [id_berita], onDelete: Cascade)
 }
+
+
 
 model Aduan {
   id_aduan     String    @id @default(uuid())
@@ -50,6 +67,7 @@ model Aduan {
   deskripsi    String
   createdAt    DateTime @default(now())
   no_wa        String
+  is_read      Boolean   @default(false) 
 
   responAdmin ResponAdmin[]
 }

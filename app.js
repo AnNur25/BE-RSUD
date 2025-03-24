@@ -11,6 +11,8 @@ const hariSesi = require("./routes/hariSesiRoute");
 const pelayananRS = require("./routes/pelayananRSRoute");
 const jamKerja = require("./routes/jamKerjaRoute");
 const jadwalDokter = require("./routes/jadwalDokterRoute");
+const aduan = require("./routes/aduanRoute");
+const berita = require("./routes/beritaRoute");
 const cors = require("cors");
 const port = config.port;
 const app = express();
@@ -29,6 +31,8 @@ app.use("/", hariSesi);
 app.use("/pelayananRS", pelayananRS);
 app.use("/jam-kerja", jamKerja);
 app.use("/jadwal-dokter", jadwalDokter);
+app.use("/aduan", aduan);
+app.use("/berita", berita);
 
 app.use((err, req, res, next) => {
   console.error(err);
