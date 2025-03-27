@@ -200,7 +200,8 @@ Route.get("/", spesialisController.getSpesialis);
  *         name: id
  *         required: true
  *         schema:
- *           type: integer
+ *           type: string
+ *        example: "bf27354f-6d82-4e25-9541-b9efc8bf57ed"
  *         description: ID spesialis yang akan diperbarui.
  *     requestBody:
  *       required: true

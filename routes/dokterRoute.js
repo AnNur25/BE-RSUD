@@ -24,16 +24,13 @@ const multer = require("multer");
  *             properties:
  *               nama:
  *                 type: string
- *                 example: "Dr. Andi"
- *               kontak:
- *                 type: string
- *                 example: "081234567890"
+ *                 example: "dr. H. Agus Yudho Santoso, Sp.PD, Finasim ( AYS )"
  *               id_Spesialis:
  *                 type: string
- *                 example: "io5"
+ *                 example: "ab592474-d37e-4b20-abcd-5230fca43d28"
  *               id_pelayanan_dokter:
  *                 type: string
- *                 example: "oi6"
+ *                 example: "343f3d43-7d48-4aa8-8342-8719f82ac54f"
  *               file:
  *                 type: string
  *                 format: binary
@@ -64,9 +61,6 @@ const multer = require("multer");
  *                     nama:
  *                       type: string
  *                       example: "Dr. Andi"
- *                     kontak:
- *                       type: string
- *                       example: "081234567890"
  *                     gambar:
  *                       type: string
  *                       example: "https://ik.imagekit.io/example.jpg"

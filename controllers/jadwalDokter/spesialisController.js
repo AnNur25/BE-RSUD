@@ -116,14 +116,14 @@ class SpesialisController {
 
   static async deleteSpesialis(req, res) {
     try {
-      const spesialisId = parseInt(req.params.id);
-      if (isNaN(spesialisId)) {
-        return res.status(400).json({
-          statusCode: 400,
-          status: "Failed",
-          message: "Format ID spesialis tidak valid",
-        });
-      }
+      const spesialisId = req.params.id;
+      // if (isNaN(spesialisId)) {
+      //   return res.status(400).json({
+      //     statusCode: 400,
+      //     status: "Failed",
+      //     message: "Format ID spesialis tidak valid",
+      //   });
+      // }
       const spesialisExists = await prisma.spesialis.findUnique({
         where: { id_Spesialis: spesialisId },
       });

@@ -4,6 +4,7 @@ const beritaController = require("../controllers/berita/beritaController");
 const gambarCotroller = require("../controllers/berita/gambarController");
 const { auth } = require("../middlewares/authMiddleware");
 const multer = require("../middlewares/multerConfig");
+const multerErrorHandler = require("../middlewares/multerErrorHandler");
 
 /**
  * @swagger
@@ -24,13 +25,13 @@ const multer = require("../middlewares/multerConfig");
  *             properties:
  *               judul:
  *                 type: string
- *                 example: "Judul Berita"
+ *                 example: "BANYAK WABAH YANG MENJAKIT ANAK BERUSIA 12 THN"
  *               ringkasan:
  *                 type: string
- *                 example: "Ringkasan berita..."
+ *                 example: "Wabah penyakit yang menyerang anak-anak usia 12 tahun semakin meningkat, memerlukan perhatian serius dari masyarakat dan pemerintah."
  *               isi:
  *                 type: string
- *                 example: "Isi lengkap dari berita..."
+ *                 example: "Dalam beberapa bulan terakhir, telah terjadi peningkatan signifikan dalam jumlah kasus penyakit yang menyerang anak-anak usia 12 tahun. Para ahli kesehatan menyarankan agar orang tua lebih waspada terhadap gejala awal dan segera mencari bantuan medis jika diperlukan. Pemerintah juga diharapkan untuk meningkatkan kampanye kesadaran dan menyediakan fasilitas kesehatan yang memadai."
  *               tanggal_terbit:
  *                 type: string
  *                 format: date
@@ -479,7 +480,7 @@ route.delete("/:id", auth, beritaController.deleteBerita);
 
 /**
  * @swagger
- * /berita/{id}:
+ * /berita/gambar/{id}:
  *   post:
  *     summary: Mengunggah gambar tambahan untuk berita
  *     description: Endpoint ini digunakan untuk mengunggah hingga 4 gambar tambahan terkait suatu berita.
@@ -494,7 +495,7 @@ route.delete("/:id", auth, beritaController.deleteBerita);
  *         schema:
  *           type: string
  *         description: ID berita yang akan ditambahkan gambarnya
- *         example: "123e4567-e89b-12d3-a456-426614174000"
+ *         example: "b20ab68f-be3e-4437-aff6-3d84a684f30b"
  *     requestBody:
  *       required: true
  *       content:
@@ -592,15 +593,16 @@ route.delete("/:id", auth, beritaController.deleteBerita);
  *                   example: "Database connection failed"
  */
 route.post(
-  "/:id",
+  "/gambar/:id",
   auth,
-  multer.array("gambar_tambahan", 4),
+  multer.array("gambar_tambahan"),
+  multerErrorHandler,
   gambarCotroller.uploadGambar
 );
 
 /**
  * @swagger
- * /berita/{id}:
+ * /berita/gambar/{id}:
  *   get:
  *     summary: Mendapatkan daftar gambar berdasarkan ID berita
  *     description: Endpoint ini digunakan untuk mengambil semua gambar yang terkait dengan berita tertentu berdasarkan ID berita.
@@ -677,11 +679,11 @@ route.post(
  *                   type: string
  *                   example: "Database connection failed"
  */
-route.get("/:id", gambarCotroller.getGambarByBerita);
+route.get("/gambar/:id", gambarCotroller.getGambarByBerita);
 
 /**
  * @swagger
- * /berita/{id}:
+ * /berita/gambar/{id}:
  *   delete:
  *     summary: Hapus gambar
  *     description: Menghapus gambar berdasarkan ID yang diberikan.
@@ -750,7 +752,7 @@ route.get("/:id", gambarCotroller.getGambarByBerita);
  *                   type: string
  *                   example: "Database connection failed"
  */
-route.delete("/:id", auth, gambarCotroller.deleteGambar);
+route.delete("/gambar/:id", auth, gambarCotroller.deleteGambar);
 /**
  * @swagger
  * components:
