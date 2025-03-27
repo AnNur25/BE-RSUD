@@ -31,17 +31,16 @@ class DokterController {
       const addData = await prisma.dokter.create({
         data: {
           nama: req.body.nama,
-          kontak: req.body.kontak,
           gambar: uploadImage.url,
           user: {
             connect: { id_user: userId },
           },
           spesialis: {
-            connect: { id_Spesialis: parseInt(req.body.id_Spesialis) },
+            connect: { id_Spesialis: req.body.id_Spesialis },
           },
           pelayananDokter: {
             connect: {
-              id_pelayanan_dokter: parseInt(req.body.id_pelayanan_dokter),
+              id_pelayanan_dokter: req.body.id_pelayanan_dokter,
             },
           },
         },
@@ -68,7 +67,6 @@ class DokterController {
         select: {
           id_dokter: true,
           nama: true,
-          kontak: true,
           gambar: true,
           spesialis: {
             select: {
@@ -140,7 +138,6 @@ class DokterController {
         where: { id: parseInt(req.params.id) },
         data: {
           nama: req.body.nama,
-          kontak: req.body.kontak,
           gambar: uploadImage.url,
           spesialis: {
             update: {

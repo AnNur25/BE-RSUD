@@ -26,10 +26,10 @@ model User {
   pelayananDokter PelayananDokter[]
   dokter Dokter[]
   spesialis Spesialis[]
-  Hari Hari[]
-  Sesi Sesi[]
-  jamkerja Jamkerja[]
   jadwaldokter JadwalDokter[]
+  // Hari Hari[]
+  // Sesi Sesi[]
+  // jamkerja Jamkerja[]
   gambar Gambar[]
 
 }
@@ -107,11 +107,11 @@ model PelayananDokter {
 model Dokter {
   id_dokter            String    @id @default(uuid())
   nama                String
-  kontak              String
   gambar              String
   id_user String
-  id_spesialis String
+  id_spesialis String 
   id_pelayanan_dokter String
+  // kontak              String
   
   jadwalDokter JadwalDokter[]
   spesialis Spesialis @relation(fields: [id_spesialis], references: [id_Spesialis])
@@ -132,49 +132,61 @@ model Spesialis {
 
 model JadwalDokter {
   id_jadwal_dokter String    @id @default(uuid())
-  id_Sesi String
-  id_Hari  String
   id_dokter String
-  id_jamkerja String
   id_user String
+  hari  Hari
+  sesi String
+  jam_mulai String 
+  jam_selesai String
+  // id_Hari  String
+  // id_Sesi String
+  // id_jamkerja String
  
   dokter Dokter @relation(fields: [id_dokter], references: [id_dokter])
-  Sesi Sesi @relation(fields: [id_Sesi], references: [id_Sesi])
-  Hari Hari @relation(fields: [id_Hari], references: [id_Hari])
-  jamkerja Jamkerja @relation(fields: [id_jamkerja], references: [id_Jamkerja])
   user User @relation(fields: [id_user], references: [id_user])
+  // Hari Hari @relation(fields: [id_Hari], references: [id_Hari])
+  // Sesi Sesi @relation(fields: [id_Sesi], references: [id_Sesi])
+  // jamkerja Jamkerja @relation(fields: [id_jamkerja], references: [id_Jamkerja])
+}
+
+enum Hari{
+  Senin
+  Selasa
+  Rabu
+  Kamis
+  Jumat
+  Sabtu
+  Minggu
+}
+// model Sesi{
+//   id_Sesi String    @id @default(uuid())
+//   sesi    String
+//   id_user String
+
+//   jadwalDokter JadwalDokter[]
+//   user User @relation(fields: [id_user], references: [id_user])
+// }
+
+// model Hari{
+//   id_Hari String    @id @default(uuid())
+//   hari    String
+//   // hari_selesai  String
+//   id_user String
+
+//   jadwalDokter JadwalDokter[]
+//   user User @relation(fields: [id_user], references: [id_user])
+// }
+
+
+// model Jamkerja{
+//   id_Jamkerja String    @id @default(uuid())
+//   jam_mulai    String
+//   jam_selesai  String
+//   id_user String
  
-}
-
-model Sesi{
-  id_Sesi String    @id @default(uuid())
-  sesi    String
-  id_user String
-
-  jadwalDokter JadwalDokter[]
-  user User @relation(fields: [id_user], references: [id_user])
-}
-
-model Hari{
-  id_Hari String    @id @default(uuid())
-  hari_mulai    String
-  hari_selesai  String
-  id_user String
-
-  jadwalDokter JadwalDokter[]
-  user User @relation(fields: [id_user], references: [id_user])
-}
-
-
-model Jamkerja{
-  id_Jamkerja String    @id @default(uuid())
-  jam_mulai    String
-  jam_selesai  String
-  id_user String
- 
-  jadwalDokter JadwalDokter[]
-  user User @relation(fields: [id_user], references: [id_user])
-}
+//   jadwalDokter JadwalDokter[]
+//   user User @relation(fields: [id_user], references: [id_user])
+// }
 
 
 /*

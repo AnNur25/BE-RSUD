@@ -6,24 +6,29 @@ class GambarTambahan {
       const { id } = req.params;
       const userId = req.user.id_user;
 
-      if (!req.files || req.files.length === 0) {
-        return res.status(400).json({
-          statusCode: 400,
+      const berita = await prisma.berita.findUnique({
+        where: { id_berita: id },
+      });
+
+      if (!berita) {
+        return res.status(404).json({
+          statusCode: 404,
           status: "Failed",
-          message: "No files uploaded",
+          message: "Berita tidak ditemukan",
         });
       }
 
-      console.log("Received files:", req.files);
+      const jumlahGambar = await prisma.gambar.count({
+        where: { beritaId: id },
+      });
 
-      if (req.files.length > 4) {
+      if (jumlahGambar + req.files.length > 4) {
         return res.status(400).json({
           statusCode: 400,
           status: "Failed",
-          message: "Maksimal 4 gambar diperbolehkan",
+          message: `Maksimal 4 gambar diperbolehkan. Saat ini sudah ada ${jumlahGambar} gambar.`,
         });
       }
-
       const uploadPromises = req.files.map(async (file) => {
         const stringImage = file.buffer.toString("base64");
         return await imageKit.upload({
@@ -96,7 +101,7 @@ class GambarTambahan {
       const { id } = req.params;
 
       const gambar = await prisma.gambar.findUnique({
-        where: { id_gambar: id },
+        where: { id: id },
       });
 
       if (!gambar) {
@@ -108,7 +113,7 @@ class GambarTambahan {
       }
 
       await prisma.gambar.delete({
-        where: { id_gambar: id },
+        where: { id: id },
       });
 
       res.status(200).json({
