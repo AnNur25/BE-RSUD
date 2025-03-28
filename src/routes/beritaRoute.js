@@ -1,7 +1,7 @@
 const express = require("express");
 const route = express.Router();
-const beritaController = require("../controllers/berita/beritaController");
-const gambarCotroller = require("../controllers/berita/gambarController");
+const beritaController = require("../controllers/beritaController");
+const gambarCotroller = require("../controllers/gambarController");
 const { auth } = require("../middlewares/authMiddleware");
 const multer = require("../middlewares/multerConfig");
 const multerErrorHandler = require("../middlewares/multerErrorHandler");

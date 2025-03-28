@@ -1,16 +1,16 @@
 const express = require("express");
-const Route = express.Router();
-const spesialisController = require("../controllers/jadwalDokter/spesialisController");
+const route = express.Router();
+const pelayananRS = require("../controllers/pelayananRSController");
 const { auth } = require("../middlewares/authMiddleware");
 
 /**
  * @swagger
- * /spesialis:
+ * /pelayanan-rs:
  *   post:
- *     summary: Menambahkan spesialis baru
- *     description: Endpoint ini digunakan untuk menambahkan spesialis baru ke dalam sistem.
+ *     summary: Menambahkan data Pelayanan Rumah Sakit
+ *     description: Endpoint ini digunakan untuk menambahkan data baru mengenai pelayanan rumah sakit.
  *     tags:
- *       - Spesialis
+ *       - Pelayanan Rumah Sakit
  *     security:
  *       - bearerAuth: []
  *     requestBody:
@@ -20,15 +20,21 @@ const { auth } = require("../middlewares/authMiddleware");
  *           schema:
  *             type: object
  *             properties:
- *               nama_spesialis:
+ *               Persyaratan:
  *                 type: string
- *                 example: "Spesialis Bedah"
- *               deskripsi:
+ *                 example: "Fotokopi KTP, Kartu BPJS"
+ *               Prosedur:
  *                 type: string
- *                 example: "Ahli dalam melakukan prosedur bedah"
+ *                 example: "Datang ke loket, Mengisi formulir, Menunggu antrian"
+ *               JangkaWaktu:
+ *                 type: string
+ *                 example: "2 hari kerja"
+ *               Biaya:
+ *                 type: number
+ *                 example: 50000
  *     responses:
  *       201:
- *         description: Spesialis berhasil ditambahkan.
+ *         description: Pelayanan Rumah Sakit berhasil ditambahkan.
  *         content:
  *           application/json:
  *             schema:
@@ -42,52 +48,27 @@ const { auth } = require("../middlewares/authMiddleware");
  *                   example: "Success"
  *                 message:
  *                   type: string
- *                   example: "Spesialis berhasil ditambahkan"
+ *                   example: "Pelayanan Rumah Sakit berhasil ditambahkan"
  *                 data:
  *                   type: object
  *                   properties:
- *                     statusCode:
- *                       type: integer
- *                       example: 200
- *                     status:
+ *                     id:
  *                       type: string
- *                       example: "Success"
- *                     message:
+ *                       example: "bf27354f-6d82-4e25-9541-b9efc8bf57ed"
+ *                     Persyaratan:
  *                       type: string
- *                       example: "Spesialis berhasil diperbarui"
- *                     data:
- *                       type: object
- *                       properties:
- *                         id_Spesialis:
- *                           type: string
- *                           example: "bf27354f-6d82-4e25-9541-b9efc8bf57ed"
- *                         nama_spesialis:
- *                           type: string
- *                           example: "spesialis baru 1"
- *                         deskripsi:
- *                           type: string
- *                           example: "baru baru"
- *                         id_user:
- *                           type: string
- *                           example: "bf27354f-6d82-4e25-9541-b9e"
- *       400:
- *         description: Nama spesialis dan deskripsi harus diisi.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 statusCode:
- *                   type: integer
- *                   example: 400
- *                 status:
- *                   type: string
- *                   example: "Failed"
- *                 message:
- *                   type: string
- *                   example: "Nama spesialis dan deskripsi harus diisi."
+ *                       example: "Fotokopi KTP, Kartu BPJS"
+ *                     Prosedur:
+ *                       type: string
+ *                       example: "Datang ke loket, Mengisi formulir, Menunggu antrian"
+ *                     JangkaWaktu:
+ *                       type: string
+ *                       example: "2 hari kerja"
+ *                     Biaya:
+ *                       type: number
+ *                       example: 50000
  *       401:
- *         description: User tidak ditemukan. Pastikan sudah login.
+ *         description: User tidak ditemukan atau belum login.
  *         content:
  *           application/json:
  *             schema:
@@ -101,9 +82,9 @@ const { auth } = require("../middlewares/authMiddleware");
  *                   example: "Failed"
  *                 message:
  *                   type: string
- *                   example: "User tidak ditemukan. Pastikan sudah login."
+ *                   example: "User tidak ditemukan. Pastikan sudah login"
  *       500:
- *         description: Terjadi kesalahan pada server.
+ *         description: Terjadi kesalahan server internal.
  *         content:
  *           application/json:
  *             schema:
@@ -120,21 +101,21 @@ const { auth } = require("../middlewares/authMiddleware");
  *                   example: "Internal Server Error."
  *                 error:
  *                   type: string
- *                   example: "Detail error dari server."
+ *                   example: "Database connection failed"
  */
-Route.post("/", auth, spesialisController.createSpesialis);
+route.post("/", auth, pelayananRS.createPelayananRS);
 
 /**
  * @swagger
- * /spesialis:
+ * /pelayanan-rs:
  *   get:
- *     summary: Mengambil daftar spesialis
- *     description: Mengambil semua spesialis yang tersedia.
+ *     summary: Mendapatkan daftar pelayanan rumah sakit
+ *     description: Endpoint ini digunakan untuk mendapatkan semua data pelayanan rumah sakit.
  *     tags:
- *       - Spesialis
+ *       - Pelayanan Rumah Sakit
  *     responses:
  *       200:
- *         description: Data spesialis berhasil diambil.
+ *         description: Berhasil mendapatkan data pelayanan rumah sakit.
  *         content:
  *           application/json:
  *             schema:
@@ -148,23 +129,29 @@ Route.post("/", auth, spesialisController.createSpesialis);
  *                   example: "Success"
  *                 message:
  *                   type: string
- *                   example: "Data spesialis berhasil diambil"
+ *                   example: "Berhasil mendapatkan data pelayanan"
  *                 data:
  *                   type: array
  *                   items:
  *                     type: object
  *                     properties:
- *                       id_Spesialis:
+ *                       id:
  *                         type: string
- *                         example: "bf27354f-6d82-4e25-9541-b9efc8bf57ed"
- *                       nama_spesialis:
+ *                         example: "bf27354f-6d82-4e2fc8bf57ed"
+ *                       Persyaratan:
  *                         type: string
- *                         example: "spesialis baru 1"
- *                       deskripsi:
+ *                         example: "Fotokopi KTP, Kartu BPJS"
+ *                       Prosedur:
  *                         type: string
- *                         example: "baru baru"
+ *                         example: "Datang ke loket, Mengisi formulir, Menunggu antrian"
+ *                       JangkaWaktu:
+ *                         type: string
+ *                         example: "2 hari kerja"
+ *                       Biaya:
+ *                         type: number
+ *                         example: 50000
  *       500:
- *         description: Terjadi kesalahan pada server.
+ *         description: Terjadi kesalahan server internal.
  *         content:
  *           application/json:
  *             schema:
@@ -181,18 +168,18 @@ Route.post("/", auth, spesialisController.createSpesialis);
  *                   example: "Internal Server Error."
  *                 error:
  *                   type: string
- *                   example: "Detail error dari server."
+ *                   example: "Database connection failed"
  */
-Route.get("/", spesialisController.getSpesialis);
+route.get("/", pelayananRS.getPelayananRS);
 
 /**
  * @swagger
- * /spesialis/{id}:
+ * /pelayanan-rs/{id}:
  *   put:
- *     summary: Memperbarui spesialis
- *     description: Mengubah data spesialis berdasarkan ID.
+ *     summary: Memperbarui data pelayanan rumah sakit
+ *     description: Endpoint ini digunakan untuk memperbarui informasi pelayanan rumah sakit berdasarkan ID.
  *     tags:
- *       - Spesialis
+ *       - Pelayanan Rumah Sakit
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -201,8 +188,13 @@ Route.get("/", spesialisController.getSpesialis);
  *         required: true
  *         schema:
  *           type: string
- *        example: "bf27354f-6d82-4e25-9541-b9efc8bf57ed"
- *         description: ID spesialis yang akan diperbarui.
+ *         description: ID pelayanan rumah sakit yang akan diperbarui.
+ *       - in: header
+ *         name: Authorization
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Token Bearer untuk autentikasi.
  *     requestBody:
  *       required: true
  *       content:
@@ -210,145 +202,52 @@ Route.get("/", spesialisController.getSpesialis);
  *           schema:
  *             type: object
  *             properties:
- *               nama_spesialis:
+ *               Persyaratan:
  *                 type: string
- *                 example: "Spesialis Jantung"
- *               deskripsi:
+ *                 example: "Fotokopi KTP, Kartu BPJS"
+ *               Prosedur:
  *                 type: string
- *                 example: "Ahli dalam menangani penyakit jantung"
+ *                 example: "Datang ke loket, Mengisi formulir, Menunggu antrian"
+ *               JangkaWaktu:
+ *                 type: string
+ *                 example: "2 hari kerja"
+ *               Biaya:
+ *                 type: number
+ *                 example: 50000
  *     responses:
  *       200:
- *         description: Spesialis berhasil diperbarui.
+ *         description: Data berhasil diperbarui.
  *         content:
  *           application/json:
  *             schema:
  *               type: object
  *               properties:
- *                 statusCode:
- *                   type: integer
- *                   example: 200
  *                 status:
  *                   type: string
  *                   example: "Success"
  *                 message:
  *                   type: string
- *                   example: "Spesialis berhasil diperbarui"
- *                 data:
- *                   type: array
- *                   items:
- *                     type: object
- *                     properties:
- *                       id_Spesialis:
- *                         type: string
- *                         example: "bf27354f-6d82-4e25-9541-b9efc8bf57ed"
- *                       nama_spesialis:
- *                         type: string
- *                         example: "Spesialis Bedah"
- *                       deskripsi:
- *                         type: string
- *                         example: "Ahli dalam melakukan prosedur bedah"
- *       400:
- *         description: Format ID spesialis tidak valid.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 statusCode:
- *                   type: integer
- *                   example: 400
- *                 status:
- *                   type: string
- *                   example: "Failed"
- *                 message:
- *                   type: string
- *                   example: "Format ID spesialis tidak valid"
- *       404:
- *         description: Spesialis tidak ditemukan.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 statusCode:
- *                   type: integer
- *                   example: 404
- *                 status:
- *                   type: string
- *                   example: "Failed"
- *                 message:
- *                   type: string
- *                   example: "Spesialis dengan ID 2 tidak ditemukan"
- *       500:
- *         description: Terjadi kesalahan pada server.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 statusCode:
- *                   type: integer
- *                   example: 500
- *                 status:
- *                   type: string
- *                   example: "Failed"
- *                 message:
- *                   type: string
- *                   example: "Internal Server Error."
- *                 error:
- *                   type: string
- *                   example: "Database connection failed"
- */
-Route.put("/:id", spesialisController.updateSpesialis);
-
-/**
- * @swagger
- * /spesialis/{id}:
- *   delete:
- *     summary: Memperbarui spesialis
- *     description: Mengubah data spesialis berdasarkan ID.
- *     tags:
- *       - Spesialis
- *     security:
- *       - bearerAuth: []
- *     parameters:
- *       - name: id
- *         in: path
- *         required: true
- *         schema:
- *           type: string
- *         description: ID spesialis yang akan dihapus.
- *     responses:
- *       200:
- *         description: Spesialis berhasil dihapus.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 statusCode:
- *                   type: integer
- *                   example: 200
- *                 status:
- *                   type: string
- *                   example: "Success"
- *                 message:
- *                   type: string
- *                   example: "Spesialis berhasil dihapus"
+ *                   example: "Data berhasil diperbarui"
  *                 data:
  *                   type: object
  *                   properties:
- *                     id_Spesialis:
+ *                     id_pelayananRS:
  *                       type: string
  *                       example: "bf27354f-6d82-4e25-9541-b9efc8bf57ed"
- *                     nama_spesialis:
+ *                     Persyaratan:
  *                       type: string
- *                       example: "spesialis baru 1"
- *                     deskripsi:
+ *                       example: "Fotokopi KTP, Kartu BPJS"
+ *                     Prosedur:
  *                       type: string
- *                       example: "baru baru"
+ *                       example: "Datang ke loket, Mengisi formulir, Menunggu antrian"
+ *                     JangkaWaktu:
+ *                       type: string
+ *                       example: "2 hari kerja"
+ *                     Biaya:
+ *                       type: number
+ *                       example: 50000
  *       400:
- *         description: Format ID spesialis tidak valid.
+ *         description: Permintaan tidak valid atau data tidak lengkap.
  *         content:
  *           application/json:
  *             schema:
@@ -362,9 +261,25 @@ Route.put("/:id", spesialisController.updateSpesialis);
  *                   example: "Failed"
  *                 message:
  *                   type: string
- *                   example: "Format ID spesialis tidak valid"
+ *                   example: "Format ID pelayanan tidak valid."
+ *       401:
+ *         description: Pengguna tidak terautentikasi.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 401
+ *                 status:
+ *                   type: string
+ *                   example: "Failed"
+ *                 message:
+ *                   type: string
+ *                   example: "Unauthorized. Silakan login terlebih dahulu."
  *       404:
- *         description: Spesialis tidak ditemukan.
+ *         description: Data pelayanan tidak ditemukan.
  *         content:
  *           application/json:
  *             schema:
@@ -378,9 +293,9 @@ Route.put("/:id", spesialisController.updateSpesialis);
  *                   example: "Failed"
  *                 message:
  *                   type: string
- *                   example: "Spesialis dengan ID 2 tidak ditemukan"
+ *                   example: "Pelayanan Rumah Sakit dengan ID {id} tidak ditemukan."
  *       500:
- *         description: Terjadi kesalahan pada server.
+ *         description: Kesalahan server internal.
  *         content:
  *           application/json:
  *             schema:
@@ -399,7 +314,92 @@ Route.put("/:id", spesialisController.updateSpesialis);
  *                   type: string
  *                   example: "Database connection failed"
  */
-Route.delete("/:id", spesialisController.deleteSpesialis);
+route.put("/:id", auth, pelayananRS.updatePelayananRS);
+
+/**
+ * @swagger
+ * /pelayanan-rs/{id}:
+ *   delete:
+ *     summary: Menghapus data pelayanan rumah sakit
+ *     description: Endpoint ini digunakan untuk menghapus informasi pelayanan rumah sakit berdasarkan ID.
+ *     tags:
+ *       - Pelayanan Rumah Sakit
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID pelayanan rumah sakit yang akan dihapus.
+ *     responses:
+ *       200:
+ *         description: Data berhasil dihapus.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   example: "Success"
+ *                 message:
+ *                   type: string
+ *                   example: "Data berhasil dihapus"
+ *       400:
+ *         description: Format ID tidak valid.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 400
+ *                 status:
+ *                   type: string
+ *                   example: "Failed"
+ *                 message:
+ *                   type: string
+ *                   example: "Format ID pelayanan tidak valid."
+ *       404:
+ *         description: Data pelayanan tidak ditemukan.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 404
+ *                 status:
+ *                   type: string
+ *                   example: "Failed"
+ *                 message:
+ *                   type: string
+ *                   example: "Pelayanan Rumah Sakit dengan ID {id} tidak ditemukan."
+ *       500:
+ *         description: Kesalahan server internal.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 500
+ *                 status:
+ *                   type: string
+ *                   example: "Failed"
+ *                 message:
+ *                   type: string
+ *                   example: "Internal Server Error."
+ *                 error:
+ *                   type: string
+ *                   example: "Database connection failed"
+ */
+route.delete("/:id", auth, pelayananRS.deletePelayananRS);
 
 /**
  * @swagger
@@ -411,4 +411,4 @@ Route.delete("/:id", spesialisController.deleteSpesialis);
  *       bearerFormat: JWT
  *       description: Masukkan token JWT di sini
  */
-module.exports = Route;
+module.exports = route;
