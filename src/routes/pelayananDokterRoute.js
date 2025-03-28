@@ -1,16 +1,16 @@
 const express = require("express");
-const route = express.Router();
-const pelayananRS = require("../controllers/pelayananRumahSakit/pelayananRSController");
+const Route = express.Router();
+const pelayananDokterController = require("../controllers/pelayananDokterController");
 const { auth } = require("../middlewares/authMiddleware");
 
 /**
  * @swagger
- * /pelayanan-rs:
+ * /pelayanan-dokter:
  *   post:
- *     summary: Menambahkan data Pelayanan Rumah Sakit
- *     description: Endpoint ini digunakan untuk menambahkan data baru mengenai pelayanan rumah sakit.
+ *     summary: Membuat pelayanan dokter baru
+ *     description: Endpoint untuk menambahkan data pelayanan dokter yang baru.
  *     tags:
- *       - Pelayanan Rumah Sakit
+ *       - Pelayanan Dokter
  *     security:
  *       - bearerAuth: []
  *     requestBody:
@@ -20,21 +20,15 @@ const { auth } = require("../middlewares/authMiddleware");
  *           schema:
  *             type: object
  *             properties:
- *               Persyaratan:
+ *               nama_pelayanan:
  *                 type: string
- *                 example: "Fotokopi KTP, Kartu BPJS"
- *               Prosedur:
+ *                 example: "Pelayanan Konsultasi"
+ *               deskripsi:
  *                 type: string
- *                 example: "Datang ke loket, Mengisi formulir, Menunggu antrian"
- *               JangkaWaktu:
- *                 type: string
- *                 example: "2 hari kerja"
- *               Biaya:
- *                 type: number
- *                 example: 50000
+ *                 example: "Konsultasi medis dengan dokter spesialis."
  *     responses:
  *       201:
- *         description: Pelayanan Rumah Sakit berhasil ditambahkan.
+ *         description: Pelayanan Dokter berhasil dibuat.
  *         content:
  *           application/json:
  *             schema:
@@ -48,27 +42,40 @@ const { auth } = require("../middlewares/authMiddleware");
  *                   example: "Success"
  *                 message:
  *                   type: string
- *                   example: "Pelayanan Rumah Sakit berhasil ditambahkan"
+ *                   example: "Pelayanan Dokter berhasil dibuat."
  *                 data:
  *                   type: object
  *                   properties:
- *                     id:
+ *                     id_pelayanan:
  *                       type: string
  *                       example: "bf27354f-6d82-4e25-9541-b9efc8bf57ed"
- *                     Persyaratan:
+ *                     nama_pelayanan:
  *                       type: string
- *                       example: "Fotokopi KTP, Kartu BPJS"
- *                     Prosedur:
+ *                       example: "Pelayanan Konsultasi"
+ *                     deskripsi:
  *                       type: string
- *                       example: "Datang ke loket, Mengisi formulir, Menunggu antrian"
- *                     JangkaWaktu:
+ *                       example: "Konsultasi medis dengan dokter spesialis."
+ *                     id_user:
  *                       type: string
- *                       example: "2 hari kerja"
- *                     Biaya:
- *                       type: number
- *                       example: 50000
+ *                       example: "bf27354f-6d82-4e25-95"
+ *       400:
+ *         description: Data input tidak lengkap atau tidak valid.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 400
+ *                 status:
+ *                   type: string
+ *                   example: "Failed"
+ *                 message:
+ *                   type: string
+ *                   example: "Nama pelayanan dan deskripsi wajib diisi."
  *       401:
- *         description: User tidak ditemukan atau belum login.
+ *         description: Pengguna belum login atau token tidak valid.
  *         content:
  *           application/json:
  *             schema:
@@ -82,9 +89,9 @@ const { auth } = require("../middlewares/authMiddleware");
  *                   example: "Failed"
  *                 message:
  *                   type: string
- *                   example: "User tidak ditemukan. Pastikan sudah login"
+ *                   example: "User tidak ditemukan. Pastikan sudah login."
  *       500:
- *         description: Terjadi kesalahan server internal.
+ *         description: Terjadi kesalahan pada server.
  *         content:
  *           application/json:
  *             schema:
@@ -103,19 +110,19 @@ const { auth } = require("../middlewares/authMiddleware");
  *                   type: string
  *                   example: "Database connection failed"
  */
-route.post("/", auth, pelayananRS.createPelayananRS);
+Route.post("/", auth, pelayananDokterController.createPelayananDokter);
 
 /**
  * @swagger
- * /pelayanan-rs:
+ * /pelayanan-dokter:
  *   get:
- *     summary: Mendapatkan daftar pelayanan rumah sakit
- *     description: Endpoint ini digunakan untuk mendapatkan semua data pelayanan rumah sakit.
+ *     summary: Mendapatkan daftar pelayanan dokter
+ *     description: Mengambil semua data pelayanan dokter yang tersedia.
  *     tags:
- *       - Pelayanan Rumah Sakit
+ *       - Pelayanan Dokter
  *     responses:
  *       200:
- *         description: Berhasil mendapatkan data pelayanan rumah sakit.
+ *         description: Data pelayanan dokter berhasil diambil.
  *         content:
  *           application/json:
  *             schema:
@@ -129,29 +136,23 @@ route.post("/", auth, pelayananRS.createPelayananRS);
  *                   example: "Success"
  *                 message:
  *                   type: string
- *                   example: "Berhasil mendapatkan data pelayanan"
+ *                   example: "Data pelayanan dokter berhasil diambil."
  *                 data:
  *                   type: array
  *                   items:
  *                     type: object
  *                     properties:
- *                       id:
+ *                       id_pelayanan_dokter:
  *                         type: string
- *                         example: "bf27354f-6d82-4e2fc8bf57ed"
- *                       Persyaratan:
+ *                         example: "bf27354f-6d82-4e25-9541-b9efc8bf57ed"
+ *                       nama_pelayanan:
  *                         type: string
- *                         example: "Fotokopi KTP, Kartu BPJS"
- *                       Prosedur:
+ *                         example: "Pelayanan Konsultasi"
+ *                       deskripsi:
  *                         type: string
- *                         example: "Datang ke loket, Mengisi formulir, Menunggu antrian"
- *                       JangkaWaktu:
- *                         type: string
- *                         example: "2 hari kerja"
- *                       Biaya:
- *                         type: number
- *                         example: 50000
+ *                         example: "Konsultasi medis dengan dokter spesialis."
  *       500:
- *         description: Terjadi kesalahan server internal.
+ *         description: Terjadi kesalahan pada server.
  *         content:
  *           application/json:
  *             schema:
@@ -170,31 +171,25 @@ route.post("/", auth, pelayananRS.createPelayananRS);
  *                   type: string
  *                   example: "Database connection failed"
  */
-route.get("/", pelayananRS.getPelayananRS);
+Route.get("/", pelayananDokterController.getPelayananDokter);
 
 /**
  * @swagger
- * /pelayanan-rs/{id}:
+ * /pelayanan-dokter/{id}:
  *   put:
- *     summary: Memperbarui data pelayanan rumah sakit
- *     description: Endpoint ini digunakan untuk memperbarui informasi pelayanan rumah sakit berdasarkan ID.
+ *     summary: Memperbarui data pelayanan dokter
+ *     description: Mengubah informasi pelayanan dokter berdasarkan ID.
  *     tags:
- *       - Pelayanan Rumah Sakit
+ *       - Pelayanan Dokter
  *     security:
  *       - bearerAuth: []
  *     parameters:
- *       - in: path
- *         name: id
+ *       - name: id
+ *         in: path
  *         required: true
  *         schema:
  *           type: string
- *         description: ID pelayanan rumah sakit yang akan diperbarui.
- *       - in: header
- *         name: Authorization
- *         required: true
- *         schema:
- *           type: string
- *         description: Token Bearer untuk autentikasi.
+ *         description: ID pelayanan dokter yang akan diperbarui.
  *     requestBody:
  *       required: true
  *       content:
@@ -202,52 +197,43 @@ route.get("/", pelayananRS.getPelayananRS);
  *           schema:
  *             type: object
  *             properties:
- *               Persyaratan:
+ *               nama_pelayanan:
  *                 type: string
- *                 example: "Fotokopi KTP, Kartu BPJS"
- *               Prosedur:
+ *                 example: "Pelayanan Gawat Darurat"
+ *               deskripsi:
  *                 type: string
- *                 example: "Datang ke loket, Mengisi formulir, Menunggu antrian"
- *               JangkaWaktu:
- *                 type: string
- *                 example: "2 hari kerja"
- *               Biaya:
- *                 type: number
- *                 example: 50000
+ *                 example: "Layanan gawat darurat selama 24 jam."
  *     responses:
  *       200:
- *         description: Data berhasil diperbarui.
+ *         description: Pelayanan dokter berhasil diperbarui.
  *         content:
  *           application/json:
  *             schema:
  *               type: object
  *               properties:
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 200
  *                 status:
  *                   type: string
  *                   example: "Success"
  *                 message:
  *                   type: string
- *                   example: "Data berhasil diperbarui"
+ *                   example: "Pelayanan Dokter berhasil diperbarui."
  *                 data:
  *                   type: object
  *                   properties:
- *                     id_pelayananRS:
+ *                     id_pelayanan_dokter:
  *                       type: string
  *                       example: "bf27354f-6d82-4e25-9541-b9efc8bf57ed"
- *                     Persyaratan:
+ *                     nama_pelayanan:
  *                       type: string
- *                       example: "Fotokopi KTP, Kartu BPJS"
- *                     Prosedur:
+ *                       example: "Pelayanan Gawat Darurat"
+ *                     deskripsi:
  *                       type: string
- *                       example: "Datang ke loket, Mengisi formulir, Menunggu antrian"
- *                     JangkaWaktu:
- *                       type: string
- *                       example: "2 hari kerja"
- *                     Biaya:
- *                       type: number
- *                       example: 50000
+ *                       example: "Layanan gawat darurat selama 24 jam."
  *       400:
- *         description: Permintaan tidak valid atau data tidak lengkap.
+ *         description: ID pelayanan dokter tidak valid atau tidak diberikan.
  *         content:
  *           application/json:
  *             schema:
@@ -261,25 +247,9 @@ route.get("/", pelayananRS.getPelayananRS);
  *                   example: "Failed"
  *                 message:
  *                   type: string
- *                   example: "Format ID pelayanan tidak valid."
- *       401:
- *         description: Pengguna tidak terautentikasi.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 statusCode:
- *                   type: integer
- *                   example: 401
- *                 status:
- *                   type: string
- *                   example: "Failed"
- *                 message:
- *                   type: string
- *                   example: "Unauthorized. Silakan login terlebih dahulu."
+ *                   example: "ID pelayanan dokter diperlukan."
  *       404:
- *         description: Data pelayanan tidak ditemukan.
+ *         description: Pelayanan dokter tidak ditemukan.
  *         content:
  *           application/json:
  *             schema:
@@ -293,9 +263,9 @@ route.get("/", pelayananRS.getPelayananRS);
  *                   example: "Failed"
  *                 message:
  *                   type: string
- *                   example: "Pelayanan Rumah Sakit dengan ID {id} tidak ditemukan."
+ *                   example: "Pelayanan Dokter tidak ditemukan."
  *       500:
- *         description: Kesalahan server internal.
+ *         description: Terjadi kesalahan pada server.
  *         content:
  *           application/json:
  *             schema:
@@ -314,41 +284,44 @@ route.get("/", pelayananRS.getPelayananRS);
  *                   type: string
  *                   example: "Database connection failed"
  */
-route.put("/:id", auth, pelayananRS.updatePelayananRS);
+Route.put("/:id", auth, pelayananDokterController.updatePelayananDokter);
 
 /**
  * @swagger
- * /pelayanan-rs/{id}:
+ * /pelayanan-dokter/{id}:
  *   delete:
- *     summary: Menghapus data pelayanan rumah sakit
- *     description: Endpoint ini digunakan untuk menghapus informasi pelayanan rumah sakit berdasarkan ID.
+ *     summary: Menghapus data pelayanan dokter
+ *     description: Menghapus data pelayanan dokter berdasarkan ID.
  *     tags:
- *       - Pelayanan Rumah Sakit
+ *       - Pelayanan Dokter
  *     security:
  *       - bearerAuth: []
  *     parameters:
- *       - in: path
- *         name: id
+ *       - name: id
+ *         in: path
  *         required: true
  *         schema:
  *           type: string
- *         description: ID pelayanan rumah sakit yang akan dihapus.
+ *         description: ID pelayanan dokter yang akan dihapus.
  *     responses:
  *       200:
- *         description: Data berhasil dihapus.
+ *         description: Pelayanan dokter berhasil dihapus.
  *         content:
  *           application/json:
  *             schema:
  *               type: object
  *               properties:
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 200
  *                 status:
  *                   type: string
  *                   example: "Success"
  *                 message:
  *                   type: string
- *                   example: "Data berhasil dihapus"
+ *                   example: "Pelayanan Dokter berhasil dihapus."
  *       400:
- *         description: Format ID tidak valid.
+ *         description: ID pelayanan dokter tidak valid atau tidak diberikan.
  *         content:
  *           application/json:
  *             schema:
@@ -362,9 +335,9 @@ route.put("/:id", auth, pelayananRS.updatePelayananRS);
  *                   example: "Failed"
  *                 message:
  *                   type: string
- *                   example: "Format ID pelayanan tidak valid."
+ *                   example: "ID pelayanan dokter diperlukan."
  *       404:
- *         description: Data pelayanan tidak ditemukan.
+ *         description: Pelayanan dokter tidak ditemukan.
  *         content:
  *           application/json:
  *             schema:
@@ -378,9 +351,9 @@ route.put("/:id", auth, pelayananRS.updatePelayananRS);
  *                   example: "Failed"
  *                 message:
  *                   type: string
- *                   example: "Pelayanan Rumah Sakit dengan ID {id} tidak ditemukan."
+ *                   example: "Pelayanan Dokter tidak ditemukan."
  *       500:
- *         description: Kesalahan server internal.
+ *         description: Terjadi kesalahan pada server.
  *         content:
  *           application/json:
  *             schema:
@@ -399,7 +372,7 @@ route.put("/:id", auth, pelayananRS.updatePelayananRS);
  *                   type: string
  *                   example: "Database connection failed"
  */
-route.delete("/:id", auth, pelayananRS.deletePelayananRS);
+Route.delete("/:id", auth, pelayananDokterController.deletePelayananDokter);
 
 /**
  * @swagger
@@ -411,4 +384,4 @@ route.delete("/:id", auth, pelayananRS.deletePelayananRS);
  *       bearerFormat: JWT
  *       description: Masukkan token JWT di sini
  */
-module.exports = route;
+module.exports = Route;

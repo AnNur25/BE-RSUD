@@ -1,5 +1,5 @@
-const { Hari } = require("@prisma/client");
-const prisma = require("../../prisma/prismaClient");
+
+const prisma = require("../prisma/prismaClient");
 
 class JadwalDokterController {
   static async createJadwalDokter(req, res) {
