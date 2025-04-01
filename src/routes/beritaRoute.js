@@ -14,8 +14,6 @@ const multerErrorHandler = require("../middlewares/multerErrorHandler");
  *     description: Endpoint ini digunakan untuk membuat berita baru beserta gambar sampul.
  *     tags:
  *       - Berita
- *     security:
- *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -100,22 +98,6 @@ const multerErrorHandler = require("../middlewares/multerErrorHandler");
  *                     message:
  *                       type: string
  *                       example: "Invalid date format. Use YYYY-MM-DD"
- *       "401":
- *         description: Unauthorized - ID user tidak ditemukan.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 statusCode:
- *                   type: integer
- *                   example: 401
- *                 status:
- *                   type: string
- *                   example: "Failed"
- *                 message:
- *                   type: string
- *                   example: "Unauthorized: User ID not found"
  *       "500":
  *         description: Kesalahan server internal.
  *         content:
@@ -136,23 +118,123 @@ const multerErrorHandler = require("../middlewares/multerErrorHandler");
  *                   type: string
  *                   example: "Database connection failed"
  */
-route.post(
-  "/",
-  auth,
-  multer.single("gambar_sampul"),
-  beritaController.createBerita
-);
+route.post("/", multer.single("gambar_sampul"), beritaController.createBerita);
 /**
  * @swagger
  * /berita:
  *   get:
- *     summary: Mendapatkan daftar berita
- *     description: Endpoint ini digunakan untuk mengambil semua berita yang tersedia beserta informasi gambar tambahan dan user yang membuat berita.
+ *     summary: Mendapatkan daftar berita dengan pagination
+ *     description: Endpoint ini digunakan untuk mengambil daftar berita dengan pagination. Data dapat difilter menggunakan query parameter `page` dan `pageSize`.
  *     tags:
  *       - Berita
+ *     parameters:
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *           default: 1
+ *         description: Nomor halaman yang ingin diambil.
+ *       - in: query
+ *         name: pageSize
+ *         schema:
+ *           type: integer
+ *           default: 10
+ *         description: Jumlah berita yang ditampilkan per halaman.
  *     responses:
  *       "200":
- *         description: Berhasil menampilkan daftar berita.
+ *         description: Berhasil menampilkan daftar berita dengan pagination.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 200
+ *                 status:
+ *                   type: string
+ *                   example: "Success"
+ *                 message:
+ *                   type: string
+ *                   example: "Berhasil menampilkan berita"
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     berita:
+ *                       type: array
+ *                       items:
+ *                         type: object
+ *                         properties:
+ *                           id:
+ *                             type: string
+ *                             example: "123e4567-e89b-12d3-a456-426614174000"
+ *                           judul:
+ *                             type: string
+ *                             example: "Judul Berita Contoh"
+ *                           ringkasan:
+ *                             type: string
+ *                             example: "Ringkasan berita singkat."
+ *                           gambar_sampul:
+ *                             type: string
+ *                             example: "https://ik.imagekit.io/your-folder/sample-cover.jpg"
+ *                           tanggal_terbit:
+ *                             type: string
+ *                             format: date
+ *                             example: "23 Maret 2025"
+ *                     pagination:
+ *                       type: object
+ *                       properties:
+ *                         currentPage:
+ *                           type: integer
+ *                           example: 1
+ *                         pageSize:
+ *                           type: integer
+ *                           example: 10
+ *                         totalItems:
+ *                           type: integer
+ *                           example: 100
+ *                         totalPages:
+ *                           type: integer
+ *                           example: 10
+ *       "500":
+ *         description: Kesalahan server internal.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 500
+ *                 status:
+ *                   type: string
+ *                   example: "Failed"
+ *                 message:
+ *                   type: string
+ *                   example: "Internal Server Error."
+ *                 error:
+ *                   type: string
+ *                   example: "Database connection failed"
+ */
+route.get("/", beritaController.getBerita);
+
+/**
+ * @swagger
+ * /berita/{id_berita}:
+ *   get:
+ *     summary: Mendapatkan daftar berita berdasarkan id
+ *     description: Endpoint ini digunakan untuk mengambil detail berita yang tersedia.
+ *     tags:
+ *       - Berita
+ *     parameters:
+ *       - in: path
+ *         name: id_berita
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       "200":
+ *         description: Berhasil menampilkan detail berita.
  *         content:
  *           application/json:
  *             schema:
@@ -172,7 +254,7 @@ route.post(
  *                   items:
  *                     type: object
  *                     properties:
- *                       id:
+ *                       id_berita:
  *                         type: string
  *                         example: "123e4567-e89b-12d3-a456-426614174000"
  *                       judul:
@@ -191,9 +273,6 @@ route.post(
  *                         type: string
  *                         format: date-time
  *                         example: "2025-03-23T14:30:00Z"
- *                       id_user:
- *                         type: string
- *                         example: "bf27354f-6d82-4e25-9541-b9efc8bf57ed"
  *                       user:
  *                         type: object
  *                         properties:
@@ -217,9 +296,6 @@ route.post(
  *                             beritaId:
  *                               type: string
  *                               example: "123e4567-e89b-12d3-a456-426614174000"
- *                             id_user:
- *                               type: string
- *                               example: "bf27354f-6d82-4e25-9541-b9efc8bf57ed"
  *       "500":
  *         description: Kesalahan server internal.
  *         content:
@@ -240,17 +316,15 @@ route.post(
  *                   type: string
  *                   example: "Database connection failed"
  */
-route.get("/", beritaController.getBerita);
+route.get("/:id_berita", beritaController.getBeritaById);
 /**
  * @swagger
- * /berita/{id}:
+ * /berita/{id_berita}:
  *   put:
  *     summary: Memperbarui berita
  *     description: Endpoint ini digunakan untuk memperbarui berita yang sudah ada berdasarkan ID berita.
  *     tags:
  *       - Berita
- *     security:
- *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id_berita
@@ -405,20 +479,22 @@ route.get("/", beritaController.getBerita);
  *                   type: string
  *                   example: "Database connection failed"
  */
-route.put("/:id", auth, beritaController.updateBerita);
+route.put(
+  "/:id_berita",
+  multer.single("gambar_sampul"),
+  beritaController.updateBerita
+);
 /**
  * @swagger
- * /berita/{id}:
+ * /berita/{id_berita}:
  *   delete:
  *     summary: Menghapus berita berdasarkan ID
  *     description: Endpoint ini digunakan untuk menghapus berita berdasarkan ID yang diberikan.
  *     tags:
  *       - Berita
- *     security:
- *       - bearerAuth: []
  *     parameters:
  *       - in: path
- *         name: id
+ *         name: id_berita
  *         required: true
  *         schema:
  *           type: string
@@ -476,7 +552,7 @@ route.put("/:id", auth, beritaController.updateBerita);
  *                   type: string
  *                   example: "Database connection failed"
  */
-route.delete("/:id", auth, beritaController.deleteBerita);
+route.delete("/:id_berita", beritaController.deleteBerita);
 
 /**
  * @swagger
@@ -490,7 +566,7 @@ route.delete("/:id", auth, beritaController.deleteBerita);
  *       - bearerAuth: []
  *     parameters:
  *       - in: path
- *         name: id
+ *         name: id_berita
  *         required: true
  *         schema:
  *           type: string

@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -14,105 +8,92 @@ datasource db {
 }
 
 model User {
-  id_user   String   @id @default(uuid())
-  nama      String
-  email     String  @unique
-  password  String 
-
+  id_user     String        @id @default(uuid())
+  nama        String
+  email       String        @unique
+  password    String
   responAdmin ResponAdmin[]
 }
 
 model Berita {
-  id_berita          String    @id @default(uuid())
-  judul              String
-  ringkasan          String
-  isi                String
-  gambar_sampul      String
-  tanggal_terbit     DateTime  
-  createdAt          DateTime @default(now())
-  updateAt           DateTime @default(now())
-  id_user            String
-
+  id_berita       String   @id @default(uuid())
+  judul           String
+  ringkasan       String
+  isi             String
+  gambar_sampul   String
+  tanggal_terbit  DateTime
+  createdAt       DateTime @default(now())
+  updateAt        DateTime @updatedAt
   gambar_tambahan Gambar[]
 }
 
 model Gambar {
-  id        String    @id @default(uuid())
-  url       String
-  beritaId  String
-  id_user   String
-
+  id       String @id @default(uuid())
+  url      String
+  beritaId String
+  id_user  String
   berita   Berita @relation(fields: [beritaId], references: [id_berita], onDelete: Cascade)
 }
 
-
-
 model Aduan {
-  id_aduan     String    @id @default(uuid())
-  judul        String
-  deskripsi    String
-  createdAt    DateTime @default(now())
-  no_wa        String
-  is_read      Boolean   @default(false) 
-
+  id_aduan    String        @id @default(uuid())
+  judul       String
+  deskripsi   String
+  createdAt   DateTime      @default(now())
+  no_wa       String
+  is_read     Boolean       @default(false)
   responAdmin ResponAdmin[]
 }
 
 model ResponAdmin {
-  id_respon_admin String    @id @default(uuid())
-  message        String
-  createdAt      DateTime @default(now())
-  id_user String
-  id_aduan String
-
-  aduan Aduan @relation(fields: [id_aduan], references: [id_aduan])
-  user User @relation(fields: [id_user], references: [id_user])
+  id_respon_admin String   @id @default(uuid())
+  message         String
+  createdAt       DateTime @default(now())
+  id_user         String
+  id_aduan        String
+  aduan           Aduan    @relation(fields: [id_aduan], references: [id_aduan])
+  user            User     @relation(fields: [id_user], references: [id_user])
 }
 
-
-model Pelayanan{
-  id_pelayanan String @id @default(uuid())
+model Pelayanan {
+  id_pelayanan   String         @id @default(uuid())
   nama_pelayanan String
-  Persyaratan String
-  Prosedur String
-  JangkaWaktu String
-  Biaya   Float
-  id_user String
-
-  jadwaldokter JadwalDokter[]
+  Persyaratan    String
+  Prosedur       String
+  JangkaWaktu    String
+  Biaya          Float
+  id_user        String
+  jadwaldokter   JadwalDokter[]
 }
 
 model Dokter {
-  id_dokter            String    @id @default(uuid())
-  nama                String
-  gambar              String
-  id_poli String 
-  
+  id_dokter    String         @id @default(uuid())
+  nama         String
+  gambar       String
+  id_poli      String
+  poli         Poli           @relation(fields: [id_poli], references: [id_poli])
   jadwalDokter JadwalDokter[]
-  poli Poli @relation(fields: [id_poli], references: [id_poli])
 }
 
 model Poli {
-  id_poli String    @id @default(uuid())
+  id_poli   String   @id @default(uuid())
   nama_poli String
-
-  dokter Dokter[]
+  dokter    Dokter[]
 }
 
 model JadwalDokter {
   id_jadwal_dokter String    @id @default(uuid())
-  id_dokter String
-  id_pelayanan String
-  hari  Hari
-  sesi String
-  jam_mulai String 
-  jam_selesai String
-
-  dokter Dokter @relation(fields: [id_dokter], references: [id_dokter])
-  pelayanan Pelayanan @relation(fields: [id_pelayanan], references: [id_pelayanan])
+  id_dokter        String
+  hari             Hari
+  sesi             String
+  jam_mulai        String
+  jam_selesai      String
+  id_pelayanan     String
+  dokter           Dokter    @relation(fields: [id_dokter], references: [id_dokter])
+  pelayanan        Pelayanan @relation(fields: [id_pelayanan], references: [id_pelayanan])
 }
 
-enum Hari{
+enum Hari {
   Senin
   Selasa
   Rabu

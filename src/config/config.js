@@ -5,5 +5,5 @@ module.exports = {
   port: process.env.PORT || 3001,
   secretKey: process.env.JWT_SECRET,
   frontend: process.env.FRONTEND_URL,
-  SESSION_SECRET: process.env.SESSION_SECRET,
+  // SESSION_SECRET: process.env.SESSION_SECRET,
 };

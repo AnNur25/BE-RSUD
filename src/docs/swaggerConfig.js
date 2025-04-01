@@ -10,6 +10,10 @@ const swaggerOptions = {
     },
     servers: [
       {
+        url: "http://localhost:3000/",
+        description: "Development server",
+      },
+      {
         url: "https://m0jc9knf-3000.asse.devtunnels.ms/",
         description: "Development server",
       },
@@ -17,7 +21,7 @@ const swaggerOptions = {
     components: {
       securitySchemes: {
         bearerAuth: {
-          type: "https",
+          type: "http",
           scheme: "bearer",
           bearerFormat: "JWT",
         },
@@ -35,7 +39,7 @@ const swaggerOptions = {
     "./routes/jamKerjaRoute.js",
     "./routes/jadwalDokterRoute.js",
     "./routes/aduanRoute.js",
-    "./routes/beritaRoute.js",
+    "./src/routes/beritaRoute.js",
   ],
 };
 
