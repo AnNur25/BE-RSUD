@@ -1,6 +1,6 @@
 const prisma = require("../prisma/prismaClient");
 const jwt = require("jsonwebtoken");
-const config = require("../config/config");
+const config = require("../configs/env-config");
 const frontend_url = config.frontend;
 const {
   sendSuccesPasswordEmail,

@@ -1,7 +1,7 @@
 const express = require("express");
 const route = express.Router();
-const aduanController = require("../controllers/aduanController");
-const { auth } = require("../middlewares/auth.middleware");
+const aduanController = require("../controllers/aduan-controller");
+const { auth } = require("../middlewares/auth-middleware");
 
 /**
  * @swagger

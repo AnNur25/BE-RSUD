@@ -1,4 +1,4 @@
-const BeritaService = require("../services/berita.service");
+const BeritaService = require("../services/berita-service");
 const responseHelper = require("../utils/response");
 class Berita {
   static async createBerita(req, res) {

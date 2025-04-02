@@ -1,5 +1,5 @@
 const prisma = require("../prisma/prismaClient");
-const imageKit = require("../config/imagekit");
+const imageKit = require("../configs/imagekit-config");
 const { BadRequestError, NotFoundError } = require("../utils/error");
 const Pagination = require("../utils/pagination");
 

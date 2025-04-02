@@ -1,34 +1,22 @@
 const express = require("express");
-const Route = express.Router();
-const pelayananDokterController = require("../controllers/pelayananDokterController");
-const { auth } = require("../middlewares/auth.middleware");
+const router = express.Router();
+const profilController = require("../controllers/profil-controller");
+
+const { auth } = require("../middlewares/auth-middleware");
 
 /**
  * @swagger
- * /pelayanan-dokter:
- *   post:
- *     summary: Membuat pelayanan dokter baru
- *     description: Endpoint untuk menambahkan data pelayanan dokter yang baru.
+ * /profil:
+ *   get:
+ *     summary: Mendapatkan informasi profil pengguna
+ *     description: API ini digunakan untuk mengambil data profil pengguna yang sedang login.
  *     tags:
- *       - Pelayanan Dokter
+ *       - Profil
  *     security:
  *       - bearerAuth: []
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               nama_pelayanan:
- *                 type: string
- *                 example: "Pelayanan Konsultasi"
- *               deskripsi:
- *                 type: string
- *                 example: "Konsultasi medis dengan dokter spesialis."
  *     responses:
- *       201:
- *         description: Pelayanan Dokter berhasil dibuat.
+ *       200:
+ *         description: Profil berhasil diambil.
  *         content:
  *           application/json:
  *             schema:
@@ -36,46 +24,27 @@ const { auth } = require("../middlewares/auth.middleware");
  *               properties:
  *                 statusCode:
  *                   type: integer
- *                   example: 201
+ *                   example: 200
  *                 status:
  *                   type: string
  *                   example: "Success"
  *                 message:
  *                   type: string
- *                   example: "Pelayanan Dokter berhasil dibuat."
+ *                   example: "Profile berhasil diambil."
  *                 data:
  *                   type: object
  *                   properties:
- *                     id_pelayanan:
- *                       type: string
- *                       example: "bf27354f-6d82-4e25-9541-b9efc8bf57ed"
- *                     nama_pelayanan:
- *                       type: string
- *                       example: "Pelayanan Konsultasi"
- *                     deskripsi:
- *                       type: string
- *                       example: "Konsultasi medis dengan dokter spesialis."
  *                     id_user:
  *                       type: string
- *                       example: "bf27354f-6d82-4e25-95"
- *       400:
- *         description: Data input tidak lengkap atau tidak valid.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 statusCode:
- *                   type: integer
- *                   example: 400
- *                 status:
- *                   type: string
- *                   example: "Failed"
- *                 message:
- *                   type: string
- *                   example: "Nama pelayanan dan deskripsi wajib diisi."
+ *                       example: "bf27354f-6d82-4e25-9541-b9efc8bf57ed"
+ *                     nama:
+ *                       type: string
+ *                       example: "John Doe"
+ *                     email:
+ *                       type: string
+ *                       example: "binar@gmail.com"
  *       401:
- *         description: Pengguna belum login atau token tidak valid.
+ *         description: Unauthorized - Pengguna tidak memiliki izin.
  *         content:
  *           application/json:
  *             schema:
@@ -89,68 +58,27 @@ const { auth } = require("../middlewares/auth.middleware");
  *                   example: "Failed"
  *                 message:
  *                   type: string
- *                   example: "User tidak ditemukan. Pastikan sudah login."
- *       500:
- *         description: Terjadi kesalahan pada server.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 statusCode:
- *                   type: integer
- *                   example: 500
- *                 status:
- *                   type: string
- *                   example: "Failed"
- *                 message:
- *                   type: string
- *                   example: "Internal Server Error."
- *                 error:
- *                   type: string
- *                   example: "Database connection failed"
- */
-Route.post("/", auth, pelayananDokterController.createPelayananDokter);
-
-/**
- * @swagger
- * /pelayanan-dokter:
- *   get:
- *     summary: Mendapatkan daftar pelayanan dokter
- *     description: Mengambil semua data pelayanan dokter yang tersedia.
- *     tags:
- *       - Pelayanan Dokter
- *     responses:
- *       200:
- *         description: Data pelayanan dokter berhasil diambil.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 statusCode:
- *                   type: integer
- *                   example: 200
- *                 status:
- *                   type: string
- *                   example: "Success"
- *                 message:
- *                   type: string
- *                   example: "Data pelayanan dokter berhasil diambil."
+ *                   example: "Unauthorized. Silakan login kembali."
  *                 data:
- *                   type: array
- *                   items:
- *                     type: object
- *                     properties:
- *                       id_pelayanan_dokter:
- *                         type: string
- *                         example: "bf27354f-6d82-4e25-9541-b9efc8bf57ed"
- *                       nama_pelayanan:
- *                         type: string
- *                         example: "Pelayanan Konsultasi"
- *                       deskripsi:
- *                         type: string
- *                         example: "Konsultasi medis dengan dokter spesialis."
+ *                   type: "null"
+ *       404:
+ *         description: User tidak ditemukan.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 404
+ *                 status:
+ *                   type: string
+ *                   example: "Failed"
+ *                 message:
+ *                   type: string
+ *                   example: "User tidak ditemukan."
+ *                 data:
+ *                   type: "null"
  *       500:
  *         description: Terjadi kesalahan pada server.
  *         content:
@@ -169,27 +97,20 @@ Route.post("/", auth, pelayananDokterController.createPelayananDokter);
  *                   example: "Internal Server Error."
  *                 error:
  *                   type: string
- *                   example: "Database connection failed"
+ *                   example: "Detail error dari server."
  */
-Route.get("/", pelayananDokterController.getPelayananDokter);
+router.get("/profil", auth, profilController.getProfile);
 
 /**
  * @swagger
- * /pelayanan-dokter/{id}:
+ * /profil:
  *   put:
- *     summary: Memperbarui data pelayanan dokter
- *     description: Mengubah informasi pelayanan dokter berdasarkan ID.
+ *     summary: Mengubah password pengguna
+ *     description: API ini digunakan untuk mengubah password pengguna yang sedang login.
  *     tags:
- *       - Pelayanan Dokter
+ *       - Profil
  *     security:
  *       - bearerAuth: []
- *     parameters:
- *       - name: id
- *         in: path
- *         required: true
- *         schema:
- *           type: string
- *         description: ID pelayanan dokter yang akan diperbarui.
  *     requestBody:
  *       required: true
  *       content:
@@ -197,15 +118,15 @@ Route.get("/", pelayananDokterController.getPelayananDokter);
  *           schema:
  *             type: object
  *             properties:
- *               nama_pelayanan:
+ *               oldPassword:
  *                 type: string
- *                 example: "Pelayanan Gawat Darurat"
- *               deskripsi:
+ *                 example: "passwordlama123"
+ *               newPassword:
  *                 type: string
- *                 example: "Layanan gawat darurat selama 24 jam."
+ *                 example: "passwordbaru123"
  *     responses:
  *       200:
- *         description: Pelayanan dokter berhasil diperbarui.
+ *         description: Password berhasil diubah.
  *         content:
  *           application/json:
  *             schema:
@@ -219,21 +140,11 @@ Route.get("/", pelayananDokterController.getPelayananDokter);
  *                   example: "Success"
  *                 message:
  *                   type: string
- *                   example: "Pelayanan Dokter berhasil diperbarui."
+ *                   example: "Password berhasil diubah."
  *                 data:
- *                   type: object
- *                   properties:
- *                     id_pelayanan_dokter:
- *                       type: string
- *                       example: "bf27354f-6d82-4e25-9541-b9efc8bf57ed"
- *                     nama_pelayanan:
- *                       type: string
- *                       example: "Pelayanan Gawat Darurat"
- *                     deskripsi:
- *                       type: string
- *                       example: "Layanan gawat darurat selama 24 jam."
+ *                   type: "null"
  *       400:
- *         description: ID pelayanan dokter tidak valid atau tidak diberikan.
+ *         description: Password lama salah atau password baru tidak valid.
  *         content:
  *           application/json:
  *             schema:
@@ -247,9 +158,11 @@ Route.get("/", pelayananDokterController.getPelayananDokter);
  *                   example: "Failed"
  *                 message:
  *                   type: string
- *                   example: "ID pelayanan dokter diperlukan."
- *       404:
- *         description: Pelayanan dokter tidak ditemukan.
+ *                   example: "Password lama tidak valid."
+ *                 data:
+ *                   type: "null"
+ *       401:
+ *         description: Tidak terautentikasi.
  *         content:
  *           application/json:
  *             schema:
@@ -257,13 +170,15 @@ Route.get("/", pelayananDokterController.getPelayananDokter);
  *               properties:
  *                 statusCode:
  *                   type: integer
- *                   example: 404
+ *                   example: 401
  *                 status:
  *                   type: string
  *                   example: "Failed"
  *                 message:
  *                   type: string
- *                   example: "Pelayanan Dokter tidak ditemukan."
+ *                   example: "Tidak terautentikasi. Silakan login kembali."
+ *                 data:
+ *                   type: "null"
  *       500:
  *         description: Terjadi kesalahan pada server.
  *         content:
@@ -282,30 +197,23 @@ Route.get("/", pelayananDokterController.getPelayananDokter);
  *                   example: "Internal Server Error."
  *                 error:
  *                   type: string
- *                   example: "Database connection failed"
+ *                   example: "Detail error dari server."
  */
-Route.put("/:id", auth, pelayananDokterController.updatePelayananDokter);
+router.put("/profil", auth, profilController.updatePassw);
 
 /**
  * @swagger
- * /pelayanan-dokter/{id}:
- *   delete:
- *     summary: Menghapus data pelayanan dokter
- *     description: Menghapus data pelayanan dokter berdasarkan ID.
+ * /profil:
+ *   post:
+ *     summary: Mengirimkan link reset password ke email pengguna
+ *     description: API ini digunakan untuk mengirimkan email berisi link reset password kepada pengguna yang telah terautentikasi.
  *     tags:
- *       - Pelayanan Dokter
+ *       - Profil
  *     security:
  *       - bearerAuth: []
- *     parameters:
- *       - name: id
- *         in: path
- *         required: true
- *         schema:
- *           type: string
- *         description: ID pelayanan dokter yang akan dihapus.
  *     responses:
  *       200:
- *         description: Pelayanan dokter berhasil dihapus.
+ *         description: Link reset password berhasil dikirim ke email.
  *         content:
  *           application/json:
  *             schema:
@@ -319,9 +227,18 @@ Route.put("/:id", auth, pelayananDokterController.updatePelayananDokter);
  *                   example: "Success"
  *                 message:
  *                   type: string
- *                   example: "Pelayanan Dokter berhasil dihapus."
- *       400:
- *         description: ID pelayanan dokter tidak valid atau tidak diberikan.
+ *                   example: "Link reset password telah dikirim ke email."
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     reset_link:
+ *                       type: string
+ *                       example: "https://frontend.example.com/reset?token=123abc"
+ *                     resetToken:
+ *                       type: string
+ *                       example: "eyJhbGciOiJIUzI1..."
+ *       401:
+ *         description: Tidak terautentikasi atau token tidak valid.
  *         content:
  *           application/json:
  *             schema:
@@ -329,15 +246,17 @@ Route.put("/:id", auth, pelayananDokterController.updatePelayananDokter);
  *               properties:
  *                 statusCode:
  *                   type: integer
- *                   example: 400
+ *                   example: 401
  *                 status:
  *                   type: string
  *                   example: "Failed"
  *                 message:
  *                   type: string
- *                   example: "ID pelayanan dokter diperlukan."
+ *                   example: "Tidak terautentikasi. Silakan login kembali."
+ *                 data:
+ *                   type: "null"
  *       404:
- *         description: Pelayanan dokter tidak ditemukan.
+ *         description: User tidak ditemukan.
  *         content:
  *           application/json:
  *             schema:
@@ -351,7 +270,9 @@ Route.put("/:id", auth, pelayananDokterController.updatePelayananDokter);
  *                   example: "Failed"
  *                 message:
  *                   type: string
- *                   example: "Pelayanan Dokter tidak ditemukan."
+ *                   example: "User tidak ditemukan."
+ *                 data:
+ *                   type: "null"
  *       500:
  *         description: Terjadi kesalahan pada server.
  *         content:
@@ -370,9 +291,132 @@ Route.put("/:id", auth, pelayananDokterController.updatePelayananDokter);
  *                   example: "Internal Server Error."
  *                 error:
  *                   type: string
- *                   example: "Database connection failed"
+ *                   example: "Detail error dari server."
  */
-Route.delete("/:id", auth, pelayananDokterController.deletePelayananDokter);
+router.post("/profil", auth, profilController.forgetPassword);
+
+/**
+ * @swagger
+ * /reset-password:
+ *   post:
+ *     summary: Reset password pengguna dengan token yang dikirim via email
+ *     description: API ini digunakan untuk mengganti password pengguna dengan token reset yang dikirim ke email mereka.
+ *     tags:
+ *       - Profil
+ *     parameters:
+ *       - in: query
+ *         name: token
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Token reset password yang diterima via email
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               newPassw:
+ *                 type: string
+ *                 example: "passwordbaru123"
+ *               confirmPassw:
+ *                 type: string
+ *                 example: "passwordbaru123"
+ *     responses:
+ *       200:
+ *         description: Password berhasil direset.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 200
+ *                 status:
+ *                   type: string
+ *                   example: "Success"
+ *                 message:
+ *                   type: string
+ *                   example: "Password berhasil direset."
+ *                 data:
+ *                   type: "null"
+ *       400:
+ *         description: Token tidak valid atau password tidak sesuai.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 400
+ *                 status:
+ *                   type: string
+ *                   example: "Failed"
+ *                 message:
+ *                   type: string
+ *                   example: "Konfirmasi password tidak sama dengan password baru."
+ *                 data:
+ *                   type: "null"
+ *       401:
+ *         description: Token tidak valid atau sudah kadaluarsa.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 401
+ *                 status:
+ *                   type: string
+ *                   example: "Failed"
+ *                 message:
+ *                   type: string
+ *                   example: "Token tidak valid atau sudah kadaluarsa."
+ *                 data:
+ *                   type: "null"
+ *       404:
+ *         description: Akun tidak ditemukan.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 404
+ *                 status:
+ *                   type: string
+ *                   example: "Failed"
+ *                 message:
+ *                   type: string
+ *                   example: "Akun tidak ditemukan."
+ *                 data:
+ *                   type: "null"
+ *       500:
+ *         description: Terjadi kesalahan pada server.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 500
+ *                 status:
+ *                   type: string
+ *                   example: "Failed"
+ *                 message:
+ *                   type: string
+ *                   example: "Internal Server Error."
+ *                 error:
+ *                   type: string
+ *                   example: "Detail error dari server."
+ */
+router.post("/", profilController.resetPassword);
 
 /**
  * @swagger
@@ -384,4 +428,4 @@ Route.delete("/:id", auth, pelayananDokterController.deletePelayananDokter);
  *       bearerFormat: JWT
  *       description: Masukkan token JWT di sini
  */
-module.exports = Route;
+module.exports = router;
