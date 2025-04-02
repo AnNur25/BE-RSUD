@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const secret = require("../config/config").secretKey;
+const secret = require("../configs/env-config").secretKey;
 
 class JwtHelper {
   static generateToken(user) {

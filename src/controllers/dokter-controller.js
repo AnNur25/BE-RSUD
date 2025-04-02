@@ -1,64 +1,16 @@
-const prisma = require("../prisma/prismaClient");
-const imageKit = require("../config/imagekit");
+const responseHelper = require("../utils/response");
+const dokterService = require("../services/dokter-service");
 
 class DokterController {
   static async createDokter(req, res) {
     try {
-      if (!req.user.id_user) {
-        return res.status(401).json({
-          statusCode: 401,
-          status: "Failed",
-          message: "Unauthorized: User ID not found",
-        });
-      }
-      const userId = req.user.id_user;
-      if (!req.file) {
-        return res.status(400).json({
-          statusCode: 400,
-          status: "Failed",
-          message: "No file uploaded",
-        });
-      }
-      console.log("Received file:", req.file);
+      const { nama, id_poli } = req.body;
+      const file = req.file;
+      const dokter = await dokterService.createDokter(nama, id_poli, file);
 
-      const stringImage = req.file.buffer.toString("base64");
-      const uploadImage = await imageKit.upload({
-        fileName: req.file.originalname,
-        file: stringImage,
-      });
-
-      console.log("Image uploaded to ImageKit:", uploadImage);
-      const addData = await prisma.dokter.create({
-        data: {
-          nama: req.body.nama,
-          gambar: uploadImage.url,
-          user: {
-            connect: { id_user: userId },
-          },
-          spesialis: {
-            connect: { id_Spesialis: req.body.id_Spesialis },
-          },
-          pelayananDokter: {
-            connect: {
-              id_pelayanan_dokter: req.body.id_pelayanan_dokter,
-            },
-          },
-        },
-      });
-
-      return res.status(201).json({
-        statusCode: 201,
-        status: "Success",
-        message: "Dokter berhasil ditambahkan",
-        data: addData,
-      });
+      return responseHelper.created(res, dokter, "Dokter berhasil ditambahkan");
     } catch (error) {
-      res.status(500).json({
-        statusCode: 500,
-        status: "Failed",
-        message: "Internal Server Error.",
-        error: error.message,
-      });
+      return responseHelper.error(res, error);
     }
   }
   static async getDokter(req, res) {

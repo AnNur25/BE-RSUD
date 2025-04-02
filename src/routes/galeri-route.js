@@ -1,8 +1,8 @@
 const route = require("express").Router();
-const galeriBeritaCotroller = require("../controllers/galeri.controller");
-const { auth } = require("../middlewares/auth.middleware");
-const multer = require("../middlewares/multer.middleware");
-const multerErrorHandler = require("../middlewares/multer.error.handling");
+const galeriBeritaCotroller = require("../controllers/galeri-controller");
+const { auth } = require("../middlewares/auth-middleware");
+const multer = require("../middlewares/multer-middleware");
+const multerErrorHandler = require("../middlewares/multer-error-handling-middleware");
 
 /**
  * @swagger

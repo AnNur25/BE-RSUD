@@ -35,11 +35,6 @@ class ConflictError extends BaseError {
   }
 }
 
-class InternalServerError extends BaseError {
-  constructor(message = "Internal Server Error") {
-    super(message, 500);
-  }
-}
 
 module.exports = {
   BaseError,
@@ -48,5 +43,4 @@ module.exports = {
   ForbiddenError,
   NotFoundError,
   ConflictError,
-  InternalServerError,
 };

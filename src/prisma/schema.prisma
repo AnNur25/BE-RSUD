@@ -70,6 +70,7 @@ model Dokter {
   nama         String
   gambar       String
   id_poli      String
+  
   poli         Poli           @relation(fields: [id_poli], references: [id_poli])
   jadwalDokter JadwalDokter[]
 }
