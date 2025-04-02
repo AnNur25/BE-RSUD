@@ -1,5 +1,4 @@
 const prisma = require("../prisma/prismaClient");
-
 const BeritaService = require("../services/beritaService");
 const responseHelper = require("../utils/responseHelper");
 class Berita {

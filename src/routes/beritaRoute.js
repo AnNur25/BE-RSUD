@@ -1,7 +1,7 @@
 const express = require("express");
 const route = express.Router();
 const beritaController = require("../controllers/beritaController");
-const gambarCotroller = require("../controllers/gambarController");
+const galeriBeritaCotroller = require("../controllers/galeriBeritaController");
 const { auth } = require("../middlewares/authMiddleware");
 const multer = require("../middlewares/multerConfig");
 const multerErrorHandler = require("../middlewares/multerErrorHandler");
@@ -217,6 +217,93 @@ route.post("/", multer.single("gambar_sampul"), beritaController.createBerita);
  *                   example: "Database connection failed"
  */
 route.get("/", beritaController.getBerita);
+
+/**
+ * @swagger
+ * /berita/gambar:
+ *   delete:
+ *     summary: Hapus gambar
+ *     description: Menghapus satu atau lebih gambar berdasarkan ID yang diberikan.
+ *     tags:
+ *       - Galeri Berita
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               ids:
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *                 description: Array ID gambar yang akan dihapus
+ *                 example: ["123e4567-e89b-12d3-a456-426614174000", "987e6543-b21c-45d8-c789-123456789012"]
+ *     responses:
+ *       200:
+ *         description: Berhasil menghapus gambar
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 200
+ *                 status:
+ *                   type: string
+ *                   example: "Success"
+ *                 message:
+ *                   type: string
+ *                   example: "Gambar berhasil dihapus"
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: string
+ *                         example: "123e4567-e89b-12d3-a456-426614174000"
+ *                       fileName:
+ *                         type: string
+ *                         example: "gambar1.png"
+ *       "404":
+ *         description: Gambar tidak ditemukan.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 404
+ *                 status:
+ *                   type: string
+ *                   example: "Failed"
+ *                 message:
+ *                   type: string
+ *                   example: "Gambar tidak ditemukan"
+ *       "500":
+ *         description: Kesalahan server internal.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 500
+ *                 status:
+ *                   type: string
+ *                   example: "Failed"
+ *                 message:
+ *                   type: string
+ *                   example: "Internal Server Error."
+ *                 error:
+ *                   type: string
+ *                   example: "Database connection failed"
+ */
+route.delete("/gambar", galeriBeritaCotroller.deleteGambar);
 
 /**
  * @swagger
@@ -561,12 +648,10 @@ route.delete("/:id_berita", beritaController.deleteBerita);
  *     summary: Mengunggah gambar tambahan untuk berita
  *     description: Endpoint ini digunakan untuk mengunggah hingga 4 gambar tambahan terkait suatu berita.
  *     tags:
- *       - Gambar
- *     security:
- *       - bearerAuth: []
+ *       - Galeri Berita
  *     parameters:
  *       - in: path
- *         name: id_berita
+ *         name: id
  *         required: true
  *         schema:
  *           type: string
@@ -670,10 +755,9 @@ route.delete("/:id_berita", beritaController.deleteBerita);
  */
 route.post(
   "/gambar/:id",
-  auth,
   multer.array("gambar_tambahan"),
   multerErrorHandler,
-  gambarCotroller.uploadGambar
+  galeriBeritaCotroller.uploadGambar
 );
 
 /**
@@ -683,7 +767,7 @@ route.post(
  *     summary: Mendapatkan daftar gambar berdasarkan ID berita
  *     description: Endpoint ini digunakan untuk mengambil semua gambar yang terkait dengan berita tertentu berdasarkan ID berita.
  *     tags:
- *       - Gambar
+ *       - Galeri Berita
  *     parameters:
  *       - in: path
  *         name: id
@@ -755,80 +839,8 @@ route.post(
  *                   type: string
  *                   example: "Database connection failed"
  */
-route.get("/gambar/:id", gambarCotroller.getGambarByBerita);
+route.get("/gambar/:id", galeriBeritaCotroller.getGambarByBerita);
 
-/**
- * @swagger
- * /berita/gambar/{id}:
- *   delete:
- *     summary: Hapus gambar
- *     description: Menghapus gambar berdasarkan ID yang diberikan.
- *     tags:
- *       - Gambar
- *     security:
- *       - bearerAuth: []
- *     parameters:
- *       - name: id
- *         in: path
- *         required: true
- *         description: ID gambar yang akan dihapus
- *         schema:
- *           type: string
- *           example: "123e4567-e89b-12d3-a456-426614174000"
- *     responses:
- *       "200":
- *         description: Gambar berhasil dihapus.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 statusCode:
- *                   type: integer
- *                   example: 200
- *                 status:
- *                   type: string
- *                   example: "Success"
- *                 message:
- *                   type: string
- *                   example: "Gambar berhasil dihapus"
- *       "404":
- *         description: Gambar tidak ditemukan.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 statusCode:
- *                   type: integer
- *                   example: 404
- *                 status:
- *                   type: string
- *                   example: "Failed"
- *                 message:
- *                   type: string
- *                   example: "Gambar tidak ditemukan"
- *       "500":
- *         description: Kesalahan server internal.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 statusCode:
- *                   type: integer
- *                   example: 500
- *                 status:
- *                   type: string
- *                   example: "Failed"
- *                 message:
- *                   type: string
- *                   example: "Internal Server Error."
- *                 error:
- *                   type: string
- *                   example: "Database connection failed"
- */
-route.delete("/gambar/:id", auth, gambarCotroller.deleteGambar);
 /**
  * @swagger
  * components:

@@ -31,7 +31,6 @@ model Gambar {
   id       String @id @default(uuid())
   url      String
   beritaId String
-  id_user  String
   berita   Berita @relation(fields: [beritaId], references: [id_berita], onDelete: Cascade)
 }
 
