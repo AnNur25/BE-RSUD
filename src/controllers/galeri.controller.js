@@ -1,4 +1,4 @@
-const galeriService = require("../services/galeriBeritaService");
+const galeriService = require("../services/galeri.service");
 const responseHelper = require("../utils/response");
 class GambarTambahan {
   static async uploadGambar(req, res) {

@@ -5,8 +5,6 @@ const Pagination = require("../utils/pagination");
 
 class GaleriService {
   static async uploadGambar(id, file) {
-    console.log("🔍 ID yang diterima:", id);
-    console.log("🔍 File yang diterima:", file);
     if (!id) {
       throw new BadRequestError("ID Berita tidak ditemukan");
     }

@@ -9,7 +9,7 @@ const multerErrorHandler = require("../middlewares/multer.error.handling");
  * /galeri-berita:
  *   delete:
  *     summary: Hapus gambar
- *     description: Menghapus satu atau lebih gambar berdasarkan ID yang diberikan.
+ *     description: Menghapus satu atau lebih gambar berdasarkan ID yang diberikan. Gambar yang berhasil dihapus akan dikembalikan bersama dengan ID dan nama file-nya.
  *     tags:
  *       - Galeri Berita
  *     requestBody:
@@ -53,7 +53,7 @@ const multerErrorHandler = require("../middlewares/multer.error.handling");
  *                       fileName:
  *                         type: string
  *                         example: "gambar1.png"
- *       "404":
+ *       404:
  *         description: Gambar tidak ditemukan.
  *         content:
  *           application/json:
@@ -69,7 +69,7 @@ const multerErrorHandler = require("../middlewares/multer.error.handling");
  *                 message:
  *                   type: string
  *                   example: "Gambar tidak ditemukan"
- *       "500":
+ *       500:
  *         description: Kesalahan server internal.
  *         content:
  *           application/json:
@@ -96,7 +96,7 @@ route.delete("/", galeriBeritaCotroller.deleteGambar);
  * /galeri-berita/{id}:
  *   post:
  *     summary: Mengunggah gambar tambahan untuk berita
- *     description: Endpoint ini digunakan untuk mengunggah hingga 4 gambar tambahan terkait suatu berita.
+ *     description: Endpoint ini digunakan untuk mengunggah hingga 4 gambar tambahan terkait suatu berita. Jika lebih dari 4 gambar diunggah, akan muncul kesalahan.
  *     tags:
  *       - Galeri Berita
  *     parameters:
@@ -148,9 +148,6 @@ route.delete("/", galeriBeritaCotroller.deleteGambar);
  *                       beritaId:
  *                         type: string
  *                         example: "123e4567-e89b-12d3-a456-426614174000"
- *                       id_user:
- *                         type: string
- *                         example: "bf27354f-6d82-4e25-9541-b9efc8bf57ed"
  *       "400":
  *         description: Kesalahan dalam input gambar.
  *         content:
@@ -204,7 +201,7 @@ route.delete("/", galeriBeritaCotroller.deleteGambar);
  *                   example: "Database connection failed"
  */
 route.post(
-  "/galeri-berita/:id",
+  "/:id",
   multer.array("gambar_tambahan"),
   multerErrorHandler,
   galeriBeritaCotroller.uploadGambar
@@ -215,7 +212,7 @@ route.post(
  * /galeri-berita/{id}:
  *   get:
  *     summary: Mendapatkan daftar gambar berdasarkan ID berita
- *     description: Endpoint ini digunakan untuk mengambil semua gambar yang terkait dengan berita tertentu berdasarkan ID berita.
+ *     description: Endpoint ini digunakan untuk mengambil semua gambar yang terkait dengan berita tertentu berdasarkan ID berita. Jika tidak ada gambar, akan mengembalikan pesan bahwa galeri kosong.
  *     tags:
  *       - Galeri Berita
  *     parameters:
@@ -225,6 +222,7 @@ route.post(
  *         schema:
  *           type: string
  *         description: ID berita yang gambarnya ingin diambil
+ *         example: "b20ab68f-be3e-4437-aff6-3d84a684f30b"
  *     responses:
  *       "200":
  *         description: Gambar berhasil ditemukan.
@@ -247,7 +245,7 @@ route.post(
  *                   items:
  *                     type: object
  *                     properties:
- *                       id_gambar:
+ *                       id:
  *                         type: string
  *                         example: "123e4567-e89b-12d3-a456-426614174000"
  *                       url:
@@ -289,6 +287,6 @@ route.post(
  *                   type: string
  *                   example: "Database connection failed"
  */
-route.get("/galeri-berita/:id", galeriBeritaCotroller.getGambarByBerita);
+route.get("/:id", galeriBeritaCotroller.getGambarByBerita);
 
 module.exports = route;
