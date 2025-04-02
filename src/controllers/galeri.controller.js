@@ -1,14 +1,10 @@
 const galeriService = require("../services/galeriBeritaService");
-const responseHelper = require("../utils/responseHelper");
+const responseHelper = require("../utils/response");
 class GambarTambahan {
   static async uploadGambar(req, res) {
     try {
       const { id } = req.params;
       const file = req.files;
-
-      console.log("🟢 ID yang dikirim ke service:", id);
-      console.log("🟢 Files yang dikirim ke service:", file);
-
       const gambar = await galeriService.uploadGambar(id, file);
       return responseHelper.created(res, gambar, "Gambar berhasil diunggah");
     } catch (error) {

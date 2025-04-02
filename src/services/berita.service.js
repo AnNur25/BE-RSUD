@@ -40,9 +40,8 @@ class BeritaService {
         year: "numeric",
       }).format(new Date(beritaBaru.createdAt)),
     };
-    //respon created perlu dibuat sepertinya - note
   }
-  static async getBerita(page = 1, pageSize = 10) {
+  static async getBerita(page, pageSize) {
     try {
       const {
         skip,
@@ -139,6 +138,7 @@ class BeritaService {
       throw error;
     }
   }
+  
   static async updateBerita(
     id_berita,
     judul,

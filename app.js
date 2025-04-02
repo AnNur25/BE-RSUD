@@ -1,7 +1,7 @@
 const express = require("express");
 const config = require("./src/config/config");
 const swaggerUi = require("swagger-ui-express");
-const swaggerSpec = require("./src/docs/swaggerConfig");
+const swaggerSpec = require("./src/docs/swagger.config");
 const authRoute = require("./src/routes/authRoute");
 const profileRoute = require("./src/routes/profilRoute");
 const dokterRoute = require("./src/routes/dokterRoute");
@@ -10,7 +10,8 @@ const spesialisRoute = require("./src/routes/spesialisRoute");
 const pelayananRS = require("./src/routes/pelayananRSRoute");
 const jadwalDokter = require("./src/routes/jadwalDokterRoute");
 const aduan = require("./src/routes/aduanRoute");
-const berita = require("./src/routes/beritaRoute");
+const berita = require("./src/routes/berita.route");
+const galeriBerita = require("./src/routes/galeri.route");
 const cors = require("cors");
 const port = config.port;
 const app = express();
@@ -29,6 +30,7 @@ app.use("/pelayanan-rs", pelayananRS);
 app.use("/jadwal-dokter", jadwalDokter);
 app.use("/aduan", aduan);
 app.use("/berita", berita);
+app.use("/galeri-berita", galeriBerita);
 app.use((err, req, res, next) => {
   console.error(err);
   res.status(500).json({

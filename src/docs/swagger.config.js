@@ -39,7 +39,8 @@ const swaggerOptions = {
     "./routes/jamKerjaRoute.js",
     "./routes/jadwalDokterRoute.js",
     "./routes/aduanRoute.js",
-    "./src/routes/beritaRoute.js",
+    "./src/routes/berita.route.js",
+    "./src/routes/galeri.route.js",
   ],
 };
 

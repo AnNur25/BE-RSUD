@@ -1,10 +1,8 @@
-const express = require("express");
-const route = express.Router();
-const beritaController = require("../controllers/beritaController");
-const galeriBeritaCotroller = require("../controllers/galeriBeritaController");
-const { auth } = require("../middlewares/authMiddleware");
-const multer = require("../middlewares/multerConfig");
-const multerErrorHandler = require("../middlewares/multerErrorHandler");
+const route = require("express").Router();
+const beritaController = require("../controllers/berita.controller");
+const { auth } = require("../middlewares/auth.middleware");
+const multer = require("../middlewares/multer.middleware");
+const multerErrorHandler = require("../middlewares/multer.error.handling");
 
 /**
  * @swagger
@@ -23,7 +21,7 @@ const multerErrorHandler = require("../middlewares/multerErrorHandler");
  *             properties:
  *               judul:
  *                 type: string
- *                 example: "BANYAK WABAH YANG MENJAKIT ANAK BERUSIA 12 THN"
+ *                 example: "BANYAK WABAH YANG MENJANGKIT ANAK BERUSIA 12 TAHUN"
  *               ringkasan:
  *                 type: string
  *                 example: "Wabah penyakit yang menyerang anak-anak usia 12 tahun semakin meningkat, memerlukan perhatian serius dari masyarakat dan pemerintah."
@@ -62,14 +60,16 @@ const multerErrorHandler = require("../middlewares/multerErrorHandler");
  *                       example: "123e4567-e89b-12d3-a456-426614174000"
  *                     judul:
  *                       type: string
- *                       example: "Judul Berita"
+ *                       example: "BANYAK WABAH YANG MENJANGKIT ANAK BERUSIA 12 TAHUN"
+ *                     tanggal_terbit:
+ *                       type: string
+ *                       example: "23 Maret 2025"
+ *                     dibuat_pada_tanggal:
+ *                       type: string
+ *                       example: "25 Maret 2025"
  *                     gambar_sampul:
  *                       type: string
  *                       example: "https://ik.imagekit.io/your-folder/sample-cover.jpg"
- *                     tanggal_terbit:
- *                       type: string
- *                       format: date
- *                       example: "2025-03-23"
  *       "400":
  *         description: Permintaan tidak valid.
  *         content:
@@ -86,7 +86,7 @@ const multerErrorHandler = require("../middlewares/multerErrorHandler");
  *                       example: "Failed"
  *                     message:
  *                       type: string
- *                       example: "No file uploaded"
+ *                       example: "File is required"
  *                 - type: object
  *                   properties:
  *                     statusCode:
@@ -97,7 +97,7 @@ const multerErrorHandler = require("../middlewares/multerErrorHandler");
  *                       example: "Failed"
  *                     message:
  *                       type: string
- *                       example: "Invalid date format. Use YYYY-MM-DD"
+ *                       example: "Invalid date format (YYYY-MM-DD)"
  *       "500":
  *         description: Kesalahan server internal.
  *         content:
@@ -119,6 +119,7 @@ const multerErrorHandler = require("../middlewares/multerErrorHandler");
  *                   example: "Database connection failed"
  */
 route.post("/", multer.single("gambar_sampul"), beritaController.createBerita);
+
 /**
  * @swagger
  * /berita:
@@ -179,8 +180,13 @@ route.post("/", multer.single("gambar_sampul"), beritaController.createBerita);
  *                             example: "https://ik.imagekit.io/your-folder/sample-cover.jpg"
  *                           tanggal_terbit:
  *                             type: string
- *                             format: date
  *                             example: "23 Maret 2025"
+ *                           dibuat_pada_tanggal:
+ *                             type: string
+ *                             example: "20 Maret 2025"
+ *                           diupdate_pada_tanggal:
+ *                             type: string
+ *                             example: "22 Maret 2025"
  *                     pagination:
  *                       type: object
  *                       properties:
@@ -196,6 +202,22 @@ route.post("/", multer.single("gambar_sampul"), beritaController.createBerita);
  *                         totalPages:
  *                           type: integer
  *                           example: 10
+ *       "400":
+ *         description: Tidak ada berita yang tersedia.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 400
+ *                 status:
+ *                   type: string
+ *                   example: "Failed"
+ *                 message:
+ *                   type: string
+ *                   example: "Oops! Tidak ada berita yang tersedia saat ini"
  *       "500":
  *         description: Kesalahan server internal.
  *         content:
@@ -220,97 +242,10 @@ route.get("/", beritaController.getBerita);
 
 /**
  * @swagger
- * /berita/gambar:
- *   delete:
- *     summary: Hapus gambar
- *     description: Menghapus satu atau lebih gambar berdasarkan ID yang diberikan.
- *     tags:
- *       - Galeri Berita
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               ids:
- *                 type: array
- *                 items:
- *                   type: string
- *                 description: Array ID gambar yang akan dihapus
- *                 example: ["123e4567-e89b-12d3-a456-426614174000", "987e6543-b21c-45d8-c789-123456789012"]
- *     responses:
- *       200:
- *         description: Berhasil menghapus gambar
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 statusCode:
- *                   type: integer
- *                   example: 200
- *                 status:
- *                   type: string
- *                   example: "Success"
- *                 message:
- *                   type: string
- *                   example: "Gambar berhasil dihapus"
- *                 data:
- *                   type: array
- *                   items:
- *                     type: object
- *                     properties:
- *                       id:
- *                         type: string
- *                         example: "123e4567-e89b-12d3-a456-426614174000"
- *                       fileName:
- *                         type: string
- *                         example: "gambar1.png"
- *       "404":
- *         description: Gambar tidak ditemukan.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 statusCode:
- *                   type: integer
- *                   example: 404
- *                 status:
- *                   type: string
- *                   example: "Failed"
- *                 message:
- *                   type: string
- *                   example: "Gambar tidak ditemukan"
- *       "500":
- *         description: Kesalahan server internal.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 statusCode:
- *                   type: integer
- *                   example: 500
- *                 status:
- *                   type: string
- *                   example: "Failed"
- *                 message:
- *                   type: string
- *                   example: "Internal Server Error."
- *                 error:
- *                   type: string
- *                   example: "Database connection failed"
- */
-route.delete("/gambar", galeriBeritaCotroller.deleteGambar);
-
-/**
- * @swagger
  * /berita/{id_berita}:
  *   get:
- *     summary: Mendapatkan daftar berita berdasarkan id
- *     description: Endpoint ini digunakan untuk mengambil detail berita yang tersedia.
+ *     summary: Mendapatkan detail berita berdasarkan ID
+ *     description: Endpoint ini digunakan untuk mengambil detail berita berdasarkan ID yang diberikan.
  *     tags:
  *       - Berita
  *     parameters:
@@ -319,6 +254,7 @@ route.delete("/gambar", galeriBeritaCotroller.deleteGambar);
  *         required: true
  *         schema:
  *           type: string
+ *         description: ID berita yang ingin diambil detailnya
  *     responses:
  *       "200":
  *         description: Berhasil menampilkan detail berita.
@@ -335,54 +271,52 @@ route.delete("/gambar", galeriBeritaCotroller.deleteGambar);
  *                   example: "Success"
  *                 message:
  *                   type: string
- *                   example: "berhasil menampilkan berita"
+ *                   example: "berhasil menampilkan detail berita"
  *                 data:
- *                   type: array
- *                   items:
- *                     type: object
- *                     properties:
- *                       id_berita:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: string
+ *                       example: "123e4567-e89b-12d3-a456-426614174000"
+ *                     judul:
+ *                       type: string
+ *                       example: "Judul Berita Contoh"
+ *                     ringkasan:
+ *                       type: string
+ *                       example: "Ringkasan berita singkat."
+ *                     isi:
+ *                       type: string
+ *                       example: "Isi lengkap dari berita ini."
+ *                     gambar_sampul:
+ *                       type: string
+ *                       example: "https://ik.imagekit.io/your-folder/sample-cover.jpg"
+ *                     tanggal_terbit:
+ *                       type: string
+ *                       example: "23 Maret 2025"
+ *                     dibuat_pada:
+ *                       type: string
+ *                       example: "23 Maret 2025, 14:30"
+ *                     gambar_tambahan:
+ *                       type: array
+ *                       items:
  *                         type: string
- *                         example: "123e4567-e89b-12d3-a456-426614174000"
- *                       judul:
- *                         type: string
- *                         example: "Judul Berita Contoh"
- *                       ringkasan:
- *                         type: string
- *                         example: "Ringkasan berita singkat."
- *                       isi:
- *                         type: string
- *                         example: "Isi lengkap dari berita ini."
- *                       gambar_sampul:
- *                         type: string
- *                         example: "https://ik.imagekit.io/your-folder/sample-cover.jpg"
- *                       waktu:
- *                         type: string
- *                         format: date-time
- *                         example: "2025-03-23T14:30:00Z"
- *                       user:
- *                         type: object
- *                         properties:
- *                           id:
- *                             type: string
- *                             example: "bf27354f-6d82-4e25-9541-b9efc8bf57ed"
- *                           nama:
- *                             type: string
- *                             example: "John Doe"
- *                       gambar_tambahan:
- *                         type: array
- *                         items:
- *                           type: object
- *                           properties:
- *                             id:
- *                               type: string
- *                               example: "987e6543-e89b-12d3-a456-426614174000"
- *                             url:
- *                               type: string
- *                               example: "https://ik.imagekit.io/your-folder/image1.jpg"
- *                             beritaId:
- *                               type: string
- *                               example: "123e4567-e89b-12d3-a456-426614174000"
+ *                         example: "https://ik.imagekit.io/your-folder/image1.jpg"
+ *       "404":
+ *         description: Berita tidak ditemukan.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 404
+ *                 status:
+ *                   type: string
+ *                   example: "Failed"
+ *                 message:
+ *                   type: string
+ *                   example: "Oops! detail berita tidak ditemukan"
  *       "500":
  *         description: Kesalahan server internal.
  *         content:
@@ -404,6 +338,7 @@ route.delete("/gambar", galeriBeritaCotroller.deleteGambar);
  *                   example: "Database connection failed"
  */
 route.get("/:id_berita", beritaController.getBeritaById);
+
 /**
  * @swagger
  * /berita/{id_berita}:
@@ -462,74 +397,34 @@ route.get("/:id_berita", beritaController.getBeritaById);
  *                 berita:
  *                   type: object
  *                   properties:
- *                     id_berita:
+ *                     id:
  *                       type: string
  *                       example: "kokng89"
  *                     judul:
  *                       type: string
  *                       example: "Judul Berita Baru"
- *                     ringkasan:
- *                       type: string
- *                       example: "Ringkasan berita yang diperbarui..."
- *                     isi:
- *                       type: string
- *                       example: "Isi berita yang diperbarui..."
- *                     gambar_sampul:
- *                       type: string
- *                       example: "https://ik.imagekit.io/your-folder/sample-cover.jpg"
  *                     tanggal_terbit:
  *                       type: string
- *                       format: date
- *                       example: "2025-03-23"
+ *                       example: "23 Maret 2025"
+ *                     updateAt:
+ *                       type: string
+ *                       example: "23 Maret 2025"
  *       "400":
  *         description: Permintaan tidak valid.
  *         content:
  *           application/json:
  *             schema:
- *               oneOf:
- *                 - type: object
- *                   properties:
- *                     statusCode:
- *                       type: integer
- *                       example: 400
- *                     status:
- *                       type: string
- *                       example: "Failed"
- *                     message:
- *                       type: string
- *                       example: "Invalid date format. Use YYYY-MM-DD"
- *       "401":
- *         description: Unauthorized - User ID tidak ditemukan.
- *         content:
- *           application/json:
- *             schema:
  *               type: object
  *               properties:
  *                 statusCode:
  *                   type: integer
- *                   example: 401
+ *                   example: 400
  *                 status:
  *                   type: string
  *                   example: "Failed"
  *                 message:
  *                   type: string
- *                   example: "Unauthorized: User ID not found"
- *       "403":
- *         description: Forbidden - Tidak memiliki izin untuk memperbarui berita ini.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 statusCode:
- *                   type: integer
- *                   example: 403
- *                 status:
- *                   type: string
- *                   example: "Failed"
- *                 message:
- *                   type: string
- *                   example: "Forbidden: You do not have permission to update this berita"
+ *                   example: "Invalid date format. Use YYYY-MM-DD"
  *       "404":
  *         description: Berita tidak ditemukan.
  *         content:
@@ -562,15 +457,13 @@ route.get("/:id_berita", beritaController.getBeritaById);
  *                 message:
  *                   type: string
  *                   example: "Internal Server Error."
- *                 error:
- *                   type: string
- *                   example: "Database connection failed"
  */
 route.put(
   "/:id_berita",
   multer.single("gambar_sampul"),
   beritaController.updateBerita
 );
+
 /**
  * @swagger
  * /berita/{id_berita}:
@@ -640,206 +533,6 @@ route.put(
  *                   example: "Database connection failed"
  */
 route.delete("/:id_berita", beritaController.deleteBerita);
-
-/**
- * @swagger
- * /berita/gambar/{id}:
- *   post:
- *     summary: Mengunggah gambar tambahan untuk berita
- *     description: Endpoint ini digunakan untuk mengunggah hingga 4 gambar tambahan terkait suatu berita.
- *     tags:
- *       - Galeri Berita
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: string
- *         description: ID berita yang akan ditambahkan gambarnya
- *         example: "b20ab68f-be3e-4437-aff6-3d84a684f30b"
- *     requestBody:
- *       required: true
- *       content:
- *         multipart/form-data:
- *           schema:
- *             type: object
- *             properties:
- *               gambar_tambahan:
- *                 type: array
- *                 items:
- *                   type: string
- *                   format: binary
- *                 description: Maksimal 4 gambar yang diunggah
- *     responses:
- *       "201":
- *         description: Gambar berhasil diunggah.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 statusCode:
- *                   type: integer
- *                   example: 201
- *                 status:
- *                   type: string
- *                   example: "Success"
- *                 message:
- *                   type: string
- *                   example: "Gambar tambahan berhasil diunggah"
- *                 data:
- *                   type: array
- *                   items:
- *                     type: object
- *                     properties:
- *                       url:
- *                         type: string
- *                         example: "https://ik.imagekit.io/your-folder/image1.jpg"
- *                       beritaId:
- *                         type: string
- *                         example: "123e4567-e89b-12d3-a456-426614174000"
- *                       id_user:
- *                         type: string
- *                         example: "bf27354f-6d82-4e25-9541-b9efc8bf57ed"
- *       "400":
- *         description: Kesalahan dalam input gambar.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 statusCode:
- *                   type: integer
- *                   example: 400
- *                 status:
- *                   type: string
- *                   example: "Failed"
- *                 message:
- *                   type: string
- *                   example: "No files uploaded"
- *       "400_Overimage":
- *         description: Terlalu banyak gambar yang diunggah.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 statusCode:
- *                   type: integer
- *                   example: 400
- *                 status:
- *                   type: string
- *                   example: "Failed"
- *                 message:
- *                   type: string
- *                   example: "Maksimal 4 gambar diperbolehkan"
- *       "500":
- *         description: Kesalahan server internal.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 statusCode:
- *                   type: integer
- *                   example: 500
- *                 status:
- *                   type: string
- *                   example: "Failed"
- *                 message:
- *                   type: string
- *                   example: "Internal Server Error."
- *                 error:
- *                   type: string
- *                   example: "Database connection failed"
- */
-route.post(
-  "/gambar/:id",
-  multer.array("gambar_tambahan"),
-  multerErrorHandler,
-  galeriBeritaCotroller.uploadGambar
-);
-
-/**
- * @swagger
- * /berita/gambar/{id}:
- *   get:
- *     summary: Mendapatkan daftar gambar berdasarkan ID berita
- *     description: Endpoint ini digunakan untuk mengambil semua gambar yang terkait dengan berita tertentu berdasarkan ID berita.
- *     tags:
- *       - Galeri Berita
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: string
- *         description: ID berita yang gambarnya ingin diambil
- *     responses:
- *       "200":
- *         description: Gambar berhasil ditemukan.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 statusCode:
- *                   type: integer
- *                   example: 200
- *                 status:
- *                   type: string
- *                   example: "Success"
- *                 message:
- *                   type: string
- *                   example: "Gambar berhasil ditemukan"
- *                 gambar:
- *                   type: array
- *                   items:
- *                     type: object
- *                     properties:
- *                       id_gambar:
- *                         type: string
- *                         example: "123e4567-e89b-12d3-a456-426614174000"
- *                       url:
- *                         type: string
- *                         example: "https://ik.imagekit.io/your-folder/sample-image.jpg"
- *       "404":
- *         description: Tidak ada gambar untuk berita ini.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 statusCode:
- *                   type: integer
- *                   example: 404
- *                 status:
- *                   type: string
- *                   example: "Failed"
- *                 message:
- *                   type: string
- *                   example: "Tidak ada gambar untuk berita ini"
- *       "500":
- *         description: Kesalahan server internal.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 statusCode:
- *                   type: integer
- *                   example: 500
- *                 status:
- *                   type: string
- *                   example: "Failed"
- *                 message:
- *                   type: string
- *                   example: "Internal Server Error."
- *                 error:
- *                   type: string
- *                   example: "Database connection failed"
- */
-route.get("/gambar/:id", galeriBeritaCotroller.getGambarByBerita);
 
 /**
  * @swagger

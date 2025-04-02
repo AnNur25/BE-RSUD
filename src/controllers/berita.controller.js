@@ -1,6 +1,5 @@
-const prisma = require("../prisma/prismaClient");
-const BeritaService = require("../services/beritaService");
-const responseHelper = require("../utils/responseHelper");
+const BeritaService = require("../services/berita.service");
+const responseHelper = require("../utils/response");
 class Berita {
   static async createBerita(req, res) {
     try {
@@ -29,6 +28,7 @@ class Berita {
       return responseHelper.error(res, error);
     }
   }
+
   static async getBeritaById(req, res) {
     try {
       const { id_berita } = req.params;
