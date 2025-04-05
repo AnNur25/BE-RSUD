@@ -23,7 +23,7 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use("/auth", authRoute);
 app.use("/", profileRoute);
 app.use("/dokter", dokterRoute);
-app.use("/pelayanan-dokter", pelayananRoute);
+app.use("/pelayanan", pelayananRoute);
 app.use("/poli", poliRoute);
 app.use("/jadwal-dokter", jadwalDokterRoute);
 app.use("/aduan", aduanRoute);

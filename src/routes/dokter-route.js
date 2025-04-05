@@ -13,8 +13,6 @@ const multer = require("multer");
  *     description: Endpoint untuk menambahkan dokter baru dengan informasi spesialisasi dan pelayanan dokter.
  *     tags:
  *       - Dokter
- *     security:
- *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -25,12 +23,9 @@ const multer = require("multer");
  *               nama:
  *                 type: string
  *                 example: "dr. H. Agus Yudho Santoso, Sp.PD, Finasim ( AYS )"
- *               id_Spesialis:
+ *               id_poli:
  *                 type: string
  *                 example: "ab592474-d37e-4b20-abcd-5230fca43d28"
- *               id_pelayanan_dokter:
- *                 type: string
- *                 example: "343f3d43-7d48-4aa8-8342-8719f82ac54f"
  *               file:
  *                 type: string
  *                 format: binary
@@ -122,12 +117,7 @@ const multer = require("multer");
  *                   type: string
  *                   example: "Database connection failed"
  */
-Route.post(
-  "/",
-  auth,
-  multerConfig.single("file"),
-  dokterController.createDokter
-);
+Route.post("/", multerConfig.single("file"), dokterController.createDokter);
 
 /**
  * @swagger
@@ -137,6 +127,19 @@ Route.post(
  *     description: Endpoint ini digunakan untuk mengambil data semua dokter beserta spesialis dan jenis pelayanan yang mereka tawarkan.
  *     tags:
  *       - Dokter
+ *     parameters:
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *           default: 1
+ *         description: Nomor halaman yang ingin diambil.
+ *       - in: query
+ *         name: pageSize
+ *         schema:
+ *           type: integer
+ *           default: 8
+ *         description: Jumlah Dokter yang ditampilkan per halaman.
  *     responses:
  *       200:
  *         description: Data dokter berhasil diambil.
@@ -226,16 +229,14 @@ Route.get("/", dokterController.getDokter);
 
 /**
  * @swagger
- * /dokter/{id}:
+ * /dokter/{id_dokter}:
  *   put:
  *     summary: Memperbarui data dokter
  *     description: Mengupdate informasi dokter berdasarkan ID dokter yang diberikan.
  *     tags:
  *       - Dokter
- *     security:
- *       - bearerAuth: []
  *     parameters:
- *       - name: id
+ *       - name: id_dokter
  *         in: path
  *         required: true
  *         schema:
@@ -251,19 +252,13 @@ Route.get("/", dokterController.getDokter);
  *               nama:
  *                 type: string
  *                 example: "Dr. Budi Santoso"
- *               kontak:
- *                 type: string
- *                 example: "08123456789"
  *               gambar:
  *                 type: string
  *                 format: binary
  *                 description: File gambar dokter yang akan diunggah.
- *               id_Spesialis:
+ *               id_poli:
  *                 type: string
  *                 example: "bf27354f-6d82-4e25-9541-b9efc8bf57ed"
- *               id_pelayanan_dokter:
- *                 type: string
- *                 example: "bf27354f-333-4e25-9541-b9efc8bf57ed"
  *     responses:
  *       200:
  *         description: Dokter berhasil diperbarui.
@@ -284,32 +279,14 @@ Route.get("/", dokterController.getDokter);
  *                 data:
  *                   type: object
  *                   properties:
- *                     id_dokter:
+ *                     id:
  *                       type: string
- *                       example: "090gf"
+ *                       example: "2c4d37aa-a0b6-433f-8011-387733d626b5"
  *                     nama:
  *                       type: string
  *                       example: "Dr. Budi Santoso"
- *                     kontak:
- *                       type: string
- *                       example: "08123456789"
- *                     gambar:
- *                       type: string
- *                       example: "https://ik.imagekit.io/example.jpg"
- *                     spesialis:
- *                       type: object
- *                       properties:
- *                         id_Spesialis:
- *                           type: string
- *                           example: "bf27354f-www-4e25-9541-b9efc8bf57ed"
- *                     pelayananDokter:
- *                       type: object
- *                       properties:
- *                         id_pelayanan_dokter:
- *                           type: string
- *                           example: "popouuh-6d82-4e25-9541-b9efc8bf57ed"
  *       400:
- *         description: Data yang dikirimkan tidak lengkap atau tidak valid.
+ *         description: Permintaan tidak valid
  *         content:
  *           application/json:
  *             schema:
@@ -323,9 +300,9 @@ Route.get("/", dokterController.getDokter);
  *                   example: "Failed"
  *                 message:
  *                   type: string
- *                   example: "No file uploaded"
+ *                   example: "ID Dokter, Nama, dan ID Poli harus diisi"
  *       404:
- *         description: Dokter tidak ditemukan.
+ *         description: Dokter atau Poli tidak ditemukan
  *         content:
  *           application/json:
  *             schema:
@@ -339,7 +316,7 @@ Route.get("/", dokterController.getDokter);
  *                   example: "Failed"
  *                 message:
  *                   type: string
- *                   example: "Dokter not found"
+ *                   example: "Dokter tidak ditemukan"
  *       500:
  *         description: Terjadi kesalahan pada server.
  *         content:
@@ -358,22 +335,24 @@ Route.get("/", dokterController.getDokter);
  *                   example: "Internal Server Error."
  *                 error:
  *                   type: string
- *                   example: "Database connection failed"
+ *                   example: "Gagal mengupdate dokter"
  */
-Route.put("/:id", auth, dokterController.updateDokter);
+Route.put(
+  "/:id_dokter",
+  multerConfig.single("gambar"),
+  dokterController.updateDokter
+);
 
 /**
  * @swagger
- * /dokter/{id}:
+ * /dokter/{id_dokter}:
  *   delete:
  *     summary: Menghapus dokter berdasarkan ID
  *     description: Endpoint ini digunakan untuk menghapus dokter berdasarkan ID yang diberikan.
  *     tags:
  *       - Dokter
- *     security:
- *       - bearerAuth: []
  *     parameters:
- *       - name: id
+ *       - name: id_dokter
  *         in: path
  *         required: true
  *         schema:
@@ -463,7 +442,7 @@ Route.put("/:id", auth, dokterController.updateDokter);
  *                   type: string
  *                   example: "Database connection failed"
  */
-Route.delete("/:id", auth, dokterController.deleteDokter);
+Route.delete("/:id_dokter", dokterController.deleteDokter);
 
 /**
  * @swagger

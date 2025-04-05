@@ -1,7 +1,7 @@
 const responseHelper = require("../utils/response");
 const poliService = require("../services/poli-service");
 const PoliService = require("../services/poli-service");
-class SpesialisController {
+class PoliController {
   static async createPoli(req, res) {
     try {
       const { nama_poli } = req.body;
@@ -38,4 +38,4 @@ class SpesialisController {
   }
 }
 
-module.exports = SpesialisController;
+module.exports = PoliController;
