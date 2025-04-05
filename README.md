@@ -103,6 +103,7 @@ EMAIL_PASS=
 
 # Frontend application URL (for CORS or redirect links)
 FRONTEND_URL=""
+```
 
 ## Database
 1. Run `npx prisma migrate dev` in the **capstone-rsud/src/** directory.
@@ -110,5 +111,5 @@ FRONTEND_URL=""
 3. Voila, your database is ready!
 ```
 
-##👨‍💻 Author
+## ‍💻 Author
 Ahmad Farid Zainudin
