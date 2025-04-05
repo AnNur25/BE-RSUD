@@ -61,7 +61,6 @@ model Pelayanan {
   Prosedur       String
   JangkaWaktu    String
   Biaya          Float
-  id_user        String
   jadwaldokter   JadwalDokter[]
 }
 

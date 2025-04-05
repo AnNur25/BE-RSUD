@@ -179,8 +179,6 @@ Route.get("/", poliController.getPoli);
  *     description: Mengubah nama poli berdasarkan ID.
  *     tags:
  *       - Poli
- *     security:
- *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id_poli
