@@ -109,7 +109,7 @@ FRONTEND_URL=""
 1. Run `npx prisma migrate dev` in the **capstone-rsud/src/** directory.
 2. Wait for the database migration to be completed.
 3. Voila, your database is ready!
-```
+
 
 ## ‍💻 Author
 Ahmad Farid Zainudin
