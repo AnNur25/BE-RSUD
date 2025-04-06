@@ -29,14 +29,14 @@ const swaggerOptions = {
     },
   },
   apis: [
-    // "./routes/profil-route.js",
     // "./routes/aduan-route.js",
     // "./src/routes/berita-route.js",
     // "./src/routes/galeri-route.js", 
     // "./src/routes/poli-route.js",
     // "./src/routes/dokter-route.js",
     // "./src/routes/jadwal-dokter-route.js",
-    "./src/routes/pelayanan-route.js",
+    "./src/routes/profil-route.js",
+    // "./src/routes/pelayanan-route.js",
     "./src/routes/auth-route.js",
   ],
 };
