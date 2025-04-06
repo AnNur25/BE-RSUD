@@ -37,6 +37,7 @@ app.use((err, req, res, next) => {
     message: err.message || "Internal Server Error.",
   });
 });
+console.log("percobaan forked");
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
