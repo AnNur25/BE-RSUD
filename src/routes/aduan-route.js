@@ -131,7 +131,7 @@ route.put("/:id", aduanController.updateAduan);
  *       "500":
  *         description: Terjadi kesalahan server
  */
-route.delete(":id", auth, aduanController.deleteAduan);
+route.delete("/:id", auth, aduanController.deleteAduan);
 /**
  * @swagger
  * /aduan/{id}:

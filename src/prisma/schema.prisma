@@ -50,7 +50,7 @@ model ResponAdmin {
   createdAt       DateTime @default(now())
   id_user         String
   id_aduan        String
-  aduan           Aduan    @relation(fields: [id_aduan], references: [id_aduan])
+  aduan           Aduan    @relation(fields: [id_aduan], references: [id_aduan], onDelete: Cascade)
   user            User     @relation(fields: [id_user], references: [id_user])
 }
 
