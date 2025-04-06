@@ -416,7 +416,7 @@ router.post("/profil", auth, profilController.forgetPassword);
  *                   type: string
  *                   example: "Detail error dari server."
  */
-router.post("/", profilController.resetPassword);
+router.post("/reset-password", profilController.resetPassword);
 
 /**
  * @swagger
