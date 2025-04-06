@@ -14,7 +14,7 @@ const swaggerOptions = {
         description: "Development server",
       },
       {
-        url: "https://rs-balung-qu2c75fpy-farids-projects-1f68ca7d.vercel.app/",
+        url: "https://rs-balung-cp.vercel.app/",
         description: "Development server",
       },
     ],

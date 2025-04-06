@@ -11,6 +11,8 @@ const { auth } = require("../middlewares/auth-middleware");
  *     description: Endpoint ini digunakan untuk menambahkan poli baru ke dalam sistem.
  *     tags:
  *       - Poli
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -95,7 +97,7 @@ const { auth } = require("../middlewares/auth-middleware");
  *                   type: string
  *                   example: "Detail error dari server."
  */
-Route.post("/", poliController.createPoli);
+Route.post("/", auth, poliController.createPoli);
 
 /**
  * @swagger
@@ -179,6 +181,8 @@ Route.get("/", poliController.getPoli);
  *     description: Mengubah nama poli berdasarkan ID.
  *     tags:
  *       - Poli
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id_poli
@@ -275,7 +279,7 @@ Route.get("/", poliController.getPoli);
  *                   type: string
  *                   example: "Database connection failed"
  */
-Route.put("/:id_poli", poliController.updatePoli);
+Route.put("/:id_poli", auth, poliController.updatePoli);
 
 /**
  * @swagger
