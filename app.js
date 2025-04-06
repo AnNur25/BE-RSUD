@@ -4,6 +4,7 @@ const app = express();
 const swaggerUi = require("swagger-ui-express");
 const cors = require("cors");
 const swaggerSpec = require("./src/configs/swagger-config");
+const swaggerUiDist = require("swagger-ui-dist");
 const authRoute = require("./src/routes/auth-route");
 const profileRoute = require("./src/routes/profil-route");
 const dokterRoute = require("./src/routes/dokter-route");
@@ -19,7 +20,17 @@ app.use(cors({ allowedHeaders: ["Content-Type", "Authorization"] }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use(
+  "/api-docs",
+  swaggerUi.serve,
+  swaggerUi.setup(swaggerSpec, {
+    customCssUrl:
+      "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/5.11.8/swagger-ui.css",
+  })
+);
+
+app.use("/swagger-ui", express.static(swaggerUiDist.getAbsoluteFSPath()));
+
 app.use("/auth", authRoute);
 app.use("/", profileRoute);
 app.use("/dokter", dokterRoute);

@@ -5,6 +5,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon app.js",
+    "postinstall": "prisma generate",
     "seed": "node prisma/seeders/seed.js"
   },
   "keywords": [],
@@ -25,6 +26,7 @@
     "nodemon": "^3.1.9",
     "prisma": "^6.5.0",
     "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-dist": "^5.20.6",
     "swagger-ui-express": "^5.0.1"
   }
 }
