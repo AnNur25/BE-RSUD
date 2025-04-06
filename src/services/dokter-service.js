@@ -2,7 +2,6 @@ const prisma = require("../prisma/prismaClient");
 const { BadRequestError, NotFoundError } = require("../utils/error");
 const imageKit = require("../configs/imagekit-config");
 const Pagination = require("../utils/pagination");
-const { error } = require("../utils/response");
 
 class DokterService {
   static async createDokter(nama, id_poli, file) {
