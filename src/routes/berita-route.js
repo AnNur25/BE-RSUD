@@ -12,6 +12,8 @@ const multerErrorHandler = require("../middlewares/multer-error-handling-middlew
  *     description: Endpoint ini digunakan untuk membuat berita baru beserta gambar sampul.
  *     tags:
  *       - Berita
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -118,7 +120,7 @@ const multerErrorHandler = require("../middlewares/multer-error-handling-middlew
  *                   type: string
  *                   example: "Database connection failed"
  */
-route.post("/", multer.single("gambar_sampul"), beritaController.createBerita);
+route.post("/",auth, multerErrorHandler, multer.single("gambar_sampul"), beritaController.createBerita);
 
 /**
  * @swagger
@@ -128,6 +130,8 @@ route.post("/", multer.single("gambar_sampul"), beritaController.createBerita);
  *     description: Endpoint ini digunakan untuk mengambil daftar berita dengan pagination. Data dapat difilter menggunakan query parameter `page` dan `pageSize`.
  *     tags:
  *       - Berita
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: query
  *         name: page
@@ -347,6 +351,8 @@ route.get("/:id_berita", beritaController.getBeritaById);
  *     description: Endpoint ini digunakan untuk memperbarui berita yang sudah ada berdasarkan ID berita.
  *     tags:
  *       - Berita
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id_berita
@@ -459,7 +465,8 @@ route.get("/:id_berita", beritaController.getBeritaById);
  *                   example: "Internal Server Error."
  */
 route.put(
-  "/:id_berita",
+  "/:id_berita",auth,
+  multerErrorHandler,
   multer.single("gambar_sampul"),
   beritaController.updateBerita
 );
@@ -472,6 +479,8 @@ route.put(
  *     description: Endpoint ini digunakan untuk menghapus berita berdasarkan ID yang diberikan.
  *     tags:
  *       - Berita
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id_berita
@@ -532,7 +541,7 @@ route.put(
  *                   type: string
  *                   example: "Database connection failed"
  */
-route.delete("/:id_berita", beritaController.deleteBerita);
+route.delete("/:id_berita", auth,beritaController.deleteBerita);
 
 /**
  * @swagger

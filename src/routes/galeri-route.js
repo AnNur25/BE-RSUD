@@ -89,7 +89,7 @@ const multerErrorHandler = require("../middlewares/multer-error-handling-middlew
  *                   type: string
  *                   example: "Database connection failed"
  */
-route.delete("/", galeriBeritaCotroller.deleteGambar);
+route.delete("/", auth, galeriBeritaCotroller.deleteGambar);
 
 /**
  * @swagger
@@ -99,6 +99,8 @@ route.delete("/", galeriBeritaCotroller.deleteGambar);
  *     description: Endpoint ini digunakan untuk mengunggah hingga 4 gambar tambahan terkait suatu berita. Jika lebih dari 4 gambar diunggah, akan muncul kesalahan.
  *     tags:
  *       - Galeri Berita
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -202,6 +204,7 @@ route.delete("/", galeriBeritaCotroller.deleteGambar);
  */
 route.post(
   "/:id",
+  auth,
   multer.array("gambar_tambahan"),
   multerErrorHandler,
   galeriBeritaCotroller.uploadGambar

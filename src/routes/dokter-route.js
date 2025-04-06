@@ -1,9 +1,10 @@
 const express = require("express");
 const Route = express.Router();
+const multer = require("multer");
 const dokterController = require("../controllers/dokter-controller");
 const multerConfig = require("../middlewares/multer-middleware");
+const multerErrorHandler = require("../middlewares/multer-error-handling-middleware");
 const { auth } = require("../middlewares/auth-middleware");
-const multer = require("multer");
 
 /**
  * @swagger
@@ -13,6 +14,8 @@ const multer = require("multer");
  *     description: Endpoint untuk menambahkan dokter baru dengan informasi spesialisasi dan pelayanan dokter.
  *     tags:
  *       - Dokter
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -117,7 +120,13 @@ const multer = require("multer");
  *                   type: string
  *                   example: "Database connection failed"
  */
-Route.post("/", multerConfig.single("file"), dokterController.createDokter);
+Route.post(
+  "/",
+  auth,
+  multerErrorHandler,
+  multerConfig.single("file"),
+  dokterController.createDokter
+);
 
 /**
  * @swagger
@@ -235,6 +244,8 @@ Route.get("/", dokterController.getDokter);
  *     description: Mengupdate informasi dokter berdasarkan ID dokter yang diberikan.
  *     tags:
  *       - Dokter
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - name: id_dokter
  *         in: path
@@ -338,7 +349,7 @@ Route.get("/", dokterController.getDokter);
  *                   example: "Gagal mengupdate dokter"
  */
 Route.put(
-  "/:id_dokter",
+  "/:id_dokter", auth, multerErrorHandler,
   multerConfig.single("gambar"),
   dokterController.updateDokter
 );
@@ -351,6 +362,8 @@ Route.put(
  *     description: Endpoint ini digunakan untuk menghapus dokter berdasarkan ID yang diberikan.
  *     tags:
  *       - Dokter
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - name: id_dokter
  *         in: path
@@ -442,7 +455,7 @@ Route.put(
  *                   type: string
  *                   example: "Database connection failed"
  */
-Route.delete("/:id_dokter", dokterController.deleteDokter);
+Route.delete("/:id_dokter", auth, multerErrorHandler, dokterController.deleteDokter);
 
 /**
  * @swagger

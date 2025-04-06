@@ -150,7 +150,7 @@ route.get("/search", JadwalDokterController.searchJadwalDokter);
  *       500:
  *         description: Terjadi kesalahan pada server
  */
-route.get("/:id_poli", JadwalDokterController.getDokterByPoli);
+route.get("/:id_poli", auth, JadwalDokterController.getDokterByPoli);
 /**
  * @swagger
  * /jadwal-dokter:
@@ -239,6 +239,8 @@ route.get("/", JadwalDokterController.getAllJadwalDokter);
  *     description: Endpoint ini digunakan untuk menambahkan jadwal dokter berdasarkan daftar dokter, layanan, dan jadwal hari yang dikirim dalam request.
  *     tags:
  *       - Jadwal Dokter
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -327,7 +329,7 @@ route.get("/", JadwalDokterController.getAllJadwalDokter);
  *       500:
  *         description: Terjadi kesalahan pada server
  */
-route.post("/", JadwalDokterController.createJadwalDokter);
+route.post("/",auth, JadwalDokterController.createJadwalDokter);
 
 /**
  * @swagger
@@ -450,6 +452,8 @@ route.get("/", JadwalDokterController.getAllJadwalDokter);
  *     description: Endpoint ini digunakan untuk memperbarui seluruh jadwal dokter berdasarkan ID dokter. Jadwal sebelumnya akan dihapus dan diganti dengan data baru.
  *     tags:
  *       - Jadwal Dokter
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - name: id_dokter
  *         in: path
@@ -581,7 +585,7 @@ route.get("/", JadwalDokterController.getAllJadwalDokter);
  *                   type: string
  *                   example: "Database connection failed."
  */
-route.put("/:id_dokter", JadwalDokterController.updateJadwalDokter);
+route.put("/:id_dokter", auth, JadwalDokterController.updateJadwalDokter);
 
 /**
  * @swagger
@@ -591,6 +595,8 @@ route.put("/:id_dokter", JadwalDokterController.updateJadwalDokter);
  *     description: Endpoint ini digunakan untuk menghapus seluruh jadwal dokter berdasarkan ID dokter.
  *     tags:
  *       - Jadwal Dokter
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - name: id_dokter
  *         in: path
@@ -658,7 +664,7 @@ route.put("/:id_dokter", JadwalDokterController.updateJadwalDokter);
  *                   example: "Internal Server Error."
  */
 route.delete(
-  "/:id_dokter",
+  "/:id_dokter", auth,
   JadwalDokterController.deleteJadwalDokterByDokterId
 );
 

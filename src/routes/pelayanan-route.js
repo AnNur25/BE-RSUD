@@ -11,6 +11,8 @@ const { auth } = require("../middlewares/auth-middleware");
  *     description: Endpoint ini digunakan untuk menambahkan data baru mengenai pelayanan rumah sakit.
  *     tags:
  *       - Pelayanan Rumah Sakit
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -41,7 +43,7 @@ const { auth } = require("../middlewares/auth-middleware");
  *       500:
  *         description: Internal server error.
  */
-route.post("/", pelayanan.createPelayanan);
+route.post("/", auth, pelayanan.createPelayanan);
 
 /**
  * @swagger
@@ -154,6 +156,8 @@ route.get("/:id_pelayanan", pelayanan.getById);
  *     description: Endpoint ini digunakan untuk memperbarui data pelayanan berdasarkan ID.
  *     tags:
  *       - Pelayanan Rumah Sakit
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id_pelayanan
@@ -193,7 +197,7 @@ route.get("/:id_pelayanan", pelayanan.getById);
  *       500:
  *         description: Kesalahan server.
  */
-route.put("/:id_pelayanan", pelayanan.updatePelayanan);
+route.put("/:id_pelayanan", auth, pelayanan.updatePelayanan);
 
 /**
  * @swagger
