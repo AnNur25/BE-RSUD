@@ -4,7 +4,8 @@ const authService = require("../services/auth-service");
 class AuthController {
   static async registerAdmin(req, res) {
     try {
-      const result = await authService.registerAdmin(req.body);
+      const { nama, email, password } = req.body;
+      const result = await authService.registerAdmin({ nama, email, password });
       return responseHelper.created(
         res,
         result,
@@ -17,7 +18,8 @@ class AuthController {
 
   static async login(req, res) {
     try {
-      const result = await authService.login(req.body);
+      const { email, password } = req.body;
+      const result = await authService.login({ email, password });
       return responseHelper.success(res, result, "Login Success");
     } catch (error) {
       return responseHelper.error(res, error);

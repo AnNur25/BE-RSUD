@@ -3,13 +3,10 @@ const responseHelper = require("../utils/response");
 class Berita {
   static async createBerita(req, res) {
     try {
-      const { judul, ringkasan, isi, tanggal_terbit } = req.body;
+      const { judul, ringkasan, isi, } = req.body;
       const file = req.file;
       const berita = await BeritaService.createBerita(
-        judul,
-        ringkasan,
-        isi,
-        tanggal_terbit,
+        { judul, ringkasan, isi},
         file
       );
       return responseHelper.created(res, berita, "Berita berhasil dibuat");
@@ -32,7 +29,7 @@ class Berita {
   static async getBeritaById(req, res) {
     try {
       const { id_berita } = req.params;
-      const berita = await BeritaService.getBeritaById(id_berita);
+      const berita = await BeritaService.getBeritaById({ id_berita });
       return responseHelper.success(
         res,
         berita,
@@ -46,14 +43,11 @@ class Berita {
   static async updateBerita(req, res) {
     try {
       const { id_berita } = req.params;
-      const { judul, ringkasan, isi, tanggal_terbit } = req.body;
+      const { judul, ringkasan, isi } = req.body;
       const file = req.file;
       const berita = await BeritaService.updateBerita(
-        id_berita,
-        judul,
-        ringkasan,
-        isi,
-        tanggal_terbit,
+        { id_berita },
+        { judul, ringkasan, isi },
         file
       );
       return responseHelper.success(res, berita, "Berita berhasil diperbarui");
@@ -66,7 +60,7 @@ class Berita {
     try {
       const { id_berita } = req.params;
 
-      const berita = await BeritaService.deleteBerita(id_berita);
+      const berita = await BeritaService.deleteBerita({ id_berita });
       return responseHelper.success(res, berita, "Berita berhasil dihapus");
     } catch (error) {
       return responseHelper.error(res, error);

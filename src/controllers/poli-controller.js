@@ -6,7 +6,7 @@ class PoliController {
     try {
       const { nama_poli } = req.body;
 
-      const poli = await poliService.createPoli(nama_poli);
+      const poli = await poliService.createPoli({nama_poli});
       return responseHelper.created(res, poli, "Poli berhasil ditambahkan");
     } catch (error) {
       return responseHelper.error(res, error);
@@ -30,7 +30,7 @@ class PoliController {
     try {
       const { id_poli } = req.params;
       const { nama_poli } = req.body;
-      const poli = await PoliService.updatePoli(id_poli, nama_poli);
+      const poli = await PoliService.updatePoli({id_poli}, {nama_poli});
       return responseHelper.success(res, poli, "berhasil update poli");
     } catch (error) {
       return responseHelper.error(res, error);

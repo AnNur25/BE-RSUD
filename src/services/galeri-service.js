@@ -4,7 +4,7 @@ const { BadRequestError, NotFoundError } = require("../utils/error");
 const Pagination = require("../utils/pagination");
 
 class GaleriService {
-  static async uploadGambar(id, file) {
+  static async uploadGambar({id}, file) {
     if (!id) {
       throw new BadRequestError("ID Berita tidak ditemukan");
     }
@@ -48,7 +48,7 @@ class GaleriService {
 
     return gambarData;
   }
-  static async getGambarByBerita(id) {
+  static async getGambarByBerita({id}) {
     if (!id) {
       throw new BadRequestError("ID Berita tidak ditemukan");
     }
@@ -66,7 +66,7 @@ class GaleriService {
 
     return gambarList;
   }
-  static async deleteGambar(ids) {
+  static async deleteGambar({ids}) {
     if (!Array.isArray(ids) || ids.length === 0) {
       throw new BadRequestError(
         "ID Gambar harus berupa array dan tidak boleh kosong"

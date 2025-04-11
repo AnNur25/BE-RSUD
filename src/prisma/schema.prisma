@@ -21,9 +21,7 @@ model Berita {
   ringkasan       String
   isi             String
   gambar_sampul   String
-  tanggal_terbit  DateTime
   createdAt       DateTime @default(now())
-  updateAt        DateTime @updatedAt
   gambar_tambahan Gambar[]
 }
 

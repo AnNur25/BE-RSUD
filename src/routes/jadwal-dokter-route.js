@@ -248,46 +248,41 @@ route.get("/", JadwalDokterController.getAllJadwalDokter);
  *           schema:
  *             type: object
  *             properties:
- *               jadwalList:
+ *               id_dokter:
+ *                 type: integer
+ *                 example: 101
+ *                 description: ID dokter yang akan ditambahkan jadwalnya
+ *               layananList:
  *                 type: array
+ *                 description: Daftar layanan yang dimiliki oleh dokter
  *                 items:
  *                   type: object
  *                   properties:
- *                     id_dokter:
+ *                     id_pelayanan:
  *                       type: integer
- *                       example: 101
- *                       description: ID dokter yang akan ditambahkan jadwalnya
- *                     layananList:
+ *                       example: 201
+ *                       description: ID pelayanan terkait
+ *                     hariList:
  *                       type: array
- *                       description: Daftar layanan yang dimiliki oleh dokter
+ *                       description: Daftar jadwal dokter untuk pelayanan ini
  *                       items:
  *                         type: object
  *                         properties:
- *                           id_pelayanan:
- *                             type: integer
- *                             example: 201
- *                             description: ID pelayanan terkait
- *                           hariList:
- *                             type: array
- *                             description: Daftar jadwal dokter untuk pelayanan ini
- *                             items:
- *                               type: object
- *                               properties:
- *                                 hari:
- *                                   type: string
- *                                   enum: [Senin, Selasa, Rabu, Kamis, Jumat, Sabtu, Minggu]
- *                                   example: "Senin"
- *                                   description: Hari jadwal praktik
- *                                 jam_mulai:
- *                                   type: string
- *                                   format: time
- *                                   example: "08:00"
- *                                   description: Jam mulai praktik
- *                                 jam_selesai:
- *                                   type: string
- *                                   format: time
- *                                   example: "12:00"
- *                                   description: Jam selesai praktik
+ *                           hari:
+ *                             type: string
+ *                             enum: [Senin, Selasa, Rabu, Kamis, Jumat, Sabtu, Minggu]
+ *                             example: "Senin"
+ *                             description: Hari jadwal praktik
+ *                           jam_mulai:
+ *                             type: string
+ *                             format: time
+ *                             example: "08:00"
+ *                             description: Jam mulai praktik
+ *                           jam_selesai:
+ *                             type: string
+ *                             format: time
+ *                             example: "12:00"
+ *                             description: Jam selesai praktik
  *     responses:
  *       201:
  *         description: Jadwal dokter berhasil ditambahkan
@@ -329,7 +324,7 @@ route.get("/", JadwalDokterController.getAllJadwalDokter);
  *       500:
  *         description: Terjadi kesalahan pada server
  */
-route.post("/",auth, JadwalDokterController.createJadwalDokter);
+route.post("/", auth, JadwalDokterController.createJadwalDokter);
 
 /**
  * @swagger
@@ -664,7 +659,8 @@ route.put("/:id_dokter", auth, JadwalDokterController.updateJadwalDokter);
  *                   example: "Internal Server Error."
  */
 route.delete(
-  "/:id_dokter", auth,
+  "/:id_dokter",
+  auth,
   JadwalDokterController.deleteJadwalDokterByDokterId
 );
 
