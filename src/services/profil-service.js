@@ -104,9 +104,7 @@ class ProfilService {
     };
   }
 
-  static async resetPassword(token, body) {
-    const { newPassw, confirmPassw } = body;
-
+  static async resetPassword(token, { newPassw, confirmPassw }) {
     if (!token || !newPassw || !confirmPassw) {
       throw new BadRequestError(
         "Token, password baru, dan konfirmasi password diperlukan."

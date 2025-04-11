@@ -5,7 +5,7 @@ class JadwalDokterController {
   static async getDokterByPoli(req, res) {
     try {
       const { id_poli } = req.params;
-      const dokter = await jadwalDokterService.getDokterByPoli(id_poli);
+      const dokter = await jadwalDokterService.getDokterByPoli({ id_poli });
       return responseHelper.success(
         res,
         dokter,
@@ -17,8 +17,11 @@ class JadwalDokterController {
   }
   static async createJadwalDokter(req, res) {
     try {
-      const { jadwalList } = req.body;
-      const result = await jadwalDokterService.createJadwalDokter(jadwalList);
+      const { id_dokter, layananList } = req.body;
+      const result = await jadwalDokterService.createJadwalDokter({
+        id_dokter,
+        layananList,
+      });
       return responseHelper.success(
         res,
         result,
@@ -34,10 +37,10 @@ class JadwalDokterController {
     try {
       const { id_poli, tanggal } = req.query;
 
-      const result = await jadwalDokterService.searchJadwalDokter(
+      const result = await jadwalDokterService.searchJadwalDokter({
         id_poli,
-        tanggal
-      );
+        tanggal,
+      });
 
       return responseHelper.success(
         res,
@@ -68,8 +71,8 @@ class JadwalDokterController {
       const { layananList } = req.body;
 
       const result = await jadwalDokterService.updateJadwalDokter(
-        id_dokter,
-        layananList
+        { id_dokter },
+        { layananList }
       );
 
       return responseHelper.success(
@@ -85,9 +88,9 @@ class JadwalDokterController {
   static async deleteJadwalDokterByDokterId(req, res) {
     try {
       const { id_dokter } = req.params;
-      const result = await jadwalDokterService.deleteJadwalByDokterId(
-        id_dokter
-      );
+      const result = await jadwalDokterService.deleteJadwalByDokterId({
+        id_dokter,
+      });
       return responseHelper.success(
         res,
         result,

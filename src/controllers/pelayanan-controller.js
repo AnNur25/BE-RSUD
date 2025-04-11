@@ -4,7 +4,15 @@ const responseHelper = require("../utils/response");
 class PelayananController {
   static async createPelayanan(req, res) {
     try {
-      const newPelayanan = await pelayananService.createPelayanan(req.body);
+      const { nama_pelayanan, Persyaratan, Prosedur, JangkaWaktu, Biaya } =
+        req.body;
+      const newPelayanan = await pelayananService.createPelayanan({
+        nama_pelayanan,
+        Persyaratan,
+        Prosedur,
+        JangkaWaktu,
+        Biaya,
+      });
       return responseHelper.success(
         res,
         newPelayanan,

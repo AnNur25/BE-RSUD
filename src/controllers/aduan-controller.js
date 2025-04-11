@@ -12,7 +12,7 @@ class AduanController {
     }
   }
 
-  static async getAduan(req, res) {
+  static async getAllAduan(req, res) {
     try {
       const data = await aduanService.getAllAduan();
       responseHelper.success(res, data, "Data aduan berhasil diambil.");

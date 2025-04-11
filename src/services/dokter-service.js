@@ -4,7 +4,7 @@ const imageKit = require("../configs/imagekit-config");
 const Pagination = require("../utils/pagination");
 
 class DokterService {
-  static async createDokter(nama, id_poli, file) {
+  static async createDokter({ nama, id_poli }, file) {
     if (!nama || !id_poli) {
       throw new BadRequestError("Nama dan id poli harus diisi");
     }
@@ -71,7 +71,7 @@ class DokterService {
     }
   }
 
-  static async updateDokter(id_dokter, nama, id_poli, file) {
+  static async updateDokter({ id_dokter }, { nama, id_poli }, file) {
     console.log("Update dokter with ID:", id_dokter);
 
     if (!id_dokter || !nama || !id_poli || !file) {
@@ -118,7 +118,7 @@ class DokterService {
     }
   }
 
-  static async deleteDokter(id_dokter) {
+  static async deleteDokter({id_dokter}) {
     try {
       const dokterExists = await prisma.dokter.findUnique({
         where: { id_dokter: id_dokter },

@@ -2,7 +2,7 @@ const prisma = require("../prisma/prismaClient");
 const { BadRequestError, NotFoundError } = require("../utils/error");
 
 class PoliService {
-  static async createPoli(nama_poli) {
+  static async createPoli({ nama_poli }) {
     try {
       if (!nama_poli) {
         throw new BadRequestError("nama poli harus diisi");
@@ -41,7 +41,7 @@ class PoliService {
       throw error;
     }
   }
-  static async updatePoli(id_poli, nama_poli) {
+  static async updatePoli({ id_poli }, { nama_poli }) {
     try {
       const poliExist = await prisma.poli.findUnique({
         where: { id_poli: id_poli },

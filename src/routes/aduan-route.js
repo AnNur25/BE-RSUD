@@ -48,7 +48,7 @@ route.post("/", aduanController.createAduan);
  *       "500":
  *         description: Terjadi kesalahan server
  */
-route.get("/", aduanController.getAduan);
+route.get("/", aduanController.getAllAduan);
 /**
  * @swagger
  * /aduan/{id}:

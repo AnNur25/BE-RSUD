@@ -5,7 +5,7 @@ class GambarTambahan {
     try {
       const { id } = req.params;
       const file = req.files;
-      const gambar = await galeriService.uploadGambar(id, file);
+      const gambar = await galeriService.uploadGambar({id}, file);
       return responseHelper.created(res, gambar, "Gambar berhasil diunggah");
     } catch (error) {
       return responseHelper.error(res, error);
@@ -15,7 +15,7 @@ class GambarTambahan {
   static async getGambarByBerita(req, res) {
     try {
       const { id } = req.params;
-      const gambarList = await galeriService.getGambarByBerita(id);
+      const gambarList = await galeriService.getGambarByBerita({id});
       return responseHelper.success(
         res,
         gambarList,
@@ -30,7 +30,7 @@ class GambarTambahan {
     try {
       const { ids } = req.body;
 
-      const deleteGambar = await galeriService.deleteGambar(ids);
+      const deleteGambar = await galeriService.deleteGambar({ids});
 
       return responseHelper.success(
         res,

@@ -30,10 +30,6 @@ const multerErrorHandler = require("../middlewares/multer-error-handling-middlew
  *               isi:
  *                 type: string
  *                 example: "Dalam beberapa bulan terakhir, telah terjadi peningkatan signifikan dalam jumlah kasus penyakit yang menyerang anak-anak usia 12 tahun. Para ahli kesehatan menyarankan agar orang tua lebih waspada terhadap gejala awal dan segera mencari bantuan medis jika diperlukan. Pemerintah juga diharapkan untuk meningkatkan kampanye kesadaran dan menyediakan fasilitas kesehatan yang memadai."
- *               tanggal_terbit:
- *                 type: string
- *                 format: date
- *                 example: "2025-03-23"
  *               gambar_sampul:
  *                 type: string
  *                 format: binary
@@ -63,10 +59,7 @@ const multerErrorHandler = require("../middlewares/multer-error-handling-middlew
  *                     judul:
  *                       type: string
  *                       example: "BANYAK WABAH YANG MENJANGKIT ANAK BERUSIA 12 TAHUN"
- *                     tanggal_terbit:
- *                       type: string
- *                       example: "23 Maret 2025"
- *                     dibuat_pada_tanggal:
+ *                     tanggal_dibuat:
  *                       type: string
  *                       example: "25 Maret 2025"
  *                     gambar_sampul:
@@ -182,10 +175,7 @@ route.post("/",auth, multerErrorHandler, multer.single("gambar_sampul"), beritaC
  *                           gambar_sampul:
  *                             type: string
  *                             example: "https://ik.imagekit.io/your-folder/sample-cover.jpg"
- *                           tanggal_terbit:
- *                             type: string
- *                             example: "23 Maret 2025"
- *                           dibuat_pada_tanggal:
+ *                           tanggal_dibuat:
  *                             type: string
  *                             example: "20 Maret 2025"
  *                           diupdate_pada_tanggal:
@@ -294,9 +284,6 @@ route.get("/", beritaController.getBerita);
  *                     gambar_sampul:
  *                       type: string
  *                       example: "https://ik.imagekit.io/your-folder/sample-cover.jpg"
- *                     tanggal_terbit:
- *                       type: string
- *                       example: "23 Maret 2025"
  *                     dibuat_pada:
  *                       type: string
  *                       example: "23 Maret 2025, 14:30"
@@ -376,10 +363,6 @@ route.get("/:id_berita", beritaController.getBeritaById);
  *               isi:
  *                 type: string
  *                 example: "Isi berita yang diperbarui..."
- *               tanggal_terbit:
- *                 type: string
- *                 format: date
- *                 example: "2025-03-23"
  *               gambar_sampul:
  *                 type: string
  *                 format: binary
@@ -409,10 +392,7 @@ route.get("/:id_berita", beritaController.getBeritaById);
  *                     judul:
  *                       type: string
  *                       example: "Judul Berita Baru"
- *                     tanggal_terbit:
- *                       type: string
- *                       example: "23 Maret 2025"
- *                     updateAt:
+ *                     tanggal_dibuat:
  *                       type: string
  *                       example: "23 Maret 2025"
  *       "400":
