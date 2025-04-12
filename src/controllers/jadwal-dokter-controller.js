@@ -36,16 +36,23 @@ class JadwalDokterController {
   static async searchJadwalDokter(req, res) {
     try {
       const { id_poli, tanggal } = req.query;
+      const page = parseInt(req.query.page) || 1;
+      const pageSize = parseInt(req.query.pageSize) || 10;
 
       const result = await jadwalDokterService.searchJadwalDokter({
         id_poli,
         tanggal,
+        page,
+        pageSize,
       });
 
+      const hariFormatted = new Date(tanggal).toLocaleDateString("id-ID", {
+        weekday: "long",
+      });
       return responseHelper.success(
         res,
         result,
-        `Data jadwal dokter untuk hari ${result.hari} (${tanggal}) berhasil diambil.`
+        `Data jadwal dokter untuk hari ${hariFormatted} (${tanggal}) berhasil diambil.`
       );
     } catch (error) {
       return responseHelper.error(res, error);
@@ -54,7 +61,9 @@ class JadwalDokterController {
 
   static async getAllJadwalDokter(req, res) {
     try {
-      const data = await jadwalDokterService.getAllJadwalDokter();
+      const page = parseInt(req.query.page) || 1;
+      const pageSize = parseInt(req.query.pageSize) || 10;
+      const data = await jadwalDokterService.getAllJadwalDokter(page, pageSize);
       return responseHelper.success(
         res,
         data,

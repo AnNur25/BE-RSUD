@@ -1,5 +1,6 @@
 const prisma = require("../prisma/prismaClient");
 const { BadRequestError, NotFoundError } = require("../utils/error");
+const Pagination = require("../utils/pagination");
 
 class JadwalDokterService {
   static async getDokterByPoli({ id_poli }) {
@@ -86,8 +87,25 @@ class JadwalDokterService {
     };
   }
 
-  static async getAllJadwalDokter() {
+  static async getAllJadwalDokter(page, pageSize) {
+    const {
+      skip,
+      take,
+      page: currentPage,
+      pageSize: currentPageSize,
+    } = Pagination.paginate(page, pageSize);
+
+    const allDokterIds = await prisma.jadwalDokter.findMany({
+      distinct: ["id_dokter"],
+      select: { id_dokter: true },
+    });
+
+    const totalItems = allDokterIds.length;
+    const totalPages = Math.ceil(totalItems / currentPageSize);
+
     const jadwalDokter = await prisma.jadwalDokter.findMany({
+      skip,
+      take,
       include: {
         dokter: {
           select: {
@@ -155,38 +173,68 @@ class JadwalDokterService {
 
     return {
       dokter: Object.values(groupedJadwal),
+      pagination: {
+        currentPage,
+        pageSize: currentPageSize,
+        totalItems,
+        totalPages,
+      },
     };
   }
 
-  static async searchJadwalDokter({ id_poli, tanggal }) {
+  static async searchJadwalDokter({ id_poli, tanggal, page, pageSize }) {
     if (!id_poli || !tanggal) {
       throw new BadRequestError("ID Poli dan tanggal wajib diisi");
     }
-    const namaHari = [
-      "Minggu",
-      "Senin",
-      "Selasa",
-      "Rabu",
-      "Kamis",
-      "Jumat",
-      "Sabtu",
-    ];
 
     const tanggalObjek = new Date(tanggal);
-    const namaHariSekarang = namaHari[tanggalObjek.getDay()];
+    if (isNaN(tanggalObjek)) {
+      throw new BadRequestError("Format tanggal tidak valid");
+    }
 
-    const daftarJadwal = await prisma.jadwalDokter.findMany({
+    const hariEnum = tanggalObjek.toLocaleDateString("id-ID", {
+      weekday: "long",
+    });
+    const hariFormatted =
+      hariEnum.charAt(0).toUpperCase() + hariEnum.slice(1).toLowerCase();
+
+    const totalItems = await prisma.jadwalDokter.count({
       where: {
-        hari: namaHariSekarang,
+        hari: hariFormatted,
         dokter: {
-          id_poli: id_poli,
+          id_poli,
         },
       },
+    });
+
+    if (totalItems === 0) {
+      throw new NotFoundError(
+        `Tidak ada jadwal dokter pada hari ${hariFormatted} (${tanggal}).`
+      );
+    }
+
+    const {
+      skip,
+      take,
+      page: currentPage,
+      pageSize: currentPageSize,
+    } = Pagination.paginate(page, pageSize);
+
+    const paginatedJadwal = await prisma.jadwalDokter.findMany({
+      where: {
+        hari: hariFormatted,
+        dokter: {
+          id_poli,
+        },
+      },
+      skip,
+      take,
       include: {
         dokter: {
           select: {
             id_dokter: true,
             nama: true,
+            gambar: true,
             poli: {
               select: {
                 id_poli: true,
@@ -204,58 +252,52 @@ class JadwalDokterService {
       },
     });
 
-    if (daftarJadwal.length === 0) {
-      throw new NotFoundError(
-        `Tidak ada jadwal dokter pada hari ${namaHariSekarang} (${tanggal}).`
-      );
-    }
+    const grouped = {};
 
-    const hasilGroupJadwal = {};
+    paginatedJadwal.forEach((item) => {
+      const { dokter, pelayanan } = item;
 
-    for (const itemJadwal of daftarJadwal) {
-      const { dokter, pelayanan } = itemJadwal;
-
-      if (!hasilGroupJadwal[dokter.id_dokter]) {
-        hasilGroupJadwal[dokter.id_dokter] = {
+      if (!grouped[dokter.id_dokter]) {
+        grouped[dokter.id_dokter] = {
           id_dokter: dokter.id_dokter,
           nama_dokter: dokter.nama,
+          gambar_dokter: dokter.gambar,
           poli: dokter.poli,
-          layananList: [],
+          pelayanan: [],
         };
       }
 
-      const layananYangSama = hasilGroupJadwal[
-        dokter.id_dokter
-      ].layananList.find(
-        (layanan) => layanan.id_pelayanan === pelayanan.id_pelayanan
+      let layanan = grouped[dokter.id_dokter].pelayanan.find(
+        (l) => l.id_pelayanan === pelayanan.id_pelayanan
       );
 
-      if (layananYangSama) {
-        layananYangSama.hariList.push({
-          hari: itemJadwal.hari,
-          jam_mulai: itemJadwal.jam_mulai,
-          jam_selesai: itemJadwal.jam_selesai,
-        });
-      } else {
-        hasilGroupJadwal[dokter.id_dokter].layananList.push({
+      if (!layanan) {
+        layanan = {
           id_pelayanan: pelayanan.id_pelayanan,
           nama_pelayanan: pelayanan.nama_pelayanan,
-          hariList: [
-            {
-              hari: itemJadwal.hari,
-              jam_mulai: itemJadwal.jam_mulai,
-              jam_selesai: itemJadwal.jam_selesai,
-            },
-          ],
-        });
+          jadwal: [],
+        };
+        grouped[dokter.id_dokter].pelayanan.push(layanan);
       }
-    }
 
-    const daftarDokter = Object.values(hasilGroupJadwal);
+      layanan.jadwal.push({
+        hari: item.hari,
+        sesi: item.sesi || "-",
+        jam_mulai: item.jam_mulai,
+        jam_selesai: item.jam_selesai,
+      });
+    });
+
+    const hasil = Object.values(grouped);
 
     return {
-      hari: namaHariSekarang,
-      dokter: daftarDokter,
+      dokter: hasil,
+      pagination: {
+        currentPage,
+        pageSize: currentPageSize,
+        totalItems,
+        totalPages: Math.ceil(totalItems / currentPageSize),
+      },
     };
   }
 
