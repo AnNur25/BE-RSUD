@@ -109,6 +109,8 @@ FRONTEND_URL=""
 1. Run `npx prisma migrate dev` in the **capstone-rsud/src/** directory.
 2. Wait for the database migration to be completed.
 3. Voila, your database is ready!
+4. After that, Run `npm run seed` in the **capstone-rsud** directory.
+5. Ta-da, you have some data in your database!
 
 
 ## ‍💻 Author
