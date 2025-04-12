@@ -176,6 +176,100 @@ Route.get("/", poliController.getPoli);
 
 /**
  * @swagger
+ * /poli/{id}:
+ *   get:
+ *     summary: Mengambil detail  Poli
+ *     description: Mengambil semua Poli yang tersedia.
+ *     tags:
+ *       - Poli
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID poli yang akan diperbarui.
+ *     responses:
+ *       200:
+ *         description: Berhasil menampilkan detail Poli.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 200
+ *                 message:
+ *                   type: string
+ *                   example: "Berhasil menampilkan Daftar Poli"
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id_poli:
+ *                         type: string
+ *                         example: "bf27354f-6d82-4e25-9541-b9efc8bf57ed"
+ *                       nama_poli:
+ *                         type: string
+ *                         example: "Poli Umum"
+ *       400:
+ *         description: ID Poli wajib disertakan.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 400
+ *                 message:
+ *                   type: string
+ *                   example: "ID Poli wajib disertakan"
+ *       404:
+ *         description: Poli kosong.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 404
+ *                 message:
+ *                   type: string
+ *                   example: "Poli dengan ID ${id_poli} tidak ditemukan"
+ *       500:
+ *         description: Terjadi kesalahan pada server
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 500
+ *                 message:
+ *                   type: string
+ *                   example: "Internal Server Error"
+ */
+Route.get("/:id", poliController.getPoliById);
+
+/**
+ * @swagger
  * /poli/{id_poli}:
  *   put:
  *     summary: Memperbarui data Poli

@@ -73,6 +73,22 @@ class JadwalDokterController {
       return responseHelper.error(res, error);
     }
   }
+  static async getByIdJadwalDokter(req, res) {
+    try {
+      const { id_dokter } = req.params;
+      const result = await jadwalDokterService.getJadwalDokterById({
+        id_dokter,
+      });
+
+      return responseHelper.success(
+        res,
+        result,
+        "Berhasil mengambil data jadwal dokter"
+      );
+    } catch (error) {
+      return responseHelper.error(res, error);
+    }
+  }
 
   static async updateJadwalDokter(req, res) {
     try {
