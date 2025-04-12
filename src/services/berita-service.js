@@ -2,6 +2,7 @@ const prisma = require("../prisma/prismaClient");
 const { BadRequestError, NotFoundError } = require("../utils/error");
 const imageKit = require("../configs/imagekit-config");
 const Pagination = require("../utils/pagination");
+const { error } = require("../utils/response");
 
 class BeritaService {
   static async createBerita({ judul, ringkasan, isi }, file) {
@@ -248,7 +249,7 @@ class BeritaService {
     const deletedGambar = gambarList.map((gambar) => ({
       id: gambar.id,
       fileName: gambar.url.split("/").pop(),
-    }));//fa61555b-4f50-4c4f-a42e-675de1567e53 fa61555b-4f50-4c4f-a42e-675de1567e53
+    })); //fa61555b-4f50-4c4f-a42e-675de1567e53 fa61555b-4f50-4c4f-a42e-675de1567e53
 
     await prisma.gambar.deleteMany({
       where: {
@@ -258,6 +259,47 @@ class BeritaService {
     });
 
     return deletedGambar;
+  }
+  static async searchBerita({ keyword }) {
+    if (!keyword || keyword.trim() === "") {
+      throw new BadRequestError("Keyword pencarian diperlukan");
+    }
+
+    const result = await prisma.berita.findMany({
+      where: {
+        judul: {
+          contains: keyword,
+          mode: "insensitive",
+        },
+      },
+      include: { gambar_tambahan: true },
+    });
+
+    if (result.length === 0) {
+      throw new NotFoundError("Berita dengan keyword tersebut tidak ditemukan");
+    }
+
+    const potongKalimat = (kalimat, maxKata) => {
+      const kata = kalimat.split(" ");
+      if (kata.length <= maxKata) return kalimat;
+      return kata.slice(0, maxKata).join(" ") + " ...";
+    };
+
+    const beritaData = result.map((berita) => ({
+      id: berita.id_berita,
+      judul: potongKalimat(berita.judul, 8),
+      isi: potongKalimat(berita.isi, 20),
+      gambar_sampul: berita.gambar_sampul,
+      tanggal_dibuat: new Intl.DateTimeFormat("id-ID", {
+        day: "2-digit",
+        month: "long",
+        year: "numeric",
+      }).format(new Date(berita.createdAt)),
+    }));
+
+    return {
+      berita: beritaData,
+    };
   }
 }
 
