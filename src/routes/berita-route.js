@@ -3,7 +3,6 @@ const beritaController = require("../controllers/berita-controller");
 const { auth } = require("../middlewares/auth-middleware");
 const multer = require("../middlewares/multer-middleware");
 const multerErrorHandler = require("../middlewares/multer-error-handling-middleware");
-const Route = require("./dokter-route");
 
 /**
  * @swagger
