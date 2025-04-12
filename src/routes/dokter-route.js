@@ -326,6 +326,88 @@ Route.get("/", dokterController.getDokter);
 /**
  * @swagger
  * /dokter/{id_dokter}:
+ *   get:
+ *     summary: Mendapatkan data dokter berdasarkan ID
+ *     description: Endpoint ini digunakan untuk mengambil detail data seorang dokter berdasarkan ID, termasuk informasi poli.
+ *     tags:
+ *       - Dokter
+ *     parameters:
+ *       - in: path
+ *         name: id_dokter
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID dari dokter yang ingin diambil.
+ *     responses:
+ *       200:
+ *         description: Data dokter berhasil diambil.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: "Berhasil mengambil data Dokter"
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     id_dokter:
+ *                       type: string
+ *                       example: 3
+ *                     nama:
+ *                       type: string
+ *                       example: "dr. Rina"
+ *                     gambar:
+ *                       type: string
+ *                       example: "https://ik.imagekit.io/xxx/dr-rina.jpg"
+ *                     id_poli:
+ *                       type: string
+ *                       example: 2
+ *                     nama_poli:
+ *                       type: string
+ *                       example: "Dokter Umum"
+ *       404:
+ *         description: Dokter tidak ditemukan
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: boolean
+ *                   example: false
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 404
+ *                 message:
+ *                   type: string
+ *                   example: "Dokter dengan ID 3 tidak ditemukan"
+ *       500:
+ *         description: Terjadi kesalahan pada server
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: boolean
+ *                   example: false
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 500
+ *                 message:
+ *                   type: string
+ *                   example: "Internal Server Error"
+ */
+Route.get("/:id_dokter", dokterController.getDokterById);
+
+/**
+ * @swagger
+ * /dokter/{id_dokter}:
  *   put:
  *     summary: Memperbarui data dokter
  *     description: Mengupdate informasi dokter berdasarkan ID dokter yang diberikan.

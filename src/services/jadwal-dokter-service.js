@@ -300,6 +300,54 @@ class JadwalDokterService {
       },
     };
   }
+  static async getJadwalDokterById({ id_dokter }) {
+    const dokter = await prisma.dokter.findUnique({
+      where: { id_dokter },
+      select: {
+        id_dokter: true,
+        nama: true,
+        jadwalDokter: {
+          select: {
+            id_pelayanan: true,
+            hari: true,
+            jam_mulai: true,
+            jam_selesai: true,
+          },
+        },
+      },
+    });
+
+    if (!dokter) {
+      throw new NotFoundError(`Dokter dengan ID ${id_dokter} tidak ditemukan.`);
+    }
+
+    const layananMap = new Map();
+
+    dokter.jadwalDokter.forEach((jadwal) => {
+      const key = jadwal.id_pelayanan;
+      if (!layananMap.has(key)) {
+        layananMap.set(key, []);
+      }
+      layananMap.get(key).push({
+        hari: jadwal.hari,
+        jam_mulai: jadwal.jam_mulai,
+        jam_selesai: jadwal.jam_selesai,
+      });
+    });
+
+    const layananList = Array.from(layananMap.entries()).map(
+      ([id_pelayanan, hariList]) => ({
+        id_pelayanan,
+        hariList,
+      })
+    );
+
+    return {
+      id_dokter: dokter.id_dokter,
+      nama_dokter: dokter.nama,
+      layananList,
+    };
+  }
 
   static async updateJadwalDokter({ id_dokter }, { layananList }) {
     const dokter = await prisma.dokter.findUnique({

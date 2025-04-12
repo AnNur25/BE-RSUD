@@ -94,6 +94,31 @@ class DokterService {
     };
   }
 
+  static async getDokterById(id_dokter) {
+    if (!id_dokter) {
+      throw new BadRequestError("ID Dokter harus disertakan");
+    }
+
+    const dokter = await prisma.dokter.findUnique({
+      where: { id_dokter: id_dokter },
+      include: {
+        poli: true, // biar bisa dapat info poli-nya juga
+      },
+    });
+
+    if (!dokter) {
+      throw new NotFoundError(`Dokter dengan ID ${id_dokter} tidak ditemukan`);
+    }
+
+    return {
+      id_dokter: dokter.id_dokter,
+      nama: dokter.nama,
+      gambar: dokter.gambar,
+      id_poli: dokter.poli?.id_poli,
+      nama_poli: dokter.poli?.nama_poli,
+    };
+  }
+
   static async updateDokter({ id_dokter }, { nama, id_poli }, file) {
     if (!id_dokter || !nama || !id_poli || !file) {
       throw new BadRequestError(

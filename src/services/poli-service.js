@@ -34,6 +34,21 @@ class PoliService {
     }
     return poli;
   }
+  static async getPoliById({ id_poli }) {
+    if (!id_poli) {
+      throw new BadRequestError("ID Poli wajib disertakan");
+    }
+
+    const poli = await prisma.poli.findUnique({
+      where: { id_poli },
+    });
+
+    if (!poli) {
+      throw new NotFoundError(`Poli dengan ID ${id_poli} tidak ditemukan`);
+    }
+
+    return poli;
+  }
   static async updatePoli({ id_poli }, { nama_poli }) {
     if (!id_poli || !nama_poli) {
       throw new BadRequestError("ID Poli atau nama-poli harus diisi");

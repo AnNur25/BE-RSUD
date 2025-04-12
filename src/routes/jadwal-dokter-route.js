@@ -159,6 +159,104 @@ route.get("/search", JadwalDokterController.searchJadwalDokter);
 
 /**
  * @swagger
+ * /jadwal-dokter/{id_dokter}:
+ *   get:
+ *     summary: Mendapatkan jadwal dokter berdasarkan ID
+ *     description: Endpoint ini digunakan untuk mengambil jadwal dokter berdasarkan ID dokter, beserta informasi dokter, dan daftar layanan yang terkait dengan hari dan jam praktiknya.
+ *     tags:
+ *       - Jadwal Dokter
+ *     parameters:
+ *       - in: path
+ *         name: id_dokter
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID unik dokter yang jadwalnya ingin diambil.
+ *     responses:
+ *       200:
+ *         description: Berhasil mengambil jadwal dokter berdasarkan ID
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 200
+ *                 message:
+ *                   type: string
+ *                   example: "Berhasil mengambil data jadwal dokter"
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     id_dokter:
+ *                       type: string
+ *                       example: "a1b2c3d4-5678-90ab-cdef-1234567890ab"
+ *                     nama_dokter:
+ *                       type: string
+ *                       example: "dr. Andi"
+ *                     layananList:
+ *                       type: array
+ *                       items:
+ *                         type: object
+ *                         properties:
+ *                           id_pelayanan:
+ *                             type: string
+ *                             example: "987e6543-e21a-33d4-a987-876543210000"
+ *                           hariList:
+ *                             type: array
+ *                             items:
+ *                               type: object
+ *                               properties:
+ *                                 hari:
+ *                                   type: string
+ *                                   example: "Senin"
+ *                                 jam_mulai:
+ *                                   type: string
+ *                                   example: "08:00"
+ *                                 jam_selesai:
+ *                                   type: string
+ *                                   example: "10:00"
+ *       404:
+ *         description: Dokter dengan ID yang diberikan tidak ditemukan
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 404
+ *                 message:
+ *                   type: string
+ *                   example: "Dokter dengan ID {id_dokter} tidak ditemukan"
+ *       500:
+ *         description: Terjadi kesalahan pada server
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 500
+ *                 message:
+ *                   type: string
+ *                   example: "Internal Server Error"
+ */
+route.get("/:id_dokter", JadwalDokterController.getByIdJadwalDokter);
+
+/**
+ * @swagger
  * /jadwal-dokter/{id_poli}:
  *   get:
  *     summary: Mendapatkan daftar dokter berdasarkan ID poli
