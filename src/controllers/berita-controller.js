@@ -106,6 +106,16 @@ class Berita {
       return responseHelper.error(res, error);
     }
   }
+  berita;
+  static async searchBerita(req, res) {
+    try {
+      const { keyword } = req.query;
+      const berita = await beritaService.searchBerita({ keyword });
+      return responseHelper.success(res, berita, "berhasil menampilkan dokter");
+    } catch (error) {
+      return responseHelper.error(res, error);
+    }
+  }
 }
 
 module.exports = Berita;

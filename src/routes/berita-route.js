@@ -3,6 +3,7 @@ const beritaController = require("../controllers/berita-controller");
 const { auth } = require("../middlewares/auth-middleware");
 const multer = require("../middlewares/multer-middleware");
 const multerErrorHandler = require("../middlewares/multer-error-handling-middleware");
+const Route = require("./dokter-route");
 
 /**
  * @swagger
@@ -118,6 +119,127 @@ route.post(
   multer.single("gambar_sampul"),
   beritaController.createBerita
 );
+
+/**
+ * @swagger
+ * /berita/search:
+ *   get:
+ *     summary: Mencari berita berdasarkan kata kunci
+ *     description: Endpoint ini digunakan untuk mencari berita berdasarkan judul. Pencarian bersifat case-insensitive.
+ *     tags:
+ *       - Berita
+ *     parameters:
+ *       - in: query
+ *         name: keyword
+ *         required: true
+ *         description: Kata kunci untuk mencari berita. Harus diisi.
+ *         schema:
+ *           type: string
+ *     responses:
+ *       "200":
+ *         description: Berhasil menampilkan berita
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 200
+ *                 message:
+ *                   type: string
+ *                   example: "Berhasil menampilkan berita"
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     berita:
+ *                       type: array
+ *                       items:
+ *                         type: object
+ *                         properties:
+ *                           id:
+ *                             type: string
+ *                             example: "123e4567-e89b-12d3-a456-426614174000"
+ *                           judul:
+ *                             type: string
+ *                             example: "Judul Berita Contoh"
+ *                           isi:
+ *                             type: string
+ *                             example: "lorem ipsum dolor sit amet..."
+ *                           gambar_sampul:
+ *                             type: string
+ *                             example: "https://ik.imagekit.io/your-folder/sample-cover.jpg"
+ *                           tanggal_dibuat:
+ *                             type: string
+ *                             example: "20 Maret 2025"
+ *                     pagination:
+ *                       type: object
+ *                       properties:
+ *                         currentPage:
+ *                           type: integer
+ *                           example: 1
+ *                         pageSize:
+ *                           type: integer
+ *                           example: 10
+ *                         totalItems:
+ *                           type: integer
+ *                           example: 100
+ *                         totalPages:
+ *                           type: integer
+ *                           example: 10
+ *       "400":
+ *         description: Keyword pencarian diperlukan.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 400
+ *                 message:
+ *                   type: string
+ *                   example: "Keyword pencarian diperlukan tersedia saat ini"
+ *       "404":
+ *         description: data berita tidak ditemukan
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 400
+ *                 message:
+ *                   type: string
+ *                   example: "Berita dengan keyword tersebut tidak ditemukan"
+ *       500:
+ *         description: Terjadi kesalahan pada server
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 500
+ *                 message:
+ *                   type: string
+ *                   example: "Internal Server Error"
+ */
+route.get("/search", beritaController.searchBerita);
 
 /**
  * @swagger
