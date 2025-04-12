@@ -33,15 +33,15 @@ const { auth } = require("../middlewares/auth-middleware");
  *             schema:
  *               type: object
  *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
  *                 statusCode:
  *                   type: integer
  *                   example: 200
- *                 status:
- *                   type: string
- *                   example: Success
  *                 message:
  *                   type: string
- *                   example: Data jadwal dokter berhasil diambil.
+ *                   example: Data jadwal dokter untuk hari ${result.hari} (${tanggal}) berhasil diambil.
  *                 dokter:
  *                   type: array
  *                   items:
@@ -49,16 +49,13 @@ const { auth } = require("../middlewares/auth-middleware");
  *                     properties:
  *                       id_dokter:
  *                         type: string
- *                         example: "1"
+ *                         example: "vreo"
  *                       nama_dokter:
  *                         type: string
  *                         example: "Dr. Budi"
  *                       gambar_dokter:
  *                         type: string
  *                         example: "https://example.com/image.jpg"
- *                       spesialis:
- *                         type: object
- *                         properties:
  *                       pelayanan:
  *                         type: array
  *                         items:
@@ -66,10 +63,10 @@ const { auth } = require("../middlewares/auth-middleware");
  *                           properties:
  *                             id_pelayanan_dokter:
  *                               type: string
- *                               example: "5"
- *                             nama:
+ *                               example: "woigv"
+ *                             nama_pelayanan:
  *                               type: string
- *                               example: "Konsultasi Jantung"
+ *                               example: "rawat inap"
  *                             jadwal:
  *                               type: array
  *                               items:
@@ -87,15 +84,54 @@ const { auth } = require("../middlewares/auth-middleware");
  *                                   jam_selesai:
  *                                     type: string
  *                                     example: "12:00"
- *                 total_jadwal:
- *                   type: integer
- *                   example: 5
  *       400:
- *         description: Parameter query tidak lengkap
+ *         description: Permintaan tidak valid
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 400
+ *                 message:
+ *                   type: string
+ *                   example: "ID poli dan tanggal wajib diisi"
  *       404:
- *         description: Data tidak ditemukan untuk kombinasi spesialis dan tanggal tersebut
+ *         description: Permintaan tidak valid
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 404
+ *                 message:
+ *                   type: string
+ *                   example: "tidak ada jadwal dokter pada hari ${namaHariSekarang} (${tanggal})."
  *       500:
  *         description: Terjadi kesalahan pada server
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 500
+ *                 message:
+ *                   type: string
+ *                   example: "Internal Server Error"
  */
 route.get("/search", JadwalDokterController.searchJadwalDokter);
 
@@ -107,6 +143,8 @@ route.get("/search", JadwalDokterController.searchJadwalDokter);
  *     description: Endpoint ini digunakan untuk mengambil daftar dokter yang terdaftar pada suatu poli tertentu berdasarkan ID poli.
  *     tags:
  *       - Jadwal Dokter
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id_poli
@@ -145,10 +183,68 @@ route.get("/search", JadwalDokterController.searchJadwalDokter);
  *                         example: "dr. Ahmad Yani"
  *       400:
  *         description: Permintaan tidak valid
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 400
+ *                 message:
+ *                   type: string
+ *                   example: "ID poli wajib diisi"
+ *       401:
+ *         description: Pengguna tidak memiliki otorisasi.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 401
+ *                 message:
+ *                   type: string
+ *                   example: "Authorization tidak ditemukan"
  *       404:
- *         description: Tidak ada dokter ditemukan untuk poli tersebut
+ *         description: Permintaan tidak valid
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 404
+ *                 message:
+ *                   type: string
+ *                   example: "Tidak ada dokter ditemukan untuk poli tersebut"
  *       500:
  *         description: Terjadi kesalahan pada server
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 500
+ *                 message:
+ *                   type: string
+ *                   example: "Internal Server Error"
  */
 route.get("/:id_poli", auth, JadwalDokterController.getDokterByPoli);
 /**
@@ -159,6 +255,8 @@ route.get("/:id_poli", auth, JadwalDokterController.getDokterByPoli);
  *     description: Endpoint ini digunakan untuk mengambil seluruh jadwal dokter beserta informasi dokter, poli, dan daftar pelayanan yang terkait dengan hari dan jam praktiknya.
  *     tags:
  *       - Jadwal Dokter
+ *     security:
+ *       - bearerAuth: []
  *     responses:
  *       200:
  *         description: Berhasil mengambil seluruh jadwal dokter
@@ -167,12 +265,12 @@ route.get("/:id_poli", auth, JadwalDokterController.getDokterByPoli);
  *             schema:
  *               type: object
  *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
  *                 statusCode:
  *                   type: integer
  *                   example: 200
- *                 status:
- *                   type: string
- *                   example: "Success"
  *                 message:
  *                   type: string
  *                   example: "Berhasil menampilkan seluruh jadwal dokter"
@@ -190,15 +288,6 @@ route.get("/:id_poli", auth, JadwalDokterController.getDokterByPoli);
  *                           nama_dokter:
  *                             type: string
  *                             example: "dr. Siti Nurhaliza"
- *                           poli:
- *                             type: object
- *                             properties:
- *                               id:
- *                                 type: string
- *                                 example: "123e4567-e89b-12d3-a456-426614174000"
- *                               nama:
- *                                 type: string
- *                                 example: "Poli Gigi"
  *                           layananList:
  *                             type: array
  *                             items:
@@ -224,19 +313,63 @@ route.get("/:id_poli", auth, JadwalDokterController.getDokterByPoli);
  *                                       jam_selesai:
  *                                         type: string
  *                                         example: "10:00"
+ *       401:
+ *         description: Pengguna tidak memiliki otorisasi.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 401
+ *                 message:
+ *                   type: string
+ *                   example: "Authorization tidak ditemukan"
  *       404:
- *         description: Tidak ada data jadwal dokter ditemukan
+ *         description: Permintaan tidak valid
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 404
+ *                 message:
+ *                   type: string
+ *                   example: "Data jadwal dokter belum tersedia"
  *       500:
  *         description: Terjadi kesalahan pada server
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 500
+ *                 message:
+ *                   type: string
+ *                   example: "Internal Server Error"
  */
-route.get("/", JadwalDokterController.getAllJadwalDokter);
+route.get("/", auth, JadwalDokterController.getAllJadwalDokter);
 
 /**
  * @swagger
  * /jadwal-dokter:
  *   post:
  *     summary: Menambahkan jadwal dokter baru
- *     description: Endpoint ini digunakan untuk menambahkan jadwal dokter berdasarkan daftar dokter, layanan, dan jadwal hari yang dikirim dalam request.
+ *     description: Endpoint ini digunakan untuk menambahkan jadwal dokter berdasarkan daftar layanan dan jadwal hari yang dikirim dalam request.
  *     tags:
  *       - Jadwal Dokter
  *     security:
@@ -291,38 +424,106 @@ route.get("/", JadwalDokterController.getAllJadwalDokter);
  *             schema:
  *               type: object
  *               properties:
- *                 jadwal_dokter:
- *                   type: array
- *                   items:
- *                     type: object
- *                     properties:
- *                       dokter_id:
- *                         type: integer
- *                         example: 101
- *                         description: ID dokter
- *                       jadwal:
- *                         type: array
- *                         items:
- *                           type: object
- *                           properties:
- *                             id_pelayanan:
- *                               type: integer
- *                               example: 201
- *                               description: ID pelayanan
- *                             hari:
- *                               type: string
- *                               example: "Senin"
- *                               description: Hari praktik
- *                             jam:
- *                               type: string
- *                               example: "08:00-12:00"
- *                               description: Jam praktik
- *       400:
- *         description: Kesalahan dalam permintaan (bad request)
+ *                 status:
+ *                   type: boolean
+ *                   example: true
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     id_dokter:
+ *                       type: integer
+ *                       example: 101
+ *                       description: ID dokter
+ *                     nama_dokter:
+ *                       type: string
+ *                       example: "dr. Andi"
+ *                       description: Nama dokter
+ *                     message:
+ *                       type: string
+ *                       example: "Jadwal dokter berhasil ditambahkan"
+ *                 message:
+ *                   type: string
+ *                   example: "Success"
+ *       400-layananist:
+ *         description: Permintaan tidak valid
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 400
+ *                 message:
+ *                   type: string
+ *                   example: "Setiap layanan harus memiliki daftar hari (hariList) yang valid."
+ *       400-harilist:
+ *         description: Permintaan tidak valid
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 400
+ *                 message:
+ *                   type: string
+ *                   example: "Setiap jadwal harus memiliki hari, jam_mulai, dan jam_selesai."
+ *       401:
+ *         description: Pengguna tidak memiliki otorisasi.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 401
+ *                 message:
+ *                   type: string
+ *                   example: "Authorization tidak ditemukan"
  *       404:
- *         description: Dokter tidak ditemukan
+ *         description: Permintaan tidak valid
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 404
+ *                 message:
+ *                   type: string
+ *                   example: "Dokter dengan ID ${id_dokter} tidak ditemukan."
  *       500:
  *         description: Terjadi kesalahan pada server
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 500
+ *                 message:
+ *                   type: string
+ *                   example: "Internal Server Error"
  */
 route.post("/", auth, JadwalDokterController.createJadwalDokter);
 
@@ -351,72 +552,70 @@ route.post("/", auth, JadwalDokterController.createJadwalDokter);
  *                 message:
  *                   type: string
  *                   example: "Data jadwal dokter berhasil diambil."
- *                 dokter:
- *                   type: array
- *                   items:
- *                     type: object
- *                     properties:
- *                       id_dokter:
- *                         type: string
- *                         example: "opoj"
- *                       nama_dokter:
- *                         type: string
- *                         example: "Dr. Andi Hartanto"
- *                       gambar_dokter:
- *                         type: string
- *                         example: "https://example.com/image.jpg"
- *                       spesialis:
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     dokter:
+ *                       type: array
+ *                       items:
  *                         type: object
  *                         properties:
- *                           id_Spesialis:
+ *                           id_dokter:
  *                             type: string
- *                             example: "oiooh"
- *                           nama_spesialis:
+ *                             example: "a868733b-b897-4191-99e9-e897349bb481"
+ *                           nama_dokter:
  *                             type: string
- *                             example: "Spesialis Jantung"
- *                       pelayanan:
- *                         type: object
- *                         properties:
- *                           id_pelayanan_dokter:
- *                             type: string
- *                             example: "ojoj"
- *                           nama_pelayanan:
- *                             type: string
- *                             example: "Pelayanan Umum"
- *                       jadwal:
- *                         type: array
- *                         items:
- *                           type: object
- *                           properties:
- *                             hari:
- *                               type: string
- *                               example: "Senin"
- *                             sesi:
- *                               type: string
- *                               example: "Pagi"
- *                             jam_mulai:
- *                               type: string
- *                               example: "08:00"
- *                             jam_selesai:
- *                               type: string
- *                               example: "12:00"
- *                 total_jadwal:
+ *                             example: "dr. H. Agus Yudho Santoso, Sp.PD, Finasim ( AYS )"
+ *                           poli:
+ *                             type: object
+ *                             properties:
+ *                               id:
+ *                                 type: string
+ *                                 example: "5aad80c9-bf65-477f-824f-f550a7894bdd"
+ *                               nama:
+ *                                 type: string
+ *                                 example: "Dokter Spesialis Bedah"
+ *                           layananList:
+ *                             type: array
+ *                             items:
+ *                               type: object
+ *                               properties:
+ *                                 id_pelayanan:
+ *                                   type: string
+ *                                   example: "143a6c3c-f6ea-4d82-91b6-e6276ad12a30"
+ *                                 nama_pelayanan:
+ *                                   type: string
+ *                                   example: "Pelayanan Umum"
+ *                                 hariList:
+ *                                   type: array
+ *                                   items:
+ *                                     type: object
+ *                                     properties:
+ *                                       hari:
+ *                                         type: string
+ *                                         example: "Senin"
+ *                                       jam_mulai:
+ *                                         type: string
+ *                                         example: "08:00"
+ *                                       jam_selesai:
+ *                                         type: string
+ *                                         example: "12:00"
+ *       404:
+ *         description: Permintaan tidak valid
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 statusCode:
  *                   type: integer
- *                   example: 10
- *                 total_jadwal_per_spesialis:
- *                   type: array
- *                   items:
- *                     type: object
- *                     properties:
- *                       id_spesialis:
- *                         type: string
- *                         example: "rjgfdsk"
- *                       nama_spesialis:
- *                         type: string
- *                         example: "Spesialis Jantung"
- *                       total_jadwal:
- *                         type: integer
- *                         example: 5
+ *                   example: 404
+ *                 message:
+ *                   type: string
+ *                   example: "Data jadwal dokter tidak ditemukan."
  *       500:
  *         description: Terjadi kesalahan pada server
  *         content:
@@ -424,18 +623,15 @@ route.post("/", auth, JadwalDokterController.createJadwalDokter);
  *             schema:
  *               type: object
  *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
  *                 statusCode:
  *                   type: integer
  *                   example: 500
- *                 status:
- *                   type: string
- *                   example: "Failed"
  *                 message:
  *                   type: string
- *                   example: "Terjadi kesalahan pada server."
- *                 error:
- *                   type: string
- *                   example: "Error message"
+ *                   example: "Internal Server Error"
  */
 route.get("/", JadwalDokterController.getAllJadwalDokter);
 
@@ -444,7 +640,7 @@ route.get("/", JadwalDokterController.getAllJadwalDokter);
  * /jadwal-dokter/{id_dokter}:
  *   put:
  *     summary: Memperbarui seluruh jadwal dokter
- *     description: Endpoint ini digunakan untuk memperbarui seluruh jadwal dokter berdasarkan ID dokter. Jadwal sebelumnya akan dihapus dan diganti dengan data baru.
+ *     description: Endpoint ini digunakan untuk memperbarui seluruh jadwal dokter berdasarkan ID dokter. Semua jadwal lama akan dihapus dan digantikan dengan data baru.
  *     tags:
  *       - Jadwal Dokter
  *     security:
@@ -465,13 +661,13 @@ route.get("/", JadwalDokterController.getAllJadwalDokter);
  *             properties:
  *               layananList:
  *                 type: array
- *                 description: Daftar layanan dan hari jadwal dokter.
+ *                 description: Daftar layanan dan jadwal hari dokter.
  *                 items:
  *                   type: object
  *                   properties:
  *                     id_pelayanan:
  *                       type: string
- *                       example: 201
+ *                       example: "201"
  *                     hariList:
  *                       type: array
  *                       items:
@@ -506,28 +702,12 @@ route.get("/", JadwalDokterController.getAllJadwalDokter);
  *                 data:
  *                   type: object
  *                   properties:
- *                     jadwal_dokter:
- *                       type: array
- *                       items:
- *                         type: object
- *                         properties:
- *                           dokter_id:
- *                             type: integer
- *                             example: 101
- *                           jadwal:
- *                             type: array
- *                             items:
- *                               type: object
- *                               properties:
- *                                 id_pelayanan:
- *                                   type: integer
- *                                   example: 201
- *                                 hari:
- *                                   type: string
- *                                   example: "Senin"
- *                                 jam:
- *                                   type: string
- *                                   example: "08:00-12:00"
+ *                     id_dokter:
+ *                       type: string
+ *                       example: "101"
+ *                     nama_dokter:
+ *                       type: string
+ *                       example: "dr. Andi Santoso"
  *       400:
  *         description: Permintaan tidak valid.
  *         content:
@@ -535,15 +715,15 @@ route.get("/", JadwalDokterController.getAllJadwalDokter);
  *             schema:
  *               type: object
  *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
  *                 statusCode:
  *                   type: integer
  *                   example: 400
- *                 status:
- *                   type: string
- *                   example: "Failed"
  *                 message:
  *                   type: string
- *                   example: "Data layananList harus berupa array dan tidak boleh kosong."
+ *                   example: "Setiap layanan harus memiliki daftar hari (hariList) yang valid."
  *       404:
  *         description: Dokter tidak ditemukan.
  *         content:
@@ -551,34 +731,31 @@ route.get("/", JadwalDokterController.getAllJadwalDokter);
  *             schema:
  *               type: object
  *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
  *                 statusCode:
  *                   type: integer
  *                   example: 404
- *                 status:
- *                   type: string
- *                   example: "Failed"
  *                 message:
  *                   type: string
  *                   example: "Dokter dengan ID 101 tidak ditemukan."
  *       500:
- *         description: Terjadi kesalahan pada server.
+ *         description: Terjadi kesalahan pada server
  *         content:
  *           application/json:
  *             schema:
  *               type: object
  *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
  *                 statusCode:
  *                   type: integer
  *                   example: 500
- *                 status:
- *                   type: string
- *                   example: "Failed"
  *                 message:
  *                   type: string
- *                   example: "Internal Server Error."
- *                 error:
- *                   type: string
- *                   example: "Database connection failed."
+ *                   example: "Internal Server Error"
  */
 route.put("/:id_dokter", auth, JadwalDokterController.updateJadwalDokter);
 
@@ -607,24 +784,19 @@ route.put("/:id_dokter", auth, JadwalDokterController.updateJadwalDokter);
  *             schema:
  *               type: object
  *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
  *                 statusCode:
  *                   type: integer
  *                   example: 200
- *                 status:
- *                   type: string
- *                   example: "Success"
  *                 message:
  *                   type: string
  *                   example: "Jadwal dokter dengan ID 123 berhasil dihapus"
  *                 data:
  *                   type: object
- *                   properties:
- *                     deleted_count:
- *                       type: integer
- *                       example: 3
- *                     id_dokter:
- *                       type: string
- *                       example: "123"
+ *                   nullable: true
+ *                   example: null
  *       404:
  *         description: Dokter tidak ditemukan.
  *         content:
@@ -632,12 +804,12 @@ route.put("/:id_dokter", auth, JadwalDokterController.updateJadwalDokter);
  *             schema:
  *               type: object
  *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
  *                 statusCode:
  *                   type: integer
  *                   example: 404
- *                 status:
- *                   type: string
- *                   example: "Failed"
  *                 message:
  *                   type: string
  *                   example: "Dokter dengan ID 123 tidak ditemukan."
@@ -648,12 +820,12 @@ route.put("/:id_dokter", auth, JadwalDokterController.updateJadwalDokter);
  *             schema:
  *               type: object
  *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
  *                 statusCode:
  *                   type: integer
  *                   example: 500
- *                 status:
- *                   type: string
- *                   example: "Failed"
  *                 message:
  *                   type: string
  *                   example: "Internal Server Error."

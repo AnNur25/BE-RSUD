@@ -1,6 +1,5 @@
 const express = require("express");
 const Route = express.Router();
-const multer = require("multer");
 const dokterController = require("../controllers/dokter-controller");
 const multerConfig = require("../middlewares/multer-middleware");
 const multerErrorHandler = require("../middlewares/multer-error-handling-middleware");

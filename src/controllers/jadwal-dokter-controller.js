@@ -93,8 +93,8 @@ class JadwalDokterController {
       });
       return responseHelper.success(
         res,
-        result,
-        `Jadwal ${result.namaDokter} berhasil dihapus`
+        null,
+        `Jadwal Praktek ${result.nama_dokter} berhasil dihapus`
       );
     } catch (error) {
       return responseHelper.error(res, error);

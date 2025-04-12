@@ -95,8 +95,6 @@ class DokterService {
   }
 
   static async updateDokter({ id_dokter }, { nama, id_poli }, file) {
-    console.log("Update dokter with ID:", id_dokter);
-
     if (!id_dokter || !nama || !id_poli || !file) {
       throw new BadRequestError(
         "ID Dokter, Nama, ID Poli, dan Gambar harus diisi"

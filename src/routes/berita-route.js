@@ -41,12 +41,12 @@ const multerErrorHandler = require("../middlewares/multer-error-handling-middlew
  *             schema:
  *               type: object
  *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
  *                 statusCode:
  *                   type: integer
  *                   example: 201
- *                 status:
- *                   type: string
- *                   example: "Success"
  *                 message:
  *                   type: string
  *                   example: "Berita berhasil dibuat"
@@ -62,58 +62,62 @@ const multerErrorHandler = require("../middlewares/multer-error-handling-middlew
  *                     tanggal_dibuat:
  *                       type: string
  *                       example: "25 Maret 2025"
- *                     gambar_sampul:
- *                       type: string
- *                       example: "https://ik.imagekit.io/your-folder/sample-cover.jpg"
- *       "400":
+ *       400:
  *         description: Permintaan tidak valid.
- *         content:
- *           application/json:
- *             schema:
- *               oneOf:
- *                 - type: object
- *                   properties:
- *                     statusCode:
- *                       type: integer
- *                       example: 400
- *                     status:
- *                       type: string
- *                       example: "Failed"
- *                     message:
- *                       type: string
- *                       example: "File is required"
- *                 - type: object
- *                   properties:
- *                     statusCode:
- *                       type: integer
- *                       example: 400
- *                     status:
- *                       type: string
- *                       example: "Failed"
- *                     message:
- *                       type: string
- *                       example: "Invalid date format (YYYY-MM-DD)"
- *       "500":
- *         description: Kesalahan server internal.
  *         content:
  *           application/json:
  *             schema:
  *               type: object
  *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 400
+ *                 message:
+ *                   type: string
+ *                   example: "Semua field harus diisi"
+ *       401:
+ *         description: Pengguna tidak memiliki otorisasi.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 401
+ *                 message:
+ *                   type: string
+ *                   example: "Authorization tidak ditemukan"
+ *       500:
+ *         description: Terjadi kesalahan pada server
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
  *                 statusCode:
  *                   type: integer
  *                   example: 500
- *                 status:
- *                   type: string
- *                   example: "Failed"
  *                 message:
  *                   type: string
- *                   example: "Internal Server Error."
- *                 error:
- *                   type: string
- *                   example: "Database connection failed"
+ *                   example: "Internal Server Error"
  */
-route.post("/",auth, multerErrorHandler, multer.single("gambar_sampul"), beritaController.createBerita);
+route.post(
+  "/",
+  auth,
+  multerErrorHandler,
+  multer.single("gambar_sampul"),
+  beritaController.createBerita
+);
 
 /**
  * @swagger
@@ -123,8 +127,6 @@ route.post("/",auth, multerErrorHandler, multer.single("gambar_sampul"), beritaC
  *     description: Endpoint ini digunakan untuk mengambil daftar berita dengan pagination. Data dapat difilter menggunakan query parameter `page` dan `pageSize`.
  *     tags:
  *       - Berita
- *     security:
- *       - bearerAuth: []
  *     parameters:
  *       - in: query
  *         name: page
@@ -146,12 +148,12 @@ route.post("/",auth, multerErrorHandler, multer.single("gambar_sampul"), beritaC
  *             schema:
  *               type: object
  *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
  *                 statusCode:
  *                   type: integer
  *                   example: 200
- *                 status:
- *                   type: string
- *                   example: "Success"
  *                 message:
  *                   type: string
  *                   example: "Berhasil menampilkan berita"
@@ -169,18 +171,15 @@ route.post("/",auth, multerErrorHandler, multer.single("gambar_sampul"), beritaC
  *                           judul:
  *                             type: string
  *                             example: "Judul Berita Contoh"
- *                           ringkasan:
+ *                           isi:
  *                             type: string
- *                             example: "Ringkasan berita singkat."
+ *                             example: "lorem ipsum dolor sit amet..."
  *                           gambar_sampul:
  *                             type: string
  *                             example: "https://ik.imagekit.io/your-folder/sample-cover.jpg"
  *                           tanggal_dibuat:
  *                             type: string
  *                             example: "20 Maret 2025"
- *                           diupdate_pada_tanggal:
- *                             type: string
- *                             example: "22 Maret 2025"
  *                     pagination:
  *                       type: object
  *                       properties:
@@ -203,40 +202,37 @@ route.post("/",auth, multerErrorHandler, multer.single("gambar_sampul"), beritaC
  *             schema:
  *               type: object
  *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
  *                 statusCode:
  *                   type: integer
  *                   example: 400
- *                 status:
- *                   type: string
- *                   example: "Failed"
  *                 message:
  *                   type: string
  *                   example: "Oops! Tidak ada berita yang tersedia saat ini"
- *       "500":
- *         description: Kesalahan server internal.
+ *       500:
+ *         description: Terjadi kesalahan pada server
  *         content:
  *           application/json:
  *             schema:
  *               type: object
  *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
  *                 statusCode:
  *                   type: integer
  *                   example: 500
- *                 status:
- *                   type: string
- *                   example: "Failed"
  *                 message:
  *                   type: string
- *                   example: "Internal Server Error."
- *                 error:
- *                   type: string
- *                   example: "Database connection failed"
+ *                   example: "Internal Server Error"
  */
 route.get("/", beritaController.getBerita);
 
 /**
  * @swagger
- * /berita/{id_berita}:
+ * /berita/{id}:
  *   get:
  *     summary: Mendapatkan detail berita berdasarkan ID
  *     description: Endpoint ini digunakan untuk mengambil detail berita berdasarkan ID yang diberikan.
@@ -244,7 +240,7 @@ route.get("/", beritaController.getBerita);
  *       - Berita
  *     parameters:
  *       - in: path
- *         name: id_berita
+ *         name: id
  *         required: true
  *         schema:
  *           type: string
@@ -257,12 +253,12 @@ route.get("/", beritaController.getBerita);
  *             schema:
  *               type: object
  *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
  *                 statusCode:
  *                   type: integer
  *                   example: 200
- *                 status:
- *                   type: string
- *                   example: "Success"
  *                 message:
  *                   type: string
  *                   example: "berhasil menampilkan detail berita"
@@ -292,6 +288,22 @@ route.get("/", beritaController.getBerita);
  *                       items:
  *                         type: string
  *                         example: "https://ik.imagekit.io/your-folder/image1.jpg"
+ *       "400":
+ *         description: ID berita tidak ditemukan.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 400
+ *                 message:
+ *                   type: string
+ *                   example: "Id berita tidak ditemukan"
  *       "404":
  *         description: Berita tidak ditemukan.
  *         content:
@@ -299,40 +311,37 @@ route.get("/", beritaController.getBerita);
  *             schema:
  *               type: object
  *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
  *                 statusCode:
  *                   type: integer
  *                   example: 404
- *                 status:
- *                   type: string
- *                   example: "Failed"
  *                 message:
  *                   type: string
  *                   example: "Oops! detail berita tidak ditemukan"
- *       "500":
- *         description: Kesalahan server internal.
+ *       500:
+ *         description: Terjadi kesalahan pada server
  *         content:
  *           application/json:
  *             schema:
  *               type: object
  *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
  *                 statusCode:
  *                   type: integer
  *                   example: 500
- *                 status:
- *                   type: string
- *                   example: "Failed"
  *                 message:
  *                   type: string
- *                   example: "Internal Server Error."
- *                 error:
- *                   type: string
- *                   example: "Database connection failed"
+ *                   example: "Internal Server Error"
  */
-route.get("/:id_berita", beritaController.getBeritaById);
+route.get("/:id", beritaController.getBeritaById);
 
 /**
  * @swagger
- * /berita/{id_berita}:
+ * /berita/{id}:
  *   put:
  *     summary: Memperbarui berita
  *     description: Endpoint ini digunakan untuk memperbarui berita yang sudah ada berdasarkan ID berita.
@@ -342,7 +351,7 @@ route.get("/:id_berita", beritaController.getBeritaById);
  *       - bearerAuth: []
  *     parameters:
  *       - in: path
- *         name: id_berita
+ *         name: id
  *         required: true
  *         schema:
  *           type: string
@@ -374,12 +383,12 @@ route.get("/:id_berita", beritaController.getBeritaById);
  *             schema:
  *               type: object
  *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
  *                 statusCode:
  *                   type: integer
  *                   example: 200
- *                 status:
- *                   type: string
- *                   example: "Success"
  *                 message:
  *                   type: string
  *                   example: "Berita berhasil diperbarui"
@@ -402,15 +411,31 @@ route.get("/:id_berita", beritaController.getBeritaById);
  *             schema:
  *               type: object
  *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
  *                 statusCode:
  *                   type: integer
  *                   example: 400
- *                 status:
- *                   type: string
- *                   example: "Failed"
  *                 message:
  *                   type: string
- *                   example: "Invalid date format. Use YYYY-MM-DD"
+ *                   example: "Semua field harus diisi"
+ *       401:
+ *         description: Pengguna tidak memiliki otorisasi.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 401
+ *                 message:
+ *                   type: string
+ *                   example: "Authorization tidak ditemukan"
  *       "404":
  *         description: Berita tidak ditemukan.
  *         content:
@@ -418,34 +443,35 @@ route.get("/:id_berita", beritaController.getBeritaById);
  *             schema:
  *               type: object
  *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
  *                 statusCode:
  *                   type: integer
  *                   example: 404
- *                 status:
- *                   type: string
- *                   example: "Failed"
  *                 message:
  *                   type: string
- *                   example: "Berita not found"
- *       "500":
- *         description: Kesalahan server internal.
+ *                   example: "id berita tidak ditemukan"
+ *       500:
+ *         description: Terjadi kesalahan pada server
  *         content:
  *           application/json:
  *             schema:
  *               type: object
  *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
  *                 statusCode:
  *                   type: integer
  *                   example: 500
- *                 status:
- *                   type: string
- *                   example: "Failed"
  *                 message:
  *                   type: string
- *                   example: "Internal Server Error."
+ *                   example: "Internal Server Error"
  */
 route.put(
-  "/:id_berita",auth,
+  "/:id",
+  auth,
   multerErrorHandler,
   multer.single("gambar_sampul"),
   beritaController.updateBerita
@@ -453,7 +479,7 @@ route.put(
 
 /**
  * @swagger
- * /berita/{id_berita}:
+ * /berita/{id}:
  *   delete:
  *     summary: Menghapus berita berdasarkan ID
  *     description: Endpoint ini digunakan untuk menghapus berita berdasarkan ID yang diberikan.
@@ -463,7 +489,7 @@ route.put(
  *       - bearerAuth: []
  *     parameters:
  *       - in: path
- *         name: id_berita
+ *         name: id
  *         required: true
  *         schema:
  *           type: string
@@ -476,15 +502,35 @@ route.put(
  *             schema:
  *               type: object
  *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
  *                 statusCode:
  *                   type: integer
  *                   example: 200
- *                 status:
- *                   type: string
- *                   example: "Success"
  *                 message:
  *                   type: string
  *                   example: "Berita berhasil dihapus"
+ *                 data:
+ *                   type: object
+ *                   nullable: true
+ *                   example: null
+ *       401:
+ *         description: Pengguna tidak memiliki otorisasi.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 401
+ *                 message:
+ *                   type: string
+ *                   example: "Authorization tidak ditemukan"
  *       "404":
  *         description: Berita tidak ditemukan.
  *         content:
@@ -492,37 +538,372 @@ route.put(
  *             schema:
  *               type: object
  *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
  *                 statusCode:
  *                   type: integer
  *                   example: 404
- *                 status:
- *                   type: string
- *                   example: "Failed"
  *                 message:
  *                   type: string
- *                   example: "Berita tidak ditemukan"
- *       "500":
- *         description: Kesalahan server internal.
+ *                   example: "Id Berita tidak ditemukan"
+ *       500:
+ *         description: Terjadi kesalahan pada server
  *         content:
  *           application/json:
  *             schema:
  *               type: object
  *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
  *                 statusCode:
  *                   type: integer
  *                   example: 500
- *                 status:
- *                   type: string
- *                   example: "Failed"
  *                 message:
  *                   type: string
- *                   example: "Internal Server Error."
- *                 error:
- *                   type: string
- *                   example: "Database connection failed"
+ *                   example: "Internal Server Error"
  */
-route.delete("/:id_berita", auth,beritaController.deleteBerita);
+route.delete("/:id", auth, beritaController.deleteBerita);
 
+/**
+ * @swagger
+ * /berita/{id}/galeri-berita:
+ *   get:
+ *     summary: Mendapatkan daftar gambar berdasarkan ID berita
+ *     description: Endpoint ini digunakan untuk mengambil semua gambar yang terkait dengan berita tertentu berdasarkan ID berita.
+ *     tags:
+ *       - Berita
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID berita yang gambarnya ingin diambil
+ *         example: "b20ab68f-be3e-4437-aff6-3d84a684f30b"
+ *     responses:
+ *       "200":
+ *         description: Gambar berhasil ditemukan.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 statusCode:
+ *                   type: integer
+ *                   example: "200"
+ *                 message:
+ *                   type: string
+ *                   example: "Gambar berhasil ditemukan"
+ *                 gambar:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: string
+ *                         example: "123e4567-e89b-12d3-a456-426614174000"
+ *                       url:
+ *                         type: string
+ *                         example: "https://ik.imagekit.io/your-folder/sample-image.jpg"
+ *       401:
+ *         description: Pengguna tidak memiliki otorisasi.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 401
+ *                 message:
+ *                   type: string
+ *                   example: "Authorization tidak ditemukan"
+ *       "404":
+ *         description: Tidak ada gambar untuk berita ini.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 404
+ *                 message:
+ *                   type: string
+ *                   example: "Tidak ada gambar untuk berita ini"
+ *       500:
+ *         description: Terjadi kesalahan pada server
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 500
+ *                 message:
+ *                   type: string
+ *                   example: "Internal Server Error"
+ */
+route.get("/:id/galeri-berita", auth, beritaController.getGaleriBerita);
+
+/**
+ * @swagger
+ * /berita/{id}/galeri-berita:
+ *   delete:
+ *     summary: Hapus satu atau lebih gambar dari galeri berita
+ *     description: Menghapus gambar-gambar yang terkait dengan sebuah berita berdasarkan ID berita (`id`) dan array ID gambar (`ids`) yang diberikan.
+ *     tags:
+ *       - Berita
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         description: ID dari berita yang memiliki galeri gambar
+ *         schema:
+ *           type: string
+ *           example: orgjeo
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               ids:
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *                 description: Array ID gambar yang akan dihapus
+ *                 example: ["123e4567-e89b-12d3-a456-426614174000", "987e6543-b21c-45d8-c789-123456789012"]
+ *     responses:
+ *       200:
+ *         description: Berhasil menghapus gambar
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 200
+ *                 message:
+ *                   type: string
+ *                   example: "Gambar berhasil dihapus"
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: string
+ *                         example: "123e4567-e89b-12d3-a456-426614174000"
+ *                       fileName:
+ *                         type: string
+ *                         example: "gambar1.png"
+ *       401:
+ *         description: Pengguna tidak memiliki otorisasi.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 401
+ *                 message:
+ *                   type: string
+ *                   example: "Authorization tidak ditemukan"
+ *       404:
+ *         description: Gambar tidak ditemukan.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 404
+ *                 message:
+ *                   type: string
+ *                   example: "Gambar tidak ditemukan"
+ *       500:
+ *         description: Terjadi kesalahan pada server
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 500
+ *                 message:
+ *                   type: string
+ *                   example: "Internal Server Error"
+ */
+route.delete("/:id/galeri-berita", auth, beritaController.deleteGambar);
+
+/**
+ * @swagger
+ * /berita/{id}/galeri-berita:
+ *   post:
+ *     summary: Mengunggah gambar tambahan untuk berita
+ *     description: Endpoint ini digunakan untuk mengunggah hingga 4 gambar tambahan terkait suatu berita. Jika lebih dari 4 gambar diunggah, akan muncul kesalahan.
+ *     tags:
+ *       - Berita
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID berita yang akan ditambahkan gambarnya
+ *         example: "b20ab68f-be3e-4437-aff6-3d84a684f30b"
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               gambar_tambahan:
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *                   format: binary
+ *                 description: Maksimal 4 gambar yang diunggah
+ *     responses:
+ *       "201":
+ *         description: Gambar berhasil diunggah.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 201
+ *                 message:
+ *                   type: string
+ *                   example: "Gambar tambahan berhasil diunggah"
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       url:
+ *                         type: string
+ *                         example: "https://ik.imagekit.io/your-folder/image1.jpg"
+ *                       beritaId:
+ *                         type: string
+ *                         example: "123e4567-e89b-12d3-a456-426614174000"
+ *       "400":
+ *         description: Kesalahan dalam input gambar.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 400
+ *                 message:
+ *                   type: string
+ *                   example: "No files uploaded"
+ *       "400_Overimage":
+ *         description: Terlalu banyak gambar yang diunggah.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 400
+ *                 message:
+ *                   type: string
+ *                   example: "Maksimal 4 gambar diperbolehkan"
+ *       401:
+ *         description: Pengguna tidak memiliki otorisasi.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 401
+ *                 message:
+ *                   type: string
+ *                   example: "Authorization tidak ditemukan"
+ *       500:
+ *         description: Terjadi kesalahan pada server
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 500
+ *                 message:
+ *                   type: string
+ *                   example: "Internal Server Error"
+ */
+route.post(
+  "/:id/galeri-berita",
+  auth,
+  multer.array("gambar_tambahan"),
+  multerErrorHandler,
+  beritaController.uploadGambar
+);
 /**
  * @swagger
  * components:

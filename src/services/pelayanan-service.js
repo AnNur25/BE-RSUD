@@ -56,8 +56,7 @@ class PelayananService {
     id_pelayanan,
     { nama_pelayanan, Persyaratan, Prosedur, JangkaWaktu, Biaya }
   ) {
-    if (!id_pelayanan)
-      throw new BadRequestError("ID pelayanan harus disediakan");
+    if (!id_pelayanan) throw new BadRequestError("ID pelayanan diperlukan");
 
     const existing = await prisma.pelayanan.findUnique({
       where: { id_pelayanan },
@@ -67,10 +66,15 @@ class PelayananService {
         `Pelayanan dengan ID ${id_pelayanan} tidak ditemukan`
       );
 
-    return await prisma.pelayanan.update({
+    const updatedPelayanan = await prisma.pelayanan.update({
       where: { id_pelayanan },
       data: { nama_pelayanan, Persyaratan, Prosedur, JangkaWaktu, Biaya },
     });
+
+    return {
+      id: updatedPelayanan.id_pelayanan,
+      nama_pelayanan: updatedPelayanan.nama_pelayanan,
+    };
   }
 }
 

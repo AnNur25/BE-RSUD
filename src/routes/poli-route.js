@@ -31,27 +31,18 @@ const { auth } = require("../middlewares/auth-middleware");
  *             schema:
  *               type: object
  *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
  *                 statusCode:
  *                   type: integer
  *                   example: 201
- *                 status:
- *                   type: string
- *                   example: "Success"
  *                 message:
  *                   type: string
  *                   example: "Spesialis berhasil ditambahkan"
  *                 data:
  *                   type: object
  *                   properties:
- *                     statusCode:
- *                       type: integer
- *                       example: 200
- *                     status:
- *                       type: string
- *                       example: "Success"
- *                     message:
- *                       type: string
- *                       example: "poli berhasil diperbarui"
  *                     data:
  *                       type: object
  *                       properties:
@@ -68,34 +59,47 @@ const { auth } = require("../middlewares/auth-middleware");
  *             schema:
  *               type: object
  *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
  *                 statusCode:
  *                   type: integer
  *                   example: 400
- *                 status:
- *                   type: string
- *                   example: "Failed"
  *                 message:
  *                   type: string
  *                   example: "Nama spesialis harus diisi."
- *       500:
- *         description: Terjadi kesalahan pada server.
+ *       401:
+ *         description: Pengguna tidak memiliki otorisasi.
  *         content:
  *           application/json:
  *             schema:
  *               type: object
  *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 401
+ *                 message:
+ *                   type: string
+ *                   example: "Authorization tidak ditemukan"
+ *       500:
+ *         description: Terjadi kesalahan pada server
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
  *                 statusCode:
  *                   type: integer
  *                   example: 500
- *                 status:
- *                   type: string
- *                   example: "Failed"
  *                 message:
  *                   type: string
- *                   example: "Internal Server Error."
- *                 error:
- *                   type: string
- *                   example: "Detail error dari server."
+ *                   example: "Internal Server Error"
  */
 Route.post("/", auth, poliController.createPoli);
 
@@ -115,12 +119,12 @@ Route.post("/", auth, poliController.createPoli);
  *             schema:
  *               type: object
  *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
  *                 statusCode:
  *                   type: integer
  *                   example: 200
- *                 status:
- *                   type: string
- *                   example: "Success"
  *                 message:
  *                   type: string
  *                   example: "Berhasil menampilkan Daftar Poli"
@@ -142,34 +146,31 @@ Route.post("/", auth, poliController.createPoli);
  *             schema:
  *               type: object
  *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
  *                 statusCode:
  *                   type: integer
  *                   example: 404
- *                 status:
- *                   type: string
- *                   example: "Failed"
  *                 message:
  *                   type: string
  *                   example: "Ops! daftar poli kosong"
  *       500:
- *         description: Terjadi kesalahan pada server.
+ *         description: Terjadi kesalahan pada server
  *         content:
  *           application/json:
  *             schema:
  *               type: object
  *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
  *                 statusCode:
  *                   type: integer
  *                   example: 500
- *                 status:
- *                   type: string
- *                   example: "Failed"
  *                 message:
  *                   type: string
- *                   example: "Internal Server Error."
- *                 error:
- *                   type: string
- *                   example: "Detail error dari server."
+ *                   example: "Internal Server Error"
  */
 Route.get("/", poliController.getPoli);
 
@@ -234,15 +235,31 @@ Route.get("/", poliController.getPoli);
  *             schema:
  *               type: object
  *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
  *                 statusCode:
  *                   type: integer
  *                   example: 400
- *                 status:
- *                   type: string
- *                   example: "Failed"
  *                 message:
  *                   type: string
  *                   example: "Nama poli harus diisi"
+ *       401:
+ *         description: Pengguna tidak memiliki otorisasi.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 401
+ *                 message:
+ *                   type: string
+ *                   example: "Authorization tidak ditemukan"
  *       404:
  *         description: Poli tidak ditemukan.
  *         content:
@@ -250,34 +267,31 @@ Route.get("/", poliController.getPoli);
  *             schema:
  *               type: object
  *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
  *                 statusCode:
  *                   type: integer
  *                   example: 404
- *                 status:
- *                   type: string
- *                   example: "Failed"
  *                 message:
  *                   type: string
  *                   example: "Poli dengan ID bf27354f-6d82-4e25-9541-b9efc8bf57ed tidak ditemukan"
  *       500:
- *         description: Terjadi kesalahan pada server.
+ *         description: Terjadi kesalahan pada server
  *         content:
  *           application/json:
  *             schema:
  *               type: object
  *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
  *                 statusCode:
  *                   type: integer
  *                   example: 500
- *                 status:
- *                   type: string
- *                   example: "Failed"
  *                 message:
  *                   type: string
- *                   example: "Internal Server Error."
- *                 error:
- *                   type: string
- *                   example: "Database connection failed"
+ *                   example: "Internal Server Error"
  */
 Route.put("/:id_poli", auth, poliController.updatePoli);
 

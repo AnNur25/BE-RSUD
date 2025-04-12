@@ -37,11 +37,76 @@ const { auth } = require("../middlewares/auth-middleware");
  *                 example: 50000
  *     responses:
  *       201:
- *         description: Pelayanan berhasil ditambahkan.
+ *         description: Pelayanan berhasil ditambahkan
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 201
+ *                 message:
+ *                   type: string
+ *                   example: "Pelayanan berhasil ditambahkan"
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: integer
+ *                     nama_pelayanan:
+ *                       type: string
  *       400:
- *         description: Input tidak valid.
+ *         description: Semua field wajib diisi atau format ID tidak valid.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 400
+ *                 message:
+ *                   type: string
+ *                   example: "Semua field wajib diisi"
+ *       401:
+ *         description: Pengguna tidak memiliki otorisasi.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 401
+ *                 message:
+ *                   type: string
+ *                   example: "Authorization tidak ditemukan"
  *       500:
- *         description: Internal server error.
+ *         description: Terjadi kesalahan pada server
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 500
+ *                 message:
+ *                   type: string
+ *                   example: "Internal Server Error"
  */
 route.post("/", auth, pelayanan.createPelayanan);
 
@@ -55,9 +120,43 @@ route.post("/", auth, pelayanan.createPelayanan);
  *       - Pelayanan Rumah Sakit
  *     responses:
  *       200:
- *         description: Berhasil mengambil data pelayanan.
+ *         description: Berhasil mendapatkan data pelayanan
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: "Berhasil mendapatkan data pelayanan"
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id_pelayanan:
+ *                         type: integer
+ *                       nama_pelayanan:
+ *                         type: string
  *       500:
- *         description: Terjadi kesalahan server.
+ *         description: Terjadi kesalahan pada server
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 500
+ *                 message:
+ *                   type: string
+ *                   example: "Internal Server Error"
  */
 route.get("/", pelayanan.getPelayanan);
 
@@ -78,18 +177,15 @@ route.get("/", pelayanan.getPelayanan);
  *         description: ID dari pelayanan yang ingin diambil
  *     responses:
  *       200:
- *         description: Berhasil mendapatkan data pelayanan.
+ *         description: Data pelayanan ditemukan.
  *         content:
  *           application/json:
  *             schema:
  *               type: object
  *               properties:
- *                 statusCode:
- *                   type: integer
- *                   example: 200
- *                 status:
- *                   type: string
- *                   example: "Success"
+ *                 success:
+ *                   type: boolean
+ *                   example: true
  *                 message:
  *                   type: string
  *                   example: "Data pelayanan ditemukan"
@@ -189,13 +285,75 @@ route.get("/:id_pelayanan", pelayanan.getById);
  *                 example: 25000
  *     responses:
  *       200:
- *         description: Data berhasil diperbarui.
+ *         description: Data pelayanan berhasil di update.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: "pelayanan berhasil diperbarui"
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     id_pelayanan:
+ *                       type: string
+ *                       example: "bf27354f-6d82-4e25-9541-b9efc8bf57ed"
+ *                     nama_pelayanan:
+ *                       type: string
+ *                       example: "Pelayanan Umum"
  *       400:
- *         description: Format ID tidak valid atau data tidak lengkap.
- *       404:
- *         description: Data tidak ditemukan.
+ *         description: ID pelayanan diperlukan.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 400
+ *                 message:
+ *                   type: string
+ *                   example: "ID pelayanan diperlukan"
+ *       401:
+ *         description: Pengguna tidak memiliki otorisasi.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 401
+ *                 message:
+ *                   type: string
+ *                   example: "Authorization tidak ditemukan"
  *       500:
- *         description: Kesalahan server.
+ *         description: Terjadi kesalahan pada server
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 500
+ *                 message:
+ *                   type: string
+ *                   example: "Internal Server Error"
  */
 route.put("/:id_pelayanan", auth, pelayanan.updatePelayanan);
 

@@ -28,9 +28,8 @@ class JadwalDokterService {
   }
 
   static async createJadwalDokter({ id_dokter, layananList }) {
-    const groupedJadwal = {};
-
     const dokter = await prisma.dokter.findUnique({ where: { id_dokter } });
+
     if (!dokter) {
       throw new NotFoundError(`Dokter dengan ID ${id_dokter} tidak ditemukan.`);
     }
@@ -78,24 +77,12 @@ class JadwalDokterService {
             jam_selesai,
           },
         });
-
-        if (!groupedJadwal[id_dokter]) {
-          groupedJadwal[id_dokter] = {
-            dokter_id: id_dokter,
-            jadwal: [],
-          };
-        }
-
-        groupedJadwal[id_dokter].jadwal.push({
-          id_pelayanan,
-          hari: normalizedHari,
-          jam: `${jam_mulai}-${jam_selesai}`,
-        });
       }
     }
 
     return {
-      jadwal_dokter: Object.values(groupedJadwal),
+      id_dokter,
+      nama_dokter: dokter.nama,
     };
   }
 
@@ -172,6 +159,9 @@ class JadwalDokterService {
   }
 
   static async searchJadwalDokter({ id_poli, tanggal }) {
+    if (!id_poli || !tanggal) {
+      throw new BadRequestError("ID Poli dan tanggal wajib diisi");
+    }
     const namaHari = [
       "Minggu",
       "Senin",
@@ -270,7 +260,9 @@ class JadwalDokterService {
   }
 
   static async updateJadwalDokter({ id_dokter }, { layananList }) {
-    const dokter = await prisma.dokter.findUnique({ where: { id_dokter } });
+    const dokter = await prisma.dokter.findUnique({
+      where: { id_dokter },
+    });
     if (!dokter) {
       throw new NotFoundError(`Dokter dengan ID ${id_dokter} tidak ditemukan.`);
     }
@@ -281,17 +273,10 @@ class JadwalDokterService {
       );
     }
 
-    // Hapus semua jadwal lama dokter ini
     await prisma.jadwalDokter.deleteMany({ where: { id_dokter } });
-
-    const groupedJadwal = {
-      dokter_id: id_dokter,
-      jadwal: [],
-    };
 
     for (const layanan of layananList) {
       const { id_pelayanan, hariList } = layanan;
-
       if (!Array.isArray(hariList) || hariList.length === 0) {
         throw new BadRequestError(
           "Setiap layanan harus memiliki daftar hari (hariList) yang valid."
@@ -313,14 +298,12 @@ class JadwalDokterService {
         const startHour = parseInt(jam_mulai.split(":")[0]);
         const endHour = parseInt(jam_selesai.split(":")[0]);
 
-        let sesi = "";
-        if (startHour >= 7 && endHour <= 14) {
-          sesi = "Pagi";
-        } else if (startHour >= 14 && endHour <= 20) {
-          sesi = "Sore";
-        } else {
-          sesi = "Malam";
-        }
+        const sesi =
+          startHour >= 7 && endHour <= 14
+            ? "Pagi"
+            : startHour >= 14 && endHour <= 20
+            ? "Sore"
+            : "Malam";
 
         await prisma.jadwalDokter.create({
           data: {
@@ -332,17 +315,12 @@ class JadwalDokterService {
             jam_selesai,
           },
         });
-
-        groupedJadwal.jadwal.push({
-          id_pelayanan,
-          hari: normalizedHari,
-          jam: `${jam_mulai}-${jam_selesai}`,
-        });
       }
     }
 
     return {
-      jadwal_dokter: [groupedJadwal],
+      id_dokter: dokter.id_dokter,
+      nama_dokter: dokter.nama,
     };
   }
 
@@ -352,14 +330,12 @@ class JadwalDokterService {
       throw new NotFoundError(`Dokter dengan ID ${id_dokter} tidak ditemukan.`);
     }
 
-    const deleted = await prisma.jadwalDokter.deleteMany({
+    await prisma.jadwalDokter.deleteMany({
       where: { id_dokter },
     });
 
-    const namaDokter = dokter.nama;
     return {
-      jumlah_jadwal: deleted.count,
-      namaDokter,
+      nama_dokter: dokter.nama,
     };
   }
 }
