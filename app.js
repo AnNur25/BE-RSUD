@@ -13,7 +13,6 @@ const poliRoute = require("./src/routes/poli-route");
 const jadwalDokterRoute = require("./src/routes/jadwal-dokter-route");
 const aduanRoute = require("./src/routes/aduan-route");
 const beritaRoute = require("./src/routes/berita-route");
-const galeriRoute = require("./src/routes/galeri-route");
 const port = envConfig.port;
 
 app.use(cors({ allowedHeaders: ["Content-Type", "Authorization"] }));
@@ -39,7 +38,6 @@ app.use("/poli", poliRoute);
 app.use("/jadwal-dokter", jadwalDokterRoute);
 app.use("/aduan", aduanRoute);
 app.use("/berita", beritaRoute);
-app.use("/galeri-berita", galeriRoute);
 app.use((err, req, res, next) => {
   console.error(err);
   res.status(500).json({
@@ -51,7 +49,6 @@ app.use((err, req, res, next) => {
 app.get("/", (req, res) => {
   res.send("the system works !!!");
 });
-console.log("percobaan forked");
 app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
+  console.log(`LOPE YOU ${port}`);
 });

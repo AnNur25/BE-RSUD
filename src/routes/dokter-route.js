@@ -1,6 +1,5 @@
 const express = require("express");
 const Route = express.Router();
-const multer = require("multer");
 const dokterController = require("../controllers/dokter-controller");
 const multerConfig = require("../middlewares/multer-middleware");
 const multerErrorHandler = require("../middlewares/multer-error-handling-middleware");
@@ -41,12 +40,12 @@ const { auth } = require("../middlewares/auth-middleware");
  *             schema:
  *               type: object
  *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
  *                 statusCode:
  *                   type: integer
  *                   example: 201
- *                 status:
- *                   type: string
- *                   example: "Success"
  *                 message:
  *                   type: string
  *                   example: "Dokter berhasil ditambahkan"
@@ -59,15 +58,6 @@ const { auth } = require("../middlewares/auth-middleware");
  *                     nama:
  *                       type: string
  *                       example: "Dr. Andi"
- *                     gambar:
- *                       type: string
- *                       example: "https://ik.imagekit.io/example.jpg"
- *                     id_Spesialis:
- *                       type: string
- *                       example: "io6"
- *                     id_pelayanan_dokter:
- *                       type: string
- *                       example: "kjji8"
  *       400:
  *         description: Data tidak lengkap atau file tidak diunggah.
  *         content:
@@ -75,15 +65,15 @@ const { auth } = require("../middlewares/auth-middleware");
  *             schema:
  *               type: object
  *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
  *                 statusCode:
  *                   type: integer
  *                   example: 400
- *                 status:
- *                   type: string
- *                   example: "Failed"
  *                 message:
  *                   type: string
- *                   example: "No file uploaded"
+ *                   example: "Nama, id poli, dan file harus diisi"
  *       401:
  *         description: Pengguna tidak memiliki otorisasi.
  *         content:
@@ -91,34 +81,31 @@ const { auth } = require("../middlewares/auth-middleware");
  *             schema:
  *               type: object
  *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
  *                 statusCode:
  *                   type: integer
  *                   example: 401
- *                 status:
- *                   type: string
- *                   example: "Failed"
  *                 message:
  *                   type: string
- *                   example: "Unauthorized: User ID not found"
+ *                   example: "Authorization tidak ditemukan"
  *       500:
- *         description: Terjadi kesalahan pada server.
+ *         description: Terjadi kesalahan pada server
  *         content:
  *           application/json:
  *             schema:
  *               type: object
  *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
  *                 statusCode:
  *                   type: integer
  *                   example: 500
- *                 status:
- *                   type: string
- *                   example: "Failed"
  *                 message:
  *                   type: string
- *                   example: "Internal Server Error."
- *                 error:
- *                   type: string
- *                   example: "Database connection failed"
+ *                   example: "Internal Server Error"
  */
 Route.post(
   "/",
@@ -127,6 +114,109 @@ Route.post(
   multerConfig.single("file"),
   dokterController.createDokter
 );
+
+/**
+ * @swagger
+ * /dokter/search:
+ *   get:
+ *     summary: Mencari dokter berdasarkan kata kunci
+ *     description: Endpoint ini digunakan untuk mencari dokter berdasarkan nama atau nama poli. Pencarian bersifat case-insensitive.
+ *     tags:
+ *       - Dokter
+ *     parameters:
+ *       - in: query
+ *         name: keyword
+ *         required: true
+ *         description: Kata kunci untuk mencari dokter. Harus diisi.
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Berhasil menampilkan dokter
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 200
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: integer
+ *                         example: 1
+ *                       nama:
+ *                         type: string
+ *                         example: "Dr. John Doe"
+ *                       poli:
+ *                         type: object
+ *                         properties:
+ *                           id:
+ *                             type: integer
+ *                             example: 1
+ *                           nama_poli:
+ *                             type: string
+ *                             example: "Pediatri"
+ *                 message:
+ *                   type: string
+ *                   example: "berhasil menampilkan dokter"
+ *       400:
+ *         description: Permintaan tidak valid, kata kunci tidak boleh kosong
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 400
+ *                 message:
+ *                   type: string
+ *                   example: "Keyword pencarian harus diisi"
+ *       404:
+ *         description: Dokter tidak ditemukan berdasarkan kata kunci yang diberikan
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 404
+ *                 message:
+ *                   type: string
+ *                   example: "data dokter tidak tersedia"
+ *       500:
+ *         description: Terjadi kesalahan pada server
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 500
+ *                 message:
+ *                   type: string
+ *                   example: "Internal Server Error"
+ */
+Route.get("/search", dokterController.searchDokter);
 
 /**
  * @swagger
@@ -147,7 +237,7 @@ Route.post(
  *         name: pageSize
  *         schema:
  *           type: integer
- *           default: 8
+ *           default: 15
  *         description: Jumlah Dokter yang ditampilkan per halaman.
  *     responses:
  *       200:
@@ -157,12 +247,12 @@ Route.post(
  *             schema:
  *               type: object
  *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
  *                 statusCode:
  *                   type: integer
  *                   example: 200
- *                 status:
- *                   type: string
- *                   example: "Success"
  *                 message:
  *                   type: string
  *                   example: "Data dokter berhasil diambil"
@@ -196,43 +286,40 @@ Route.post(
  *                             type: string
  *                             example: "Pelayanan Konsultasi"
  *       404:
- *         description: Data dokter tidak ditemukan.
+ *         description: Data Dokter Kosong
  *         content:
  *           application/json:
  *             schema:
  *               type: object
  *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
  *                 statusCode:
  *                   type: integer
  *                   example: 404
- *                 status:
- *                   type: string
- *                   example: "Failed"
  *                 message:
  *                   type: string
- *                   example: "Data dokter tidak ditemukan"
+ *                   example: "Data Dokter Kosong"
  *                 data:
  *                   type: array
  *                   example: []
  *       500:
- *         description: Kesalahan server internal.
+ *         description: Terjadi kesalahan pada server
  *         content:
  *           application/json:
  *             schema:
  *               type: object
  *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
  *                 statusCode:
  *                   type: integer
  *                   example: 500
- *                 status:
- *                   type: string
- *                   example: "Failed"
  *                 message:
  *                   type: string
- *                   example: "Internal Server Error."
- *                 error:
- *                   type: string
- *                   example: "Database connection failed"
+ *                   example: "Internal Server Error"
  */
 Route.get("/", dokterController.getDokter);
 
@@ -278,12 +365,12 @@ Route.get("/", dokterController.getDokter);
  *             schema:
  *               type: object
  *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
  *                 statusCode:
  *                   type: integer
  *                   example: 200
- *                 status:
- *                   type: string
- *                   example: "Success"
  *                 message:
  *                   type: string
  *                   example: "Dokter berhasil diperbarui"
@@ -303,15 +390,31 @@ Route.get("/", dokterController.getDokter);
  *             schema:
  *               type: object
  *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
  *                 statusCode:
  *                   type: integer
  *                   example: 400
- *                 status:
- *                   type: string
- *                   example: "Failed"
  *                 message:
  *                   type: string
  *                   example: "ID Dokter, Nama, dan ID Poli harus diisi"
+ *       401:
+ *         description: Pengguna tidak memiliki otorisasi.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 401
+ *                 message:
+ *                   type: string
+ *                   example: "Authorization tidak ditemukan"
  *       404:
  *         description: Dokter atau Poli tidak ditemukan
  *         content:
@@ -319,37 +422,36 @@ Route.get("/", dokterController.getDokter);
  *             schema:
  *               type: object
  *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
  *                 statusCode:
  *                   type: integer
  *                   example: 404
- *                 status:
- *                   type: string
- *                   example: "Failed"
  *                 message:
  *                   type: string
- *                   example: "Dokter tidak ditemukan"
+ *                   example: "Dokter atau poli tidak ditemukan"
  *       500:
- *         description: Terjadi kesalahan pada server.
+ *         description: Terjadi kesalahan pada server
  *         content:
  *           application/json:
  *             schema:
  *               type: object
  *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
  *                 statusCode:
  *                   type: integer
  *                   example: 500
- *                 status:
- *                   type: string
- *                   example: "Failed"
  *                 message:
  *                   type: string
- *                   example: "Internal Server Error."
- *                 error:
- *                   type: string
- *                   example: "Gagal mengupdate dokter"
+ *                   example: "Internal Server Error"
  */
 Route.put(
-  "/:id_dokter", auth, multerErrorHandler,
+  "/:id_dokter",
+  auth,
+  multerErrorHandler,
   multerConfig.single("gambar"),
   dokterController.updateDokter
 );
@@ -379,46 +481,35 @@ Route.put(
  *             schema:
  *               type: object
  *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
  *                 statusCode:
  *                   type: integer
  *                   example: 200
- *                 status:
- *                   type: string
- *                   example: "Success"
  *                 message:
  *                   type: string
  *                   example: "Dokter berhasil dihapus"
  *                 data:
  *                   type: object
- *                   properties:
- *                     id_dokter:
- *                       type: string
- *                       example: "jikhio-6d82-4e25-9541-b9efc8bf57ed"
- *                     nama:
- *                       type: string
- *                       example: "Dr. Budi Santoso"
- *                     kontak:
- *                       type: string
- *                       example: "08123456789"
- *                     gambar:
- *                       type: string
- *                       example: "https://ik.imagekit.io/example.jpg"
- *       400:
- *         description: Format ID dokter tidak valid.
+ *                   nullable: true
+ *                   example: null
+ *       401:
+ *         description: Pengguna tidak memiliki otorisasi.
  *         content:
  *           application/json:
  *             schema:
  *               type: object
  *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
  *                 statusCode:
  *                   type: integer
- *                   example: 400
- *                 status:
- *                   type: string
- *                   example: "Failed"
+ *                   example: 401
  *                 message:
  *                   type: string
- *                   example: "Invalid dokter ID format"
+ *                   example: "Authorization tidak ditemukan"
  *       404:
  *         description: Dokter tidak ditemukan.
  *         content:
@@ -426,36 +517,38 @@ Route.put(
  *             schema:
  *               type: object
  *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
  *                 statusCode:
  *                   type: integer
  *                   example: 404
- *                 status:
- *                   type: string
- *                   example: "Failed"
  *                 message:
  *                   type: string
  *                   example: "Dokter dengan ID 10 tidak ditemukan"
  *       500:
- *         description: Terjadi kesalahan server yang tidak terduga.
+ *         description: Terjadi kesalahan pada server
  *         content:
  *           application/json:
  *             schema:
  *               type: object
  *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
  *                 statusCode:
  *                   type: integer
  *                   example: 500
- *                 status:
- *                   type: string
- *                   example: "Failed"
  *                 message:
  *                   type: string
- *                   example: "Unexpected error occurred"
- *                 error:
- *                   type: string
- *                   example: "Database connection failed"
+ *                   example: "Internal Server Error"
  */
-Route.delete("/:id_dokter", auth, multerErrorHandler, dokterController.deleteDokter);
+Route.delete(
+  "/:id_dokter",
+  auth,
+  multerErrorHandler,
+  dokterController.deleteDokter
+);
 
 /**
  * @swagger

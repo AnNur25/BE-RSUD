@@ -31,7 +31,7 @@ class PoliController {
       const { id_poli } = req.params;
       const { nama_poli } = req.body;
       const poli = await PoliService.updatePoli({id_poli}, {nama_poli});
-      return responseHelper.success(res, poli, "berhasil update poli");
+      return responseHelper.success(res, poli, "perubahan berhasil disimpan");
     } catch (error) {
       return responseHelper.error(res, error);
     }

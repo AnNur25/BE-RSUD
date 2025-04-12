@@ -74,7 +74,7 @@ model Dokter {
 
 model Poli {
   id_poli   String   @id @default(uuid())
-  nama_poli String
+  nama_poli String 
   dokter    Dokter[]
 }
 
@@ -86,7 +86,7 @@ model JadwalDokter {
   jam_mulai        String
   jam_selesai      String
   id_pelayanan     String
-  dokter           Dokter    @relation(fields: [id_dokter], references: [id_dokter])
+  dokter           Dokter    @relation(fields: [id_dokter], references: [id_dokter], onDelete: Cascade)
   pelayanan        Pelayanan @relation(fields: [id_pelayanan], references: [id_pelayanan])
 }
 

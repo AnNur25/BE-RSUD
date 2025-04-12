@@ -31,7 +31,6 @@ const swaggerOptions = {
   apis: [
     "./src/routes/aduan-route.js",
     "./src/routes/berita-route.js",
-    "./src/routes/galeri-route.js",
     "./src/routes/poli-route.js",
     "./src/routes/dokter-route.js",
     "./src/routes/jadwal-dokter-route.js",
