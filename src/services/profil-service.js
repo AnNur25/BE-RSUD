@@ -97,7 +97,7 @@ class ProfilService {
         resetTokenExp: new Date(Date.now() + 15 * 60 * 1000),
       },
     });
-    const resetLink = `http://localhost:3000/reset-password?token=${resetToken}`;
+    const resetLink = `https://rs-balung-cp.vercel.app/reset-password?token=${resetToken}`;
 
     await sendForgotPasswordEmail(email, resetLink);
 
