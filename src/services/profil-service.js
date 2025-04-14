@@ -94,7 +94,7 @@ class ProfilService {
     }
 
     const resetToken = JwtHelper.generateToken(foundUser);
-    const resetLink = `https://rs-balung-cp.vercel.app/?token=${resetToken}`;
+    const resetLink = `https://rs-balung-cp.vercel.app/reset-password?token=${resetToken}`;
 
     await sendForgotPasswordEmail(email, resetLink);
 
