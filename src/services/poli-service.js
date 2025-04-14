@@ -66,14 +66,12 @@ class PoliService {
 
       const poli = await prisma.poli.findUnique({
         where: { id_poli },
-        select: { nama_poli: true },
       });
       if (!poli) {
         throw new NotFoundError("Poli tidak ditemukan");
       }
-      const isVCT = poli.nama_poli.toLowerCase().includes("vct");
       const dokter = await prisma.dokter.findMany({
-        where: isVCT ? {} : { id_poli },
+        where: { id_poli },
         select: {
           id_dokter: true,
           nama: true,
