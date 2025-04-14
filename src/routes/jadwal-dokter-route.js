@@ -257,119 +257,6 @@ route.get("/:id_dokter", JadwalDokterController.getByIdJadwalDokter);
 
 /**
  * @swagger
- * /jadwal-dokter/{id_poli}:
- *   get:
- *     summary: Mendapatkan daftar dokter berdasarkan ID poli
- *     description: Endpoint ini digunakan untuk mengambil daftar dokter yang terdaftar pada suatu poli tertentu berdasarkan ID poli.
- *     tags:
- *       - Jadwal Dokter
- *     security:
- *       - bearerAuth: []
- *     parameters:
- *       - in: path
- *         name: id_poli
- *         required: true
- *         schema:
- *           type: string
- *         description: ID Poli yang ingin dicari daftar dokternya
- *         example: "14b84fa5-8088-4f59-90ec-d5c9d59f408a"
- *     responses:
- *       200:
- *         description: Daftar dokter berhasil diambil
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 statusCode:
- *                   type: integer
- *                   example: 200
- *                 status:
- *                   type: string
- *                   example: "Success"
- *                 message:
- *                   type: string
- *                   example: "Berhasil menampilkan daftar dokter berdasarkan poli"
- *                 data:
- *                   type: array
- *                   items:
- *                     type: object
- *                     properties:
- *                       id_dokter:
- *                         type: string
- *                         example: "c52c2a67-e9d2-4d19-bd80-ec10dfae23f5"
- *                       nama:
- *                         type: string
- *                         example: "dr. Ahmad Yani"
- *       400:
- *         description: Permintaan tidak valid
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                   example: false
- *                 statusCode:
- *                   type: integer
- *                   example: 400
- *                 message:
- *                   type: string
- *                   example: "ID poli wajib diisi"
- *       401:
- *         description: Pengguna tidak memiliki otorisasi.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                   example: false
- *                 statusCode:
- *                   type: integer
- *                   example: 401
- *                 message:
- *                   type: string
- *                   example: "Authorization tidak ditemukan"
- *       404:
- *         description: Permintaan tidak valid
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                   example: false
- *                 statusCode:
- *                   type: integer
- *                   example: 404
- *                 message:
- *                   type: string
- *                   example: "Tidak ada dokter ditemukan untuk poli tersebut"
- *       500:
- *         description: Terjadi kesalahan pada server
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                   example: false
- *                 statusCode:
- *                   type: integer
- *                   example: 500
- *                 message:
- *                   type: string
- *                   example: "Internal Server Error"
- */
-route.get("/:id_poli", auth, JadwalDokterController.getDokterByPoli);
-
-/**
- * @swagger
  * /jadwal-dokter:
  *   get:
  *     summary: Mendapatkan seluruh jadwal dokter
@@ -788,6 +675,22 @@ route.post("/", auth, JadwalDokterController.createJadwalDokter);
  *                 message:
  *                   type: string
  *                   example: "Dokter dengan ID 101 tidak ditemukan."
+ *       404-pelayanan:
+ *         description: pelayanan tidak ditemukan.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 404
+ *                 message:
+ *                   type: string
+ *                   example: "Pelayanan dengan ID ${id_pelayanan} tidak ditemukan."
  *       500:
  *         description: Terjadi kesalahan pada server
  *         content:

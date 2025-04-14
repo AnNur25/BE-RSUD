@@ -6,13 +6,22 @@ class PoliService {
     if (!nama_poli) {
       throw new BadRequestError("nama poli harus diisi");
     }
+
     let formattedNamaPoli;
-    if (nama_poli.toLowerCase() === "umum") {
+    const poliName = nama_poli.trim().toLowerCase();
+    if (poliName === "umum") {
       formattedNamaPoli = "Poli Umum";
-    } else if (nama_poli.toLowerCase() === "vct") {
+    } else if (poliName === "vct") {
       formattedNamaPoli = "Poli VCT";
+    } else if (poliName === "gigi") {
+      formattedNamaPoli = "Poli Gigi";
     } else {
-      formattedNamaPoli = `Poli Spesialis ${nama_poli}`;
+      formattedNamaPoli = `Poli Spesialis ${nama_poli
+        .trim()
+        .toLowerCase()
+        .split(" ")
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(" ")}`;
     }
 
     const poli = await prisma.poli.create({
@@ -48,6 +57,37 @@ class PoliService {
     }
 
     return poli;
+  }
+  static async getDokterByPoli({ id_poli }) {
+    try {
+      if (!id_poli) {
+        throw new BadRequestError("ID Poli wajib diisi");
+      }
+
+      const poli = await prisma.poli.findUnique({
+        where: { id_poli },
+        select: { nama_poli: true },
+      });
+      if (!poli) {
+        throw new NotFoundError("Poli tidak ditemukan");
+      }
+      const isVCT = poli.nama_poli.toLowerCase().includes("vct");
+      const dokter = await prisma.dokter.findMany({
+        where: isVCT ? {} : { id_poli },
+        select: {
+          id_dokter: true,
+          nama: true,
+        },
+      });
+      if (dokter.length === 0) {
+        throw new NotFoundError(
+          `Tidak ada dokter ditemukan untuk poli tersebut`
+        );
+      }
+      return dokter;
+    } catch (error) {
+      throw error;
+    }
   }
   static async updatePoli({ id_poli }, { nama_poli }) {
     if (!id_poli || !nama_poli) {

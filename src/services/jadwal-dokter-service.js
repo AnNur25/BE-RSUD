@@ -3,31 +3,6 @@ const { BadRequestError, NotFoundError } = require("../utils/error");
 const Pagination = require("../utils/pagination");
 
 class JadwalDokterService {
-  static async getDokterByPoli({ id_poli }) {
-    try {
-      if (!id_poli) {
-        throw new BadRequestError("ID Poli wajib diisi");
-      }
-      const dokter = await prisma.dokter.findMany({
-        where: {
-          id_poli: id_poli,
-        },
-        select: {
-          id_dokter: true,
-          nama: true,
-        },
-      });
-      if (dokter.length === 0) {
-        throw new NotFoundError(
-          `Tidak ada dokter ditemukan untuk poli tersebut`
-        );
-      }
-      return dokter;
-    } catch (error) {
-      throw error;
-    }
-  }
-
   static async createJadwalDokter({ id_dokter, layananList }) {
     const dokter = await prisma.dokter.findUnique({ where: { id_dokter } });
 
@@ -370,6 +345,15 @@ class JadwalDokterService {
       if (!Array.isArray(hariList) || hariList.length === 0) {
         throw new BadRequestError(
           "Setiap layanan harus memiliki daftar hari (hariList) yang valid."
+        );
+      }
+      const pelayanan = await prisma.pelayanan.findUnique({
+        where: { id_pelayanan },
+      });
+
+      if (!pelayanan) {
+        throw new NotFoundError(
+          `Pelayanan dengan ID ${id_pelayanan} tidak ditemukan.`
         );
       }
 

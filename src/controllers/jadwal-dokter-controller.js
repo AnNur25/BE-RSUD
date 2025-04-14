@@ -2,19 +2,6 @@ const jadwalDokterService = require("../services/jadwal-dokter-service");
 const responseHelper = require("../utils/response");
 
 class JadwalDokterController {
-  static async getDokterByPoli(req, res) {
-    try {
-      const { id_poli } = req.params;
-      const dokter = await jadwalDokterService.getDokterByPoli({ id_poli });
-      return responseHelper.success(
-        res,
-        dokter,
-        "Berhasil menampilkan daftar dokter berdasarkan poli"
-      );
-    } catch (error) {
-      return responseHelper.error(res, error);
-    }
-  }
   static async createJadwalDokter(req, res) {
     try {
       const { id_dokter, layananList } = req.body;
