@@ -1,3 +1,4 @@
+require("dotenv").config();
 const prisma = require("../prisma/prismaClient");
 const JwtHelper = require("../utils/jwt-sign");
 const jwt = require("jsonwebtoken");
@@ -76,15 +77,7 @@ class ProfilService {
     return null;
   }
 
-  static async forgetPassword(user) {
-    if (!user || !user.email) {
-      throw new UnauthorizedError(
-        "Tidak terautentikasi. Silakan login kembali."
-      );
-    }
-
-    const email = user.email;
-
+  static async forgetPassword({ email }) {
     const foundUser = await prisma.user.findUnique({
       where: { email },
     });
@@ -93,14 +86,23 @@ class ProfilService {
       throw new NotFoundError("User tidak ditemukan.");
     }
 
-    const resetToken = JwtHelper.generateToken(foundUser);
-    const resetLink = `https://rs-balung-cp.vercel.app/reset-password?token=${resetToken}`;
+    const resetToken = jwt.sign({ email }, process.env.RESET_PASSWORD_SECRET, {
+      expiresIn: "15m",
+    });
+
+    await prisma.user.update({
+      where: { email },
+      data: {
+        resetToken,
+        resetTokenExp: new Date(Date.now() + 15 * 60 * 1000),
+      },
+    });
+    const resetLink = `http://localhost:3000/reset-password?token=${resetToken}`;
 
     await sendForgotPasswordEmail(email, resetLink);
 
     return {
       reset_link: resetLink,
-      resetToken,
     };
   }
 
@@ -119,29 +121,25 @@ class ProfilService {
 
     let decoded;
     try {
-      decoded = jwt.verify(token, secret);
+      decoded = jwt.verify(token, process.env.RESET_PASSWORD_SECRET);
     } catch (err) {
       throw new UnauthorizedError("Token tidak valid atau sudah kadaluarsa.");
-    }
-
-    const user = await prisma.user.findUnique({
-      where: { email: decoded.email },
-    });
-
-    if (!user) {
-      throw new NotFoundError("Akun tidak ditemukan.");
     }
 
     const hashedPassword = await bcrypt.hash(newPassw, 10);
 
     await prisma.user.update({
       where: { email: decoded.email },
-      data: { password: hashedPassword },
+      data: {
+        password: hashedPassword,
+        resetToken: null,
+        resetTokenExp: null,
+      },
     });
 
     await sendSuccesPasswordEmail(decoded.email);
 
-    return null;
+    return { message: "Password berhasil diperbarui." };
   }
 }
 

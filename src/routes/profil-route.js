@@ -209,8 +209,16 @@ router.put("/profil", auth, profilController.updatePassw);
  *     description: API ini digunakan untuk mengirimkan email berisi link reset password kepada pengguna yang telah terautentikasi.
  *     tags:
  *       - Profil
- *     security:
- *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 example: "zain@gmail.com"
  *     responses:
  *       200:
  *         description: Link reset password berhasil dikirim ke email.
@@ -234,9 +242,6 @@ router.put("/profil", auth, profilController.updatePassw);
  *                     reset_link:
  *                       type: string
  *                       example: "https://frontend.example.com/reset?token=123abc"
- *                     resetToken:
- *                       type: string
- *                       example: "eyJhbGciOiJIUzI1..."
  *       401:
  *         description: Tidak terautentikasi atau token tidak valid.
  *         content:
@@ -293,7 +298,7 @@ router.put("/profil", auth, profilController.updatePassw);
  *                   type: string
  *                   example: "Detail error dari server."
  */
-router.post("/profil", auth, profilController.forgetPassword);
+router.post("/profil", profilController.forgetPassword);
 
 /**
  * @swagger

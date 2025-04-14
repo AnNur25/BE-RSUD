@@ -29,10 +29,10 @@ class ProfilController {
   }
 
   static async forgetPassword(req, res) {
-    const user = req.user;
+    const { email } = req.body;
 
     try {
-      const result = await profilService.forgetPassword(user);
+      const result = await profilService.forgetPassword({ email });
       return responseHelper.success(
         res,
         result,
