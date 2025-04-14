@@ -3,7 +3,7 @@ const JwtHelper = require("../utils/jwt-sign");
 const jwt = require("jsonwebtoken");
 const config = require("../configs/env-config");
 const secret = config.secretKey;
-const frontend_url = config.frontend;
+// const frontend_url = config.frontend;
 const {
   sendSuccesPasswordEmail,
   sendForgotPasswordEmail,
@@ -94,7 +94,7 @@ class ProfilService {
     }
 
     const resetToken = JwtHelper.generateToken(foundUser);
-    const resetLink = `${frontend_url}?token=${resetToken}`;
+    const resetLink = `https://rs-balung-cp.vercel.app/?token=${resetToken}`;
 
     await sendForgotPasswordEmail(email, resetLink);
 
