@@ -34,6 +34,19 @@ class PoliController {
       return responseHelper.error(res, error);
     }
   }
+  static async getDokterByPoli(req, res) {
+    try {
+      const { id_poli } = req.params;
+      const dokter = await poliService.getDokterByPoli({ id_poli });
+      return responseHelper.success(
+        res,
+        dokter,
+        "Berhasil menampilkan daftar dokter berdasarkan poli"
+      );
+    } catch (error) {
+      return responseHelper.error(res, error);
+    }
+  }
   static async updatePoli(req, res) {
     try {
       const { id_poli } = req.params;
