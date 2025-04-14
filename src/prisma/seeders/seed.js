@@ -17,9 +17,799 @@ const berita = [
       "Menkes Respons Kasus Pemerkosaan di RSHS, Soroti Obat Bius Bebas Dipakai",
     ringkasan:
       "Jakarta - Menteri Kesehatan Budi Gunadi Sadikin buka suara soal kasus kekerasan seksual...",
-    isi: `Jakarta, 12 April 2025 – Menteri Kesehatan (Menkes) Budi Gunadi Sadikin akhirnya angkat bicara terkait kasus...`,
+    isi: `Jakarta, 12 April 2025 – Menteri Kesehatan (Menkes) Budi Gunadi Sadikin akhirnya angkat bicara terkait kasus pemerkosaan yang terjadi di Rumah Sakit Hasan Sadikin (RSHS). Dalam konferensi pers di Jakarta, ia menyampaikan keprihatinan mendalam dan akan memperketat pengawasan terhadap penggunaan obat bius. 
+
+Ia menambahkan bahwa pihak rumah sakit akan diaudit dan semua prosedur penggunaan anestesi akan ditinjau kembali. "Kami tidak akan mentolerir kejadian seperti ini. Setiap pasien berhak merasa aman di fasilitas kesehatan," ujarnya. 
+
+Kejadian ini juga memunculkan kritik dari masyarakat luas terkait lemahnya sistem pengawasan internal rumah sakit dan regulasi yang longgar. Dalam kesempatan yang sama, Menkes juga menyoroti perlunya edukasi etika kedokteran di institusi pendidikan.
+
+Lebih lanjut, Kemenkes akan bekerja sama dengan Kementerian Pendidikan, Kebudayaan, Riset, dan Teknologi untuk memperkuat kurikulum etika profesi di fakultas kedokteran. Pengawasan terhadap fasilitas kesehatan swasta dan negeri pun akan diperketat.
+
+Sejumlah LSM perempuan menanggapi positif langkah cepat Menkes dan meminta agar korban mendapat perlindungan serta pendampingan psikologis. Proses hukum terhadap pelaku diharapkan berjalan transparan dan tidak ditutup-tutupi.`,
+
     gambar_sampul:
       "https://akcdn.detik.net.id/community/media/visual/2025/04/12/menkes-budi-gunadi-sadikin-1744457661081_169.jpeg?w=700&q=90",
+  },
+  {
+    id_berita: "a2c74b62-1ec2-4f9e-a34e-81cfb5d87ef2",
+    judul:
+      "BMKG: Cuaca Ekstrem Diprediksi Terjadi di Wilayah Selatan Indonesia",
+    ringkasan:
+      "BMKG memperingatkan adanya potensi cuaca ekstrem di sejumlah wilayah Indonesia bagian selatan...",
+    isi: `Jakarta, 13 April 2025 – Badan Meteorologi, Klimatologi, dan Geofisika (BMKG) memprediksi cuaca ekstrem seperti hujan deras disertai angin kencang dan petir akan melanda sejumlah wilayah Indonesia bagian selatan dalam beberapa hari ke depan.
+
+Kepala BMKG Dwikorita Karnawati mengatakan bahwa fenomena ini disebabkan oleh adanya gangguan atmosfer dari Samudra Hindia yang berdampak pada pembentukan awan konvektif secara masif. 
+
+Masyarakat diminta untuk tetap waspada, terutama bagi nelayan dan pengguna transportasi laut serta warga yang tinggal di daerah rawan longsor. “Kami terus memantau pergerakan sistem tekanan rendah yang dapat memperparah cuaca ekstrem,” ujarnya. 
+
+BMKG juga telah menyebarluaskan peringatan dini melalui aplikasi infoBMKG dan bekerja sama dengan pemerintah daerah untuk siaga darurat. Layanan informasi darurat cuaca diperluas hingga ke tingkat kecamatan melalui sistem SMS dan notifikasi digital.
+
+Sementara itu, Kementerian Sosial telah menyiapkan logistik darurat dan posko pengungsian apabila terjadi bencana. Pemerintah daerah juga diminta mengaktifkan tim tanggap bencana dan melakukan simulasi evakuasi sebagai langkah antisipatif.`,
+
+    gambar_sampul:
+      "https://akcdn.detik.net.id/community/media/visual/2025/04/12/menkes-budi-gunadi-sadikin-1744457661081_169.jpeg?w=700&q=90",
+  },
+  {
+    id_berita: "b4e88e0f-2d15-4d18-bc47-e4f56b0aef61",
+    judul:
+      "Digitalisasi Layanan Publik Dipercepat, Fokus pada Desa dan Daerah 3T",
+    ringkasan:
+      "Pemerintah mengakselerasi digitalisasi layanan publik, terutama di wilayah 3T dan pedesaan...",
+    isi: `Jakarta, 13 April 2025 – Dalam rangka mempercepat transformasi digital di Indonesia, Kementerian Komunikasi dan Informatika (Kominfo) meluncurkan program akselerasi digitalisasi layanan publik yang menyasar daerah tertinggal, terdepan, dan terluar (3T) serta desa-desa.
+
+Menteri Kominfo Johnny G. Plate menyatakan bahwa pemerintah telah menyiapkan infrastruktur pendukung seperti jaringan internet berkecepatan tinggi serta pelatihan literasi digital untuk aparatur desa. “Tujuan kami adalah menghadirkan layanan publik yang transparan, cepat, dan efisien hingga ke pelosok negeri,” ujarnya.
+
+Program ini juga akan didukung oleh pengembangan platform digital pemerintah terpadu yang bisa diakses masyarakat secara daring untuk mengurus dokumen kependudukan, izin usaha, dan lainnya. 
+
+Selain itu, Kominfo bekerja sama dengan BUMDes, universitas, dan perusahaan rintisan lokal untuk menghadirkan inovasi teknologi yang sesuai dengan kebutuhan lokal. Aplikasi berbasis web dan mobile akan dikembangkan agar lebih ramah pengguna, terutama untuk kalangan lansia dan penyandang disabilitas.
+
+Dengan digitalisasi ini, diharapkan proses birokrasi bisa dipangkas, korupsi dapat diminimalisir, serta meningkatkan keterlibatan masyarakat dalam pembangunan. Pemerintah juga akan melakukan evaluasi berkala dan menyempurnakan kebijakan berbasis feedback dari masyarakat.`,
+
+    gambar_sampul:
+      "https://akcdn.detik.net.id/community/media/visual/2025/04/12/menkes-budi-gunadi-sadikin-1744457661081_169.jpeg?w=700&q=90",
+  },
+  {
+    id_berita: "51f89f4ec-cc58-4fd9-b3df-64d3bcd36ff9",
+    judul:
+      "Menkes Respons Kasus Pemerkosaan di RSHS, Soroti Obat Bius Bebas Dipakai",
+    ringkasan:
+      "Jakarta - Menteri Kesehatan Budi Gunadi Sadikin buka suara soal kasus kekerasan seksual...",
+    isi: `Jakarta, 12 April 2025 – Menteri Kesehatan (Menkes) Budi Gunadi Sadikin akhirnya angkat bicara terkait kasus pemerkosaan yang terjadi di Rumah Sakit Hasan Sadikin (RSHS). Dalam konferensi pers di Jakarta, ia menyampaikan keprihatinan mendalam dan akan memperketat pengawasan terhadap penggunaan obat bius. 
+
+Ia menambahkan bahwa pihak rumah sakit akan diaudit dan semua prosedur penggunaan anestesi akan ditinjau kembali. "Kami tidak akan mentolerir kejadian seperti ini. Setiap pasien berhak merasa aman di fasilitas kesehatan," ujarnya. 
+
+Kejadian ini juga memunculkan kritik dari masyarakat luas terkait lemahnya sistem pengawasan internal rumah sakit dan regulasi yang longgar. Dalam kesempatan yang sama, Menkes juga menyoroti perlunya edukasi etika kedokteran di institusi pendidikan.
+
+Lebih lanjut, Kemenkes akan bekerja sama dengan Kementerian Pendidikan, Kebudayaan, Riset, dan Teknologi untuk memperkuat kurikulum etika profesi di fakultas kedokteran. Pengawasan terhadap fasilitas kesehatan swasta dan negeri pun akan diperketat.
+
+Sejumlah LSM perempuan menanggapi positif langkah cepat Menkes dan meminta agar korban mendapat perlindungan serta pendampingan psikologis. Proses hukum terhadap pelaku diharapkan berjalan transparan dan tidak ditutup-tutupi.`,
+
+    gambar_sampul:
+      "https://akcdn.detik.net.id/community/media/visual/2025/04/12/menkes-budi-gunadi-sadikin-1744457661081_169.jpeg?w=700&q=90",
+  },
+  {
+    id_berita: "a22c74b62-1ec2-4f9e-a34e-81cfb5d87ef2",
+    judul:
+      "BMKG: Cuaca Ekstrem Diprediksi Terjadi di Wilayah Selatan Indonesia",
+    ringkasan:
+      "BMKG memperingatkan adanya potensi cuaca ekstrem di sejumlah wilayah Indonesia bagian selatan...",
+    isi: `Jakarta, 13 April 2025 – Badan Meteorologi, Klimatologi, dan Geofisika (BMKG) memprediksi cuaca ekstrem seperti hujan deras disertai angin kencang dan petir akan melanda sejumlah wilayah Indonesia bagian selatan dalam beberapa hari ke depan.
+
+Kepala BMKG Dwikorita Karnawati mengatakan bahwa fenomena ini disebabkan oleh adanya gangguan atmosfer dari Samudra Hindia yang berdampak pada pembentukan awan konvektif secara masif. 
+
+Masyarakat diminta untuk tetap waspada, terutama bagi nelayan dan pengguna transportasi laut serta warga yang tinggal di daerah rawan longsor. “Kami terus memantau pergerakan sistem tekanan rendah yang dapat memperparah cuaca ekstrem,” ujarnya. 
+
+BMKG juga telah menyebarluaskan peringatan dini melalui aplikasi infoBMKG dan bekerja sama dengan pemerintah daerah untuk siaga darurat. Layanan informasi darurat cuaca diperluas hingga ke tingkat kecamatan melalui sistem SMS dan notifikasi digital.
+
+Sementara itu, Kementerian Sosial telah menyiapkan logistik darurat dan posko pengungsian apabila terjadi bencana. Pemerintah daerah juga diminta mengaktifkan tim tanggap bencana dan melakukan simulasi evakuasi sebagai langkah antisipatif.`,
+
+    gambar_sampul:
+      "https://akcdn.detik.net.id/community/media/visual/2025/04/12/menkes-budi-gunadi-sadikin-1744457661081_169.jpeg?w=700&q=90",
+  },
+  {
+    id_berita: "b34e88e0f-2d15-4d18-bc47-e4f56b0aef61",
+    judul:
+      "Digitalisasi Layanan Publik Dipercepat, Fokus pada Desa dan Daerah 3T",
+    ringkasan:
+      "Pemerintah mengakselerasi digitalisasi layanan publik, terutama di wilayah 3T dan pedesaan...",
+    isi: `Jakarta, 13 April 2025 – Dalam rangka mempercepat transformasi digital di Indonesia, Kementerian Komunikasi dan Informatika (Kominfo) meluncurkan program akselerasi digitalisasi layanan publik yang menyasar daerah tertinggal, terdepan, dan terluar (3T) serta desa-desa.
+
+Menteri Kominfo Johnny G. Plate menyatakan bahwa pemerintah telah menyiapkan infrastruktur pendukung seperti jaringan internet berkecepatan tinggi serta pelatihan literasi digital untuk aparatur desa. “Tujuan kami adalah menghadirkan layanan publik yang transparan, cepat, dan efisien hingga ke pelosok negeri,” ujarnya.
+
+Program ini juga akan didukung oleh pengembangan platform digital pemerintah terpadu yang bisa diakses masyarakat secara daring untuk mengurus dokumen kependudukan, izin usaha, dan lainnya. 
+
+Selain itu, Kominfo bekerja sama dengan BUMDes, universitas, dan perusahaan rintisan lokal untuk menghadirkan inovasi teknologi yang sesuai dengan kebutuhan lokal. Aplikasi berbasis web dan mobile akan dikembangkan agar lebih ramah pengguna, terutama untuk kalangan lansia dan penyandang disabilitas.
+
+Dengan digitalisasi ini, diharapkan proses birokrasi bisa dipangkas, korupsi dapat diminimalisir, serta meningkatkan keterlibatan masyarakat dalam pembangunan. Pemerintah juga akan melakukan evaluasi berkala dan menyempurnakan kebijakan berbasis feedback dari masyarakat.`,
+
+    gambar_sampul:
+      "https://akcdn.detik.net.id/community/media/visual/2025/04/12/menkes-budi-gunadi-sadikin-1744457661081_169.jpeg?w=700&q=90",
+  },
+  {
+    id_berita: "15f89f4ec-cc58-4fd9-b3df-64d3bcd36ff9",
+    judul:
+      "Menkes Respons Kasus Pemerkosaan di RSHS, Soroti Obat Bius Bebas Dipakai",
+    ringkasan:
+      "Jakarta - Menteri Kesehatan Budi Gunadi Sadikin buka suara soal kasus kekerasan seksual...",
+    isi: `Jakarta, 12 April 2025 – Menteri Kesehatan (Menkes) Budi Gunadi Sadikin akhirnya angkat bicara terkait kasus pemerkosaan yang terjadi di Rumah Sakit Hasan Sadikin (RSHS). Dalam konferensi pers di Jakarta, ia menyampaikan keprihatinan mendalam dan akan memperketat pengawasan terhadap penggunaan obat bius. 
+
+Ia menambahkan bahwa pihak rumah sakit akan diaudit dan semua prosedur penggunaan anestesi akan ditinjau kembali. "Kami tidak akan mentolerir kejadian seperti ini. Setiap pasien berhak merasa aman di fasilitas kesehatan," ujarnya. 
+
+Kejadian ini juga memunculkan kritik dari masyarakat luas terkait lemahnya sistem pengawasan internal rumah sakit dan regulasi yang longgar. Dalam kesempatan yang sama, Menkes juga menyoroti perlunya edukasi etika kedokteran di institusi pendidikan.
+
+Lebih lanjut, Kemenkes akan bekerja sama dengan Kementerian Pendidikan, Kebudayaan, Riset, dan Teknologi untuk memperkuat kurikulum etika profesi di fakultas kedokteran. Pengawasan terhadap fasilitas kesehatan swasta dan negeri pun akan diperketat.
+
+Sejumlah LSM perempuan menanggapi positif langkah cepat Menkes dan meminta agar korban mendapat perlindungan serta pendampingan psikologis. Proses hukum terhadap pelaku diharapkan berjalan transparan dan tidak ditutup-tutupi.`,
+
+    gambar_sampul:
+      "https://akcdn.detik.net.id/community/media/visual/2025/04/12/menkes-budi-gunadi-sadikin-1744457661081_169.jpeg?w=700&q=90",
+  },
+  {
+    id_berita: "2a2c74b62-1ec2-4f9e-a34e-81cfb5d87ef2",
+    judul:
+      "BMKG: Cuaca Ekstrem Diprediksi Terjadi di Wilayah Selatan Indonesia",
+    ringkasan:
+      "BMKG memperingatkan adanya potensi cuaca ekstrem di sejumlah wilayah Indonesia bagian selatan...",
+    isi: `Jakarta, 13 April 2025 – Badan Meteorologi, Klimatologi, dan Geofisika (BMKG) memprediksi cuaca ekstrem seperti hujan deras disertai angin kencang dan petir akan melanda sejumlah wilayah Indonesia bagian selatan dalam beberapa hari ke depan.
+
+Kepala BMKG Dwikorita Karnawati mengatakan bahwa fenomena ini disebabkan oleh adanya gangguan atmosfer dari Samudra Hindia yang berdampak pada pembentukan awan konvektif secara masif. 
+
+Masyarakat diminta untuk tetap waspada, terutama bagi nelayan dan pengguna transportasi laut serta warga yang tinggal di daerah rawan longsor. “Kami terus memantau pergerakan sistem tekanan rendah yang dapat memperparah cuaca ekstrem,” ujarnya. 
+
+BMKG juga telah menyebarluaskan peringatan dini melalui aplikasi infoBMKG dan bekerja sama dengan pemerintah daerah untuk siaga darurat. Layanan informasi darurat cuaca diperluas hingga ke tingkat kecamatan melalui sistem SMS dan notifikasi digital.
+
+Sementara itu, Kementerian Sosial telah menyiapkan logistik darurat dan posko pengungsian apabila terjadi bencana. Pemerintah daerah juga diminta mengaktifkan tim tanggap bencana dan melakukan simulasi evakuasi sebagai langkah antisipatif.`,
+
+    gambar_sampul:
+      "https://akcdn.detik.net.id/community/media/visual/2025/04/12/menkes-budi-gunadi-sadikin-1744457661081_169.jpeg?w=700&q=90",
+  },
+  {
+    id_berita: "3b4e88e0f-2d15-4d18-bc47-e4f56b0aef61",
+    judul:
+      "Digitalisasi Layanan Publik Dipercepat, Fokus pada Desa dan Daerah 3T",
+    ringkasan:
+      "Pemerintah mengakselerasi digitalisasi layanan publik, terutama di wilayah 3T dan pedesaan...",
+    isi: `Jakarta, 13 April 2025 – Dalam rangka mempercepat transformasi digital di Indonesia, Kementerian Komunikasi dan Informatika (Kominfo) meluncurkan program akselerasi digitalisasi layanan publik yang menyasar daerah tertinggal, terdepan, dan terluar (3T) serta desa-desa.
+
+Menteri Kominfo Johnny G. Plate menyatakan bahwa pemerintah telah menyiapkan infrastruktur pendukung seperti jaringan internet berkecepatan tinggi serta pelatihan literasi digital untuk aparatur desa. “Tujuan kami adalah menghadirkan layanan publik yang transparan, cepat, dan efisien hingga ke pelosok negeri,” ujarnya.
+
+Program ini juga akan didukung oleh pengembangan platform digital pemerintah terpadu yang bisa diakses masyarakat secara daring untuk mengurus dokumen kependudukan, izin usaha, dan lainnya. 
+
+Selain itu, Kominfo bekerja sama dengan BUMDes, universitas, dan perusahaan rintisan lokal untuk menghadirkan inovasi teknologi yang sesuai dengan kebutuhan lokal. Aplikasi berbasis web dan mobile akan dikembangkan agar lebih ramah pengguna, terutama untuk kalangan lansia dan penyandang disabilitas.
+
+Dengan digitalisasi ini, diharapkan proses birokrasi bisa dipangkas, korupsi dapat diminimalisir, serta meningkatkan keterlibatan masyarakat dalam pembangunan. Pemerintah juga akan melakukan evaluasi berkala dan menyempurnakan kebijakan berbasis feedback dari masyarakat.`,
+
+    gambar_sampul:
+      "https://akcdn.detik.net.id/community/media/visual/2025/04/12/menkes-budi-gunadi-sadikin-1744457661081_169.jpeg?w=700&q=90",
+  },
+  {
+    id_berita: "451f89f4ec-cc58-4fd9-b3df-64d3bcd36ff9",
+    judul:
+      "Menkes Respons Kasus Pemerkosaan di RSHS, Soroti Obat Bius Bebas Dipakai",
+    ringkasan:
+      "Jakarta - Menteri Kesehatan Budi Gunadi Sadikin buka suara soal kasus kekerasan seksual...",
+    isi: `Jakarta, 12 April 2025 – Menteri Kesehatan (Menkes) Budi Gunadi Sadikin akhirnya angkat bicara terkait kasus pemerkosaan yang terjadi di Rumah Sakit Hasan Sadikin (RSHS). Dalam konferensi pers di Jakarta, ia menyampaikan keprihatinan mendalam dan akan memperketat pengawasan terhadap penggunaan obat bius. 
+
+Ia menambahkan bahwa pihak rumah sakit akan diaudit dan semua prosedur penggunaan anestesi akan ditinjau kembali. "Kami tidak akan mentolerir kejadian seperti ini. Setiap pasien berhak merasa aman di fasilitas kesehatan," ujarnya. 
+
+Kejadian ini juga memunculkan kritik dari masyarakat luas terkait lemahnya sistem pengawasan internal rumah sakit dan regulasi yang longgar. Dalam kesempatan yang sama, Menkes juga menyoroti perlunya edukasi etika kedokteran di institusi pendidikan.
+
+Lebih lanjut, Kemenkes akan bekerja sama dengan Kementerian Pendidikan, Kebudayaan, Riset, dan Teknologi untuk memperkuat kurikulum etika profesi di fakultas kedokteran. Pengawasan terhadap fasilitas kesehatan swasta dan negeri pun akan diperketat.
+
+Sejumlah LSM perempuan menanggapi positif langkah cepat Menkes dan meminta agar korban mendapat perlindungan serta pendampingan psikologis. Proses hukum terhadap pelaku diharapkan berjalan transparan dan tidak ditutup-tutupi.`,
+
+    gambar_sampul:
+      "https://akcdn.detik.net.id/community/media/visual/2025/04/12/menkes-budi-gunadi-sadikin-1744457661081_169.jpeg?w=700&q=90",
+  },
+  {
+    id_berita: "5a22c74b62-1ec2-4f9e-a34e-81cfb5d87ef2",
+    judul:
+      "BMKG: Cuaca Ekstrem Diprediksi Terjadi di Wilayah Selatan Indonesia",
+    ringkasan:
+      "BMKG memperingatkan adanya potensi cuaca ekstrem di sejumlah wilayah Indonesia bagian selatan...",
+    isi: `Jakarta, 13 April 2025 – Badan Meteorologi, Klimatologi, dan Geofisika (BMKG) memprediksi cuaca ekstrem seperti hujan deras disertai angin kencang dan petir akan melanda sejumlah wilayah Indonesia bagian selatan dalam beberapa hari ke depan.
+
+Kepala BMKG Dwikorita Karnawati mengatakan bahwa fenomena ini disebabkan oleh adanya gangguan atmosfer dari Samudra Hindia yang berdampak pada pembentukan awan konvektif secara masif. 
+
+Masyarakat diminta untuk tetap waspada, terutama bagi nelayan dan pengguna transportasi laut serta warga yang tinggal di daerah rawan longsor. “Kami terus memantau pergerakan sistem tekanan rendah yang dapat memperparah cuaca ekstrem,” ujarnya. 
+
+BMKG juga telah menyebarluaskan peringatan dini melalui aplikasi infoBMKG dan bekerja sama dengan pemerintah daerah untuk siaga darurat. Layanan informasi darurat cuaca diperluas hingga ke tingkat kecamatan melalui sistem SMS dan notifikasi digital.
+
+Sementara itu, Kementerian Sosial telah menyiapkan logistik darurat dan posko pengungsian apabila terjadi bencana. Pemerintah daerah juga diminta mengaktifkan tim tanggap bencana dan melakukan simulasi evakuasi sebagai langkah antisipatif.`,
+
+    gambar_sampul:
+      "https://akcdn.detik.net.id/community/media/visual/2025/04/12/menkes-budi-gunadi-sadikin-1744457661081_169.jpeg?w=700&q=90",
+  },
+  {
+    id_berita: "6b34e88e0f-2d15-4d18-bc47-e4f56b0aef61",
+    judul:
+      "Digitalisasi Layanan Publik Dipercepat, Fokus pada Desa dan Daerah 3T",
+    ringkasan:
+      "Pemerintah mengakselerasi digitalisasi layanan publik, terutama di wilayah 3T dan pedesaan...",
+    isi: `Jakarta, 13 April 2025 – Dalam rangka mempercepat transformasi digital di Indonesia, Kementerian Komunikasi dan Informatika (Kominfo) meluncurkan program akselerasi digitalisasi layanan publik yang menyasar daerah tertinggal, terdepan, dan terluar (3T) serta desa-desa.
+
+Menteri Kominfo Johnny G. Plate menyatakan bahwa pemerintah telah menyiapkan infrastruktur pendukung seperti jaringan internet berkecepatan tinggi serta pelatihan literasi digital untuk aparatur desa. “Tujuan kami adalah menghadirkan layanan publik yang transparan, cepat, dan efisien hingga ke pelosok negeri,” ujarnya.
+
+Program ini juga akan didukung oleh pengembangan platform digital pemerintah terpadu yang bisa diakses masyarakat secara daring untuk mengurus dokumen kependudukan, izin usaha, dan lainnya. 
+
+Selain itu, Kominfo bekerja sama dengan BUMDes, universitas, dan perusahaan rintisan lokal untuk menghadirkan inovasi teknologi yang sesuai dengan kebutuhan lokal. Aplikasi berbasis web dan mobile akan dikembangkan agar lebih ramah pengguna, terutama untuk kalangan lansia dan penyandang disabilitas.
+
+Dengan digitalisasi ini, diharapkan proses birokrasi bisa dipangkas, korupsi dapat diminimalisir, serta meningkatkan keterlibatan masyarakat dalam pembangunan. Pemerintah juga akan melakukan evaluasi berkala dan menyempurnakan kebijakan berbasis feedback dari masyarakat.`,
+
+    gambar_sampul:
+      "https://akcdn.detik.net.id/community/media/visual/2025/04/12/menkes-budi-gunadi-sadikin-1744457661081_169.jpeg?w=700&q=90",
+  },
+  {
+    id_berita: "125f89f4ec-cc58-4fd9-b3df-64d3bcd36ff9",
+    judul:
+      "Menkes Respons Kasus Pemerkosaan di RSHS, Soroti Obat Bius Bebas Dipakai",
+    ringkasan:
+      "Jakarta - Menteri Kesehatan Budi Gunadi Sadikin buka suara soal kasus kekerasan seksual...",
+    isi: `Jakarta, 12 April 2025 – Menteri Kesehatan (Menkes) Budi Gunadi Sadikin akhirnya angkat bicara terkait kasus pemerkosaan yang terjadi di Rumah Sakit Hasan Sadikin (RSHS). Dalam konferensi pers di Jakarta, ia menyampaikan keprihatinan mendalam dan akan memperketat pengawasan terhadap penggunaan obat bius. 
+
+Ia menambahkan bahwa pihak rumah sakit akan diaudit dan semua prosedur penggunaan anestesi akan ditinjau kembali. "Kami tidak akan mentolerir kejadian seperti ini. Setiap pasien berhak merasa aman di fasilitas kesehatan," ujarnya. 
+
+Kejadian ini juga memunculkan kritik dari masyarakat luas terkait lemahnya sistem pengawasan internal rumah sakit dan regulasi yang longgar. Dalam kesempatan yang sama, Menkes juga menyoroti perlunya edukasi etika kedokteran di institusi pendidikan.
+
+Lebih lanjut, Kemenkes akan bekerja sama dengan Kementerian Pendidikan, Kebudayaan, Riset, dan Teknologi untuk memperkuat kurikulum etika profesi di fakultas kedokteran. Pengawasan terhadap fasilitas kesehatan swasta dan negeri pun akan diperketat.
+
+Sejumlah LSM perempuan menanggapi positif langkah cepat Menkes dan meminta agar korban mendapat perlindungan serta pendampingan psikologis. Proses hukum terhadap pelaku diharapkan berjalan transparan dan tidak ditutup-tutupi.`,
+
+    gambar_sampul:
+      "https://akcdn.detik.net.id/community/media/visual/2025/04/12/menkes-budi-gunadi-sadikin-1744457661081_169.jpeg?w=700&q=90",
+  },
+  {
+    id_berita: "11a2c74b62-1ec2-4f9e-a34e-81cfb5d87ef2",
+    judul:
+      "BMKG: Cuaca Ekstrem Diprediksi Terjadi di Wilayah Selatan Indonesia",
+    ringkasan:
+      "BMKG memperingatkan adanya potensi cuaca ekstrem di sejumlah wilayah Indonesia bagian selatan...",
+    isi: `Jakarta, 13 April 2025 – Badan Meteorologi, Klimatologi, dan Geofisika (BMKG) memprediksi cuaca ekstrem seperti hujan deras disertai angin kencang dan petir akan melanda sejumlah wilayah Indonesia bagian selatan dalam beberapa hari ke depan.
+
+Kepala BMKG Dwikorita Karnawati mengatakan bahwa fenomena ini disebabkan oleh adanya gangguan atmosfer dari Samudra Hindia yang berdampak pada pembentukan awan konvektif secara masif. 
+
+Masyarakat diminta untuk tetap waspada, terutama bagi nelayan dan pengguna transportasi laut serta warga yang tinggal di daerah rawan longsor. “Kami terus memantau pergerakan sistem tekanan rendah yang dapat memperparah cuaca ekstrem,” ujarnya. 
+
+BMKG juga telah menyebarluaskan peringatan dini melalui aplikasi infoBMKG dan bekerja sama dengan pemerintah daerah untuk siaga darurat. Layanan informasi darurat cuaca diperluas hingga ke tingkat kecamatan melalui sistem SMS dan notifikasi digital.
+
+Sementara itu, Kementerian Sosial telah menyiapkan logistik darurat dan posko pengungsian apabila terjadi bencana. Pemerintah daerah juga diminta mengaktifkan tim tanggap bencana dan melakukan simulasi evakuasi sebagai langkah antisipatif.`,
+
+    gambar_sampul:
+      "https://akcdn.detik.net.id/community/media/visual/2025/04/12/menkes-budi-gunadi-sadikin-1744457661081_169.jpeg?w=700&q=90",
+  },
+  {
+    id_berita: "22b4e88e0f-2d15-4d18-bc47-e4f56b0aef61",
+    judul:
+      "Digitalisasi Layanan Publik Dipercepat, Fokus pada Desa dan Daerah 3T",
+    ringkasan:
+      "Pemerintah mengakselerasi digitalisasi layanan publik, terutama di wilayah 3T dan pedesaan...",
+    isi: `Jakarta, 13 April 2025 – Dalam rangka mempercepat transformasi digital di Indonesia, Kementerian Komunikasi dan Informatika (Kominfo) meluncurkan program akselerasi digitalisasi layanan publik yang menyasar daerah tertinggal, terdepan, dan terluar (3T) serta desa-desa.
+
+Menteri Kominfo Johnny G. Plate menyatakan bahwa pemerintah telah menyiapkan infrastruktur pendukung seperti jaringan internet berkecepatan tinggi serta pelatihan literasi digital untuk aparatur desa. “Tujuan kami adalah menghadirkan layanan publik yang transparan, cepat, dan efisien hingga ke pelosok negeri,” ujarnya.
+
+Program ini juga akan didukung oleh pengembangan platform digital pemerintah terpadu yang bisa diakses masyarakat secara daring untuk mengurus dokumen kependudukan, izin usaha, dan lainnya. 
+
+Selain itu, Kominfo bekerja sama dengan BUMDes, universitas, dan perusahaan rintisan lokal untuk menghadirkan inovasi teknologi yang sesuai dengan kebutuhan lokal. Aplikasi berbasis web dan mobile akan dikembangkan agar lebih ramah pengguna, terutama untuk kalangan lansia dan penyandang disabilitas.
+
+Dengan digitalisasi ini, diharapkan proses birokrasi bisa dipangkas, korupsi dapat diminimalisir, serta meningkatkan keterlibatan masyarakat dalam pembangunan. Pemerintah juga akan melakukan evaluasi berkala dan menyempurnakan kebijakan berbasis feedback dari masyarakat.`,
+
+    gambar_sampul:
+      "https://akcdn.detik.net.id/community/media/visual/2025/04/12/menkes-budi-gunadi-sadikin-1744457661081_169.jpeg?w=700&q=90",
+  },
+  {
+    id_berita: "2151f89f4ec-cc58-4fd9-b3df-64d3bcd36ff9",
+    judul:
+      "Menkes Respons Kasus Pemerkosaan di RSHS, Soroti Obat Bius Bebas Dipakai",
+    ringkasan:
+      "Jakarta - Menteri Kesehatan Budi Gunadi Sadikin buka suara soal kasus kekerasan seksual...",
+    isi: `Jakarta, 12 April 2025 – Menteri Kesehatan (Menkes) Budi Gunadi Sadikin akhirnya angkat bicara terkait kasus pemerkosaan yang terjadi di Rumah Sakit Hasan Sadikin (RSHS). Dalam konferensi pers di Jakarta, ia menyampaikan keprihatinan mendalam dan akan memperketat pengawasan terhadap penggunaan obat bius. 
+
+Ia menambahkan bahwa pihak rumah sakit akan diaudit dan semua prosedur penggunaan anestesi akan ditinjau kembali. "Kami tidak akan mentolerir kejadian seperti ini. Setiap pasien berhak merasa aman di fasilitas kesehatan," ujarnya. 
+
+Kejadian ini juga memunculkan kritik dari masyarakat luas terkait lemahnya sistem pengawasan internal rumah sakit dan regulasi yang longgar. Dalam kesempatan yang sama, Menkes juga menyoroti perlunya edukasi etika kedokteran di institusi pendidikan.
+
+Lebih lanjut, Kemenkes akan bekerja sama dengan Kementerian Pendidikan, Kebudayaan, Riset, dan Teknologi untuk memperkuat kurikulum etika profesi di fakultas kedokteran. Pengawasan terhadap fasilitas kesehatan swasta dan negeri pun akan diperketat.
+
+Sejumlah LSM perempuan menanggapi positif langkah cepat Menkes dan meminta agar korban mendapat perlindungan serta pendampingan psikologis. Proses hukum terhadap pelaku diharapkan berjalan transparan dan tidak ditutup-tutupi.`,
+
+    gambar_sampul:
+      "https://akcdn.detik.net.id/community/media/visual/2025/04/12/menkes-budi-gunadi-sadikin-1744457661081_169.jpeg?w=700&q=90",
+  },
+  {
+    id_berita: "13a22c74b62-1ec2-4f9e-a34e-81cfb5d87ef2",
+    judul:
+      "BMKG: Cuaca Ekstrem Diprediksi Terjadi di Wilayah Selatan Indonesia",
+    ringkasan:
+      "BMKG memperingatkan adanya potensi cuaca ekstrem di sejumlah wilayah Indonesia bagian selatan...",
+    isi: `Jakarta, 13 April 2025 – Badan Meteorologi, Klimatologi, dan Geofisika (BMKG) memprediksi cuaca ekstrem seperti hujan deras disertai angin kencang dan petir akan melanda sejumlah wilayah Indonesia bagian selatan dalam beberapa hari ke depan.
+
+Kepala BMKG Dwikorita Karnawati mengatakan bahwa fenomena ini disebabkan oleh adanya gangguan atmosfer dari Samudra Hindia yang berdampak pada pembentukan awan konvektif secara masif. 
+
+Masyarakat diminta untuk tetap waspada, terutama bagi nelayan dan pengguna transportasi laut serta warga yang tinggal di daerah rawan longsor. “Kami terus memantau pergerakan sistem tekanan rendah yang dapat memperparah cuaca ekstrem,” ujarnya. 
+
+BMKG juga telah menyebarluaskan peringatan dini melalui aplikasi infoBMKG dan bekerja sama dengan pemerintah daerah untuk siaga darurat. Layanan informasi darurat cuaca diperluas hingga ke tingkat kecamatan melalui sistem SMS dan notifikasi digital.
+
+Sementara itu, Kementerian Sosial telah menyiapkan logistik darurat dan posko pengungsian apabila terjadi bencana. Pemerintah daerah juga diminta mengaktifkan tim tanggap bencana dan melakukan simulasi evakuasi sebagai langkah antisipatif.`,
+
+    gambar_sampul:
+      "https://akcdn.detik.net.id/community/media/visual/2025/04/12/menkes-budi-gunadi-sadikin-1744457661081_169.jpeg?w=700&q=90",
+  },
+  {
+    id_berita: "32b34e88e0f-2d15-4d18-bc47-e4f56b0aef61",
+    judul:
+      "Digitalisasi Layanan Publik Dipercepat, Fokus pada Desa dan Daerah 3T",
+    ringkasan:
+      "Pemerintah mengakselerasi digitalisasi layanan publik, terutama di wilayah 3T dan pedesaan...",
+    isi: `Jakarta, 13 April 2025 – Dalam rangka mempercepat transformasi digital di Indonesia, Kementerian Komunikasi dan Informatika (Kominfo) meluncurkan program akselerasi digitalisasi layanan publik yang menyasar daerah tertinggal, terdepan, dan terluar (3T) serta desa-desa.
+
+Menteri Kominfo Johnny G. Plate menyatakan bahwa pemerintah telah menyiapkan infrastruktur pendukung seperti jaringan internet berkecepatan tinggi serta pelatihan literasi digital untuk aparatur desa. “Tujuan kami adalah menghadirkan layanan publik yang transparan, cepat, dan efisien hingga ke pelosok negeri,” ujarnya.
+
+Program ini juga akan didukung oleh pengembangan platform digital pemerintah terpadu yang bisa diakses masyarakat secara daring untuk mengurus dokumen kependudukan, izin usaha, dan lainnya. 
+
+Selain itu, Kominfo bekerja sama dengan BUMDes, universitas, dan perusahaan rintisan lokal untuk menghadirkan inovasi teknologi yang sesuai dengan kebutuhan lokal. Aplikasi berbasis web dan mobile akan dikembangkan agar lebih ramah pengguna, terutama untuk kalangan lansia dan penyandang disabilitas.
+
+Dengan digitalisasi ini, diharapkan proses birokrasi bisa dipangkas, korupsi dapat diminimalisir, serta meningkatkan keterlibatan masyarakat dalam pembangunan. Pemerintah juga akan melakukan evaluasi berkala dan menyempurnakan kebijakan berbasis feedback dari masyarakat.`,
+
+    gambar_sampul:
+      "https://akcdn.detik.net.id/community/media/visual/2025/04/12/menkes-budi-gunadi-sadikin-1744457661081_169.jpeg?w=700&q=90",
+  },
+  {
+    id_berita: "4315f89f4ec-cc58-4fd9-b3df-64d3bcd36ff9",
+    judul:
+      "Menkes Respons Kasus Pemerkosaan di RSHS, Soroti Obat Bius Bebas Dipakai",
+    ringkasan:
+      "Jakarta - Menteri Kesehatan Budi Gunadi Sadikin buka suara soal kasus kekerasan seksual...",
+    isi: `Jakarta, 12 April 2025 – Menteri Kesehatan (Menkes) Budi Gunadi Sadikin akhirnya angkat bicara terkait kasus pemerkosaan yang terjadi di Rumah Sakit Hasan Sadikin (RSHS). Dalam konferensi pers di Jakarta, ia menyampaikan keprihatinan mendalam dan akan memperketat pengawasan terhadap penggunaan obat bius. 
+
+Ia menambahkan bahwa pihak rumah sakit akan diaudit dan semua prosedur penggunaan anestesi akan ditinjau kembali. "Kami tidak akan mentolerir kejadian seperti ini. Setiap pasien berhak merasa aman di fasilitas kesehatan," ujarnya. 
+
+Kejadian ini juga memunculkan kritik dari masyarakat luas terkait lemahnya sistem pengawasan internal rumah sakit dan regulasi yang longgar. Dalam kesempatan yang sama, Menkes juga menyoroti perlunya edukasi etika kedokteran di institusi pendidikan.
+
+Lebih lanjut, Kemenkes akan bekerja sama dengan Kementerian Pendidikan, Kebudayaan, Riset, dan Teknologi untuk memperkuat kurikulum etika profesi di fakultas kedokteran. Pengawasan terhadap fasilitas kesehatan swasta dan negeri pun akan diperketat.
+
+Sejumlah LSM perempuan menanggapi positif langkah cepat Menkes dan meminta agar korban mendapat perlindungan serta pendampingan psikologis. Proses hukum terhadap pelaku diharapkan berjalan transparan dan tidak ditutup-tutupi.`,
+
+    gambar_sampul:
+      "https://akcdn.detik.net.id/community/media/visual/2025/04/12/menkes-budi-gunadi-sadikin-1744457661081_169.jpeg?w=700&q=90",
+  },
+  {
+    id_berita: "142a2c74b62-1ec2-4f9e-a34e-81cfb5d87ef2",
+    judul:
+      "BMKG: Cuaca Ekstrem Diprediksi Terjadi di Wilayah Selatan Indonesia",
+    ringkasan:
+      "BMKG memperingatkan adanya potensi cuaca ekstrem di sejumlah wilayah Indonesia bagian selatan...",
+    isi: `Jakarta, 13 April 2025 – Badan Meteorologi, Klimatologi, dan Geofisika (BMKG) memprediksi cuaca ekstrem seperti hujan deras disertai angin kencang dan petir akan melanda sejumlah wilayah Indonesia bagian selatan dalam beberapa hari ke depan.
+
+Kepala BMKG Dwikorita Karnawati mengatakan bahwa fenomena ini disebabkan oleh adanya gangguan atmosfer dari Samudra Hindia yang berdampak pada pembentukan awan konvektif secara masif. 
+
+Masyarakat diminta untuk tetap waspada, terutama bagi nelayan dan pengguna transportasi laut serta warga yang tinggal di daerah rawan longsor. “Kami terus memantau pergerakan sistem tekanan rendah yang dapat memperparah cuaca ekstrem,” ujarnya. 
+
+BMKG juga telah menyebarluaskan peringatan dini melalui aplikasi infoBMKG dan bekerja sama dengan pemerintah daerah untuk siaga darurat. Layanan informasi darurat cuaca diperluas hingga ke tingkat kecamatan melalui sistem SMS dan notifikasi digital.
+
+Sementara itu, Kementerian Sosial telah menyiapkan logistik darurat dan posko pengungsian apabila terjadi bencana. Pemerintah daerah juga diminta mengaktifkan tim tanggap bencana dan melakukan simulasi evakuasi sebagai langkah antisipatif.`,
+
+    gambar_sampul:
+      "https://akcdn.detik.net.id/community/media/visual/2025/04/12/menkes-budi-gunadi-sadikin-1744457661081_169.jpeg?w=700&q=90",
+  },
+  {
+    id_berita: "153b4e88e0f-2d15-4d18-bc47-e4f56b0aef61",
+    judul:
+      "Digitalisasi Layanan Publik Dipercepat, Fokus pada Desa dan Daerah 3T",
+    ringkasan:
+      "Pemerintah mengakselerasi digitalisasi layanan publik, terutama di wilayah 3T dan pedesaan...",
+    isi: `Jakarta, 13 April 2025 – Dalam rangka mempercepat transformasi digital di Indonesia, Kementerian Komunikasi dan Informatika (Kominfo) meluncurkan program akselerasi digitalisasi layanan publik yang menyasar daerah tertinggal, terdepan, dan terluar (3T) serta desa-desa.
+
+Menteri Kominfo Johnny G. Plate menyatakan bahwa pemerintah telah menyiapkan infrastruktur pendukung seperti jaringan internet berkecepatan tinggi serta pelatihan literasi digital untuk aparatur desa. “Tujuan kami adalah menghadirkan layanan publik yang transparan, cepat, dan efisien hingga ke pelosok negeri,” ujarnya.
+
+Program ini juga akan didukung oleh pengembangan platform digital pemerintah terpadu yang bisa diakses masyarakat secara daring untuk mengurus dokumen kependudukan, izin usaha, dan lainnya. 
+
+Selain itu, Kominfo bekerja sama dengan BUMDes, universitas, dan perusahaan rintisan lokal untuk menghadirkan inovasi teknologi yang sesuai dengan kebutuhan lokal. Aplikasi berbasis web dan mobile akan dikembangkan agar lebih ramah pengguna, terutama untuk kalangan lansia dan penyandang disabilitas.
+
+Dengan digitalisasi ini, diharapkan proses birokrasi bisa dipangkas, korupsi dapat diminimalisir, serta meningkatkan keterlibatan masyarakat dalam pembangunan. Pemerintah juga akan melakukan evaluasi berkala dan menyempurnakan kebijakan berbasis feedback dari masyarakat.`,
+
+    gambar_sampul:
+      "https://akcdn.detik.net.id/community/media/visual/2025/04/12/menkes-budi-gunadi-sadikin-1744457661081_169.jpeg?w=700&q=90",
+  },
+  {
+    id_berita: "16451f89f4ec-cc58-4fd9-b3df-64d3bcd36ff9",
+    judul:
+      "Menkes Respons Kasus Pemerkosaan di RSHS, Soroti Obat Bius Bebas Dipakai",
+    ringkasan:
+      "Jakarta - Menteri Kesehatan Budi Gunadi Sadikin buka suara soal kasus kekerasan seksual...",
+    isi: `Jakarta, 12 April 2025 – Menteri Kesehatan (Menkes) Budi Gunadi Sadikin akhirnya angkat bicara terkait kasus pemerkosaan yang terjadi di Rumah Sakit Hasan Sadikin (RSHS). Dalam konferensi pers di Jakarta, ia menyampaikan keprihatinan mendalam dan akan memperketat pengawasan terhadap penggunaan obat bius. 
+
+Ia menambahkan bahwa pihak rumah sakit akan diaudit dan semua prosedur penggunaan anestesi akan ditinjau kembali. "Kami tidak akan mentolerir kejadian seperti ini. Setiap pasien berhak merasa aman di fasilitas kesehatan," ujarnya. 
+
+Kejadian ini juga memunculkan kritik dari masyarakat luas terkait lemahnya sistem pengawasan internal rumah sakit dan regulasi yang longgar. Dalam kesempatan yang sama, Menkes juga menyoroti perlunya edukasi etika kedokteran di institusi pendidikan.
+
+Lebih lanjut, Kemenkes akan bekerja sama dengan Kementerian Pendidikan, Kebudayaan, Riset, dan Teknologi untuk memperkuat kurikulum etika profesi di fakultas kedokteran. Pengawasan terhadap fasilitas kesehatan swasta dan negeri pun akan diperketat.
+
+Sejumlah LSM perempuan menanggapi positif langkah cepat Menkes dan meminta agar korban mendapat perlindungan serta pendampingan psikologis. Proses hukum terhadap pelaku diharapkan berjalan transparan dan tidak ditutup-tutupi.`,
+
+    gambar_sampul:
+      "https://akcdn.detik.net.id/community/media/visual/2025/04/12/menkes-budi-gunadi-sadikin-1744457661081_169.jpeg?w=700&q=90",
+  },
+  {
+    id_berita: "175a22c74b62-1ec2-4f9e-a34e-81cfb5d87ef2",
+    judul:
+      "BMKG: Cuaca Ekstrem Diprediksi Terjadi di Wilayah Selatan Indonesia",
+    ringkasan:
+      "BMKG memperingatkan adanya potensi cuaca ekstrem di sejumlah wilayah Indonesia bagian selatan...",
+    isi: `Jakarta, 13 April 2025 – Badan Meteorologi, Klimatologi, dan Geofisika (BMKG) memprediksi cuaca ekstrem seperti hujan deras disertai angin kencang dan petir akan melanda sejumlah wilayah Indonesia bagian selatan dalam beberapa hari ke depan.
+
+Kepala BMKG Dwikorita Karnawati mengatakan bahwa fenomena ini disebabkan oleh adanya gangguan atmosfer dari Samudra Hindia yang berdampak pada pembentukan awan konvektif secara masif. 
+
+Masyarakat diminta untuk tetap waspada, terutama bagi nelayan dan pengguna transportasi laut serta warga yang tinggal di daerah rawan longsor. “Kami terus memantau pergerakan sistem tekanan rendah yang dapat memperparah cuaca ekstrem,” ujarnya. 
+
+BMKG juga telah menyebarluaskan peringatan dini melalui aplikasi infoBMKG dan bekerja sama dengan pemerintah daerah untuk siaga darurat. Layanan informasi darurat cuaca diperluas hingga ke tingkat kecamatan melalui sistem SMS dan notifikasi digital.
+
+Sementara itu, Kementerian Sosial telah menyiapkan logistik darurat dan posko pengungsian apabila terjadi bencana. Pemerintah daerah juga diminta mengaktifkan tim tanggap bencana dan melakukan simulasi evakuasi sebagai langkah antisipatif.`,
+
+    gambar_sampul:
+      "https://akcdn.detik.net.id/community/media/visual/2025/04/12/menkes-budi-gunadi-sadikin-1744457661081_169.jpeg?w=700&q=90",
+  },
+  {
+    id_berita: "186b34e88e0f-2d15-4d18-bc47-e4f56b0aef61",
+    judul:
+      "Digitalisasi Layanan Publik Dipercepat, Fokus pada Desa dan Daerah 3T",
+    ringkasan:
+      "Pemerintah mengakselerasi digitalisasi layanan publik, terutama di wilayah 3T dan pedesaan...",
+    isi: `Jakarta, 13 April 2025 – Dalam rangka mempercepat transformasi digital di Indonesia, Kementerian Komunikasi dan Informatika (Kominfo) meluncurkan program akselerasi digitalisasi layanan publik yang menyasar daerah tertinggal, terdepan, dan terluar (3T) serta desa-desa.
+
+Menteri Kominfo Johnny G. Plate menyatakan bahwa pemerintah telah menyiapkan infrastruktur pendukung seperti jaringan internet berkecepatan tinggi serta pelatihan literasi digital untuk aparatur desa. “Tujuan kami adalah menghadirkan layanan publik yang transparan, cepat, dan efisien hingga ke pelosok negeri,” ujarnya.
+
+Program ini juga akan didukung oleh pengembangan platform digital pemerintah terpadu yang bisa diakses masyarakat secara daring untuk mengurus dokumen kependudukan, izin usaha, dan lainnya. 
+
+Selain itu, Kominfo bekerja sama dengan BUMDes, universitas, dan perusahaan rintisan lokal untuk menghadirkan inovasi teknologi yang sesuai dengan kebutuhan lokal. Aplikasi berbasis web dan mobile akan dikembangkan agar lebih ramah pengguna, terutama untuk kalangan lansia dan penyandang disabilitas.
+
+Dengan digitalisasi ini, diharapkan proses birokrasi bisa dipangkas, korupsi dapat diminimalisir, serta meningkatkan keterlibatan masyarakat dalam pembangunan. Pemerintah juga akan melakukan evaluasi berkala dan menyempurnakan kebijakan berbasis feedback dari masyarakat.`,
+
+    gambar_sampul:
+      "https://akcdn.detik.net.id/community/media/visual/2025/04/12/menkes-budi-gunadi-sadikin-1744457661081_169.jpeg?w=700&q=90",
+  },
+  {
+    id_berita: "33125f89f4ec-cc58-4fd9-b3df-64d3bcd36ff9",
+    judul:
+      "Menkes Respons Kasus Pemerkosaan di RSHS, Soroti Obat Bius Bebas Dipakai",
+    ringkasan:
+      "Jakarta - Menteri Kesehatan Budi Gunadi Sadikin buka suara soal kasus kekerasan seksual...",
+    isi: `Jakarta, 12 April 2025 – Menteri Kesehatan (Menkes) Budi Gunadi Sadikin akhirnya angkat bicara terkait kasus pemerkosaan yang terjadi di Rumah Sakit Hasan Sadikin (RSHS). Dalam konferensi pers di Jakarta, ia menyampaikan keprihatinan mendalam dan akan memperketat pengawasan terhadap penggunaan obat bius. 
+
+Ia menambahkan bahwa pihak rumah sakit akan diaudit dan semua prosedur penggunaan anestesi akan ditinjau kembali. "Kami tidak akan mentolerir kejadian seperti ini. Setiap pasien berhak merasa aman di fasilitas kesehatan," ujarnya. 
+
+Kejadian ini juga memunculkan kritik dari masyarakat luas terkait lemahnya sistem pengawasan internal rumah sakit dan regulasi yang longgar. Dalam kesempatan yang sama, Menkes juga menyoroti perlunya edukasi etika kedokteran di institusi pendidikan.
+
+Lebih lanjut, Kemenkes akan bekerja sama dengan Kementerian Pendidikan, Kebudayaan, Riset, dan Teknologi untuk memperkuat kurikulum etika profesi di fakultas kedokteran. Pengawasan terhadap fasilitas kesehatan swasta dan negeri pun akan diperketat.
+
+Sejumlah LSM perempuan menanggapi positif langkah cepat Menkes dan meminta agar korban mendapat perlindungan serta pendampingan psikologis. Proses hukum terhadap pelaku diharapkan berjalan transparan dan tidak ditutup-tutupi.`,
+
+    gambar_sampul:
+      "https://akcdn.detik.net.id/community/media/visual/2025/04/12/menkes-budi-gunadi-sadikin-1744457661081_169.jpeg?w=700&q=90",
+  },
+  {
+    id_berita: "3411a2c74b62-1ec2-4f9e-a34e-81cfb5d87ef2",
+    judul:
+      "BMKG: Cuaca Ekstrem Diprediksi Terjadi di Wilayah Selatan Indonesia",
+    ringkasan:
+      "BMKG memperingatkan adanya potensi cuaca ekstrem di sejumlah wilayah Indonesia bagian selatan...",
+    isi: `Jakarta, 13 April 2025 – Badan Meteorologi, Klimatologi, dan Geofisika (BMKG) memprediksi cuaca ekstrem seperti hujan deras disertai angin kencang dan petir akan melanda sejumlah wilayah Indonesia bagian selatan dalam beberapa hari ke depan.
+
+Kepala BMKG Dwikorita Karnawati mengatakan bahwa fenomena ini disebabkan oleh adanya gangguan atmosfer dari Samudra Hindia yang berdampak pada pembentukan awan konvektif secara masif. 
+
+Masyarakat diminta untuk tetap waspada, terutama bagi nelayan dan pengguna transportasi laut serta warga yang tinggal di daerah rawan longsor. “Kami terus memantau pergerakan sistem tekanan rendah yang dapat memperparah cuaca ekstrem,” ujarnya. 
+
+BMKG juga telah menyebarluaskan peringatan dini melalui aplikasi infoBMKG dan bekerja sama dengan pemerintah daerah untuk siaga darurat. Layanan informasi darurat cuaca diperluas hingga ke tingkat kecamatan melalui sistem SMS dan notifikasi digital.
+
+Sementara itu, Kementerian Sosial telah menyiapkan logistik darurat dan posko pengungsian apabila terjadi bencana. Pemerintah daerah juga diminta mengaktifkan tim tanggap bencana dan melakukan simulasi evakuasi sebagai langkah antisipatif.`,
+
+    gambar_sampul:
+      "https://akcdn.detik.net.id/community/media/visual/2025/04/12/menkes-budi-gunadi-sadikin-1744457661081_169.jpeg?w=700&q=90",
+  },
+  {
+    id_berita: "3522b4e88e0f-2d15-4d18-bc47-e4f56b0aef61",
+    judul:
+      "Digitalisasi Layanan Publik Dipercepat, Fokus pada Desa dan Daerah 3T",
+    ringkasan:
+      "Pemerintah mengakselerasi digitalisasi layanan publik, terutama di wilayah 3T dan pedesaan...",
+    isi: `Jakarta, 13 April 2025 – Dalam rangka mempercepat transformasi digital di Indonesia, Kementerian Komunikasi dan Informatika (Kominfo) meluncurkan program akselerasi digitalisasi layanan publik yang menyasar daerah tertinggal, terdepan, dan terluar (3T) serta desa-desa.
+
+Menteri Kominfo Johnny G. Plate menyatakan bahwa pemerintah telah menyiapkan infrastruktur pendukung seperti jaringan internet berkecepatan tinggi serta pelatihan literasi digital untuk aparatur desa. “Tujuan kami adalah menghadirkan layanan publik yang transparan, cepat, dan efisien hingga ke pelosok negeri,” ujarnya.
+
+Program ini juga akan didukung oleh pengembangan platform digital pemerintah terpadu yang bisa diakses masyarakat secara daring untuk mengurus dokumen kependudukan, izin usaha, dan lainnya. 
+
+Selain itu, Kominfo bekerja sama dengan BUMDes, universitas, dan perusahaan rintisan lokal untuk menghadirkan inovasi teknologi yang sesuai dengan kebutuhan lokal. Aplikasi berbasis web dan mobile akan dikembangkan agar lebih ramah pengguna, terutama untuk kalangan lansia dan penyandang disabilitas.
+
+Dengan digitalisasi ini, diharapkan proses birokrasi bisa dipangkas, korupsi dapat diminimalisir, serta meningkatkan keterlibatan masyarakat dalam pembangunan. Pemerintah juga akan melakukan evaluasi berkala dan menyempurnakan kebijakan berbasis feedback dari masyarakat.`,
+
+    gambar_sampul:
+      "https://akcdn.detik.net.id/community/media/visual/2025/04/12/menkes-budi-gunadi-sadikin-1744457661081_169.jpeg?w=700&q=90",
+  },
+  {
+    id_berita: "362151f89f4ec-cc58-4fd9-b3df-64d3bcd36ff9",
+    judul:
+      "Menkes Respons Kasus Pemerkosaan di RSHS, Soroti Obat Bius Bebas Dipakai",
+    ringkasan:
+      "Jakarta - Menteri Kesehatan Budi Gunadi Sadikin buka suara soal kasus kekerasan seksual...",
+    isi: `Jakarta, 12 April 2025 – Menteri Kesehatan (Menkes) Budi Gunadi Sadikin akhirnya angkat bicara terkait kasus pemerkosaan yang terjadi di Rumah Sakit Hasan Sadikin (RSHS). Dalam konferensi pers di Jakarta, ia menyampaikan keprihatinan mendalam dan akan memperketat pengawasan terhadap penggunaan obat bius. 
+
+Ia menambahkan bahwa pihak rumah sakit akan diaudit dan semua prosedur penggunaan anestesi akan ditinjau kembali. "Kami tidak akan mentolerir kejadian seperti ini. Setiap pasien berhak merasa aman di fasilitas kesehatan," ujarnya. 
+
+Kejadian ini juga memunculkan kritik dari masyarakat luas terkait lemahnya sistem pengawasan internal rumah sakit dan regulasi yang longgar. Dalam kesempatan yang sama, Menkes juga menyoroti perlunya edukasi etika kedokteran di institusi pendidikan.
+
+Lebih lanjut, Kemenkes akan bekerja sama dengan Kementerian Pendidikan, Kebudayaan, Riset, dan Teknologi untuk memperkuat kurikulum etika profesi di fakultas kedokteran. Pengawasan terhadap fasilitas kesehatan swasta dan negeri pun akan diperketat.
+
+Sejumlah LSM perempuan menanggapi positif langkah cepat Menkes dan meminta agar korban mendapat perlindungan serta pendampingan psikologis. Proses hukum terhadap pelaku diharapkan berjalan transparan dan tidak ditutup-tutupi.`,
+
+    gambar_sampul:
+      "https://akcdn.detik.net.id/community/media/visual/2025/04/12/menkes-budi-gunadi-sadikin-1744457661081_169.jpeg?w=700&q=90",
+  },
+  {
+    id_berita: "3713a22c74b62-1ec2-4f9e-a34e-81cfb5d87ef2",
+    judul:
+      "BMKG: Cuaca Ekstrem Diprediksi Terjadi di Wilayah Selatan Indonesia",
+    ringkasan:
+      "BMKG memperingatkan adanya potensi cuaca ekstrem di sejumlah wilayah Indonesia bagian selatan...",
+    isi: `Jakarta, 13 April 2025 – Badan Meteorologi, Klimatologi, dan Geofisika (BMKG) memprediksi cuaca ekstrem seperti hujan deras disertai angin kencang dan petir akan melanda sejumlah wilayah Indonesia bagian selatan dalam beberapa hari ke depan.
+
+Kepala BMKG Dwikorita Karnawati mengatakan bahwa fenomena ini disebabkan oleh adanya gangguan atmosfer dari Samudra Hindia yang berdampak pada pembentukan awan konvektif secara masif. 
+
+Masyarakat diminta untuk tetap waspada, terutama bagi nelayan dan pengguna transportasi laut serta warga yang tinggal di daerah rawan longsor. “Kami terus memantau pergerakan sistem tekanan rendah yang dapat memperparah cuaca ekstrem,” ujarnya. 
+
+BMKG juga telah menyebarluaskan peringatan dini melalui aplikasi infoBMKG dan bekerja sama dengan pemerintah daerah untuk siaga darurat. Layanan informasi darurat cuaca diperluas hingga ke tingkat kecamatan melalui sistem SMS dan notifikasi digital.
+
+Sementara itu, Kementerian Sosial telah menyiapkan logistik darurat dan posko pengungsian apabila terjadi bencana. Pemerintah daerah juga diminta mengaktifkan tim tanggap bencana dan melakukan simulasi evakuasi sebagai langkah antisipatif.`,
+
+    gambar_sampul:
+      "https://akcdn.detik.net.id/community/media/visual/2025/04/12/menkes-budi-gunadi-sadikin-1744457661081_169.jpeg?w=700&q=90",
+  },
+  {
+    id_berita: "3832b34e88e0f-2d15-4d18-bc47-e4f56b0aef61",
+    judul:
+      "Digitalisasi Layanan Publik Dipercepat, Fokus pada Desa dan Daerah 3T",
+    ringkasan:
+      "Pemerintah mengakselerasi digitalisasi layanan publik, terutama di wilayah 3T dan pedesaan...",
+    isi: `Jakarta, 13 April 2025 – Dalam rangka mempercepat transformasi digital di Indonesia, Kementerian Komunikasi dan Informatika (Kominfo) meluncurkan program akselerasi digitalisasi layanan publik yang menyasar daerah tertinggal, terdepan, dan terluar (3T) serta desa-desa.
+
+Menteri Kominfo Johnny G. Plate menyatakan bahwa pemerintah telah menyiapkan infrastruktur pendukung seperti jaringan internet berkecepatan tinggi serta pelatihan literasi digital untuk aparatur desa. “Tujuan kami adalah menghadirkan layanan publik yang transparan, cepat, dan efisien hingga ke pelosok negeri,” ujarnya.
+
+Program ini juga akan didukung oleh pengembangan platform digital pemerintah terpadu yang bisa diakses masyarakat secara daring untuk mengurus dokumen kependudukan, izin usaha, dan lainnya. 
+
+Selain itu, Kominfo bekerja sama dengan BUMDes, universitas, dan perusahaan rintisan lokal untuk menghadirkan inovasi teknologi yang sesuai dengan kebutuhan lokal. Aplikasi berbasis web dan mobile akan dikembangkan agar lebih ramah pengguna, terutama untuk kalangan lansia dan penyandang disabilitas.
+
+Dengan digitalisasi ini, diharapkan proses birokrasi bisa dipangkas, korupsi dapat diminimalisir, serta meningkatkan keterlibatan masyarakat dalam pembangunan. Pemerintah juga akan melakukan evaluasi berkala dan menyempurnakan kebijakan berbasis feedback dari masyarakat.`,
+
+    gambar_sampul:
+      "https://akcdn.detik.net.id/community/media/visual/2025/04/12/menkes-budi-gunadi-sadikin-1744457661081_169.jpeg?w=700&q=90",
+  },
+  {
+    id_berita: "394315f89f4ec-cc58-4fd9-b3df-64d3bcd36ff9",
+    judul:
+      "Menkes Respons Kasus Pemerkosaan di RSHS, Soroti Obat Bius Bebas Dipakai",
+    ringkasan:
+      "Jakarta - Menteri Kesehatan Budi Gunadi Sadikin buka suara soal kasus kekerasan seksual...",
+    isi: `Jakarta, 12 April 2025 – Menteri Kesehatan (Menkes) Budi Gunadi Sadikin akhirnya angkat bicara terkait kasus pemerkosaan yang terjadi di Rumah Sakit Hasan Sadikin (RSHS). Dalam konferensi pers di Jakarta, ia menyampaikan keprihatinan mendalam dan akan memperketat pengawasan terhadap penggunaan obat bius. 
+
+Ia menambahkan bahwa pihak rumah sakit akan diaudit dan semua prosedur penggunaan anestesi akan ditinjau kembali. "Kami tidak akan mentolerir kejadian seperti ini. Setiap pasien berhak merasa aman di fasilitas kesehatan," ujarnya. 
+
+Kejadian ini juga memunculkan kritik dari masyarakat luas terkait lemahnya sistem pengawasan internal rumah sakit dan regulasi yang longgar. Dalam kesempatan yang sama, Menkes juga menyoroti perlunya edukasi etika kedokteran di institusi pendidikan.
+
+Lebih lanjut, Kemenkes akan bekerja sama dengan Kementerian Pendidikan, Kebudayaan, Riset, dan Teknologi untuk memperkuat kurikulum etika profesi di fakultas kedokteran. Pengawasan terhadap fasilitas kesehatan swasta dan negeri pun akan diperketat.
+
+Sejumlah LSM perempuan menanggapi positif langkah cepat Menkes dan meminta agar korban mendapat perlindungan serta pendampingan psikologis. Proses hukum terhadap pelaku diharapkan berjalan transparan dan tidak ditutup-tutupi.`,
+
+    gambar_sampul:
+      "https://akcdn.detik.net.id/community/media/visual/2025/04/12/menkes-budi-gunadi-sadikin-1744457661081_169.jpeg?w=700&q=90",
+  },
+  {
+    id_berita: "31142a2c74b62-1ec2-4f9e-a34e-81cfb5d87ef2",
+    judul:
+      "BMKG: Cuaca Ekstrem Diprediksi Terjadi di Wilayah Selatan Indonesia",
+    ringkasan:
+      "BMKG memperingatkan adanya potensi cuaca ekstrem di sejumlah wilayah Indonesia bagian selatan...",
+    isi: `Jakarta, 13 April 2025 – Badan Meteorologi, Klimatologi, dan Geofisika (BMKG) memprediksi cuaca ekstrem seperti hujan deras disertai angin kencang dan petir akan melanda sejumlah wilayah Indonesia bagian selatan dalam beberapa hari ke depan.
+
+Kepala BMKG Dwikorita Karnawati mengatakan bahwa fenomena ini disebabkan oleh adanya gangguan atmosfer dari Samudra Hindia yang berdampak pada pembentukan awan konvektif secara masif. 
+
+Masyarakat diminta untuk tetap waspada, terutama bagi nelayan dan pengguna transportasi laut serta warga yang tinggal di daerah rawan longsor. “Kami terus memantau pergerakan sistem tekanan rendah yang dapat memperparah cuaca ekstrem,” ujarnya. 
+
+BMKG juga telah menyebarluaskan peringatan dini melalui aplikasi infoBMKG dan bekerja sama dengan pemerintah daerah untuk siaga darurat. Layanan informasi darurat cuaca diperluas hingga ke tingkat kecamatan melalui sistem SMS dan notifikasi digital.
+
+Sementara itu, Kementerian Sosial telah menyiapkan logistik darurat dan posko pengungsian apabila terjadi bencana. Pemerintah daerah juga diminta mengaktifkan tim tanggap bencana dan melakukan simulasi evakuasi sebagai langkah antisipatif.`,
+
+    gambar_sampul:
+      "https://akcdn.detik.net.id/community/media/visual/2025/04/12/menkes-budi-gunadi-sadikin-1744457661081_169.jpeg?w=700&q=90",
+  },
+  {
+    id_berita: "32153b4e88e0f-2d15-4d18-bc47-e4f56b0aef61",
+    judul:
+      "Digitalisasi Layanan Publik Dipercepat, Fokus pada Desa dan Daerah 3T",
+    ringkasan:
+      "Pemerintah mengakselerasi digitalisasi layanan publik, terutama di wilayah 3T dan pedesaan...",
+    isi: `Jakarta, 13 April 2025 – Dalam rangka mempercepat transformasi digital di Indonesia, Kementerian Komunikasi dan Informatika (Kominfo) meluncurkan program akselerasi digitalisasi layanan publik yang menyasar daerah tertinggal, terdepan, dan terluar (3T) serta desa-desa.
+
+Menteri Kominfo Johnny G. Plate menyatakan bahwa pemerintah telah menyiapkan infrastruktur pendukung seperti jaringan internet berkecepatan tinggi serta pelatihan literasi digital untuk aparatur desa. “Tujuan kami adalah menghadirkan layanan publik yang transparan, cepat, dan efisien hingga ke pelosok negeri,” ujarnya.
+
+Program ini juga akan didukung oleh pengembangan platform digital pemerintah terpadu yang bisa diakses masyarakat secara daring untuk mengurus dokumen kependudukan, izin usaha, dan lainnya. 
+
+Selain itu, Kominfo bekerja sama dengan BUMDes, universitas, dan perusahaan rintisan lokal untuk menghadirkan inovasi teknologi yang sesuai dengan kebutuhan lokal. Aplikasi berbasis web dan mobile akan dikembangkan agar lebih ramah pengguna, terutama untuk kalangan lansia dan penyandang disabilitas.
+
+Dengan digitalisasi ini, diharapkan proses birokrasi bisa dipangkas, korupsi dapat diminimalisir, serta meningkatkan keterlibatan masyarakat dalam pembangunan. Pemerintah juga akan melakukan evaluasi berkala dan menyempurnakan kebijakan berbasis feedback dari masyarakat.`,
+
+    gambar_sampul:
+      "https://akcdn.detik.net.id/community/media/visual/2025/04/12/menkes-budi-gunadi-sadikin-1744457661081_169.jpeg?w=700&q=90",
+  },
+  {
+    id_berita: "4416451f89f4ec-cc58-4fd9-b3df-64d3bcd36ff9",
+    judul:
+      "Menkes Respons Kasus Pemerkosaan di RSHS, Soroti Obat Bius Bebas Dipakai",
+    ringkasan:
+      "Jakarta - Menteri Kesehatan Budi Gunadi Sadikin buka suara soal kasus kekerasan seksual...",
+    isi: `Jakarta, 12 April 2025 – Menteri Kesehatan (Menkes) Budi Gunadi Sadikin akhirnya angkat bicara terkait kasus pemerkosaan yang terjadi di Rumah Sakit Hasan Sadikin (RSHS). Dalam konferensi pers di Jakarta, ia menyampaikan keprihatinan mendalam dan akan memperketat pengawasan terhadap penggunaan obat bius. 
+
+Ia menambahkan bahwa pihak rumah sakit akan diaudit dan semua prosedur penggunaan anestesi akan ditinjau kembali. "Kami tidak akan mentolerir kejadian seperti ini. Setiap pasien berhak merasa aman di fasilitas kesehatan," ujarnya. 
+
+Kejadian ini juga memunculkan kritik dari masyarakat luas terkait lemahnya sistem pengawasan internal rumah sakit dan regulasi yang longgar. Dalam kesempatan yang sama, Menkes juga menyoroti perlunya edukasi etika kedokteran di institusi pendidikan.
+
+Lebih lanjut, Kemenkes akan bekerja sama dengan Kementerian Pendidikan, Kebudayaan, Riset, dan Teknologi untuk memperkuat kurikulum etika profesi di fakultas kedokteran. Pengawasan terhadap fasilitas kesehatan swasta dan negeri pun akan diperketat.
+
+Sejumlah LSM perempuan menanggapi positif langkah cepat Menkes dan meminta agar korban mendapat perlindungan serta pendampingan psikologis. Proses hukum terhadap pelaku diharapkan berjalan transparan dan tidak ditutup-tutupi.`,
+
+    gambar_sampul:
+      "https://akcdn.detik.net.id/community/media/visual/2025/04/12/menkes-budi-gunadi-sadikin-1744457661081_169.jpeg?w=700&q=90",
+  },
+  {
+    id_berita: "45175a22c74b62-1ec2-4f9e-a34e-81cfb5d87ef2",
+    judul:
+      "BMKG: Cuaca Ekstrem Diprediksi Terjadi di Wilayah Selatan Indonesia",
+    ringkasan:
+      "BMKG memperingatkan adanya potensi cuaca ekstrem di sejumlah wilayah Indonesia bagian selatan...",
+    isi: `Jakarta, 13 April 2025 – Badan Meteorologi, Klimatologi, dan Geofisika (BMKG) memprediksi cuaca ekstrem seperti hujan deras disertai angin kencang dan petir akan melanda sejumlah wilayah Indonesia bagian selatan dalam beberapa hari ke depan.
+
+Kepala BMKG Dwikorita Karnawati mengatakan bahwa fenomena ini disebabkan oleh adanya gangguan atmosfer dari Samudra Hindia yang berdampak pada pembentukan awan konvektif secara masif. 
+
+Masyarakat diminta untuk tetap waspada, terutama bagi nelayan dan pengguna transportasi laut serta warga yang tinggal di daerah rawan longsor. “Kami terus memantau pergerakan sistem tekanan rendah yang dapat memperparah cuaca ekstrem,” ujarnya. 
+
+BMKG juga telah menyebarluaskan peringatan dini melalui aplikasi infoBMKG dan bekerja sama dengan pemerintah daerah untuk siaga darurat. Layanan informasi darurat cuaca diperluas hingga ke tingkat kecamatan melalui sistem SMS dan notifikasi digital.
+
+Sementara itu, Kementerian Sosial telah menyiapkan logistik darurat dan posko pengungsian apabila terjadi bencana. Pemerintah daerah juga diminta mengaktifkan tim tanggap bencana dan melakukan simulasi evakuasi sebagai langkah antisipatif.`,
+
+    gambar_sampul:
+      "https://akcdn.detik.net.id/community/media/visual/2025/04/12/menkes-budi-gunadi-sadikin-1744457661081_169.jpeg?w=700&q=90",
+  },
+  {
+    id_berita: "456186b34e88e0f-2d15-4d18-bc47-e4f56b0aef61",
+    judul:
+      "Digitalisasi Layanan Publik Dipercepat, Fokus pada Desa dan Daerah 3T",
+    ringkasan:
+      "Pemerintah mengakselerasi digitalisasi layanan publik, terutama di wilayah 3T dan pedesaan...",
+    isi: `Jakarta, 13 April 2025 – Dalam rangka mempercepat transformasi digital di Indonesia, Kementerian Komunikasi dan Informatika (Kominfo) meluncurkan program akselerasi digitalisasi layanan publik yang menyasar daerah tertinggal, terdepan, dan terluar (3T) serta desa-desa.
+
+Menteri Kominfo Johnny G. Plate menyatakan bahwa pemerintah telah menyiapkan infrastruktur pendukung seperti jaringan internet berkecepatan tinggi serta pelatihan literasi digital untuk aparatur desa. “Tujuan kami adalah menghadirkan layanan publik yang transparan, cepat, dan efisien hingga ke pelosok negeri,” ujarnya.
+
+Program ini juga akan didukung oleh pengembangan platform digital pemerintah terpadu yang bisa diakses masyarakat secara daring untuk mengurus dokumen kependudukan, izin usaha, dan lainnya. 
+
+Selain itu, Kominfo bekerja sama dengan BUMDes, universitas, dan perusahaan rintisan lokal untuk menghadirkan inovasi teknologi yang sesuai dengan kebutuhan lokal. Aplikasi berbasis web dan mobile akan dikembangkan agar lebih ramah pengguna, terutama untuk kalangan lansia dan penyandang disabilitas.
+
+Dengan digitalisasi ini, diharapkan proses birokrasi bisa dipangkas, korupsi dapat diminimalisir, serta meningkatkan keterlibatan masyarakat dalam pembangunan. Pemerintah juga akan melakukan evaluasi berkala dan menyempurnakan kebijakan berbasis feedback dari masyarakat.`,
+
+    gambar_sampul:
+      "https://akcdn.detik.net.id/community/media/visual/2025/04/12/menkes-budi-gunadi-sadikin-1744457661081_169.jpeg?w=700&q=90",
+  },
+];
+
+const gambar = [
+  // Berita 1
+  {
+    url: "https://images.unsplash.com/photo-1554080353-a576cf803bda?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80",
+    beritaId: "5f89f4ec-cc58-4fd9-b3df-64d3bcd36ff9",
+  },
+  {
+    url: "https://images.unsplash.com/photo-1554080353-a576cf803bda?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80",
+    beritaId: "5f89f4ec-cc58-4fd9-b3df-64d3bcd36ff9",
+  },
+
+  // Berita 2
+  {
+    url: "https://images.unsplash.com/photo-1554080353-a576cf803bda?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80",
+    beritaId: "a2c74b62-1ec2-4f9e-a34e-81cfb5d87ef2",
+  },
+  {
+    url: "https://images.unsplash.com/photo-1554080353-a576cf803bda?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80",
+    beritaId: "a2c74b62-1ec2-4f9e-a34e-81cfb5d87ef2",
+  },
+
+  // Berita 3
+  {
+    url: "https://images.unsplash.com/photo-1554080353-a576cf803bda?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80",
+    beritaId: "b4e88e0f-2d15-4d18-bc47-e4f56b0aef61",
+  },
+  {
+    url: "https://images.unsplash.com/photo-1554080353-a576cf803bda?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80",
+    beritaId: "b4e88e0f-2d15-4d18-bc47-e4f56b0aef61",
+  },
+  {
+    url: "https://images.unsplash.com/photo-1554080353-a576cf803bda?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80",
+    beritaId: "51f89f4ec-cc58-4fd9-b3df-64d3bcd36ff9",
+  },
+  {
+    url: "https://images.unsplash.com/photo-1554080353-a576cf803bda?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80",
+    beritaId: "51f89f4ec-cc58-4fd9-b3df-64d3bcd36ff9",
+  },
+
+  // Berita 2
+  {
+    url: "https://images.unsplash.com/photo-1554080353-a576cf803bda?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80",
+    beritaId: "a22c74b62-1ec2-4f9e-a34e-81cfb5d87ef2",
+  },
+  {
+    url: "https://images.unsplash.com/photo-1554080353-a576cf803bda?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80",
+    beritaId: "a22c74b62-1ec2-4f9e-a34e-81cfb5d87ef2",
+  },
+
+  // Berita 3
+  {
+    url: "https://images.unsplash.com/photo-1554080353-a576cf803bda?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80",
+    beritaId: "b34e88e0f-2d15-4d18-bc47-e4f56b0aef61",
+  },
+  {
+    url: "https://images.unsplash.com/photo-1554080353-a576cf803bda?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80",
+    beritaId: "b34e88e0f-2d15-4d18-bc47-e4f56b0aef61",
+  },
+  {
+    url: "https://images.unsplash.com/photo-1554080353-a576cf803bda?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80",
+    beritaId: "15f89f4ec-cc58-4fd9-b3df-64d3bcd36ff9",
+  },
+  {
+    url: "https://images.unsplash.com/photo-1554080353-a576cf803bda?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80",
+    beritaId: "15f89f4ec-cc58-4fd9-b3df-64d3bcd36ff9",
+  },
+
+  // Berita 2
+  {
+    url: "https://images.unsplash.com/photo-1554080353-a576cf803bda?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80",
+    beritaId: "2a2c74b62-1ec2-4f9e-a34e-81cfb5d87ef2",
+  },
+  {
+    url: "https://images.unsplash.com/photo-1554080353-a576cf803bda?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80",
+    beritaId: "2a2c74b62-1ec2-4f9e-a34e-81cfb5d87ef2",
+  },
+
+  // Berita 3
+  {
+    url: "https://images.unsplash.com/photo-1554080353-a576cf803bda?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80",
+    beritaId: "3b4e88e0f-2d15-4d18-bc47-e4f56b0aef61",
+  },
+  {
+    url: "https://images.unsplash.com/photo-1554080353-a576cf803bda?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80",
+    beritaId: "3b4e88e0f-2d15-4d18-bc47-e4f56b0aef61",
+  },
+  {
+    url: "https://images.unsplash.com/photo-1554080353-a576cf803bda?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80",
+    beritaId: "451f89f4ec-cc58-4fd9-b3df-64d3bcd36ff9",
+  },
+  {
+    url: "https://images.unsplash.com/photo-1554080353-a576cf803bda?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80",
+    beritaId: "451f89f4ec-cc58-4fd9-b3df-64d3bcd36ff9",
+  },
+
+  // Berita 2
+  {
+    url: "https://images.unsplash.com/photo-1554080353-a576cf803bda?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80",
+    beritaId: "5a22c74b62-1ec2-4f9e-a34e-81cfb5d87ef2",
+  },
+  {
+    url: "https://images.unsplash.com/photo-1554080353-a576cf803bda?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80",
+    beritaId: "5a22c74b62-1ec2-4f9e-a34e-81cfb5d87ef2",
+  },
+
+  // Berita 3
+  {
+    url: "https://images.unsplash.com/photo-1554080353-a576cf803bda?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80",
+    beritaId: "6b34e88e0f-2d15-4d18-bc47-e4f56b0aef61",
+  },
+  {
+    url: "https://images.unsplash.com/photo-1554080353-a576cf803bda?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80",
+    beritaId: "6b34e88e0f-2d15-4d18-bc47-e4f56b0aef61",
   },
 ];
 
@@ -524,11 +1314,13 @@ async function main() {
   await prisma.responAdmin.deleteMany();
   await prisma.aduan.deleteMany();
   await prisma.berita.deleteMany();
+  await prisma.gambar.deleteMany();
   await prisma.user.deleteMany();
   await prisma.poli.deleteMany();
 
   await prisma.user.createMany({ data: users });
   await prisma.berita.createMany({ data: berita });
+  await prisma.gambar.createMany({ data: gambar });
   await prisma.aduan.createMany({ data: aduan });
   await prisma.responAdmin.createMany({ data: responAdmin });
   await prisma.pelayanan.createMany({ data: pelayanan });
