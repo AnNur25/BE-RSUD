@@ -14,8 +14,14 @@ class DokterController {
   }
   static async searchDokter(req, res) {
     try {
+      const page = parseInt(req.query.page) || 1;
+      const pageSize = parseInt(req.query.pageSize) || 15;
       const { keyword } = req.query;
-      const dokter = await dokterService.searchDokter({ keyword });
+      const dokter = await dokterService.searchDokter({
+        page,
+        pageSize,
+        keyword,
+      });
       return responseHelper.success(res, dokter, "berhasil menampilkan dokter");
     } catch (error) {
       return responseHelper.error(res, error);
