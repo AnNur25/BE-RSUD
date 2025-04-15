@@ -24,11 +24,21 @@ class DokterService {
     return { id: addData.id_dokter, nama: addData.nama };
   }
 
-  static async searchDokter({ keyword }) {
+  static async searchDokter({ page, pageSize, keyword }) {
+    const {
+      skip,
+      take,
+      page: currentPage,
+      pageSize: currentPageSize,
+    } = Pagination.paginate(page, pageSize);
     if (!keyword) {
       throw new BadRequestError("Keyword pencarian harus diisi");
     }
+
+    const totalItems = await prisma.dokter.count();
     const result = await prisma.dokter.findMany({
+      skip,
+      take,
       where: {
         OR: [
           {
@@ -54,7 +64,26 @@ class DokterService {
     if (!result || result.length === 0) {
       throw new NotFoundError("data dokter tidak tersedia");
     }
-    return result;
+    const mappedResult = result.map((dokter) => ({
+      id_dokter: dokter.id_dokter,
+      nama: dokter.nama,
+      gambar: dokter.gambar,
+      poli: {
+        id_poli: dokter.poli.id_poli,
+        nama_poli: dokter.poli.nama_poli,
+      },
+    }));
+
+    const totalPages = Math.ceil(totalItems / currentPageSize);
+    return {
+      Dokter: mappedResult,
+      pagination: {
+        currentPage,
+        pageSize: currentPageSize,
+        totalItems,
+        totalPages,
+      },
+    };
   }
   static async getDokter(page, pageSize) {
     const {
@@ -74,6 +103,7 @@ class DokterService {
         gambar: true,
         poli: {
           select: {
+            id_poli: true,
             nama_poli: true,
           },
         },

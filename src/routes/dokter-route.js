@@ -130,6 +130,18 @@ Route.post(
  *         description: Kata kunci untuk mencari dokter. Harus diisi.
  *         schema:
  *           type: string
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *           default: 1
+ *         description: Nomor halaman yang ingin diambil.
+ *       - in: query
+ *         name: pageSize
+ *         schema:
+ *           type: integer
+ *           default: 15
+ *         description: Jumlah Dokter yang ditampilkan per halaman.
  *     responses:
  *       200:
  *         description: Berhasil menampilkan dokter
@@ -144,29 +156,50 @@ Route.post(
  *                 statusCode:
  *                   type: integer
  *                   example: 200
- *                 data:
- *                   type: array
- *                   items:
- *                     type: object
- *                     properties:
- *                       id:
- *                         type: integer
- *                         example: 1
- *                       nama:
- *                         type: string
- *                         example: "Dr. John Doe"
- *                       poli:
- *                         type: object
- *                         properties:
- *                           id:
- *                             type: integer
- *                             example: 1
- *                           nama_poli:
- *                             type: string
- *                             example: "Pediatri"
  *                 message:
  *                   type: string
  *                   example: "berhasil menampilkan dokter"
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     Dokter:
+ *                       type: array
+ *                       items:
+ *                         type: object
+ *                         properties:
+ *                           id_dokter:
+ *                             type: string
+ *                             example: "04f61d34-e1d6-40ea-b3e1-4e51d49f1cc5"
+ *                           nama:
+ *                             type: string
+ *                             example: "dr. Doddy Radhi Sakti (DRS)"
+ *                           gambar:
+ *                             type: string
+ *                             example: "https://example.com/dr_doddy.jpg"
+ *                           poli:
+ *                             type: object
+ *                             properties:
+ *                               id_poli:
+ *                                 type: string
+ *                                 example: "uisviihva"
+ *                               nama_poli:
+ *                                 type: string
+ *                                 example: "Poli VCT"
+ *                     pagination:
+ *                       type: object
+ *                       properties:
+ *                         currentPage:
+ *                           type: integer
+ *                           example: 1
+ *                         pageSize:
+ *                           type: integer
+ *                           example: 10
+ *                         totalItems:
+ *                           type: integer
+ *                           example: 100
+ *                         totalPages:
+ *                           type: integer
+ *                           example: 10
  *       400:
  *         description: Permintaan tidak valid, kata kunci tidak boleh kosong
  *         content:
@@ -257,34 +290,46 @@ Route.get("/search", dokterController.searchDokter);
  *                   type: string
  *                   example: "Data dokter berhasil diambil"
  *                 data:
- *                   type: array
- *                   items:
- *                     type: object
- *                     properties:
- *                       id_dokter:
- *                         type: integer
- *                         example: 1
- *                       nama:
- *                         type: string
- *                         example: "Dr. Andi"
- *                       kontak:
- *                         type: string
- *                         example: "081234567890"
- *                       gambar:
- *                         type: string
- *                         example: "https://ik.imagekit.io/ena3eh2k0/Screenshot_2025-03-18_144412_824nKFPqX.png"
- *                       spesialis:
+ *                   type: object
+ *                   properties:
+ *                     Dokter:
+ *                       type: array
+ *                       items:
  *                         type: object
  *                         properties:
- *                           nama_spesialis:
+ *                           id_dokter:
  *                             type: string
- *                             example: "spesialis baru 1"
- *                       pelayananDokter:
- *                         type: object
- *                         properties:
- *                           nama_pelayanan:
+ *                             example: "04f61d34-e1d6-40ea-b3e1-4e51d49f1cc5"
+ *                           nama:
  *                             type: string
- *                             example: "Pelayanan Konsultasi"
+ *                             example: "dr. Doddy Radhi Sakti (DRS)"
+ *                           gambar:
+ *                             type: string
+ *                             example: "https://example.com/dr_doddy.jpg"
+ *                           poli:
+ *                             type: object
+ *                             properties:
+ *                               id_poli:
+ *                                 type: string
+ *                                 example: "uisviihva"
+ *                               nama_poli:
+ *                                 type: string
+ *                                 example: "Poli VCT"
+ *                     pagination:
+ *                       type: object
+ *                       properties:
+ *                         currentPage:
+ *                           type: integer
+ *                           example: 1
+ *                         pageSize:
+ *                           type: integer
+ *                           example: 10
+ *                         totalItems:
+ *                           type: integer
+ *                           example: 100
+ *                         totalPages:
+ *                           type: integer
+ *                           example: 10
  *       404:
  *         description: Data Dokter Kosong
  *         content:

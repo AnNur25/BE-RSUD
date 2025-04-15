@@ -109,8 +109,14 @@ class Berita {
   berita;
   static async searchBerita(req, res) {
     try {
+      const page = parseInt(req.query.page) || 1;
+      const pageSize = parseInt(req.query.pageSize) || 10;
       const { keyword } = req.query;
-      const berita = await beritaService.searchBerita({ keyword });
+      const berita = await beritaService.searchBerita({
+        page,
+        pageSize,
+        keyword,
+      });
       return responseHelper.success(res, berita, "berhasil menampilkan dokter");
     } catch (error) {
       return responseHelper.error(res, error);

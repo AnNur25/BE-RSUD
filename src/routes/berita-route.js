@@ -134,6 +134,18 @@ route.post(
  *         description: Kata kunci untuk mencari berita. Harus diisi.
  *         schema:
  *           type: string
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *           default: 1
+ *         description: Nomor halaman yang ingin diambil.
+ *       - in: query
+ *         name: pageSize
+ *         schema:
+ *           type: integer
+ *           default: 10
+ *         description: Jumlah berita yang ditampilkan per halaman.
  *     responses:
  *       "200":
  *         description: Berhasil menampilkan berita

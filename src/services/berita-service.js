@@ -83,7 +83,6 @@ class BeritaService {
       },
     };
   }
-
   static async getBeritaById({ id }) {
     if (!id) {
       throw new NotFoundError("ID Berita tidak ditemukan");
@@ -111,7 +110,6 @@ class BeritaService {
       gambar_tambahan: berita.gambar_tambahan.map((gambar) => gambar.url),
     };
   }
-
   static async updateBerita({ id }, { judul, ringkasan, isi }, file) {
     if (!id || !judul || !ringkasan || !isi) {
       throw new BadRequestError(" Semua field harus diisi");
@@ -259,12 +257,22 @@ class BeritaService {
 
     return deletedGambar;
   }
-  static async searchBerita({ keyword }) {
+  static async searchBerita({ page, pageSize, keyword }) {
+    const {
+      skip,
+      take,
+      page: currentPage,
+      pageSize: currentPageSize,
+    } = Pagination.paginate(page, pageSize);
+
+    const totalItems = await prisma.berita.count();
     if (!keyword || keyword.trim() === "") {
       throw new BadRequestError("Keyword pencarian diperlukan");
     }
 
     const result = await prisma.berita.findMany({
+      skip,
+      take,
       where: {
         judul: {
           contains: keyword,
@@ -296,8 +304,15 @@ class BeritaService {
       }).format(new Date(berita.createdAt)),
     }));
 
+    const totalPages = Math.ceil(totalItems / currentPageSize);
     return {
       berita: beritaData,
+      pagination: {
+        currentPage,
+        pageSize: currentPageSize,
+        totalItems,
+        totalPages,
+      },
     };
   }
 }
