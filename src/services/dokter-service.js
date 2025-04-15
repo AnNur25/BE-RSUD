@@ -35,7 +35,26 @@ class DokterService {
       throw new BadRequestError("Keyword pencarian harus diisi");
     }
 
-    const totalItems = await prisma.dokter.count();
+    const totalItems = await prisma.dokter.count({
+      where: {
+        OR: [
+          {
+            nama: {
+              contains: keyword,
+              mode: "insensitive",
+            },
+          },
+          {
+            poli: {
+              nama_poli: {
+                contains: keyword,
+                mode: "insensitive",
+              },
+            },
+          },
+        ],
+      },
+    });
     const result = await prisma.dokter.findMany({
       skip,
       take,
