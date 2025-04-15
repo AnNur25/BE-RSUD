@@ -140,7 +140,7 @@ Route.post(
  *         name: pageSize
  *         schema:
  *           type: integer
- *           default: 15
+ *           default: 12
  *         description: Jumlah Dokter yang ditampilkan per halaman.
  *     responses:
  *       200:
@@ -270,7 +270,7 @@ Route.get("/search", dokterController.searchDokter);
  *         name: pageSize
  *         schema:
  *           type: integer
- *           default: 15
+ *           default: 12
  *         description: Jumlah Dokter yang ditampilkan per halaman.
  *     responses:
  *       200:
