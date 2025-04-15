@@ -265,7 +265,15 @@ class BeritaService {
       pageSize: currentPageSize,
     } = Pagination.paginate(page, pageSize);
 
-    const totalItems = await prisma.berita.count();
+    const totalItems = await prisma.berita.count({
+      where: {
+        judul: {
+          contains: keyword,
+          mode: "insensitive",
+        },
+      },
+    });
+
     if (!keyword || keyword.trim() === "") {
       throw new BadRequestError("Keyword pencarian diperlukan");
     }

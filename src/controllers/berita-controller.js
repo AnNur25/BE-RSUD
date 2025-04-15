@@ -117,7 +117,7 @@ class Berita {
         pageSize,
         keyword,
       });
-      return responseHelper.success(res, berita, "berhasil menampilkan dokter");
+      return responseHelper.success(res, berita, "berhasil menampilkan berita");
     } catch (error) {
       return responseHelper.error(res, error);
     }
