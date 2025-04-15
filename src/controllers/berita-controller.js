@@ -18,7 +18,7 @@ class Berita {
   static async getBerita(req, res) {
     try {
       const page = parseInt(req.query.page) || 1;
-      const pageSize = parseInt(req.query.pageSize) || 10;
+      const pageSize = parseInt(req.query.pageSize) || 9;
       const berita = await beritaService.getBerita(page, pageSize);
       return responseHelper.success(res, berita, "Berhasil menampilkan berita");
     } catch (error) {
@@ -110,7 +110,7 @@ class Berita {
   static async searchBerita(req, res) {
     try {
       const page = parseInt(req.query.page) || 1;
-      const pageSize = parseInt(req.query.pageSize) || 10;
+      const pageSize = parseInt(req.query.pageSize) || 9;
       const { keyword } = req.query;
       const berita = await beritaService.searchBerita({
         page,

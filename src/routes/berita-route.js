@@ -144,7 +144,7 @@ route.post(
  *         name: pageSize
  *         schema:
  *           type: integer
- *           default: 10
+ *           default: 9
  *         description: Jumlah berita yang ditampilkan per halaman.
  *     responses:
  *       "200":
@@ -271,7 +271,7 @@ route.get("/search", beritaController.searchBerita);
  *         name: pageSize
  *         schema:
  *           type: integer
- *           default: 10
+ *           default: 9
  *         description: Jumlah berita yang ditampilkan per halaman.
  *     responses:
  *       "200":

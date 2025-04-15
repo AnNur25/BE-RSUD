@@ -15,7 +15,7 @@ class DokterController {
   static async searchDokter(req, res) {
     try {
       const page = parseInt(req.query.page) || 1;
-      const pageSize = parseInt(req.query.pageSize) || 15;
+      const pageSize = parseInt(req.query.pageSize) || 12;
       const { keyword } = req.query;
       const dokter = await dokterService.searchDokter({
         page,
@@ -30,7 +30,7 @@ class DokterController {
   static async getDokter(req, res) {
     try {
       const page = parseInt(req.query.page) || 1;
-      const pageSize = parseInt(req.query.pageSize) || 15;
+      const pageSize = parseInt(req.query.pageSize) || 12;
       const dokter = await dokterService.getDokter(page, pageSize);
       return responseHelper.success(
         res,
