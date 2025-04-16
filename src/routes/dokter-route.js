@@ -400,21 +400,25 @@ Route.get("/", dokterController.getDokter);
  *                 data:
  *                   type: object
  *                   properties:
- *                     id_dokter:
- *                       type: string
- *                       example: 3
- *                     nama:
- *                       type: string
- *                       example: "dr. Rina"
- *                     gambar:
- *                       type: string
- *                       example: "https://ik.imagekit.io/xxx/dr-rina.jpg"
- *                     id_poli:
- *                       type: string
- *                       example: 2
- *                     nama_poli:
- *                       type: string
- *                       example: "Dokter Umum"
+ *                     Dokter:
+ *                       type: object
+ *                       properties:
+ *                         id_dokter:
+ *                           type: string
+ *                           example: 3
+ *                         nama:
+ *                           type: string
+ *                           example: "dr. Rina"
+ *                         gambar:
+ *                           type: string
+ *                           example: "https://ik.imagekit.io/xxx/dr-rina.jpg"
+ *                         poli:
+ *                           type: object
+ *                           properties:
+ *                             id_poli:
+ *                               type: string
+ *                             nama_poli:
+ *                               type: string
  *       404:
  *         description: Dokter tidak ditemukan
  *         content:

@@ -160,11 +160,15 @@ class DokterService {
     }
 
     return {
-      id_dokter: dokter.id_dokter,
-      nama: dokter.nama,
-      gambar: dokter.gambar,
-      id_poli: dokter.poli?.id_poli,
-      nama_poli: dokter.poli?.nama_poli,
+      dokter: {
+        id_dokter: dokter.id_dokter,
+        nama: dokter.nama,
+        gambar: dokter.gambar,
+        poli: {
+          id_poli: dokter.poli?.id_poli,
+          nama_poli: dokter.poli?.nama_poli,
+        },
+      },
     };
   }
 
