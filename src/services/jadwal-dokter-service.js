@@ -201,8 +201,8 @@ class JadwalDokterService {
       },
     });
 
-    if (!jadwalList) {
-      throw new NotFoundError("Dokter dengan ID ${id_dokter} tidak ditemukan.");
+    if (jadwalList.length === 0) {
+      throw new NotFoundError(`Dokter dengan ID ${id_dokter} tidak ditemukan.`);
     }
 
     const formatted = mapDokterResponse(jadwalList);
