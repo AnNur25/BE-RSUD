@@ -39,7 +39,7 @@ const { auth } = require("../middlewares/auth-middleware");
  *         description: Jumlah data per halaman.
  *     responses:
  *       200:
- *         description: Berhasil mendapatkan hasil pencarian jadwal dokter.
+ *         description: Berhasil mengambil  jadwal dokter
  *         content:
  *           application/json:
  *             schema:
@@ -53,48 +53,51 @@ const { auth } = require("../middlewares/auth-middleware");
  *                   example: 200
  *                 message:
  *                   type: string
- *                   example: "Data jadwal dokter untuk hari Selasa (2025-04-15) berhasil diambil."
- *                 dokter:
- *                   type: array
- *                   items:
- *                     type: object
- *                     properties:
- *                       id_dokter:
- *                         type: string
- *                       nama_dokter:
- *                         type: string
- *                       gambar_dokter:
- *                         type: string
- *                         example: "https://example.com/image.jpg"
- *                       poli:
+ *                   example: "Berhasil menampilkan  jadwal dokter"
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     dokter:
+ *                       type: array
+ *                       items:
  *                         type: object
  *                         properties:
- *                           id_poli:
+ *                           id_dokter:
  *                             type: string
- *                           nama_poli:
+ *                           nama_dokter:
  *                             type: string
- *                       pelayanan:
- *                         type: array
- *                         items:
- *                           type: object
- *                           properties:
- *                             id_pelayanan:
- *                               type: string
- *                             nama_pelayanan:
- *                               type: string
- *                             jadwal:
- *                               type: array
- *                               items:
- *                                 type: object
- *                                 properties:
- *                                   hari:
- *                                     type: string
- *                                   sesi:
- *                                     type: string
- *                                   jam_mulai:
- *                                     type: string
- *                                   jam_selesai:
- *                                     type: string
+ *                           gambar_dokter:
+ *                             type: string
+ *                             example: "https://example.com/image.jpg"
+ *                           poli:
+ *                             type: object
+ *                             properties:
+ *                               id_poli:
+ *                                 type: string
+ *                               nama_poli:
+ *                                 type: string
+ *                           layananList:
+ *                             type: array
+ *                             items:
+ *                               type: object
+ *                               properties:
+ *                                 id_pelayanan:
+ *                                   type: string
+ *                                 nama_pelayanan:
+ *                                   type: string
+ *                                 jadwal:
+ *                                   type: array
+ *                                   items:
+ *                                     type: object
+ *                                     properties:
+ *                                       hari:
+ *                                         type: string
+ *                                       sesi:
+ *                                         type: string
+ *                                       jam_mulai:
+ *                                         type: string
+ *                                       jam_selesai:
+ *                                         type: string
  *                 pagination:
  *                   type: object
  *                   properties:
@@ -174,7 +177,7 @@ route.get("/search", JadwalDokterController.searchJadwalDokter);
  *         description: ID unik dokter yang jadwalnya ingin diambil.
  *     responses:
  *       200:
- *         description: Berhasil mengambil jadwal dokter berdasarkan ID
+ *         description: Berhasil mengambil detail jadwal dokter
  *         content:
  *           application/json:
  *             schema:
@@ -188,38 +191,49 @@ route.get("/search", JadwalDokterController.searchJadwalDokter);
  *                   example: 200
  *                 message:
  *                   type: string
- *                   example: "Berhasil mengambil data jadwal dokter"
+ *                   example: "Berhasil menampilkan detail jadwal dokter"
  *                 data:
  *                   type: object
  *                   properties:
- *                     id_dokter:
- *                       type: string
- *                       example: "a1b2c3d4-5678-90ab-cdef-1234567890ab"
- *                     nama_dokter:
- *                       type: string
- *                       example: "dr. Andi"
- *                     layananList:
- *                       type: array
- *                       items:
- *                         type: object
- *                         properties:
- *                           id_pelayanan:
- *                             type: string
- *                             example: "987e6543-e21a-33d4-a987-876543210000"
- *                           hariList:
- *                             type: array
- *                             items:
- *                               type: object
- *                               properties:
- *                                 hari:
- *                                   type: string
- *                                   example: "Senin"
- *                                 jam_mulai:
- *                                   type: string
- *                                   example: "08:00"
- *                                 jam_selesai:
- *                                   type: string
- *                                   example: "10:00"
+ *                     dokter:
+ *                       type: object
+ *                       properties:
+ *                         id_dokter:
+ *                           type: string
+ *                         nama_dokter:
+ *                           type: string
+ *                         gambar_dokter:
+ *                           type: string
+ *                           example: "https://example.com/image.jpg"
+ *                         poli:
+ *                           type: object
+ *                           properties:
+ *                             id_poli:
+ *                               type: string
+ *                             nama_poli:
+ *                               type: string
+ *                         layananList:
+ *                           type: array
+ *                           items:
+ *                             type: object
+ *                             properties:
+ *                               id_pelayanan:
+ *                                 type: string
+ *                               nama_pelayanan:
+ *                                 type: string
+ *                               jadwal:
+ *                                 type: array
+ *                                 items:
+ *                                   type: object
+ *                                   properties:
+ *                                     hari:
+ *                                       type: string
+ *                                     sesi:
+ *                                       type: string
+ *                                     jam_mulai:
+ *                                       type: string
+ *                                     jam_selesai:
+ *                                       type: string
  *       404:
  *         description: Dokter dengan ID yang diberikan tidak ditemukan
  *         content:
@@ -303,19 +317,18 @@ route.get("/:id_dokter", JadwalDokterController.getByIdJadwalDokter);
  *                         properties:
  *                           id_dokter:
  *                             type: string
- *                             example: "a1b2c3d4-5678-90ab-cdef-1234567890ab"
  *                           nama_dokter:
  *                             type: string
- *                             example: "dr. Siti Nurhaliza"
+ *                           gambar_dokter:
+ *                             type: string
+ *                             example: "https://example.com/image.jpg"
  *                           poli:
  *                             type: object
  *                             properties:
- *                               id:
+ *                               id_poli:
  *                                 type: string
- *                                 example: "5aad80c9-bf65-477f-824f-f550a7894bdd"
- *                               nama:
+ *                               nama_poli:
  *                                 type: string
- *                                 example: "Dokter Spesialis Bedah"
  *                           layananList:
  *                             type: array
  *                             items:
@@ -323,24 +336,21 @@ route.get("/:id_dokter", JadwalDokterController.getByIdJadwalDokter);
  *                               properties:
  *                                 id_pelayanan:
  *                                   type: string
- *                                   example: "987e6543-e21a-33d4-a987-876543210000"
  *                                 nama_pelayanan:
  *                                   type: string
- *                                   example: "Pemeriksaan Umum"
- *                                 hariList:
+ *                                 jadwal:
  *                                   type: array
  *                                   items:
  *                                     type: object
  *                                     properties:
  *                                       hari:
  *                                         type: string
- *                                         example: "Senin"
+ *                                       sesi:
+ *                                         type: string
  *                                       jam_mulai:
  *                                         type: string
- *                                         example: "08:00"
  *                                       jam_selesai:
  *                                         type: string
- *                                         example: "10:00"
  *                     pagination:
  *                       type: object
  *                       properties:
