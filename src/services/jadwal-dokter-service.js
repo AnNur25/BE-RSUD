@@ -1,6 +1,7 @@
 const prisma = require("../prisma/prismaClient");
 const { BadRequestError, NotFoundError } = require("../utils/error");
 const Pagination = require("../utils/pagination");
+const { mapDokterResponse } = require("../utils/jadwal-dokter-mapping");
 
 class JadwalDokterService {
   static async createJadwalDokter({ id_dokter, layananList }) {
@@ -77,77 +78,32 @@ class JadwalDokterService {
 
     const totalItems = allDokterIds.length;
     const totalPages = Math.ceil(totalItems / currentPageSize);
-
-    const jadwalDokter = await prisma.jadwalDokter.findMany({
-      skip,
-      take,
-      include: {
-        dokter: {
-          select: {
-            id_dokter: true,
-            nama: true,
-            poli: {
-              select: {
-                id_poli: true,
-                nama_poli: true,
-              },
-            },
-          },
-        },
-        pelayanan: {
-          select: {
-            id_pelayanan: true,
-            nama_pelayanan: true,
-          },
+    const paginatedDokterIds = allDokterIds
+      .slice(skip, skip + take)
+      .map((dokter) => dokter.id_dokter);
+    const jadwalList = await prisma.jadwalDokter.findMany({
+      where: {
+        id_dokter: {
+          in: paginatedDokterIds,
         },
       },
+      include: {
+        dokter: {
+          include: {
+            poli: true,
+          },
+        },
+        pelayanan: true,
+      },
     });
-
-    if (!jadwalDokter || jadwalDokter.length === 0) {
-      throw new NotFoundError("Data jadwal dokter belum tersedia");
+    if (!jadwalList.length) {
+      throw new NotFoundError("Tidak ada jadwal dokter yang ditemukan");
     }
 
-    const groupedJadwal = {};
-
-    jadwalDokter.forEach((jadwal) => {
-      const { dokter, pelayanan } = jadwal;
-      const { id_dokter, nama, poli } = dokter;
-      const { id_pelayanan, nama_pelayanan } = pelayanan;
-
-      if (!groupedJadwal[id_dokter]) {
-        groupedJadwal[id_dokter] = {
-          id_dokter,
-          nama_dokter: nama,
-          poli: {
-            id: poli.id_poli,
-            nama: poli.nama_poli,
-          },
-          layananList: [],
-        };
-      }
-
-      let layanan = groupedJadwal[id_dokter].layananList.find(
-        (l) => l.id_pelayanan === id_pelayanan
-      );
-
-      if (!layanan) {
-        layanan = {
-          id_pelayanan,
-          nama_pelayanan,
-          hariList: [],
-        };
-        groupedJadwal[id_dokter].layananList.push(layanan);
-      }
-
-      layanan.hariList.push({
-        hari: jadwal.hari,
-        jam_mulai: jadwal.jam_mulai,
-        jam_selesai: jadwal.jam_selesai,
-      });
-    });
+    const formatted = mapDokterResponse(jadwalList);
 
     return {
-      dokter: Object.values(groupedJadwal),
+      dokter: formatted,
       pagination: {
         currentPage,
         pageSize: currentPageSize,
@@ -195,7 +151,7 @@ class JadwalDokterService {
       pageSize: currentPageSize,
     } = Pagination.paginate(page, pageSize);
 
-    const paginatedJadwal = await prisma.jadwalDokter.findMany({
+    const jadwalList = await prisma.jadwalDokter.findMany({
       where: {
         hari: hariFormatted,
         dokter: {
@@ -206,67 +162,22 @@ class JadwalDokterService {
       take,
       include: {
         dokter: {
-          select: {
-            id_dokter: true,
-            nama: true,
-            gambar: true,
-            poli: {
-              select: {
-                id_poli: true,
-                nama_poli: true,
-              },
-            },
+          include: {
+            poli: true,
           },
         },
-        pelayanan: {
-          select: {
-            id_pelayanan: true,
-            nama_pelayanan: true,
-          },
-        },
+        pelayanan: true,
       },
     });
 
-    const grouped = {};
+    if (!jadwalList.length) {
+      throw new NotFoundError(`Tidak ada jadwal dokter pada hari ${hari}`);
+    }
 
-    paginatedJadwal.forEach((item) => {
-      const { dokter, pelayanan } = item;
-
-      if (!grouped[dokter.id_dokter]) {
-        grouped[dokter.id_dokter] = {
-          id_dokter: dokter.id_dokter,
-          nama_dokter: dokter.nama,
-          gambar_dokter: dokter.gambar,
-          poli: dokter.poli,
-          pelayanan: [],
-        };
-      }
-
-      let layanan = grouped[dokter.id_dokter].pelayanan.find(
-        (l) => l.id_pelayanan === pelayanan.id_pelayanan
-      );
-
-      if (!layanan) {
-        layanan = {
-          id_pelayanan: pelayanan.id_pelayanan,
-          nama_pelayanan: pelayanan.nama_pelayanan,
-          jadwal: [],
-        };
-        grouped[dokter.id_dokter].pelayanan.push(layanan);
-      }
-
-      layanan.jadwal.push({
-        hari: item.hari,
-        sesi: item.sesi || "-",
-        jam_mulai: item.jam_mulai,
-        jam_selesai: item.jam_selesai,
-      });
-    });
-
-    const hasil = Object.values(grouped);
+    const formatted = mapDokterResponse(jadwalList);
 
     return {
-      dokter: hasil,
+      dokter: formatted,
       pagination: {
         currentPage,
         pageSize: currentPageSize,
@@ -276,52 +187,26 @@ class JadwalDokterService {
     };
   }
   static async getJadwalDokterById({ id_dokter }) {
-    const dokter = await prisma.dokter.findUnique({
-      where: { id_dokter },
-      select: {
-        id_dokter: true,
-        nama: true,
-        jadwalDokter: {
-          select: {
-            id_pelayanan: true,
-            hari: true,
-            jam_mulai: true,
-            jam_selesai: true,
+    const jadwalList = await prisma.jadwalDokter.findMany({
+      where: {
+        id_dokter,
+      },
+      include: {
+        dokter: {
+          include: {
+            poli: true,
           },
         },
+        pelayanan: true,
       },
     });
 
-    if (!dokter) {
-      throw new NotFoundError(`Dokter dengan ID ${id_dokter} tidak ditemukan.`);
+    if (!jadwalList) {
+      throw new NotFoundError("Dokter dengan ID ${id_dokter} tidak ditemukan.");
     }
 
-    const layananMap = new Map();
-
-    dokter.jadwalDokter.forEach((jadwal) => {
-      const key = jadwal.id_pelayanan;
-      if (!layananMap.has(key)) {
-        layananMap.set(key, []);
-      }
-      layananMap.get(key).push({
-        hari: jadwal.hari,
-        jam_mulai: jadwal.jam_mulai,
-        jam_selesai: jadwal.jam_selesai,
-      });
-    });
-
-    const layananList = Array.from(layananMap.entries()).map(
-      ([id_pelayanan, hariList]) => ({
-        id_pelayanan,
-        hariList,
-      })
-    );
-
-    return {
-      id_dokter: dokter.id_dokter,
-      nama_dokter: dokter.nama,
-      layananList,
-    };
+    const formatted = mapDokterResponse(jadwalList);
+    return { dokter: formatted[0] };
   }
 
   static async updateJadwalDokter({ id_dokter }, { layananList }) {
