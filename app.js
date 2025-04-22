@@ -2,6 +2,7 @@ const envConfig = require("./src/configs/env-config");
 const express = require("express");
 const app = express();
 const swaggerUi = require("swagger-ui-express");
+const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const swaggerSpec = require("./src/configs/swagger-config");
 const swaggerUiDist = require("swagger-ui-dist");
@@ -15,7 +16,10 @@ const aduanRoute = require("./src/routes/aduan-route");
 const beritaRoute = require("./src/routes/berita-route");
 const port = envConfig.port;
 
-app.use(cors({ allowedHeaders: ["Content-Type", "Authorization"] }));
+app.use(cookieParser());
+app.use(
+  cors({ allowedHeaders: ["Content-Type", "Authorization"], credentials: true })
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

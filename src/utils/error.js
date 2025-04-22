@@ -29,11 +29,6 @@ class NotFoundError extends BaseError {
   }
 }
 
-class ConflictError extends BaseError {
-  constructor(message = "Conflict") {
-    super(message, 409);
-  }
-}
 
 
 module.exports = {
@@ -42,5 +37,4 @@ module.exports = {
   UnauthorizedError,
   ForbiddenError,
   NotFoundError,
-  ConflictError,
 };
