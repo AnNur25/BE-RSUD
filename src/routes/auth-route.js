@@ -186,8 +186,6 @@ router.post("/register-admin", authController.registerAdmin);
  *                 message:
  *                   type: string
  *                   example: "Internal Server Error."
- *     security:
- *       - cookieAuth: []
  */
 router.post("/login", loginLimiter, authController.login);
 
@@ -230,8 +228,6 @@ router.post("/login", loginLimiter, authController.login);
  *                 message:
  *                   type: string
  *                   example: "Terjadi kesalahan pada server."
- *     security:
- *       - cookieAuth: []
  */
 router.post("/refresh-token", authController.refreshToken);
 
