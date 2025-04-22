@@ -1,4 +1,10 @@
 const express = require("express");
+const rateLimit = require("express-rate-limit");
+const loginLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 5,
+  message: "Terlalu banyak percobaan login, coba lagi nanti",
+});
 const router = express.Router();
 const authController = require("../controllers/auth-controller");
 const { auth } = require("../middlewares/auth-middleware");
@@ -94,94 +100,140 @@ router.post("/register-admin", authController.registerAdmin);
 /**
  * @swagger
  * /auth/login:
- *  post:
- *      summary: Login
- *      description: API untuk login pengguna dengan email dan password.
- *      tags:
+ *   post:
+ *     summary: Login
+ *     description: API untuk login pengguna dengan email dan password. Refresh token akan disimpan dalam cookie HttpOnly.
+ *     tags:
  *       - Autentikasi
- *      requestBody:
- *          required: true
- *          content:
- *              application/json:
- *                  schema:
- *                      type: object
- *                      properties:
- *                          email:
- *                              type: string
- *                              example: "binarian@gmail.com"
- *                          password:
- *                              type: string
- *                              example: "binarlope"
- *      responses:
- *          '200':
- *              description: Login berhasil
- *              content:
- *                  application/json:
- *                      schema:
- *                          type: object
- *                          properties:
- *                              statusCode:
- *                                  type: integer
- *                                  example: 200
- *                              status:
- *                                  type: string
- *                                  example: "Success"
- *                              message:
- *                                  type: string
- *                                  example: "Login Success"
- *                              token:
- *                                  type: string
- *                                  example: "eyJhbGciOiJIUzI1NiIsInR..."
- *          '400':
- *              description: Data tidak lengkap
- *              content:
- *                  application/json:
- *                      schema:
- *                          type: object
- *                          properties:
- *                              statusCode:
- *                                  type: integer
- *                                  example: 400
- *                              status:
- *                                  type: string
- *                                  example: "Failed"
- *                              message:
- *                                  type: string
- *                                  example: "Email dan password harus diisi."
- *          '401':
- *              description: Email atau password salah
- *              content:
- *                  application/json:
- *                      schema:
- *                          type: object
- *                          properties:
- *                              statusCode:
- *                                  type: integer
- *                                  example: 401
- *                              status:
- *                                  type: string
- *                                  example: "Failed"
- *                              message:
- *                                  type: string
- *                                  example: "Invalid email or password"
- *          '500':
- *              description: Terjadi kesalahan pada server
- *              content:
- *                  application/json:
- *                      schema:
- *                          type: object
- *                          properties:
- *                              statusCode:
- *                                  type: integer
- *                                  example: 500
- *                              status:
- *                                  type: string
- *                                  example: "Failed"
- *                              message:
- *                                  type: string
- *                                  example: "Internal Server Error."
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 example: "binarian@gmail.com"
+ *               password:
+ *                 type: string
+ *                 example: "binarlope"
+ *     responses:
+ *       '200':
+ *         description: Login berhasil dan refresh token disimpan dalam cookie HttpOnly.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 200
+ *                 status:
+ *                   type: string
+ *                   example: "Success"
+ *                 message:
+ *                   type: string
+ *                   example: "Login Success"
+ *                 token:
+ *                   type: string
+ *                   example: "eyJhbGciOiJIUzI1NiIsInR..."
+ *       '400':
+ *         description: Data tidak lengkap
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 400
+ *                 status:
+ *                   type: string
+ *                   example: "Failed"
+ *                 message:
+ *                   type: string
+ *                   example: "Email dan password harus diisi."
+ *       '401':
+ *         description: Email atau password salah
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 401
+ *                 status:
+ *                   type: string
+ *                   example: "Failed"
+ *                 message:
+ *                   type: string
+ *                   example: "Invalid email or password"
+ *       '500':
+ *         description: Terjadi kesalahan pada server
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 500
+ *                 status:
+ *                   type: string
+ *                   example: "Failed"
+ *                 message:
+ *                   type: string
+ *                   example: "Internal Server Error."
+ *     security:
+ *       - cookieAuth: []
  */
-router.post("/login", authController.login);
+router.post("/login", loginLimiter, authController.login);
+
+/**
+ * @swagger
+ * /auth/refresh-token:
+ *   post:
+ *     summary: Refresh Access Token
+ *     description: Mengembalikan access token baru menggunakan refresh token yang disimpan dalam cookie HttpOnly.
+ *     tags:
+ *       - Autentikasi
+ *     responses:
+ *       '200':
+ *         description: Berhasil mendapatkan access token baru.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 accessToken:
+ *                   type: string
+ *                   example: "eyJhbGciOiJIUzI1NiIsInR..."
+ *       '401':
+ *         description: Refresh token tidak ditemukan, tidak valid, atau sudah kadaluarsa.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Refresh token tidak ditemukan"
+ *       '500':
+ *         description: Terjadi kesalahan pada server.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Terjadi kesalahan pada server."
+ *     security:
+ *       - cookieAuth: []
+ */
+router.post("/refresh-token", authController.refreshToken);
 
 /**
  * @swagger
@@ -241,6 +293,12 @@ router.post("/logout", auth, authController.logout);
  *       scheme: bearer
  *       bearerFormat: JWT
  *       description: Masukkan token JWT di sini
+ *     cookieAuth:
+ *       type: apiKey
+ *       in: cookie
+ *       name: refreshToken
+ *       description: |
+ *         Refresh token disimpan dalam cookie HttpOnly dan digunakan untuk memperoleh access token baru.
  */
 module.exports = router;
 
@@ -253,5 +311,14 @@ app.get("/admin", auth, authorizeRole("admin"), (req, res) => {
 app.get("/user", auth, authorizeRole("user", "admin"), (req, res) => {
   res.json({ message: "Halo User, Anda berhasil mengakses halaman ini" });
 });
+
+components:
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: refresh_token
+      description: |
+        Refresh token disimpan dalam cookie HttpOnly dan digunakan untuk memperoleh access token baru.
 
 */

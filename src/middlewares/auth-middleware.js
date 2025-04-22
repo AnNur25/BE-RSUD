@@ -2,6 +2,11 @@ const jwt = require("jsonwebtoken");
 const config = require("../configs/env-config");
 const secret = config.secretKey;
 
+const requestLogger = (req, res, next) => {
+  console.log(`[${new Date().toISOString()}] ${req.method} ${req.path}`);
+  next();
+};
+
 function auth(req, res, next) {
   const authorization = req.headers["authorization"];
   if (!authorization) {
