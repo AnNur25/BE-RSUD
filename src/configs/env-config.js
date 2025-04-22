@@ -5,5 +5,5 @@ module.exports = {
   port: process.env.PORT || 3001,
   secretKey: process.env.JWT_SECRET,
   frontend: process.env.FRONTEND_URL,
-  cookieSecure: process.env.NODE_ENV === "production",
+  cookieSecure: process.env.VERCEL_ENV === "production",
 };
