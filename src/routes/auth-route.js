@@ -187,7 +187,7 @@ router.post("/register-admin", authController.registerAdmin);
  *                   type: string
  *                   example: "Internal Server Error."
  */
-router.post("/login", loginLimiter, authController.login);
+router.post("/login", authController.login);
 
 /**
  * @swagger
