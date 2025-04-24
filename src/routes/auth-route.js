@@ -1,10 +1,10 @@
 const express = require("express");
-const rateLimit = require("express-rate-limit");
-const loginLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 5,
-  message: "Terlalu banyak percobaan login, coba lagi nanti",
-});
+// const rateLimit = require("express-rate-limit");
+// const loginLimiter = rateLimit({
+//   windowMs: 15 * 60 * 1000,
+//   max: 5,
+//   message: "Terlalu banyak percobaan login, coba lagi nanti",
+// });
 const router = express.Router();
 const authController = require("../controllers/auth-controller");
 const { auth } = require("../middlewares/auth-middleware");
@@ -229,7 +229,7 @@ router.post("/login", authController.login);
  *                   type: string
  *                   example: "Terjadi kesalahan pada server."
  */
-router.post("/refresh-token", authController.refreshToken);
+// router.post("/refresh-token", authController.refreshToken);
 
 /**
  * @swagger
