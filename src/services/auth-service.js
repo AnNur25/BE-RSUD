@@ -37,11 +37,17 @@ class AuthService {
     if (!isMatch) {
       throw new BadRequestError("Invalid email or password");
     }
-    const accessToken = JwtHelper.generateToken(user);
-    return { token: accessToken, user };
+    const token = JwtHelper.generateToken(user);
+    return { token };
   }
 
-
+  static async logout(res) {
+    res.clearCookie("refreshToken", {
+      expires: new Date(Date.now()),
+      httpOnly: true,
+      sameSite: "Strict",
+    });
+  }
 }
 
 module.exports = AuthService;
