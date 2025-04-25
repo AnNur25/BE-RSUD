@@ -99,15 +99,20 @@ class PoliService {
     }
 
     let formattedNamaPoli;
-    if (nama_poli.toLowerCase() === "umum") {
-      formattedNamaPoli = "Dokter Umum";
-    } else if (nama_poli.toLowerCase() === "vct") {
-      formattedNamaPoli = "Dokter VCT";
+    const poliName = nama_poli.trim().toLowerCase();
+    if (poliName === "umum") {
+      formattedNamaPoli = "Poli Umum";
+    } else if (poliName === "vct") {
+      formattedNamaPoli = "Poli VCT";
+    } else if (poliName === "gigi") {
+      formattedNamaPoli = "Poli Gigi";
     } else {
-      formattedNamaPoli = `Dokter Spesialis ${nama_poli}`;
-    }
-    if (!poliExist) {
-      throw new NotFoundError(`Poli dengan ID ${id_poli} tidak ditemukan`);
+      formattedNamaPoli = `Poli Spesialis ${nama_poli
+        .trim()
+        .toLowerCase()
+        .split(" ")
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(" ")}`;
     }
     await prisma.poli.update({
       where: { id_poli },
