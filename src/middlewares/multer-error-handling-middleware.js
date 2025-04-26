@@ -1,6 +1,7 @@
 const multer = require("multer");
 
 const multerErrorHandler = (err, req, res, next) => {
+  // Error handler untuk multer.MulterError
   if (err instanceof multer.MulterError) {
     const errorMessages = {
       LIMIT_FILE_SIZE: "Ukuran file melebihi 5MB",
@@ -14,11 +15,13 @@ const multerErrorHandler = (err, req, res, next) => {
       status: "Failed",
       message: errorMessages[err.code] || "Error upload file",
     });
-  } else if (err) {
+  }
+  // Menangani error lain
+  else if (err) {
     return res.status(400).json({
       statusCode: 400,
       status: "Failed",
-      message: errorMessages[err.code] || "Terjadi kesalahan saat upload",
+      message: err.message || "Terjadi kesalahan saat upload",
     });
   }
   next();

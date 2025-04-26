@@ -1,29 +1,20 @@
 const jwt = require("jsonwebtoken");
 const config = require("../configs/env-config");
+const { UnauthorizedError } = require("../utils/error");
 const secret = config.secretKey;
-
 
 function auth(req, res, next) {
   const authorization = req.headers["authorization"];
   if (!authorization) {
-    const error = new Error("Authorization tidak ditemukan");
-    error.statusCode = 401;
-    error.status = "Failed";
-    return next(error);
+    return next(new UnauthorizedError("Authorization tidak ditemukan"));
   }
   const token = authorization.split(" ")[1];
   if (!token) {
-    const error = new Error("Token tidak ditemukan");
-    error.statusCode = 401;
-    error.status = "Failed";
-    return next(error);
+    return next(new UnauthorizedError("Token tidak ditemukan"));
   }
-  jwt.verify(token, secret, (err, user) => {
-    if (err) {
-      const error = new Error("Token tidak valid");
-      error.statusCode = 401;
-      error.status = "Failed";
-      return next(error);
+  jwt.verify(token, secret, (error, user) => {
+    if (error) {
+      return next(new UnauthorizedError("Token tidak valid"));
     }
     req.user = user;
     next();

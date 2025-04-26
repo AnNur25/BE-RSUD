@@ -18,6 +18,18 @@ model User {
   resetTokenExp   DateTime?  
 }
 
+model Banner{
+  id_banner   String @id @default(uuid())
+  gambar      String
+}
+
+model LayananUnggulan{
+  id_layanan_unggulan String @id @default(uuid())
+  judul       String
+  deskripsi             String
+  gambar       String
+  caption      String
+}
 model Berita {
   id_berita       String   @id @default(uuid())
   judul           String
@@ -44,6 +56,8 @@ model Aduan {
   is_read     Boolean       @default(false)
   responAdmin ResponAdmin[]
 }
+
+
 
 model ResponAdmin {
   id_respon_admin String   @id @default(uuid())

@@ -2,6 +2,12 @@ const envConfig = require("./src/configs/env-config");
 const express = require("express");
 const app = express();
 const swaggerUi = require("swagger-ui-express");
+const {
+  UnauthorizedError,
+  BadRequestError,
+  NotFoundError,
+} = require("./src/utils/error");
+const responseHelper = require("./src/utils/response");
 // const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const swaggerSpec = require("./src/configs/swagger-config");
@@ -14,6 +20,8 @@ const poliRoute = require("./src/routes/poli-route");
 const jadwalDokterRoute = require("./src/routes/jadwal-dokter-route");
 const aduanRoute = require("./src/routes/aduan-route");
 const beritaRoute = require("./src/routes/berita-route");
+const bannerRoute = require("./src/routes/banner-route");
+const layananUnggulanRoute = require("./src/routes/layanan-unggulan-route");
 const port = envConfig.port;
 
 // app.use(cookieParser());
@@ -42,14 +50,21 @@ app.use("/poli", poliRoute);
 app.use("/jadwal-dokter", jadwalDokterRoute);
 app.use("/aduan", aduanRoute);
 app.use("/berita", beritaRoute);
+app.use("/banner", bannerRoute);
+app.use("/layanan-unggulan", layananUnggulanRoute);
+
 app.use((err, req, res, next) => {
   console.error(err);
-  res.status(500).json({
-    statusCode: err.statusCode || 500,
-    status: err.status || "Failed",
-    message: err.message || "Internal Server Error.",
-  });
+  if (
+    err instanceof UnauthorizedError ||
+    err instanceof BadRequestError ||
+    err instanceof NotFoundError
+  ) {
+    return responseHelper.error(res, err);
+  }
+  return responseHelper.error(res, new Error("Internal Server Error"));
 });
+
 app.get("/", (req, res) => {
   res.send("the system works !!!");
 });
