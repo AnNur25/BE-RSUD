@@ -199,13 +199,12 @@ class BeritaService {
     const jumlahGambar = await prisma.gambar.count({
       where: { beritaId: id },
     });
-
-    if (jumlahGambar + file.length > 4) {
+    const totalGambar = jumlahGambar + file.length;
+    if (totalGambar > 4) {
       throw new BadRequestError(
-        `Maksimal 4 gambar diperbolehkan. Saat ini sudah ada ${jumlahGambar} gambar.`
+        `Maksimal 4 gambar per berita. Saat ini sudah ada ${jumlahGambar} gambar.`
       );
     }
-
     const uploadPromises = file.map(async (file) => {
       const stringImage = file.buffer.toString("base64");
       return await imageKit.upload({
@@ -246,7 +245,7 @@ class BeritaService {
     const deletedGambar = gambarList.map((gambar) => ({
       id: gambar.id,
       fileName: gambar.url.split("/").pop(),
-    })); //fa61555b-4f50-4c4f-a42e-675de1567e53 fa61555b-4f50-4c4f-a42e-675de1567e53
+    }));
 
     await prisma.gambar.deleteMany({
       where: {
