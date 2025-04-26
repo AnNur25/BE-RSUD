@@ -14,6 +14,10 @@ const fileFilter = (req, file, cb) => {
 const multerCloud = multer({
   storage: storage,
   fileFilter: fileFilter,
+  limits: {
+    files: 4,
+    fileSize: 5 * 1024 * 1024,
+  },
 });
 
 module.exports = multerCloud;
