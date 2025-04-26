@@ -1,24 +1,47 @@
 const { BadRequestError, NotFoundError } = require("../utils/error");
 const prisma = require("../prisma/prismaClient");
+const imageKit = require("../configs/imagekit-config");
 
 class BannerService {
-  static async createBanner({ banner }) {
-    if (!banner) {
-      throw new BadRequestError("Banner harus diisi");
+  static async createBanner({ files }) {
+    if (!files || files.length === 0) {
+      throw new BadRequestError("Tidak ada file yang diunggah");
     }
-    const stringImage = banner.buffer.toString("base64");
-    const uploadImage = await imageKit.upload({
-      fileName: banner.originalname,
-      file: stringImage,
+
+    const jumlahBanner = await prisma.banner.count();
+    const totalBanner = jumlahBanner + files.length;
+
+    if (totalBanner > 4) {
+      throw new BadRequestError(
+        `Maksimal 4 banner. Saat ini sudah ada ${jumlahBanner} banner.`
+      );
+    }
+
+    const uploadPromises = files.map(async (file) => {
+      const stringImage = file.buffer.toString("base64");
+      return await imageKit.upload({
+        fileName: file.originalname,
+        file: stringImage,
+      });
     });
 
-    const addData = await prisma.banner.create({
-      data: {
-        gambar: uploadImage.url,
-      },
-    });
+    const uploadedImages = await Promise.all(uploadPromises);
+    const bannerData = await Promise.all(
+      uploadedImages.map(async (image) => {
+        const savedBanner = await prisma.banner.create({
+          data: {
+            gambar: image.url,
+          },
+        });
 
-    return { id: addData.id_banner, gambar: addData.gambar };
+        return {
+          id_banner: savedBanner.id_banner,
+          gambar: savedBanner.gambar,
+        };
+      })
+    );
+
+    return bannerData;
   }
 
   static async getBanner() {
@@ -31,61 +54,37 @@ class BannerService {
     return banner;
   }
 
-  static async deleteBanner({ id }) {
-    if (!id) {
-      throw new BadRequestError("ID Banner wajib disertakan");
+  static async deleteBanner({ ids }) {
+    if (!ids || !Array.isArray(ids) || ids.length === 0) {
+      throw new BadRequestError("ID banner yang akan dihapus tidak ditemukan");
     }
+    console.log("ID yang dikirim:", ids);
 
-    const bannerList = await prisma.banner.findMany({
-      where: { id_banner: id },
+    const existingBanners = await prisma.banner.findMany({
+      where: { id_banner: { in: ids } },
+      select: { id_banner: true },
     });
 
-    if (!banner) {
-      throw new NotFoundError(`Banner dengan ID ${id} tidak ditemukan`);
-    }
+    console.log(
+      "ID yang ditemukan:",
+      existingBanners.map((b) => b.id_banner)
+    );
 
-    const deletedGambar = bannerList.map((gambar) => ({
-      id: gambar.id,
-      fileName: gambar.url.split("/").pop(),
-    }));
+    const existingIds = existingBanners.map((banner) => banner.id_banner);
+
+    const invalidIds = ids.filter((id) => !existingIds.includes(id));
+    if (invalidIds.length > 0) {
+      throw new NotFoundError(
+        `Banner dengan ID berikut tidak ditemukan: ${invalidIds.join(", ")}`
+      );
+    }
 
     await prisma.banner.deleteMany({
-      where: { id_banner: id },
+      where: { id_banner: { in: ids } },
     });
 
-    return deletedGambar;
+    return { message: `${ids.length} banner berhasil dihapus.` };
   }
 }
 
 module.exports = BannerService;
-
-/*
-}
-    const stringImage = file.buffer.toString("base64");
-    const uploadImage = await imageKit.upload({
-      fileName: file.originalname,
-      file: stringImage,
-    });
-
-    const addData = await prisma.dokter.create({
-      data: {
-        nama, //object property shorthand.
-        gambar: uploadImage.url,
-        poli: { connect: { id_poli } },
-      },
-    });
-    return { id: addData.id_dokter, nama: addData.nama };
-  }
-
-   const deletedGambar = gambarList.map((gambar) => ({
-      id: gambar.id,
-      fileName: gambar.url.split("/").pop(),
-    }));
-
-    await prisma.gambar.deleteMany({
-      where: {
-        id: { in: ids },
-        beritaId: beritaId,
-      },
-    });
-*/
