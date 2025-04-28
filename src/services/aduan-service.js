@@ -6,51 +6,129 @@ const {
 } = require("../utils/error");
 
 class AduanService {
-  static async createAduan({ judul, deskripsi, no_wa }) {
-    if (!judul || !deskripsi || !no_wa) {
+  static async createAduan({ nama, message, no_wa }) {
+    if (!nama || !message || !no_wa) {
       throw new BadRequestError(
-        "Semua field (judul, deskripsi, no_wa) harus diisi."
+        "Semua field (nama, message, no_wa) harus diisi."
       );
     }
 
-    return await prisma.aduan.create({
-      data: { judul, deskripsi, no_wa, is_read: false },
+    const newaduan = await prisma.aduan.create({
+      data: { nama, message, no_wa, is_read: false },
     });
+
+    return {
+      id: newaduan.id_aduan,
+      nama: newaduan.nama,
+      message: newaduan.message,
+      no_wa: newaduan.no_wa,
+      is_visible: newaduan.is_visible,
+      dibuat_pada: new Intl.DateTimeFormat("id-ID", {
+        day: "2-digit",
+        month: "long",
+        year: "numeric",
+      }).format(new Date(newaduan.createdAt)),
+    };
   }
 
   static async getAllAduan() {
-    return await prisma.aduan.findMany({
+    const data = await prisma.aduan.findMany({
       include: { responAdmin: true },
     });
+    return {
+      data_aduan: data.map((aduan) => ({
+        id: aduan.id_aduan,
+        nama: aduan.nama,
+        message: aduan.message,
+        no_wa: aduan.no_wa,
+        is_visible: aduan.is_visible,
+        dibuat_pada: new Intl.DateTimeFormat("id-ID", {
+          day: "2-digit",
+          month: "long",
+          year: "numeric",
+        }).format(new Date(aduan.createdAt)),
+        responAdmin: aduan.responAdmin.map((respon) => ({
+          id: respon.id_respon_admin,
+          message: respon.message,
+          dibuat_pada: new Intl.DateTimeFormat("id-ID", {
+            day: "2-digit",
+            month: "long",
+            year: "numeric",
+          }).format(new Date(respon.createdAt)),
+        })),
+      })),
+    };
   }
 
-  static async getAduanById(id) {
-    if (!id) throw new BadRequestError("ID aduan harus disertakan.");
-
-    const aduan = await prisma.aduan.findUnique({
-      where: { id_aduan: id },
+  static async getAllVisibleAduan() {
+    const data = await prisma.aduan.findMany({
+      where: { is_visible: true },
       include: { responAdmin: true },
     });
-
-    if (!aduan) throw new NotFoundError("Aduan tidak ditemukan.");
-
-    return aduan;
+    return {
+      data_aduan: data.map((aduan) => ({
+        id: aduan.id_aduan,
+        nama: aduan.nama,
+        message: aduan.message,
+        no_wa: aduan.no_wa,
+        is_visible: aduan.is_visible,
+        dibuat_pada: new Intl.DateTimeFormat("id-ID", {
+          day: "2-digit",
+          month: "long",
+          year: "numeric",
+        }).format(new Date(aduan.createdAt)),
+        responAdmin: aduan.responAdmin.map((respon) => ({
+          id: respon.id_respon_admin,
+          message: respon.message,
+          dibuat_pada: new Intl.DateTimeFormat("id-ID", {
+            day: "2-digit",
+            month: "long",
+            year: "numeric",
+          }).format(new Date(respon.createdAt)),
+        })),
+      })),
+    };
   }
 
-  static async updateAduan(id, { judul, deskripsi, no_wa }) {
+  static async aduanIsVisible({ id }) {
     if (!id) throw new BadRequestError("ID aduan harus disertakan.");
-    if (!judul && !deskripsi && !no_wa) {
-      throw new BadRequestError("Minimal satu field harus diperbarui.");
-    }
 
     const existing = await prisma.aduan.findUnique({ where: { id_aduan: id } });
     if (!existing) throw new NotFoundError("Aduan tidak ditemukan.");
 
     return await prisma.aduan.update({
       where: { id_aduan: id },
-      data: { judul, deskripsi, no_wa },
+      data: { is_visible: true },
     });
   }
+
+  // static async getAduanById(id) {
+  //   if (!id) throw new BadRequestError("ID aduan harus disertakan.");
+
+  //   const aduan = await prisma.aduan.findUnique({
+  //     where: { id_aduan: id },
+  //     include: { responAdmin: true },
+  //   });
+
+  //   if (!aduan) throw new NotFoundError("Aduan tidak ditemukan.");
+
+  //   return aduan;
+  // }
+
+  // static async updateAduan(id, { judul, deskripsi, no_wa }) {
+  //   if (!id) throw new BadRequestError("ID aduan harus disertakan.");
+  //   if (!judul && !deskripsi && !no_wa) {
+  //     throw new BadRequestError("Minimal satu field harus diperbarui.");
+  //   }
+
+  //   const existing = await prisma.aduan.findUnique({ where: { id_aduan: id } });
+  //   if (!existing) throw new NotFoundError("Aduan tidak ditemukan.");
+
+  //   return await prisma.aduan.update({
+  //     where: { id_aduan: id },
+  //     data: { judul, deskripsi, no_wa },
+  //   });
+  // }
 
   static async deleteAduan(id) {
     if (!id) throw new BadRequestError("ID aduan harus disertakan.");
@@ -61,19 +139,19 @@ class AduanService {
     return await prisma.aduan.delete({ where: { id_aduan: id } });
   }
 
-  static async markAsRead(id) {
-    if (!id) throw new BadRequestError("ID aduan harus disertakan.");
+  // static async markAsRead(id) {
+  //   if (!id) throw new BadRequestError("ID aduan harus disertakan.");
 
-    const aduan = await prisma.aduan.findUnique({ where: { id_aduan: id } });
-    if (!aduan) throw new NotFoundError("Aduan tidak ditemukan.");
-    if (aduan.is_read)
-      throw new BadRequestError("Aduan sudah ditandai sebagai dibaca.");
+  //   const aduan = await prisma.aduan.findUnique({ where: { id_aduan: id } });
+  //   if (!aduan) throw new NotFoundError("Aduan tidak ditemukan.");
+  //   if (aduan.is_read)
+  //     throw new BadRequestError("Aduan sudah ditandai sebagai dibaca.");
 
-    return await prisma.aduan.update({
-      where: { id_aduan: id },
-      data: { is_read: true },
-    });
-  }
+  //   return await prisma.aduan.update({
+  //     where: { id_aduan: id },
+  //     data: { is_read: true },
+  //   });
+  // }
 
   static async replyAduan(id, id_user, message) {
     if (!id) throw new BadRequestError("ID aduan harus disertakan.");
@@ -88,11 +166,6 @@ class AduanService {
 
     const response = await prisma.responAdmin.create({
       data: { message, id_user, id_aduan: id },
-    });
-
-    await prisma.aduan.update({
-      where: { id_aduan: id },
-      data: { is_read: true },
     });
 
     return response;

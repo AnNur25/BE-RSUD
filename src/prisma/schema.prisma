@@ -57,11 +57,12 @@ model Gambar {
 
 model Aduan {
   id_aduan    String        @id @default(uuid())
-  judul       String
-  deskripsi   String
-  createdAt   DateTime      @default(now())
+  nama       String
+  message   String
   no_wa       String
-  is_read     Boolean       @default(false)
+  // is_read     Boolean       @default(false)
+  is_visible Boolean    @default(false)
+  createdAt   DateTime      @default(now())
   responAdmin ResponAdmin[]
 }
 
