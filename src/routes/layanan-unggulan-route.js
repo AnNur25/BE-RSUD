@@ -1,5 +1,5 @@
 const route = require("express").Router();
-const bannerController = require("../controllers/banner-controller");
+const layananUnggulan = require("../controllers/layanan-unggulan-controller");
 const multerErrorHandler = require("../middlewares/multer-error-handling-middleware");
 const multer = require("../middlewares/multer-middleware");
 const { auth } = require("../middlewares/auth-middleware");
@@ -7,13 +7,26 @@ const { auth } = require("../middlewares/auth-middleware");
 route.post(
   "/",
   auth,
-  multer.array("banner"),
+  multer.array("file"),
   multerErrorHandler,
-  bannerController.createBanner
+  layananUnggulan.createLayananUnggulan
 );
 
-route.get("/", bannerController.getBanner);
+route.get("/", layananUnggulan.getAllLayananUnggulan);
+route.put(
+  "/:id",
+  auth,
+  multer.single("file"),
+  multerErrorHandler,
+  layananUnggulan.updateLayananUnggulan
+);
 
-route.delete("/", auth, bannerController.deleteBanner);
+route.put(
+  "/:id",
+  auth,
+  multer.array("file"),
+  multerErrorHandler,
+  layananUnggulan.updateLayananUnggulan
+);
 
 module.exports = route;

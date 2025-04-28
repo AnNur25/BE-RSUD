@@ -22,12 +22,24 @@ const { auth } = require("../middlewares/auth-middleware");
  *           schema:
  *             type: object
  *             properties:
- *               nama:
- *                 type: string
- *                 example: "dr. H. Agus Yudho Santoso, Sp.PD, Finasim ( AYS )"
  *               id_poli:
  *                 type: string
  *                 example: "ab592474-d37e-4b20-abcd-5230fca43d28"
+ *               nama:
+ *                 type: string
+ *                 example: "dr. H. Agus Yudho Santoso, Sp.PD, Finasim ( AYS )"
+ *               biodata_singkat:
+ *                 type: string
+ *                 example: "dokter spesialis penyakit dalam"
+ *               link_linkedin:
+ *                 type: string
+ *                 example: "https://www.linkedin.com/in/dr-agus-yudho-santoso-123456789/"
+ *               link_instagram:
+ *                 type: string
+ *                 example: "https://www.instagram.com/dr-agus-yudho-santoso/"
+ *               link_facebook:
+ *                 type: string
+ *                 example: "https://www.facebook.com/dr-agus-yudho-santoso/"
  *               file:
  *                 type: string
  *                 format: binary
@@ -176,6 +188,18 @@ Route.post(
  *                           gambar:
  *                             type: string
  *                             example: "https://example.com/dr_doddy.jpg"
+ *                           biodata_singkat:
+ *                             type: string
+ *                             example: "Dokter spesialis penyakit dalam"
+ *                           link_linkedin:
+ *                             type: string
+ *                             example: "https://www.linkedin.com/in/dr-agus-yudho-santoso-123456789/"
+ *                           link_instagram:
+ *                             type: string
+ *                             example: "https://www.instagram.com/dr-agus-yudho-santoso/"
+ *                           link_facebook:
+ *                             type: string
+ *                             example: "https://www.facebook.com/dr-agus-yudho-santoso/"
  *                           poli:
  *                             type: object
  *                             properties:
@@ -306,6 +330,18 @@ Route.get("/search", dokterController.searchDokter);
  *                           gambar:
  *                             type: string
  *                             example: "https://example.com/dr_doddy.jpg"
+ *                           biodata_singkat:
+ *                             type: string
+ *                             example: "Dokter spesialis penyakit dalam"
+ *                           link_linkedin:
+ *                             type: string
+ *                             example: "https://www.linkedin.com/in/dr-agus-yudho-santoso-123456789/"
+ *                           link_instagram:
+ *                             type: string
+ *                             example: "https://www.instagram.com/dr-agus-yudho-santoso/"
+ *                           link_facebook:
+ *                             type: string
+ *                             example: "https://www.facebook.com/dr-agus-yudho-santoso/"
  *                           poli:
  *                             type: object
  *                             properties:
@@ -412,6 +448,18 @@ Route.get("/", dokterController.getDokter);
  *                         gambar:
  *                           type: string
  *                           example: "https://ik.imagekit.io/xxx/dr-rina.jpg"
+ *                           biodata_singkat:
+ *                             type: string
+ *                             example: "Dokter spesialis penyakit dalam"
+ *                           link_linkedin:
+ *                             type: string
+ *                             example: "https://www.linkedin.com/in/dr-agus-yudho-santoso-123456789/"
+ *                           link_instagram:
+ *                             type: string
+ *                             example: "https://www.instagram.com/dr-agus-yudho-santoso/"
+ *                           link_facebook:
+ *                             type: string
+ *                             example: "https://www.facebook.com/dr-agus-yudho-santoso/"
  *                         poli:
  *                           type: object
  *                           properties:
@@ -478,16 +526,29 @@ Route.get("/:id_dokter", dokterController.getDokterById);
  *           schema:
  *             type: object
  *             properties:
- *               nama:
- *                 type: string
- *                 example: "Dr. Budi Santoso"
- *               gambar:
- *                 type: string
- *                 format: binary
- *                 description: File gambar dokter yang akan diunggah.
  *               id_poli:
  *                 type: string
  *                 example: "bf27354f-6d82-4e25-9541-b9efc8bf57ed"
+ *               nama:
+ *                 type: string
+ *                 example: "Dr. Budi Santoso"
+ *               biodata_singkat:
+ *                 type: string
+ *                 example: "dokter spesialis penyakit dalam"
+ *               link_linkedin:
+ *                 type: string
+ *                 example: "https://www.linkedin.com/in/dr-agus-yudho-santoso-123456789/"
+ *               link_instagram:
+ *                 type: string
+ *                 example: "https://www.instagram.com/dr-agus-yudho-santoso/"
+ *               link_facebook:
+ *                 type: string
+ *                 example: "https://www.facebook.com/dr-agus-yudho-santoso/"
+ *               file:
+ *                 type: string
+ *                 format: binary
+ *                 description: Gambar dokter yang akan diunggah.
+ *
  *     responses:
  *       200:
  *         description: Dokter berhasil diperbarui.
@@ -583,7 +644,7 @@ Route.put(
   "/:id_dokter",
   auth,
   multerErrorHandler,
-  multerConfig.single("gambar"),
+  multerConfig.single("file"),
   dokterController.updateDokter
 );
 
