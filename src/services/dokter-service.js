@@ -4,20 +4,40 @@ const imageKit = require("../configs/imagekit-config");
 const Pagination = require("../utils/pagination");
 
 class DokterService {
-  static async createDokter({ nama, id_poli }, file) {
-    if (!nama || !id_poli || !file) {
-      throw new BadRequestError("Nama, id poli, dan file harus diisi");
+  static async createDokter({
+    nama,
+    biodata_singkat,
+    link_linkedin,
+    link_instagram,
+    link_facebook,
+    id_poli,
+    file,
+  }) {
+    if (!nama || !id_poli || !biodata_singkat) {
+      throw new BadRequestError(
+        "Nama, id poli, dan biodata_singkat harus diisi"
+      );
     }
-    const stringImage = file.buffer.toString("base64");
-    const uploadImage = await imageKit.upload({
-      fileName: file.originalname,
-      file: stringImage,
-    });
+    console.log("File received:", file);
+    let imageUrl = null;
+    if (file && file.buffer) {
+      const stringImage = file.buffer.toString("base64");
+      const uploadImage = await imageKit.upload({
+        fileName: file.originalname,
+        file: stringImage,
+      });
+      imageUrl = uploadImage?.url || null;
+    }
+    console.log("Image uploaded to:", imageUrl);
 
     const addData = await prisma.dokter.create({
       data: {
         nama, //object property shorthand.
-        gambar: uploadImage.url,
+        gambar: imageUrl,
+        biodata_singkat,
+        link_linkedin,
+        link_instagram,
+        link_facebook,
         poli: { connect: { id_poli } },
       },
     });
@@ -87,6 +107,10 @@ class DokterService {
       id_dokter: dokter.id_dokter,
       nama: dokter.nama,
       gambar: dokter.gambar,
+      biodata_singkat: dokter.biodata_singkat,
+      link_linkedin: dokter.link_linkedin,
+      link_instagram: dokter.link_instagram,
+      link_facebook: dokter.link_facebook,
       poli: {
         id_poli: dokter.poli.id_poli,
         nama_poli: dokter.poli.nama_poli,
@@ -120,6 +144,10 @@ class DokterService {
         id_dokter: true,
         nama: true,
         gambar: true,
+        biodata_singkat: true,
+        link_linkedin: true,
+        link_instagram: true,
+        link_facebook: true,
         poli: {
           select: {
             id_poli: true,
@@ -151,7 +179,7 @@ class DokterService {
     const dokter = await prisma.dokter.findUnique({
       where: { id_dokter: id_dokter },
       include: {
-        poli: true, // biar bisa dapat info poli-nya juga
+        poli: true,
       },
     });
 
@@ -164,6 +192,10 @@ class DokterService {
         id_dokter: dokter.id_dokter,
         nama: dokter.nama,
         gambar: dokter.gambar,
+        biodata_singkat: dokter.biodata_singkat,
+        link_linkedin: dokter.link_linkedin,
+        link_instagram: dokter.link_instagram,
+        link_facebook: dokter.link_facebook,
         poli: {
           id_poli: dokter.poli?.id_poli,
           nama_poli: dokter.poli?.nama_poli,
@@ -172,10 +204,19 @@ class DokterService {
     };
   }
 
-  static async updateDokter({ id_dokter }, { nama, id_poli }, file) {
-    if (!id_dokter || !nama || !id_poli || !file) {
+  static async updateDokter({
+    id_dokter,
+    nama,
+    biodata_singkat,
+    link_linkedin,
+    link_instagram,
+    link_facebook,
+    id_poli,
+    file,
+  }) {
+    if (!id_dokter || !nama || !id_poli || !biodata_singkat) {
       throw new BadRequestError(
-        "ID Dokter, Nama, ID Poli, dan Gambar harus diisi"
+        "ID Dokter, biodata_singkat, Nama, dan ID Poli harus diisi"
       );
     }
 
@@ -188,17 +229,25 @@ class DokterService {
     if (!poli || !dokter)
       throw new NotFoundError("Poli atau dokter tidak ditemukan");
 
-    const base64Image = file.buffer.toString("base64");
-    const uploaded = await imageKit.upload({
-      fileName: file.originalname,
-      file: base64Image,
-    });
+    let imageUrl = dokter.gambar;
+    if (file && file.buffer) {
+      const base64Image = file.buffer.toString("base64");
+      const uploaded = await imageKit.upload({
+        fileName: file.originalname,
+        file: base64Image,
+      });
+      imageUrl = uploaded.url;
+    }
 
     const updated = await prisma.dokter.update({
       where: { id_dokter },
       data: {
         nama,
-        gambar: uploaded.url,
+        gambar: imageUrl,
+        biodata_singkat,
+        link_linkedin,
+        link_instagram,
+        link_facebook,
         poli: {
           connect: { id_poli },
         },

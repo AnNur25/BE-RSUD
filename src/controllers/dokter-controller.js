@@ -4,9 +4,24 @@ const dokterService = require("../services/dokter-service");
 class DokterController {
   static async createDokter(req, res) {
     try {
-      const { nama, id_poli } = req.body;
+      const {
+        nama,
+        biodata_singkat,
+        link_linkedin,
+        link_instagram,
+        link_facebook,
+        id_poli,
+      } = req.body;
       const file = req.file;
-      const dokter = await dokterService.createDokter({ nama, id_poli }, file);
+      const dokter = await dokterService.createDokter({
+        nama,
+        id_poli,
+        biodata_singkat,
+        link_linkedin,
+        link_instagram,
+        link_facebook,
+        file,
+      });
       return responseHelper.created(res, dokter, "Dokter berhasil ditambahkan");
     } catch (error) {
       return responseHelper.error(res, error);
@@ -57,14 +72,26 @@ class DokterController {
   static async updateDokter(req, res) {
     try {
       const { id_dokter } = req.params;
-      const { nama, id_poli } = req.body;
+      const {
+        nama,
+        biodata_singkat,
+        link_linkedin,
+        link_instagram,
+        link_facebook,
+        id_poli,
+      } = req.body;
       const file = req.file;
 
-      const updatedDokter = await dokterService.updateDokter(
-        { id_dokter },
-        { nama, id_poli },
-        file
-      );
+      const updatedDokter = await dokterService.updateDokter({
+        id_dokter,
+        nama,
+        biodata_singkat,
+        link_linkedin,
+        link_instagram,
+        link_facebook,
+        id_poli,
+        file,
+      });
       return responseHelper.success(
         res,
         updatedDokter,

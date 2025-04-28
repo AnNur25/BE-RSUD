@@ -12,24 +12,32 @@ model User {
   nama        String
   email       String        @unique
   password    String
-  responAdmin ResponAdmin[]
-
   resetToken      String?       
   resetTokenExp   DateTime?  
+  
+  responAdmin ResponAdmin[]
 }
 
 model Banner{
   id_banner   String @id @default(uuid())
   gambar      String
 }
-
-model LayananUnggulan{
-  id_layanan_unggulan String @id @default(uuid())
-  judul       String
-  deskripsi             String
-  gambar       String
-  caption      String
+model LayananUnggulan {
+  id_layanan_unggulan String         @id @default(uuid())
+  judul               String
+  deskripsi           String
+  gambarCaptions      GambarCaption[] 
 }
+
+model GambarCaption {
+  id           String           @id @default(uuid())
+  gambar       String
+  nama_file    String  @default("ex")
+  caption      String
+  layananId    String
+  layanan      LayananUnggulan @relation(fields: [layananId], references: [id_layanan_unggulan])
+}
+
 model Berita {
   id_berita       String   @id @default(uuid())
   judul           String
@@ -82,7 +90,11 @@ model Pelayanan {
 model Dokter {
   id_dokter    String         @id @default(uuid())
   nama         String
-  gambar       String
+  gambar       String?
+  biodata_singkat String
+  link_instagram String?
+  link_linkedin  String?
+  link_facebook  String?
   id_poli      String
   
   poli         Poli           @relation(fields: [id_poli], references: [id_poli])
