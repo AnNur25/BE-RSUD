@@ -232,6 +232,8 @@ route.get("/visible", aduanController.getAllVisibleAduan);
  *     description: Mengubah status aduan menjadi terlihat (is_visible = true) berdasarkan ID aduan.
  *     tags:
  *       - Aduan
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -462,6 +464,8 @@ route.delete("/:id", auth, aduanController.deleteAduan);
  *     description: Admin membalas aduan dengan mengirimkan pesan sebagai respon.
  *     tags:
  *       - Aduan
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id

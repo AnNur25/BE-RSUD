@@ -37,6 +37,8 @@ const swaggerOptions = {
     "./src/routes/profil-route.js",
     "./src/routes/pelayanan-route.js",
     "./src/routes/auth-route.js",
+    "./src/routes/banner-route.js",
+    "./src/routes/layanan-unggulan-route.js",
   ],
 };
 
