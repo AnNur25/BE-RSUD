@@ -32,7 +32,7 @@ model LayananUnggulan {
 model GambarCaption {
   id           String           @id @default(uuid())
   gambar       String
-  nama_file    String  @default("ex")
+  nama_file    String  
   caption      String
   layananId    String
   layanan      LayananUnggulan @relation(fields: [layananId], references: [id_layanan_unggulan])

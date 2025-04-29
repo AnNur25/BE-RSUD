@@ -130,7 +130,7 @@ class AduanService {
   //   });
   // }
 
-  static async deleteAduan(id) {
+  static async deleteAduan({id}) {
     if (!id) throw new BadRequestError("ID aduan harus disertakan.");
 
     const existing = await prisma.aduan.findUnique({ where: { id_aduan: id } });
