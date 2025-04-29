@@ -67,7 +67,7 @@ class AduanController {
   static async deleteAduan(req, res) {
     try {
       const { id } = req.params;
-      await aduanService.deleteAduan(id);
+      await aduanService.deleteAduan({id});
       responseHelper.success(res, null, "Aduan berhasil dihapus.");
     } catch (error) {
       responseHelper.error(res, error);
