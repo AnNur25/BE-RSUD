@@ -378,6 +378,8 @@ route.patch("/visible/:id", auth, aduanController.aduanIsVisible);
  *     description: Admin dapat menghapus aduan berdasarkan ID.
  *     tags:
  *       - Aduan
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
