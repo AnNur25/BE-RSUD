@@ -175,7 +175,7 @@ route.post(
  *                           judul:
  *                             type: string
  *                             example: "Judul Berita Contoh"
- *                           isi:
+ *                           ringkasan:
  *                             type: string
  *                             example: "lorem ipsum dolor sit amet..."
  *                           gambar_sampul:
@@ -302,7 +302,7 @@ route.get("/search", beritaController.searchBerita);
  *                           judul:
  *                             type: string
  *                             example: "Judul Berita Contoh"
- *                           isi:
+ *                           ringkasan:
  *                             type: string
  *                             example: "lorem ipsum dolor sit amet..."
  *                           gambar_sampul:

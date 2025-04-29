@@ -62,7 +62,7 @@ class BeritaService {
     const beritaData = berita.map((berita) => ({
       id: berita.id_berita,
       judul: potongKalimat(berita.judul, 8),
-      isi: potongKalimat(berita.isi, 20),
+      ringkasan: potongKalimat(berita.ringkasan, 20),
       gambar_sampul: berita.gambar_sampul,
       tanggal_dibuat: new Intl.DateTimeFormat("id-ID", {
         day: "2-digit",
@@ -302,7 +302,7 @@ class BeritaService {
     const beritaData = result.map((berita) => ({
       id: berita.id_berita,
       judul: potongKalimat(berita.judul, 8),
-      isi: potongKalimat(berita.isi, 20),
+      ringkasan: potongKalimat(berita.ringkasan, 20),
       gambar_sampul: berita.gambar_sampul,
       tanggal_dibuat: new Intl.DateTimeFormat("id-ID", {
         day: "2-digit",
