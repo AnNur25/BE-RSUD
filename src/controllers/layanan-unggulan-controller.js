@@ -9,7 +9,6 @@ class LayananUnggulanController {
       const { judul, deskripsi } = req.body;
       const files = req.files;
 
-      // Validasi input
       if (!judul || !deskripsi) {
         throw new BadRequestError("Judul dan deskripsi harus diisi");
       }
@@ -90,10 +89,9 @@ class LayananUnggulanController {
   static async updateLayananUnggulan(req, res) {
     try {
       const { id } = req.params;
-      const { judul, deskripsi, existingImages } = req.body;
-      const files = req.files; // gambar baru yang diupload
+      const { judul, deskripsi, existingImages, gambarCaption } = req.body;
+      const files = req.files;
 
-      // Validasi input
       if (!judul || !deskripsi) {
         throw new BadRequestError("Judul dan deskripsi harus diisi");
       }
@@ -107,7 +105,16 @@ class LayananUnggulanController {
         throw new NotFoundError("Layanan tidak ditemukan");
       }
 
-      // Parse existingImages dari frontend (harus JSON array of {id, caption})
+      const jumlahGambarSaatIni = layanan.gambarCaptions.length;
+      const jumlahFileBaru = files?.length || 0;
+      const totalGambar = jumlahGambarSaatIni + jumlahFileBaru;
+
+      if (totalGambar > 4) {
+        throw new BadRequestError(
+          `Maksimal 4 gambar-caption untuk setiap layanan. Saat ini sudah ada ${jumlahGambarSaatIni} gambar-caption dan Anda mencoba menambah ${jumlahFileBaru}.`
+        );
+      }
+
       let parsedExistingImages = [];
       try {
         parsedExistingImages = JSON.parse(existingImages);
@@ -116,9 +123,33 @@ class LayananUnggulanController {
       }
 
       const existingIds = parsedExistingImages.map((img) => img.id);
+      let parsedGambarCaptions = [];
+      if (gambarCaption) {
+        try {
+          parsedGambarCaptions = JSON.parse(gambarCaption); // Parsing gambarCaption yang dikirim sebagai string JSON
+        } catch (error) {
+          throw new BadRequestError("Format gambarCaption tidak valid");
+        }
+      }
+      let uploadedImages = [];
+
+      if (files && files.length > 0) {
+        const uploadPromises = files.map(async (file) => {
+          const stringImage = file.buffer.toString("base64");
+          const uploadedImage = await imageKit.upload({
+            fileName: file.originalname,
+            file: stringImage,
+          });
+          return {
+            url: uploadedImage.url,
+            originalName: file.originalname,
+          };
+        });
+
+        uploadedImages = await Promise.all(uploadPromises);
+      }
 
       await prisma.$transaction(async (tx) => {
-        // 1. Update layanan
         await tx.layananUnggulan.update({
           where: { id_layanan_unggulan: id },
           data: {
@@ -127,7 +158,6 @@ class LayananUnggulanController {
           },
         });
 
-        // 2. Delete gambar yang tidak ada di existingImages
         await tx.gambarCaption.deleteMany({
           where: {
             layananId: id,
@@ -137,7 +167,6 @@ class LayananUnggulanController {
           },
         });
 
-        // 3. Update caption gambar yang masih ada
         const updatePromises = parsedExistingImages.map((img) =>
           tx.gambarCaption.update({
             where: { id: img.id },
@@ -146,28 +175,13 @@ class LayananUnggulanController {
         );
         await Promise.all(updatePromises);
 
-        // 4. Upload gambar baru kalau ada
-        if (files && files.length > 0) {
-          const uploadPromises = files.map(async (file) => {
-            const stringImage = file.buffer.toString("base64");
-            const uploadedImage = await imageKit.upload({
-              fileName: file.originalname,
-              file: stringImage,
-            });
-            return {
-              url: uploadedImage.url,
-              originalName: file.originalname,
-            };
-          });
-
-          const uploadedImages = await Promise.all(uploadPromises);
-
-          await tx.gambarCaptions.createMany({
+        if (uploadedImages.length > 0) {
+          await tx.gambarCaption.createMany({
             data: uploadedImages.map((img, index) => ({
-              layananUnggulanId: id,
+              layananId: id,
               gambar: img.url,
               nama_file: img.originalName,
-              caption: req.body[`captions[${index}]`] || "",
+              caption: parsedGambarCaptions?.[index]?.caption || "", // Pastikan gambarCaption diambil
             })),
           });
         }
@@ -181,18 +195,13 @@ class LayananUnggulanController {
 
   static async getAllLayananUnggulan(req, res) {
     try {
-      // Ambil semua layanan unggulan beserta gambarCaptions
       const layananUnggulanList = await prisma.layananUnggulan.findMany({
         include: {
           gambarCaptions: true,
         },
-        // orderBy: {
-        //   // Contoh pengurutan berdasarkan judul A-Z
-        //   judul: "asc",
-        // },
       });
 
-      // Format response sesuai kebutuhan
+    
       const formattedResponse = layananUnggulanList.map((layanan) => ({
         id_layanan_unggulan: layanan.id_layanan_unggulan,
         judul: layanan.judul,
@@ -206,7 +215,7 @@ class LayananUnggulanController {
         })),
       }));
 
-      // Jika ingin response tanpa array (langsung object) ketika hanya 1 data
+     
       const responseData =
         formattedResponse.length === 1
           ? formattedResponse[0]

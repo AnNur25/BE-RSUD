@@ -12,8 +12,6 @@ const multerErrorHandler = require("../middlewares/multer-error-handling-middlew
  *     description: Endpoint ini digunakan untuk membuat berita baru beserta gambar sampul.
  *     tags:
  *       - Berita
- *     security:
- *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:

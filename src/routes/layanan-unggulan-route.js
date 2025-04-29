@@ -4,6 +4,104 @@ const multerErrorHandler = require("../middlewares/multer-error-handling-middlew
 const multer = require("../middlewares/multer-middleware");
 const { auth } = require("../middlewares/auth-middleware");
 
+/**
+ * @swagger
+ * /layanan-unggulan:
+ *   post:
+ *     summary: Membuat layanan unggulan baru
+ *     description: Endpoint untuk membuat layanan unggulan baru beserta upload gambar dan caption masing-masing gambar.
+ *     tags:
+ *       - Layanan Unggulan
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - judul
+ *               - deskripsi
+ *               - file
+ *               - gambarCaption
+ *             properties:
+ *               judul:
+ *                 type: string
+ *                 example: "Program Bedah Rumah"
+ *               deskripsi:
+ *                 type: string
+ *                 example: "Program bantuan renovasi rumah tidak layak huni."
+ *               file:
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *                   format: binary
+ *                 description: Upload gambar (minimal 1, maksimal 4 gambar)
+ *               gambarCaption:
+ *                 type: string
+ *                 example: '[{"caption":"Tampak depan rumah"}, {"caption":"Proses renovasi"}, {"caption":"Tampak belakang rumah"}]'
+ *     responses:
+ *       "201":
+ *         description: Layanan Unggulan berhasil dibuat
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Layanan Unggulan berhasil dibuat."
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: string
+ *                       example: "okok"
+ *                     judul:
+ *                       type: string
+ *                       example: "Program Bedah Rumah"
+ *                     deskripsi:
+ *                       type: string
+ *                       example: "Program bantuan renovasi rumah tidak layak huni."
+ *                     gambarCaptions:
+ *                       type: array
+ *                       items:
+ *                         type: object
+ *                         properties:
+ *                           id:
+ *                             type: string
+ *                             example: "ojio7bj"
+ *                           gambar:
+ *                             type: string
+ *                             example: "https://ik.imagekit.io/abc123/bedah-rumah-1.jpg"
+ *                           nama_file:
+ *                             type: string
+ *                             example: "bedah-rumah-1.jpg"
+ *                           caption:
+ *                             type: string
+ *                             example: "Tampak depan rumah"
+ *       "400":
+ *         description: Validasi gagal (seperti jumlah gambar, caption kosong, atau format salah)
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Format gambarCaption tidak valid: Format caption harus berupa array"
+ *       "500":
+ *         description: Terjadi kesalahan server
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Internal Server Error"
+ */
 route.post(
   "/",
   auth,
@@ -12,15 +110,170 @@ route.post(
   layananUnggulan.createLayananUnggulan
 );
 
+/**
+ * @swagger
+ * /layanan-unggulan:
+ *   get:
+ *     summary: Ambil semua layanan unggulan
+ *     tags:
+ *       - Layanan Unggulan
+ *     responses:
+ *       200:
+ *         description: Berhasil mendapatkan semua layanan unggulan
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 200
+ *                 message:
+ *                   type: string
+ *                   example: "Berhasil mendapatkan semua layanan unggulan"
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     id_layanan_unggulan:
+ *                       type: string
+ *                       example: "a6e0b47b-21c2-4581-a1c9-79b74dea1639"
+ *                     judul:
+ *                       type: string
+ *                       example: "rsud"
+ *                     deskripsi:
+ *                       type: string
+ *                       example: "okoko"
+ *                     gambarCaptions:
+ *                       type: array
+ *                       items:
+ *                         type: object
+ *                         properties:
+ *                           id:
+ *                             type: string
+ *                             example: "04b6f8f9-4abd-4bb0-a9c6-43959dc06cc0"
+ *                           gambar:
+ *                             type: string
+ *                             example: "https://ik.imagekit.io/ena3eh2k0/Screenshot_2025-04-25_143202_KwOQUMi9O.png"
+ *                           nama_file:
+ *                             type: string
+ *                             example: "Screenshot 2025-04-25 143202.png"
+ *                           caption:
+ *                             type: string
+ *                             example: "Caption terbaru"
+ *                           layananId:
+ *                             type: string
+ *                             example: "a6e0b47b-21c2-4581-a1c9-79b74dea1639"
+ *       500:
+ *         description: Terjadi kesalahan server
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 500
+ *                 message:
+ *                   type: string
+ *                   example: "Internal Server Error"
+ */
 route.get("/", layananUnggulan.getAllLayananUnggulan);
-route.put(
-  "/:id",
-  auth,
-  multer.single("file"),
-  multerErrorHandler,
-  layananUnggulan.updateLayananUnggulan
-);
-
+/**
+ * @swagger
+ * /layanan-unggulan/{id}:
+ *   put:
+ *     summary: Update layanan unggulan
+ *     description: Update data layanan unggulan termasuk judul, deskripsi, upload gambar baru, update caption gambar yang sudah ada, dan menghapus gambar yang tidak dipertahankan.
+ *     tags:
+ *       - Layanan Unggulan
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: ID layanan unggulan yang ingin diupdate
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - judul
+ *               - deskripsi
+ *               - existingImages
+ *             properties:
+ *               judul:
+ *                 type: string
+ *                 example: "Program Bedah Rumah Update"
+ *               deskripsi:
+ *                 type: string
+ *                 example: "Update deskripsi program renovasi rumah."
+ *               existingImages:
+ *                 type: string
+ *                 description: JSON string berisi daftar gambar yang masih dipertahankan beserta caption terbarunya.
+ *                 example: '[{"id":"img1","caption":"Tampak depan rumah baru"}, {"id":"img2","caption":"Progres renovasi"}]'
+ *               gambarCaption:
+ *                 type: string
+ *                 description: JSON string caption untuk gambar baru (jika ada file yang diupload)
+ *                 example: '[{"caption":"Hasil akhir renovasi"}]'
+ *               file:
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *                   format: binary
+ *                 description: Gambar baru yang ingin ditambahkan (opsional, maksimal total gambar 4)
+ *     responses:
+ *       "200":
+ *         description: Layanan Unggulan berhasil diupdate
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Layanan Unggulan berhasil diupdate."
+ *       "400":
+ *         description: Validasi gagal
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Format existingImages tidak valid"
+ *       "404":
+ *         description: Layanan tidak ditemukan
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Layanan tidak ditemukan"
+ *       "500":
+ *         description: Terjadi kesalahan server
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Internal Server Error"
+ */
 route.put(
   "/:id",
   auth,

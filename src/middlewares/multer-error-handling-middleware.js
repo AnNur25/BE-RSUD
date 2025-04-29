@@ -8,6 +8,7 @@ const multerErrorHandler = (err, req, res, next) => {
       LIMIT_FILE_COUNT: "Maksimal hanya 4 file yang dapat diupload",
       LIMIT_FIELD_KEY: "Nama field tidak valid",
       LIMIT_UNEXPECTED_FILE: "Tipe file tidak didukung",
+      SINGLE_FILE_LIMIT: "Hanya satu gambar yang diizinkan untuk diupload",
     };
 
     return res.status(400).json({
