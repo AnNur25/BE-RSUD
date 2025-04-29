@@ -385,7 +385,7 @@ route.patch("/visible/:id", auth, aduanController.aduanIsVisible);
  *         name: id
  *         required: true
  *         schema:
- *           type: integer
+ *           type: string
  *         description: ID aduan yang akan dihapus
  *     responses:
  *       "200":
