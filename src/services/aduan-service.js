@@ -95,10 +95,10 @@ class AduanService {
 
     const existing = await prisma.aduan.findUnique({ where: { id_aduan: id } });
     if (!existing) throw new NotFoundError("Aduan tidak ditemukan.");
-
+    const newVisibility = existing.is_visible ? false : true;
     return await prisma.aduan.update({
       where: { id_aduan: id },
-      data: { is_visible: true },
+      data: { is_visible: newVisibility },
     });
   }
 
