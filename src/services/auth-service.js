@@ -11,6 +11,11 @@ class AuthService {
       );
     }
 
+    const existingUser = await prisma.user.findUnique({ where: { email } });
+    if (existingUser) {
+      throw new BadRequestError("Email sudah terdaftar");
+    }
+
     const hashedPassword = await bcrypt.hash(password, 10);
     const admin = await prisma.user.create({
       data: {
