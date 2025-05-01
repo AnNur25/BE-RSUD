@@ -124,10 +124,10 @@ class LayananUnggulanController {
 
       const existingIds = parsedExistingImages.map((img) => img.id);
 
-      const totalSetelahUpdate = existingIds.length + (files?.length || 0);
-      if (totalSetelahUpdate < 1) {
+      const totalGambarSetelahUpdate = existingIds.length + jumlahFileBaru;
+      if (totalGambarSetelahUpdate < 1) {
         throw new BadRequestError(
-          "Minimal harus ada 1 gambar-caption untuk setiap layanan."
+          "Layanan harus memiliki minimal 1 gambar-caption."
         );
       }
 
