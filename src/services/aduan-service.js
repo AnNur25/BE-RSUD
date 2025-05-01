@@ -14,7 +14,7 @@ class AduanService {
     }
 
     const newaduan = await prisma.aduan.create({
-      data: { nama, message, no_wa, is_read: false },
+      data: { nama, message, no_wa, is_visible: false },
     });
 
     return {
@@ -130,7 +130,7 @@ class AduanService {
   //   });
   // }
 
-  static async deleteAduan({id}) {
+  static async deleteAduan({ id }) {
     if (!id) throw new BadRequestError("ID aduan harus disertakan.");
 
     const existing = await prisma.aduan.findUnique({ where: { id_aduan: id } });
