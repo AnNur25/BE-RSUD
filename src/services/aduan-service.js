@@ -168,7 +168,17 @@ class AduanService {
       data: { message, id_user, id_aduan: id },
     });
 
-    return response;
+    return {
+      id_respon_admin: response.id_respon_admin,
+      message: response.message,
+      id_user: response.id_user,
+      id_aduan: response.id_aduan,
+      dijawab_pada: new Intl.DateTimeFormat("id-ID", {
+        day: "2-digit",
+        month: "long",
+        year: "numeric",
+      }).format(new Date(response.createdAt)),
+    };
   }
 }
 
