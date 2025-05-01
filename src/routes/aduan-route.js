@@ -82,7 +82,7 @@ const { auth } = require("../middlewares/auth-middleware");
 route.post("/", aduanController.createAduan);
 /**
  * @swagger
- * /aduan:
+ * /aduan/all:
  *   get:
  *     summary: Mengambil semua data aduan
  *     description: Endpoint untuk mengambil seluruh data aduan beserta respon admin jika ada.
@@ -150,11 +150,11 @@ route.post("/", aduanController.createAduan);
  *                   type: string
  *                   example: "Internal Server Error"
  */
-route.get("/", aduanController.getAllAduan);
+route.get("/all", aduanController.getAllAduan);
 
 /**
  * @swagger
- * /aduan/visible:
+ * /aduan:
  *   get:
  *     summary: Mengambil semua aduan yang terlihat (visible)
  *     description: Endpoint untuk mengambil semua data aduan yang status is_visible = true beserta respon admin.
@@ -222,7 +222,7 @@ route.get("/", aduanController.getAllAduan);
  *                   type: string
  *                   example: "Internal Server Error"
  */
-route.get("/visible", aduanController.getAllVisibleAduan);
+route.get("/", aduanController.getAllVisibleAduan);
 
 /**
  * @swagger
