@@ -239,7 +239,7 @@ route.get("/", aduanController.getAllVisibleAduan);
  *         name: id
  *         required: true
  *         schema:
- *           type: integer
+ *           type: string
  *         description: ID aduan yang ingin ditampilkan
  *     responses:
  *       "200":
@@ -256,8 +256,8 @@ route.get("/", aduanController.getAllVisibleAduan);
  *                   type: object
  *                   properties:
  *                     id_aduan:
- *                       type: integer
- *                       example: 1
+ *                       type: string
+ *                       example: "1"
  *                     nama:
  *                       type: string
  *                       example: "Ahmad Dahlan"
@@ -473,7 +473,7 @@ route.delete("/:id", auth, aduanController.deleteAduan);
  *         name: id
  *         required: true
  *         schema:
- *           type: integer
+ *           type: string
  *         description: ID aduan yang ingin dibalas
  *     requestBody:
  *       required: true
@@ -502,17 +502,17 @@ route.delete("/:id", auth, aduanController.deleteAduan);
  *                   type: object
  *                   properties:
  *                     id_respon_admin:
- *                       type: integer
- *                       example: 5
+ *                       type: string
+ *                       example: "5"
  *                     message:
  *                       type: string
  *                       example: "Terima kasih atas laporannya, sudah kami tindak lanjuti."
  *                     id_user:
- *                       type: integer
- *                       example: 2
+ *                       type: string
+ *                       example: "2"
  *                     id_aduan:
- *                       type: integer
- *                       example: 10
+ *                       type: string
+ *                       example: "10"
  *                     createdAt:
  *                       type: string
  *                       format: date-time
@@ -558,7 +558,7 @@ route.delete("/:id", auth, aduanController.deleteAduan);
  *                   type: string
  *                   example: "Internal Server Error"
  */
-route.post("/:id/", auth, aduanController.replyAduan);
+route.post("/reply/:id", auth, aduanController.replyAduan);
 
 /**
  * @swagger
