@@ -1,6 +1,7 @@
 const envConfig = require("./src/configs/env-config");
 const express = require("express");
 const app = express();
+require("./src/configs/passport-config");
 const swaggerUi = require("swagger-ui-express");
 const {
   UnauthorizedError,
@@ -22,6 +23,7 @@ const aduanRoute = require("./src/routes/aduan-route");
 const beritaRoute = require("./src/routes/berita-route");
 const bannerRoute = require("./src/routes/banner-route");
 const layananUnggulanRoute = require("./src/routes/layanan-unggulan-route");
+const oauth = require("./src/controllers/oauth-controller");
 const port = envConfig.port;
 
 // app.use(cookieParser());
@@ -52,6 +54,7 @@ app.use("/aduan", aduanRoute);
 app.use("/berita", beritaRoute);
 app.use("/banner", bannerRoute);
 app.use("/layanan-unggulan", layananUnggulanRoute);
+app.use("/auth", oauth);
 
 app.use((err, req, res, next) => {
   console.error(err);

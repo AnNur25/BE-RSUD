@@ -123,6 +123,14 @@ class LayananUnggulanController {
       }
 
       const existingIds = parsedExistingImages.map((img) => img.id);
+
+      const totalSetelahUpdate = existingIds.length + (files?.length || 0);
+      if (totalSetelahUpdate < 1) {
+        throw new BadRequestError(
+          "Minimal harus ada 1 gambar-caption untuk setiap layanan."
+        );
+      }
+
       let parsedGambarCaptions = [];
       if (gambarCaption) {
         try {
@@ -201,7 +209,6 @@ class LayananUnggulanController {
         },
       });
 
-    
       const formattedResponse = layananUnggulanList.map((layanan) => ({
         id_layanan_unggulan: layanan.id_layanan_unggulan,
         judul: layanan.judul,
@@ -215,7 +222,6 @@ class LayananUnggulanController {
         })),
       }));
 
-     
       const responseData =
         formattedResponse.length === 1
           ? formattedResponse[0]
