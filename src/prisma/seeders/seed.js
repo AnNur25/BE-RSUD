@@ -934,6 +934,32 @@ const pelayanan = [
   },
 ];
 
+const banner = [
+  {
+    id_banner: "a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6",
+    gambar:
+      "https://images.pexels.com/photos/30905302/pexels-photo-30905302/free-photo-of-bendungan-gunung-megah-dengan-pelimpah-yang-meluap.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+  },
+];
+const layananUnggulan = [
+  {
+    id_layanan_unggulan: "a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6",
+    judul: "Layanan Unggulan 1",
+    deskripsi: "Deskripsi layanan unggulan 1",
+  },
+];
+
+const gambarCaption = [
+  {
+    id: "a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6",
+    gambar:
+      "https://www.pexels.com/id-id/video/bidikan-dolly-dari-hutan-yang-damai-3696058/",
+    nama_file: "gambar1.jpg",
+    caption: "gambar yang sangat bagus",
+    layananId: "a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6",
+  },
+];
+
 const dokter = [
   {
     id_dokter: "a387b0a1-b0d4-4aef-bc8e-67f8c850d2f9",
@@ -1363,6 +1389,9 @@ async function main() {
   await prisma.gambar.deleteMany();
   await prisma.user.deleteMany();
   await prisma.poli.deleteMany();
+  await prisma.banner.deleteMany();
+  await prisma.gambarCaption.deleteMany();
+  await prisma.layananUnggulan.deleteMany();
 
   await prisma.user.createMany({ data: users });
   await prisma.berita.createMany({ data: berita });
@@ -1373,6 +1402,9 @@ async function main() {
   await prisma.poli.createMany({ data: poli });
   await prisma.dokter.createMany({ data: dokter });
   await prisma.jadwalDokter.createMany({ data: jadwalDokter });
+  await prisma.banner.createMany({ data: banner });
+  await prisma.layananUnggulan.createMany({ data: layananUnggulan });
+  await prisma.gambarCaption.createMany({ data: gambarCaption });
 
   console.log("Data seeder berhasil ditambahkan!");
 }
