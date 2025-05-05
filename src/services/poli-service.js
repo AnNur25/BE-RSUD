@@ -6,9 +6,14 @@ class PoliService {
     if (!nama_poli) {
       throw new BadRequestError("nama poli harus diisi");
     }
+    const poliName = nama_poli.trim().toLowerCase();
+    if (!poliName) {
+      throw new BadRequestError(
+        "nama poli tidak boleh kosong atau hanya spasi"
+      );
+    }
 
     let formattedNamaPoli;
-    const poliName = nama_poli.trim().toLowerCase();
     if (poliName === "umum") {
       formattedNamaPoli = "Poli Umum";
     } else if (poliName === "vct") {
