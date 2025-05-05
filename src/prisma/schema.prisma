@@ -60,7 +60,6 @@ model Aduan {
   nama       String
   message   String
   no_wa       String
-  // is_read     Boolean       @default(false)
   is_visible Boolean    @default(false)
   createdAt   DateTime      @default(now())
   responAdmin ResponAdmin[]

@@ -34,6 +34,7 @@ class AduanService {
   static async getAllAduan() {
     const data = await prisma.aduan.findMany({
       include: { responAdmin: true },
+      orderBy: { createdAt: "asc" },
     });
     return {
       data_aduan: data.map((aduan) => ({
