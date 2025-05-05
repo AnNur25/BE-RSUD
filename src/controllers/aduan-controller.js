@@ -33,7 +33,10 @@ class AduanController {
     const { id } = req.params;
     try {
       const data = await aduanService.aduanIsVisible({ id });
-      responseHelper.success(res, data, "Aduan berhasil ditampilkan.");
+      const message = data.is_visible
+        ? "Aduan berhasil diaktifkan."
+        : "Aduan berhasil dinonaktifkan.";
+      responseHelper.success(res, data, message);
     } catch (error) {
       responseHelper.error(res, error);
     }
@@ -67,7 +70,7 @@ class AduanController {
   static async deleteAduan(req, res) {
     try {
       const { id } = req.params;
-      await aduanService.deleteAduan({id});
+      await aduanService.deleteAduan({ id });
       responseHelper.success(res, null, "Aduan berhasil dihapus.");
     } catch (error) {
       responseHelper.error(res, error);
