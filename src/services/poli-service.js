@@ -9,7 +9,7 @@ class PoliService {
     const poliName = nama_poli.trim().toLowerCase();
     if (!poliName) {
       throw new BadRequestError(
-        "nama poli tidak boleh kosong atau hanya spasi"
+        "Nama Poli tidak boleh kosong atau hanya spasi"
       );
     }
 
