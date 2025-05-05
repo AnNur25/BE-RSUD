@@ -280,6 +280,9 @@ router.post("/login", authController.login);
  */
 router.post("/logout", auth, authController.logout);
 
+// Google OAuth
+router.get("/google", authController.googleLogin);
+router.get("/google/callback", authController.googleCallback);
 /**
  * @swagger
  * components:

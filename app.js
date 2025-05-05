@@ -1,7 +1,7 @@
 const envConfig = require("./src/configs/env-config");
 const express = require("express");
 const app = express();
-require("./src/configs/passport-config");
+require("./src/configs/passport-config"); //Hanya dijalankan sekali saat app boot | Maka passport.use(...) sudah teregistrasi ke singleton passport secara global
 const swaggerUi = require("swagger-ui-express");
 const {
   UnauthorizedError,
@@ -9,7 +9,7 @@ const {
   NotFoundError,
 } = require("./src/utils/error");
 const responseHelper = require("./src/utils/response");
-// const cookieParser = require("cookie-parser");
+const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const swaggerSpec = require("./src/configs/swagger-config");
 const swaggerUiDist = require("swagger-ui-dist");
