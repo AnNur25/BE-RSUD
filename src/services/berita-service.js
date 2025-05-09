@@ -2,6 +2,9 @@ const prisma = require("../prisma/prismaClient");
 const { BadRequestError, NotFoundError } = require("../utils/error");
 const imageKit = require("../configs/imagekit-config");
 const Pagination = require("../utils/pagination");
+const path = require("path");
+const sharp = require("sharp");
+const fs = require("fs");
 
 class BeritaService {
   static async createBerita({ judul, ringkasan, isi }, file) {
@@ -9,17 +12,37 @@ class BeritaService {
       throw new BadRequestError(" Semua field harus diisi");
     }
 
-    const stringImage = file.buffer.toString("base64");
-    const uploadImage = await imageKit.upload({
-      fileName: file.originalname,
-      file: stringImage,
-    });
+    console.log("File received:", file);
+    let imageUrl = null;
+    if (file && file.path) {
+      const originalFileSize = fs.statSync(file.path).size;
+      console.log("Original file size (bytes):", originalFileSize);
+
+      const resizedImagePath = path.resolve(
+        file.destination,
+        "resized",
+        file.filename
+      );
+      await sharp(file.path)
+        .jpeg({ quality: 50 })
+        .png({ quality: 50 })
+        .toFile(resizedImagePath);
+
+      const resizedFileSize = fs.statSync(resizedImagePath).size;
+      console.log("Resized file size (bytes):", resizedFileSize);
+
+      fs.unlinkSync(file.path);
+      imageUrl = `../../uploads/resized/${file.filename}`;
+      console.log("Image resized and uploaded to:", imageUrl);
+    }
+    console.log("Image uploaded to:", imageUrl);
+
     const beritaBaru = await prisma.berita.create({
       data: {
         judul,
         ringkasan,
         isi,
-        gambar_sampul: uploadImage.url,
+        gambar_sampul: imageUrl,
       },
     });
     return {
@@ -120,17 +143,30 @@ class BeritaService {
     if (!berita) {
       throw new NotFoundError("Id Berita tidak ditemukan");
     }
-    let gambar_sampul = berita.gambar_sampul;
-    if (file) {
-      console.log("Received file:", file);
-      const stringImage = file.buffer.toString("base64");
-      const uploadImage = await imageKit.upload({
-        fileName: file.originalname,
-        file: stringImage,
-      });
-      console.log("Image uploaded to ImageKit:", uploadImage);
-      gambar_sampul = uploadImage.url;
+    let imageUrl = berita.gambar_sampul;
+    console.log("File received:", file);
+    if (file && file.path) {
+      const originalFileSize = fs.statSync(file.path).size;
+      console.log("Original file size (bytes):", originalFileSize);
+
+      const resizedImagePath = path.resolve(
+        file.destination,
+        "resized",
+        file.filename
+      );
+      await sharp(file.path)
+        .jpeg({ quality: 50 })
+        .png({ quality: 50 })
+        .toFile(resizedImagePath);
+
+      const resizedFileSize = fs.statSync(resizedImagePath).size;
+      console.log("Resized file size (bytes):", resizedFileSize);
+
+      fs.unlinkSync(file.path);
+      imageUrl = `../../uploads/resized/${file.filename}`;
+      console.log("Image resized and uploaded to:", imageUrl);
     }
+    console.log("Image uploaded to:", imageUrl);
 
     const updateBerita = await prisma.berita.update({
       where: { id_berita: id },
@@ -138,7 +174,7 @@ class BeritaService {
         judul: judul || berita.judul,
         ringkasan: ringkasan || berita.ringkasan,
         isi: isi || berita.isi,
-        gambar_sampul,
+        gambar_sampul: imageUrl,
       },
     });
 
