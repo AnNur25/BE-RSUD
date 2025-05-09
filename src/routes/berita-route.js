@@ -112,9 +112,9 @@ const multerErrorHandler = require("../middlewares/multer-error-handling-middlew
 route.post(
   "/",
   auth,
-  multerErrorHandler,
   multer.single("gambar_sampul"),
-  beritaController.createBerita
+  beritaController.createBerita,
+  multerErrorHandler
 );
 
 /**

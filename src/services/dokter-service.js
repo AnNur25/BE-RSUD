@@ -1,7 +1,9 @@
 const prisma = require("../prisma/prismaClient");
 const { BadRequestError, NotFoundError } = require("../utils/error");
-const imageKit = require("../configs/imagekit-config");
 const Pagination = require("../utils/pagination");
+const path = require("path");
+const sharp = require("sharp");
+const fs = require("fs");
 
 class DokterService {
   static async createDokter({
@@ -20,13 +22,26 @@ class DokterService {
     }
     console.log("File received:", file);
     let imageUrl = null;
-    if (file && file.buffer) {
-      const stringImage = file.buffer.toString("base64");
-      const uploadImage = await imageKit.upload({
-        fileName: file.originalname,
-        file: stringImage,
-      });
-      imageUrl = uploadImage?.url || null;
+    if (file && file.path) {
+      const originalFileSize = fs.statSync(file.path).size;
+      console.log("Original file size (bytes):", originalFileSize);
+
+      const resizedImagePath = path.resolve(
+        file.destination,
+        "resized",
+        file.filename
+      );
+      await sharp(file.path)
+        .jpeg({ quality: 50 })
+        .png({ quality: 50 })
+        .toFile(resizedImagePath);
+
+      const resizedFileSize = fs.statSync(resizedImagePath).size;
+      console.log("Resized file size (bytes):", resizedFileSize);
+
+      fs.unlinkSync(file.path);
+      imageUrl = `../../uploads/resized/${file.filename}`;
+      console.log("Image resized and uploaded to:", imageUrl);
     }
     console.log("Image uploaded to:", imageUrl);
 
@@ -229,15 +244,29 @@ class DokterService {
     if (!poli || !dokter)
       throw new NotFoundError("Poli atau dokter tidak ditemukan");
 
-    let imageUrl = dokter.gambar;
-    if (file && file.buffer) {
-      const base64Image = file.buffer.toString("base64");
-      const uploaded = await imageKit.upload({
-        fileName: file.originalname,
-        file: base64Image,
-      });
-      imageUrl = uploaded.url;
+    let imageUrl = null;
+    if (file && file.path) {
+      const originalFileSize = fs.statSync(file.path).size;
+      console.log("Original file size (bytes):", originalFileSize);
+
+      const resizedImagePath = path.resolve(
+        file.destination,
+        "resized",
+        file.filename
+      );
+      await sharp(file.path)
+        .jpeg({ quality: 50 })
+        .png({ quality: 50 })
+        .toFile(resizedImagePath);
+
+      const resizedFileSize = fs.statSync(resizedImagePath).size;
+      console.log("Resized file size (bytes):", resizedFileSize);
+
+      fs.unlinkSync(file.path);
+      imageUrl = `../../uploads/resized/${file.filename}`;
+      console.log("Image resized and uploaded to:", imageUrl);
     }
+    console.log("Image uploaded to:", imageUrl);
 
     const updated = await prisma.dokter.update({
       where: { id_dokter },

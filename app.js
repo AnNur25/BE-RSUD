@@ -25,7 +25,6 @@ const beritaRoute = require("./src/routes/berita-route");
 const bannerRoute = require("./src/routes/banner-route");
 const layananUnggulanRoute = require("./src/routes/layanan-unggulan-route");
 const postinganRoutes = require("./src/routes/postingan-route");
-// const oauth = require("./src/controllers/oauth-controller");
 const port = envConfig.port;
 
 // app.use(cookieParser());

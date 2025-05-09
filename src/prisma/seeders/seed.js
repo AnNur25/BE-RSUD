@@ -964,189 +964,189 @@ const dokter = [
   {
     id_dokter: "a387b0a1-b0d4-4aef-bc8e-67f8c850d2f9",
     nama: "dr. Renard Christian, Sp.N (RCH)",
-    gambar: "https://example.com/dr_renard.jpg",
+    gambar: null,
     biodata_singkat: "dokter baik",
     id_poli: "97b8f1a7-d42a-47be-843d-2ad1040c9b93", // Poli Spesialis Syaraf (Neurologi)
   },
   {
     id_dokter: "c728b74a-f03a-48d2-bef3-c768d8c07172",
     nama: "dr. Movita Hidayati, Sp.P (MHY)",
-    gambar: "https://example.com/dr_movita.jpg",
+    gambar: null,
     biodata_singkat: "dokter baik",
     id_poli: "0b4577fa-437b-4643-850d-5a4be524174b", // Poli Spesialis Paru
   },
   {
     id_dokter: "b56b2c8f-3c0c-45fe-9c8e-c0b455b9d50d",
     nama: "dr. Ratna Pancasari, Sp.JP (RPN)",
-    gambar: "https://example.com/dr_ratna.jpg",
+    gambar: null,
     biodata_singkat: "dokter baik",
     id_poli: "b49f63b2-b687-4da5-a05a-d79fc7072a69", // Poli Spesialis Jantung & Pembuluh Darah
   },
   {
     id_dokter: "f62dbaf7-b6f8-43ad-8de1-07b4dbf56c2e",
     nama: "dr. Kukuh Wibisono, Sp.KFR (KWS)",
-    gambar: "https://example.com/dr_kukuh.jpg",
+    gambar: null,
     biodata_singkat: "dokter baik",
     id_poli: "7755e63c-6052-46f5-8f74-1e43101cf63c", // Poli Spesialis Kedokteran Fisik & Rehabilitasi
   },
   {
     id_dokter: "7f305f74-9b46-4239-b56b-94e9f238b84f",
     nama: "dr. Handi Sembodo, Sp.Rad (HSB)",
-    gambar: "https://example.com/dr_handi.jpg",
+    gambar: null,
     biodata_singkat: "dokter baik",
     id_poli: "619a2d1e-9a19-4c3a-8e6b-cb7e3ef2b84b", // Poli Spesialis Radiologi
   },
   {
     id_dokter: "cf742b7a-06ad-47a2-8988-4c0b4e5dbdc5",
     nama: "dr. Ade Rochaeni, Sp.PK (ARH)",
-    gambar: "https://example.com/dr_ade.jpg",
+    gambar: null,
     biodata_singkat: "dokter baik",
     id_poli: "e2b8b6fa-f75b-4333-b788-57586cd49ecf", // Poli Spesialis Patologi Klinik
   },
   {
     id_dokter: "54993e99-e4b5-49f9-9d0d-c3e6b8acb7e0",
     nama: "dr. Antonius Abimasetyo Putro, Sp.An (MBI)",
-    gambar: "https://example.com/dr_anton.jpg",
+    gambar: null,
     biodata_singkat: "dokter baik",
     id_poli: "86b7955f-4a30-4a5e-8461-ff3b05b5391d", // Poli Spesialis Anaestesi & Reaminasi
   },
   {
     id_dokter: "4c1fe8b7-3a0e-4b53-94ff-df14ef8ad6c6",
     nama: "dr. Mahisa Pribadi B, Sp.An (MPB)",
-    gambar: "https://example.com/dr_mahisa.jpg",
+    gambar: null,
     biodata_singkat: "dokter baik",
     id_poli: "86b7955f-4a30-4a5e-8461-ff3b05b5391d", // Poli Spesialis Anaestesi & Reaminasi
   },
   {
     id_dokter: "cfaee6da-1b67-400a-bdb6-f6ca4b093b17",
     nama: "dr. M. Afiful Jauhani, Sp.F, SH,MH (MAJ)",
-    gambar: "https://example.com/dr_afiful.jpg",
+    gambar: null,
     biodata_singkat: "dokter baik",
     id_poli: "ecb519eb-62f5-4724-bdfa-0ffae578b1bb", // Poli Spesialis Kedokteran Forensik (Dokter Gigi Spesialis)
   },
   {
     id_dokter: "3a8b0df5-e2db-4535-a563-d2a1db914d6c",
     nama: "dr. Nurulllah Hidajahningtyas, MM (NHT)",
-    gambar: "https://example.com/dr_nurul.jpg",
+    gambar: null,
     biodata_singkat: "dokter baik",
     id_poli: "7628fbb9-2637-4298-909f-b758a5633bdb", // Poli Umum
   },
   {
     id_dokter: "69306b36-231f-44b9-b4a2-eaf1c20fc92b",
     nama: "dr. Hj. Siti Nurul Qomariyah, M.Kes (SNQ)",
-    gambar: "https://example.com/dr_siti.jpg",
+    gambar: null,
     biodata_singkat: "dokter baik",
     id_poli: "7628fbb9-2637-4298-909f-b758a5633bdb", // Poli Umum
   },
   {
     id_dokter: "a6d28b49-35b2-4a74-b029-d96c2a01f342",
     nama: "dr. Hj. Gini Wuryandari, M.Kes (GWY)",
-    gambar: "https://example.com/dr_gini.jpg",
+    gambar: null,
     biodata_singkat: "dokter baik",
     id_poli: "7628fbb9-2637-4298-909f-b758a5633bdb", // Poli Umum
   },
   {
     id_dokter: "431cc86d-6987-442f-b8d7-799d7c5c74d2",
     nama: "dr. H. Rohmat Pujo Santoso (RPS)",
-    gambar: "https://example.com/dr_rohmat.jpg",
+    gambar: null,
     biodata_singkat: "dokter baik",
     id_poli: "7628fbb9-2637-4298-909f-b758a5633bdb", // Poli Umum
   },
   {
     id_dokter: "68b77c10-4069-4387-9c56-198f4d0d10d6",
     nama: "dr. H. Heri Purwanto, M.MRS (HPW)",
-    gambar: "https://example.com/dr_heri.jpg",
+    gambar: null,
     biodata_singkat: "dokter baik",
     id_poli: "7628fbb9-2637-4298-909f-b758a5633bdb", // Poli Umum
   },
   {
     id_dokter: "c6161f91-d8c5-4b70-8005-f2b08456c02e",
     nama: "dr. H. Rohmadoni (RDN)",
-    gambar: "https://example.com/dr_rohmadoni.jpg",
+    gambar: null,
     biodata_singkat: "dokter baik",
     id_poli: "7628fbb9-2637-4298-909f-b758a5633bdb", // Poli Umum
   },
   {
     id_dokter: "ff7f6264-e26d-45d6-9f86-03ca9a479a16",
     nama: "dr. Bagus Dananing Satwikaputra (BDS)",
-    gambar: "https://example.com/dr_bagus.jpg",
+    gambar: null,
     biodata_singkat: "dokter baik",
     id_poli: "7628fbb9-2637-4298-909f-b758a5633bdb", // Poli Umum
   },
   {
     id_dokter: "90876227-5b96-4025-bdb6-933c9eb1d13d",
     nama: "dr. Eka Prasetya Wati (EPW)",
-    gambar: "https://example.com/dr_eka.jpg",
+    gambar: null,
     biodata_singkat: "dokter baik",
     id_poli: "7628fbb9-2637-4298-909f-b758a5633bdb", // Poli Umum
   },
   {
     id_dokter: "d285f7b3-7b59-4b25-bbde-c4e23e68e0b6",
     nama: "dr. Wahyu Setyawati (WSW)",
-    gambar: "https://example.com/dr_wahyu.jpg",
+    gambar: null,
     biodata_singkat: "dokter baik",
     id_poli: "7628fbb9-2637-4298-909f-b758a5633bdb", // Poli Umum
   },
   {
     id_dokter: "04f61d34-e1d6-40ea-b3e1-4e51d49f1cc5",
     nama: "dr. Doddy Radhi Sakti (DRS)",
-    gambar: "https://example.com/dr_doddy.jpg",
+    gambar: null,
     biodata_singkat: "dokter baik",
     id_poli: "ed3cc7f7-8d1c-43c9-b45d-d9d1f9646a29", // Poli VCT
   },
   {
     id_dokter: "bc58f1a4-e459-4e9d-a00f-94b9d7bb3c1d",
     nama: "dr. Dodi Guntoro (DGT)",
-    gambar: "https://example.com/dr_dodi.jpg",
+    gambar: null,
     biodata_singkat: "dokter baik",
     id_poli: "7628fbb9-2637-4298-909f-b758a5633bdb", // Poli Umum
   },
   {
     id_dokter: "b1ca4ed4-443b-4c64-8a33-15d6042eac1b",
     nama: "dr. Dio Resna Oktavinanda (DRO)",
-    gambar: "https://example.com/dr_dio.jpg",
+    gambar: null,
     biodata_singkat: "dokter baik",
     id_poli: "7628fbb9-2637-4298-909f-b758a5633bdb", // Poli Umum
   },
   {
     id_dokter: "7e0d38a3-fabf-48e0-bd42-90030d881451",
     nama: "dr. Dias Guita Alantus (DGA)",
-    gambar: "https://example.com/dr_dias.jpg",
+    gambar: null,
     biodata_singkat: "dokter baik",
     id_poli: "7628fbb9-2637-4298-909f-b758a5633bdb", // Poli Umum
   },
   {
     id_dokter: "5ca12cc1-7b2c-45eb-b5ed-d53dcb3eaf9a",
     nama: "dr. Agustinus Siswanto (ASW)",
-    gambar: "https://example.com/dr_agustinus.jpg",
+    gambar: null,
     biodata_singkat: "dokter baik",
     id_poli: "7628fbb9-2637-4298-909f-b758a5633bdb", // Poli Umum
   },
   {
     id_dokter: "63ed3b5c-0a71-4db1-b9f1-3574f571bcb9",
     nama: "dr. Idfian Feranta Adi Arizba (IFA)",
-    gambar: "https://example.com/dr_idfian.jpg",
+    gambar: null,
     biodata_singkat: "dokter baik",
     id_poli: "7628fbb9-2637-4298-909f-b758a5633bdb", // Poli Umum
   },
   {
     id_dokter: "cda57338-52ae-4877-a567-739cbe2d22be",
     nama: "dr. Ilham Yudhi Pratama (IYP)",
-    gambar: "https://example.com/dr_ilham.jpg",
+    gambar: null,
     biodata_singkat: "dokter baik",
     id_poli: "7628fbb9-2637-4298-909f-b758a5633bdb", // Poli Umum
   },
   {
     id_dokter: "20455670-227d-47b5-9e7b-b4dff5da3834",
     nama: "drg. Heruddin (HRU)",
-    gambar: "https://example.com/drg_heruddin.jpg",
+    gambar: null,
     biodata_singkat: "dokter baik",
     id_poli: "2f45d037-df1a-4ed4-8038-674f2ae3f35b", // Poli Spesialis Gigi
   },
   {
     id_dokter: "07b6fbc7-e2fd-46a0-b098-2e045106bed6",
     nama: "drg. Zaskia Putri Armanda (ZPA)",
-    gambar: "https://example.com/drg_zaskia.jpg",
+    gambar: null,
     biodata_singkat: "dokter baik",
     id_poli: "2f45d037-df1a-4ed4-8038-674f2ae3f35b", // Poli Spesialis Gigi
   },
@@ -1155,40 +1155,35 @@ const dokter = [
   {
     id_dokter: "1f1b3db7-f8fc-4a4e-9db6-101e7b34a001",
     nama: "dr. H. Agus Yudho Santoso, Sp.PD, Finasim ( AYS )",
-    gambar:
-      "https://images.unsplash.com/photo-1659353885824-1199aeeebfc6?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    gambar: null,
     biodata_singkat: "dokter baik",
     id_poli: "95d1f57c-01cf-49f3-bb6c-32a5dba8f300",
   },
   {
     id_dokter: "2f1b3db7-f8fc-4a4e-9db6-101e7b34a002",
     nama: "dr. Astu Anindya Jati, Sp.PD (AAJ)",
-    gambar:
-      "https://images.unsplash.com/photo-1659353885824-1199aeeebfc6?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    gambar: null,
     biodata_singkat: "dokter baik",
     id_poli: "95d1f57c-01cf-49f3-bb6c-32a5dba8f300",
   },
   {
     id_dokter: "3f1b3db7-f8fc-4a4e-9db6-101e7b34a003",
     nama: "dr. Jualita Heidi Saputri, Sp.PD (JHS)",
-    gambar:
-      "https://images.unsplash.com/photo-1659353885824-1199aeeebfc6?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    gambar: null,
     biodata_singkat: "dokter baik",
     id_poli: "95d1f57c-01cf-49f3-bb6c-32a5dba8f300",
   },
   {
     id_dokter: "4f1b3db7-f8fc-4a4e-9db6-101e7b34a004",
     nama: "dr. Isty Rindryastuti, Sp.PD (RIN)",
-    gambar:
-      "https://images.unsplash.com/photo-1659353885824-1199aeeebfc6?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    gambar: null,
     biodata_singkat: "dokter baik",
     id_poli: "95d1f57c-01cf-49f3-bb6c-32a5dba8f300",
   },
   {
     id_dokter: "5f1b3db7-f8fc-4a4e-9db6-101e7b34a005",
     nama: "dr. Sherrvy Eva Wijayaningrum,M.Biomed., Sp.PD (SEW)",
-    gambar:
-      "https://images.unsplash.com/photo-1659353885824-1199aeeebfc6?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    gambar: null,
     biodata_singkat: "dokter baik",
     id_poli: "95d1f57c-01cf-49f3-bb6c-32a5dba8f300",
   },
@@ -1197,16 +1192,14 @@ const dokter = [
   {
     id_dokter: "6f1b3db7-f8fc-4a4e-9db6-101e7b34a006",
     nama: "dr. Natalia Kristanti Nugraheni, Sp.A (NAT)",
-    gambar:
-      "https://images.unsplash.com/photo-1659353885824-1199aeeebfc6?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    gambar: null,
     biodata_singkat: "dokter baik",
     id_poli: "f4b34b36-b702-4294-9cf1-476eb5a57e1e",
   },
   {
     id_dokter: "7f1b3db7-f8fc-4a4e-9db6-101e7b34a007",
     nama: "dr. Debora Pratita Acchedya Buntara, Sp.A (DPA)",
-    gambar:
-      "https://images.unsplash.com/photo-1659353885824-1199aeeebfc6?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    gambar: null,
     biodata_singkat: "dokter baik",
     id_poli: "f4b34b36-b702-4294-9cf1-476eb5a57e1e",
   },
@@ -1215,24 +1208,21 @@ const dokter = [
   {
     id_dokter: "8f1b3db7-f8fc-4a4e-9db6-101e7b34a008",
     nama: "dr. Moch. Sodiq Kukuh WS, Sp.OG (MSK)",
-    gambar:
-      "https://images.unsplash.com/photo-1659353885824-1199aeeebfc6?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    gambar: null,
     biodata_singkat: "dokter baik",
     id_poli: "c6224773-dfdb-42a0-a98f-df74f07fbc9c",
   },
   {
     id_dokter: "9f1b3db7-f8fc-4a4e-9db6-101e7b34a009",
     nama: "dr. Dwi Cahya Febrimulya. M.Ked, Sp.OG (DIF)",
-    gambar:
-      "https://images.unsplash.com/photo-1659353885824-1199aeeebfc6?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    gambar: null,
     biodata_singkat: "dokter baik",
     id_poli: "c6224773-dfdb-42a0-a98f-df74f07fbc9c",
   },
   {
     id_dokter: "10f1b3db7-f8fc-4a4e-9db6-101e7b34a010",
     nama: "dr. Miftahul Falah Ahmad, Sp.OG (MFA)",
-    gambar:
-      "https://images.unsplash.com/photo-1659353885824-1199aeeebfc6?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    gambar: null,
     biodata_singkat: "dokter baik",
     id_poli: "c6224773-dfdb-42a0-a98f-df74f07fbc9c",
   },
@@ -1241,24 +1231,21 @@ const dokter = [
   {
     id_dokter: "11f1b3db7-f8fc-4a4e-9db6-101e7b34a011",
     nama: "dr. H. M. Arief Heriawan, Sp.B, Finac (ARI)",
-    gambar:
-      "https://images.unsplash.com/photo-1659353885824-1199aeeebfc6?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    gambar: null,
     biodata_singkat: "dokter baik",
     id_poli: "2f68199c-08f3-4664-bd0e-7131c84be212",
   },
   {
     id_dokter: "12f1b3db7-f8fc-4a4e-9db6-101e7b34a012",
     nama: "dr. I Ketut Yante, Sp.B (IKY)",
-    gambar:
-      "https://images.unsplash.com/photo-1659353885824-1199aeeebfc6?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    gambar: null,
     biodata_singkat: "dokter baik",
     id_poli: "2f68199c-08f3-4664-bd0e-7131c84be212",
   },
   {
     id_dokter: "13f1b3db7-f8fc-4a4e-9db6-101e7b34a013",
     nama: "dr. Laksmi Indreswari, Sp.B (MIE)",
-    gambar:
-      "https://images.unsplash.com/photo-1659353885824-1199aeeebfc6?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    gambar: null,
     biodata_singkat: "dokter baik",
     id_poli: "2f68199c-08f3-4664-bd0e-7131c84be212",
   },
@@ -1267,8 +1254,7 @@ const dokter = [
   {
     id_dokter: "14f1b3db7-f8fc-4a4e-9db6-101e7b34a014",
     nama: "dr. I Gusti Bagus Indra Angganugraha P.J, Sp.BO (APJ)",
-    gambar:
-      "https://images.unsplash.com/photo-1659353885824-1199aeeebfc6?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    gambar: null,
     biodata_singkat: "dokter baik",
     id_poli: "8b540497-4f77-4568-8b09-67f8033b19d9",
   },
@@ -1277,8 +1263,7 @@ const dokter = [
   {
     id_dokter: "15f1b3db7-f8fc-4a4e-9db6-101e7b34a015",
     nama: "dr. Muhammad Zaniar Ramadhani, Sp.U, M.Ked.Klin (RAZ)",
-    gambar:
-      "https://images.unsplash.com/photo-1659353885824-1199aeeebfc6?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    gambar: null,
     biodata_singkat: "dokter baik",
     id_poli: "43f96d2b-86b7-4f61-8ec5-574e55256871",
   },
@@ -1287,8 +1272,7 @@ const dokter = [
   {
     id_dokter: "16f1b3db7-f8fc-4a4e-9db6-101e7b34a016",
     nama: "dr. Heni Wijayanti, Sp.M (HWJ)",
-    gambar:
-      "https://images.unsplash.com/photo-1659353885824-1199aeeebfc6?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    gambar: null,
     biodata_singkat: "dokter baik",
 
     id_poli: "7fc5d07f-2f99-433a-b78a-4f56a5045db3",
@@ -1298,8 +1282,7 @@ const dokter = [
   {
     id_dokter: "17f1b3db7-f8fc-4a4e-9db6-101e7b34a017",
     nama: "dr. Dini Fitrilia, Sp.THT- KL (DNI)",
-    gambar:
-      "https://images.unsplash.com/photo-1659353885824-1199aeeebfc6?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    gambar: null,
     biodata_singkat: "dokter baik",
     id_poli: "3a8de13d-6d5a-426f-b15f-b12e9b1b87c1",
   },

@@ -122,9 +122,9 @@ const { auth } = require("../middlewares/auth-middleware");
 Route.post(
   "/",
   auth,
-  multerErrorHandler,
   multerConfig.single("file"),
-  dokterController.createDokter
+  dokterController.createDokter,
+  multerErrorHandler
 );
 
 /**
