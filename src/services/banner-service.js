@@ -1,6 +1,9 @@
 const { BadRequestError, NotFoundError } = require("../utils/error");
 const prisma = require("../prisma/prismaClient");
 const imageKit = require("../configs/imagekit-config");
+const fs = require("fs");
+const path = require("path");
+const sharp = require("sharp");
 
 class BannerService {
   static async createBanner({ files }) {
@@ -17,31 +20,47 @@ class BannerService {
       );
     }
 
-    const uploadPromises = files.map(async (file) => {
-      const stringImage = file.buffer.toString("base64");
-      return await imageKit.upload({
-        fileName: file.originalname,
-        file: stringImage,
+    const uploadedImages = await Promise.all(
+      files.map(async (file) => {
+      console.log("File received:", file);
+      let imageUrl = null;
+      if (file && file.path) {
+        const originalFileSize = fs.statSync(file.path).size;
+        console.log("Original file size (bytes):", originalFileSize);
+
+        const resizedImagePath = path.resolve(
+        file.destination,
+        "resized",
+        file.filename
+        );
+        await sharp(file.path)
+        .jpeg({ quality: 50 })
+        .png({ quality: 50 })
+        .toFile(resizedImagePath);
+
+        const resizedFileSize = fs.statSync(resizedImagePath).size;
+        console.log("Resized file size (bytes):", resizedFileSize);
+
+        fs.unlinkSync(file.path);
+        imageUrl = `../../uploads/resized/${file.filename}`;
+        console.log("Image resized and uploaded to:", imageUrl);
+      }
+      console.log("Image uploaded to:", imageUrl);
+
+      const savedBanner = await prisma.banner.create({
+        data: {
+        gambar: imageUrl,
+        },
       });
-    });
 
-    const uploadedImages = await Promise.all(uploadPromises);
-    const bannerData = await Promise.all(
-      uploadedImages.map(async (image) => {
-        const savedBanner = await prisma.banner.create({
-          data: {
-            gambar: image.url,
-          },
-        });
-
-        return {
-          id_banner: savedBanner.id_banner,
-          gambar: savedBanner.gambar,
-        };
+      return {
+        id_banner: savedBanner.id_banner,
+        gambar: savedBanner.gambar,
+      };
       })
     );
 
-    return bannerData;
+    return uploadedImages;
   }
 
   static async getBanner() {
