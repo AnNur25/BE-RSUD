@@ -42,31 +42,6 @@ class AduanController {
     }
   }
 
-  // static async getAduanById(req, res) {
-  //   try {
-  //     const { id } = req.params;
-  //     const data = await aduanService.getAduanById(id);
-  //     responseHelper.success(res, data, "Data aduan berhasil ditemukan.");
-  //   } catch (error) {
-  //     responseHelper.error(res, error);
-  //   }
-  // }
-
-  // static async updateAduan(req, res) {
-  //   try {
-  //     const { id } = req.params;
-  //     const { judul, deskripsi, no_wa } = req.body;
-  //     const data = await aduanService.updateAduan(id, {
-  //       judul,
-  //       deskripsi,
-  //       no_wa,
-  //     });
-  //     responseHelper.success(res, data, "Aduan berhasil diperbarui.");
-  //   } catch (error) {
-  //     responseHelper.error(res, error);
-  //   }
-  // }
-
   static async deleteAduan(req, res) {
     try {
       const { id } = req.params;
@@ -76,16 +51,6 @@ class AduanController {
       responseHelper.error(res, error);
     }
   }
-
-  // static async aduanIsRead(req, res) {
-  //   try {
-  //     const { id } = req.params;
-  //     const data = await aduanService.markAsRead(id);
-  //     responseHelper.success(res, data, "Aduan telah ditandai sebagai dibaca.");
-  //   } catch (error) {
-  //     responseHelper.error(res, error);
-  //   }
-  // }
 
   static async replyAduan(req, res) {
     try {
