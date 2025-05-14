@@ -46,7 +46,7 @@ app.use(
 
 app.use("/swagger-ui", express.static(swaggerUiDist.getAbsoluteFSPath()));
 
-app.use("/auth", authRoute);
+app.use("/api/v1/auth", authRoute);
 app.use("/", profileRoute);
 app.use("/dokter", dokterRoute);
 app.use("/pelayanan", pelayananRoute);

@@ -3,7 +3,7 @@ const route = express.Router();
 const komentarController = require("../controllers/komentar-controller");
 const { auth } = require("../middlewares/auth-middleware");
 
-//======route komentar======
+
 route.post("/:id_berita/komentar", komentarController.addKomentar);
 // route.get("/:id/list-komentar", komentarController.listKomentar);
 // // route.post("/:id/:id_komentar", auth, komentarController.replayKomentar);

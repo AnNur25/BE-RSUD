@@ -5,8 +5,14 @@ const passport = require("passport");
 class AuthController {
   static async registerAdmin(req, res) {
     try {
-      const { nama, email, password } = req.body;
-      const result = await authService.registerAdmin({ nama, email, password });
+      const { nama, email, password, no_wa, role } = req.body;
+      const result = await authService.registerAdmin({
+        nama,
+        email,
+        password,
+        no_wa,
+        role,
+      });
       return responseHelper.created(
         res,
         result,

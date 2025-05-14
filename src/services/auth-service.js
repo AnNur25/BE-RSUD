@@ -2,13 +2,12 @@ const prisma = require("../prisma/prismaClient");
 const { BadRequestError, NotFoundError } = require("../utils/error");
 const bcrypt = require("bcrypt");
 const JwtHelper = require("../utils/jwt-sign");
+const { Role } = require("@prisma/client");
 
 class AuthService {
-  static async registerAdmin({ nama, email, password }) {
-    if (!nama || !email || !password) {
-      throw new BadRequestError(
-        "Semua field (nama, email, password) harus diisi"
-      );
+  static async registerAdmin({ nama, email, password, no_wa, role }) {
+    if (!nama || !email || !password || !no_wa) {
+      throw new BadRequestError("Semua field harus diisi");
     }
 
     const existingUser = await prisma.user.findUnique({ where: { email } });
@@ -21,6 +20,8 @@ class AuthService {
       data: {
         nama,
         email,
+        no_wa,
+        role: Role[role] || Role.USER,
         password: hashedPassword,
       },
     });

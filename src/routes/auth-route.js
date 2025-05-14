@@ -1,10 +1,4 @@
 const express = require("express");
-// const rateLimit = require("express-rate-limit");
-// const loginLimiter = rateLimit({
-//   windowMs: 15 * 60 * 1000,
-//   max: 5,
-//   message: "Terlalu banyak percobaan login, coba lagi nanti",
-// });
 const router = express.Router();
 const authController = require("../controllers/auth-controller");
 const { auth } = require("../middlewares/auth-middleware");
@@ -95,7 +89,7 @@ const { auth } = require("../middlewares/auth-middleware");
  *                                  type: string
  *                                  example: "Internal Server Error."
  */
-router.post("/register-admin", authController.registerAdmin);
+router.post("/register", authController.registerAdmin);
 
 /**
  * @swagger
