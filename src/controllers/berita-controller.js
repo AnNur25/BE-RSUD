@@ -82,8 +82,8 @@ class Berita {
   static async uploadGambar(req, res) {
     try {
       const { id } = req.params;
-      const file = req.files;
-      const gambar = await beritaService.uploadGambar({ id }, file);
+      const files = req.files;
+      const gambar = await beritaService.uploadGambar({ id }, files);
       return responseHelper.created(res, gambar, "Gambar berhasil diunggah");
     } catch (error) {
       return responseHelper.error(res, error);

@@ -16,6 +16,7 @@ model User {
   resetTokenExp   DateTime?  
   
   responAdmin ResponAdmin[]
+  komentar komentar[]
 }
 
 model Banner{
@@ -46,6 +47,17 @@ model Berita {
   gambar_sampul   String
   createdAt       DateTime @default(now())
   gambar_tambahan Gambar[]
+}
+
+model komentar {
+  id_komentar String @id @default(uuid())
+  nama String
+  no_wa String
+  isi_komentar String
+  user_id String?
+
+  user User? @relation(fields: [user_id], references: [id_user])
+
 }
 
 model Gambar {

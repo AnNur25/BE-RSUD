@@ -217,7 +217,7 @@ class BeritaService {
 
     return gambarList;
   }
-  static async uploadGambar({ id }, file) {
+  static async uploadGambar({ id }, files) {
     if (!id) {
       throw new BadRequestError("ID Berita tidak ditemukan");
     }
@@ -235,30 +235,54 @@ class BeritaService {
     const jumlahGambar = await prisma.gambar.count({
       where: { beritaId: id },
     });
-    const totalGambar = jumlahGambar + file.length;
+    const totalGambar = jumlahGambar + files.length;
     if (totalGambar > 4) {
       throw new BadRequestError(
         `Maksimal 4 gambar per berita. Saat ini sudah ada ${jumlahGambar} gambar.`
       );
     }
-    const uploadPromises = file.map(async (file) => {
-      const stringImage = file.buffer.toString("base64");
-      return await imageKit.upload({
-        fileName: file.originalname,
-        file: stringImage,
+    const uploadedImages = await Promise.all(
+      files.map(async (file) => {
+      console.log("File received:", file);
+      let imageUrl = null;
+      if (file && file.path) {
+        const originalFileSize = fs.statSync(file.path).size;
+        console.log("Original file size (bytes):", originalFileSize);
+
+        const resizedImagePath = path.resolve(
+        file.destination,
+        "resized",
+        file.filename
+        );
+        await sharp(file.path)
+        .jpeg({ quality: 50 })
+        .png({ quality: 50 })
+        .toFile(resizedImagePath);
+
+        const resizedFileSize = fs.statSync(resizedImagePath).size;
+        console.log("Resized file size (bytes):", resizedFileSize);
+
+        fs.unlinkSync(file.path);
+        imageUrl = `../../uploads/resized/${file.filename}`;
+        console.log("Image resized and uploaded to:", imageUrl);
+      }
+      console.log("Image uploaded to:", imageUrl);
+
+      const savedGambar = await prisma.gambar.create({
+        data: {
+        url: imageUrl,
+        },
       });
-    });
 
-    const uploadedImages = await Promise.all(uploadPromises);
+      return {
+        id: savedGambar.id,
+        url: savedGambar.url,
+      };
+      })
+    );
 
-    const gambarData = uploadedImages.map((image) => ({
-      url: image.url,
-      beritaId: id,
-    }));
 
-    await prisma.gambar.createMany({ data: gambarData });
-
-    return gambarData;
+    return uploadedImages;
   }
   static async deleteGambar({ beritaId, ids }) {
     if (!Array.isArray(ids) || ids.length === 0) {
