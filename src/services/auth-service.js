@@ -5,7 +5,7 @@ const JwtHelper = require("../utils/jwt-sign");
 const { Role } = require("@prisma/client");
 
 class AuthService {
-  static async registerAdmin({ nama, email, password, no_wa, role }) {
+  static async register({ nama, email, password, no_wa, role }) {
     if (!nama || !email || !password || !no_wa) {
       throw new BadRequestError("Semua field harus diisi");
     }

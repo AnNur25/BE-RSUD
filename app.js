@@ -10,11 +10,11 @@ const {
   NotFoundError,
 } = require("./src/utils/error");
 const responseHelper = require("./src/utils/response");
-const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const swaggerSpec = require("./src/configs/swagger-config");
 const swaggerUiDist = require("swagger-ui-dist");
 const authRoute = require("./src/routes/auth-route");
+const oauthRoute = require("./src/routes/oauth-route");
 const profileRoute = require("./src/routes/profil-route");
 const dokterRoute = require("./src/routes/dokter-route");
 const pelayananRoute = require("./src/routes/pelayanan-route");
@@ -28,7 +28,6 @@ const postinganRoutes = require("./src/routes/postingan-route");
 const komentarRoute = require("./src/routes/komentar-route");
 const port = envConfig.port;
 
-// app.use(cookieParser());
 app.use(
   cors({ allowedHeaders: ["Content-Type", "Authorization"], credentials: true })
 );
@@ -47,6 +46,7 @@ app.use(
 app.use("/swagger-ui", express.static(swaggerUiDist.getAbsoluteFSPath()));
 
 app.use("/api/v1/auth", authRoute);
+app.use("/api/v1/auth", oauthRoute);
 app.use("/", profileRoute);
 app.use("/dokter", dokterRoute);
 app.use("/pelayanan", pelayananRoute);
