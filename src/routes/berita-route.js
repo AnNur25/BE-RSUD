@@ -4,7 +4,6 @@ const { auth } = require("../middlewares/auth-middleware");
 const multer = require("../middlewares/multer-middleware");
 const multerErrorHandler = require("../middlewares/multer-error-handling-middleware");
 
-
 //======route berita=======
 /**
  * @swagger
@@ -610,7 +609,6 @@ route.put(
   beritaController.updateBerita
 );
 
-
 //=======route galeri========
 
 /**
@@ -1041,12 +1039,6 @@ route.post(
   beritaController.uploadGambar
 );
 
-//======route komentar======
-route.post('/:id/komentar', beritaController.addKomentar);
-route.get('/:id/list-komentar', beritaController.listKomentar);
-route.post('/:id/:id_komentar',auth, beritaController.replayKomentar)
-route.patch('/:id_komentar', auth, beritaController.isVisibleBerita)
-route.delete(':id')
 /**
  * @swagger
  * components:
