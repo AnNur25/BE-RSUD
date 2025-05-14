@@ -47,6 +47,7 @@ model Berita {
   gambar_sampul   String
   createdAt       DateTime @default(now())
   gambar_tambahan Gambar[]
+  komentar komentar[]
 }
 
 model komentar {
@@ -54,8 +55,10 @@ model komentar {
   nama String
   no_wa String
   isi_komentar String
+  berita_id String
   user_id String?
 
+  berita Berita @relation(fields: [berita_id], references: [id_berita])
   user User? @relation(fields: [user_id], references: [id_user])
 
 }
