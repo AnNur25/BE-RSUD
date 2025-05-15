@@ -2,7 +2,7 @@ const route = require("express").Router();
 const bannerController = require("../controllers/banner-controller");
 const multerErrorHandler = require("../middlewares/multer-error-handling-middleware");
 const multer = require("../middlewares/multer-middleware");
-const { auth } = require("../middlewares/auth-middleware");
+const { auth, authorizeRole } = require("../middlewares/auth-middleware");
 
 /**
  * @swagger
