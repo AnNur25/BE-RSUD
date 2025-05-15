@@ -1,13 +1,14 @@
 const multer = require("multer");
-const path = require("path");
-const fs = require("fs");
-const sharp = require("sharp");
+const path = require("path");//Menangani jalur file & ambil ekstensi
+const fs = require("fs");//cek dan buat folder unggahan
 
+//===route folder uunggahan===
 const uploadFile = path.join(__dirname, "../../uploads");
 if (!fs.existsSync(uploadFile)) {
   fs.mkdirSync(uploadFile);
 }
 
+//===config penyimpanan===
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, uploadFile);
@@ -19,6 +20,7 @@ const storage = multer.diskStorage({
   },
 });
 
+//===filter mime===
 const fileFilter = (req, file, cb) => {
   const allowedMimeTypes = ["image/jpeg", "image/png"];
 
@@ -29,6 +31,7 @@ const fileFilter = (req, file, cb) => {
   }
 };
 
+//===config multer dengan diskstorage,filter,limit===
 const multerCloud = multer({
   storage: storage,
   fileFilter: fileFilter,

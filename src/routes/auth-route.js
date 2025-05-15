@@ -1,11 +1,5 @@
 const express = require("express");
-// const rateLimit = require("express-rate-limit");
-// const loginLimiter = rateLimit({
-//   windowMs: 15 * 60 * 1000,
-//   max: 5,
-//   message: "Terlalu banyak percobaan login, coba lagi nanti",
-// });
-const router = express.Router();
+const route = express.Router();
 const authController = require("../controllers/auth-controller");
 const { auth } = require("../middlewares/auth-middleware");
 
@@ -95,7 +89,7 @@ const { auth } = require("../middlewares/auth-middleware");
  *                                  type: string
  *                                  example: "Internal Server Error."
  */
-router.post("/register-admin", authController.registerAdmin);
+route.post("/register", authController.register);
 
 /**
  * @swagger
@@ -187,7 +181,7 @@ router.post("/register-admin", authController.registerAdmin);
  *                   type: string
  *                   example: "Internal Server Error."
  */
-router.post("/login", authController.login);
+route.post("/login", authController.login);
 
 /**
  * @swagger
@@ -229,7 +223,7 @@ router.post("/login", authController.login);
  *                   type: string
  *                   example: "Terjadi kesalahan pada server."
  */
-// router.post("/refresh-token", authController.refreshToken);
+// route.post("/refresh-token", authController.refreshToken);
 
 /**
  * @swagger
@@ -278,11 +272,8 @@ router.post("/login", authController.login);
  *                   type: string
  *                   example: "Unexpected error occurred."
  */
-router.post("/logout", auth, authController.logout);
+route.post("/logout", auth, authController.logout);
 
-// Google OAuth
-router.get("/google", authController.googleLogin);
-router.get("/google/callback", authController.googleCallback);
 /**
  * @swagger
  * components:
@@ -299,7 +290,7 @@ router.get("/google/callback", authController.googleCallback);
  *       description: |
  *         Refresh token disimpan dalam cookie HttpOnly dan digunakan untuk memperoleh access token baru.
  */
-module.exports = router;
+module.exports = route;
 
 // router.post("/register-pj", authController.registerPJ);
 /*

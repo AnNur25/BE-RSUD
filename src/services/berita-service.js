@@ -1,12 +1,13 @@
 const prisma = require("../prisma/prismaClient");
 const { BadRequestError, NotFoundError } = require("../utils/error");
 const Pagination = require("../utils/pagination");
-const path = require("path");
+const path = require("path"); //salah satu properti dari object file yang menunjuk ke lokasi file di disk/server
 const sharp = require("sharp");
 const fs = require("fs");
+const { connect } = require("http2");
 
 class BeritaService {
-  static async createBerita({ judul, ringkasan, isi }, file) {
+  static async createBerita({ judul, ringkasan, isi, file }) {
     if (!file || !judul || !ringkasan || !isi) {
       throw new BadRequestError(" Semua field harus diisi");
     }
@@ -132,7 +133,7 @@ class BeritaService {
       gambar_tambahan: berita.gambar_tambahan.map((gambar) => gambar.url),
     };
   }
-  static async updateBerita({ id }, { judul, ringkasan, isi }, file) {
+  static async updateBerita({ id, judul, ringkasan, isi, file }) {
     if (!id || !judul || !ringkasan || !isi) {
       throw new BadRequestError(" Semua field harus diisi");
     }
@@ -216,7 +217,7 @@ class BeritaService {
 
     return gambarList;
   }
-  static async uploadGambar({ id }, files) {
+  static async uploadGambar({ id, files }) {
     if (!id) {
       throw new BadRequestError("ID Berita tidak ditemukan");
     }
@@ -242,44 +243,48 @@ class BeritaService {
     }
     const uploadedImages = await Promise.all(
       files.map(async (file) => {
-      console.log("File received:", file);
-      let imageUrl = null;
-      if (file && file.path) {
-        const originalFileSize = fs.statSync(file.path).size;
-        console.log("Original file size (bytes):", originalFileSize);
+        console.log("File received:", file);
+        let imageUrl = null;
+        if (file && file.path) {
+          const originalFileSize = fs.statSync(file.path).size;
+          console.log("Original file size (bytes):", originalFileSize);
 
-        const resizedImagePath = path.resolve(
-        file.destination,
-        "resized",
-        file.filename
-        );
-        await sharp(file.path)
-        .jpeg({ quality: 50 })
-        .png({ quality: 50 })
-        .toFile(resizedImagePath);
+          const resizedImagePath = path.resolve(
+            file.destination,
+            "resized",
+            file.filename
+          );
+          await sharp(file.path)
+            .jpeg({ quality: 50 })
+            .png({ quality: 50 })
+            .toFile(resizedImagePath);
 
-        const resizedFileSize = fs.statSync(resizedImagePath).size;
-        console.log("Resized file size (bytes):", resizedFileSize);
+          const resizedFileSize = fs.statSync(resizedImagePath).size;
+          console.log("Resized file size (bytes):", resizedFileSize);
 
-        fs.unlinkSync(file.path);
-        imageUrl = `../../uploads/resized/${file.filename}`;
-        console.log("Image resized and uploaded to:", imageUrl);
-      }
-      console.log("Image uploaded to:", imageUrl);
+          fs.unlinkSync(file.path);
+          imageUrl = `../../uploads/resized/${file.filename}`;
+          console.log("Image resized and uploaded to:", imageUrl);
+        }
+        console.log("Image uploaded to:", imageUrl);
+        const idBerita = berita.id_berita;
+        const savedGambar = await prisma.gambar.create({
+          data: {
+            url: imageUrl,
+            berita: {
+              connect: {
+                id_berita: idBerita,
+              },
+            },
+          },
+        });
 
-      const savedGambar = await prisma.gambar.create({
-        data: {
-        url: imageUrl,
-        },
-      });
-
-      return {
-        id: savedGambar.id,
-        url: savedGambar.url,
-      };
+        return {
+          id: savedGambar.id,
+          url: savedGambar.url,
+        };
       })
     );
-
 
     return uploadedImages;
   }
