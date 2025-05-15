@@ -62,11 +62,19 @@ model komentar {
   nama String
   no_wa String
   isi_komentar String
+  isVisible Boolean @default(false)
   berita_id String
   user_id String?
 
+  
+  // Self-reference untuk reply komentar
+  parentId       String?       
+  parent         komentar?     @relation("KomentarParent", fields: [parentId], references: [id_komentar])
+  replies        komentar[]    @relation("KomentarParent")
+
   berita Berita @relation(fields: [berita_id], references: [id_berita])
   user User? @relation(fields: [user_id], references: [id_user])
+  createdAt DateTime @default(now())
 
 }
 
