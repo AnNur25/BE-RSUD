@@ -24,7 +24,7 @@ const aduanRoute = require("./src/routes/aduan-route");
 const beritaRoute = require("./src/routes/berita-route");
 const bannerRoute = require("./src/routes/banner-route");
 const layananUnggulanRoute = require("./src/routes/layanan-unggulan-route");
-const postinganRoutes = require("./src/routes/postingan-route");
+// const postinganRoutes = require("./src/routes/postingan-route");
 const komentarRoute = require("./src/routes/komentar-route");
 const embedRoute = require("./src/routes/embed-route");
 const port = envConfig.port;
@@ -58,8 +58,12 @@ app.use("/berita", beritaRoute);
 app.use("/berita", komentarRoute);
 app.use("/banner", bannerRoute);
 app.use("/layanan-unggulan", layananUnggulanRoute);
-// app.use("/api/v1/embed", embedRoute);
-app.use("/", postinganRoutes);
+// <<<<<<< komentar
+// // app.use("/", postinganRoutes);
+// =======
+// // app.use("/api/v1/embed", embedRoute);
+// app.use("/", postinganRoutes);
+// >>>>>>> 2-development
 
 app.use((err, req, res, next) => {
   console.error(err);
