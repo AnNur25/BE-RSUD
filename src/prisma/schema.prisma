@@ -108,6 +108,10 @@ model Pelayanan {
   Biaya          Float
   jadwaldokter   JadwalDokter[]
 }
+model MediaSosial{
+  id_media_sosial String @id @default(uuid())
+  link  String?
+}
 
 model Dokter {
   id_dokter    String         @id @default(uuid())
