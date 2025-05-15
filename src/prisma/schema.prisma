@@ -56,6 +56,10 @@ model Berita {
   gambar_tambahan Gambar[]
   komentar komentar[]
 }
+model embed{
+  id_embed String @id @default(uuid())
+  link_embed String 
+}
 
 model komentar {
   id_komentar String @id @default(uuid())

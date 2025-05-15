@@ -209,11 +209,10 @@ class komentarService {
       );
     }
 
-    // Buat balasan komentar
     const balasan = await prisma.komentar.create({
       data: {
         isi_komentar,
-        berita_id: id_berita, // Pastikan kesesuaian dengan nama field di model
+        berita_id: id_berita,
         user_id: id_user || null,
         nama,
         no_wa,
