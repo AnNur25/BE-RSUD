@@ -17,7 +17,6 @@ const multerErrorHandler = (err, req, res, next) => {
       message: errorMessages[err.code] || "Error upload file",
     });
   }
-  // Menangani error lain
   else if (err) {
     return res.status(400).json({
       statusCode: 400,

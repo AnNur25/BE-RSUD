@@ -5,10 +5,12 @@ class Berita {
     try {
       const { judul, ringkasan, isi } = req.body;
       const file = req.file;
-      const berita = await beritaService.createBerita(
-        { judul, ringkasan, isi },
-        file
-      );
+      const berita = await beritaService.createBerita({
+        judul,
+        ringkasan,
+        isi,
+        file,
+      });
       return responseHelper.created(res, berita, "Berita berhasil dibuat");
     } catch (error) {
       return responseHelper.error(res, error);
@@ -45,11 +47,13 @@ class Berita {
       const { id } = req.params;
       const { judul, ringkasan, isi } = req.body;
       const file = req.file;
-      const berita = await beritaService.updateBerita(
-        { id },
-        { judul, ringkasan, isi },
-        file
-      );
+      const berita = await beritaService.updateBerita({
+        id,
+        judul,
+        ringkasan,
+        isi,
+        file,
+      });
       return responseHelper.success(res, berita, "Berita berhasil diperbarui");
     } catch (error) {
       return responseHelper.error(res, error);
@@ -83,7 +87,7 @@ class Berita {
     try {
       const { id } = req.params;
       const files = req.files;
-      const gambar = await beritaService.uploadGambar({ id }, files);
+      const gambar = await beritaService.uploadGambar({ id, files });
       return responseHelper.created(res, gambar, "Gambar berhasil diunggah");
     } catch (error) {
       return responseHelper.error(res, error);

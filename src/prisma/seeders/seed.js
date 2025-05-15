@@ -1,11 +1,13 @@
 require("dotenv").config();
 const prisma = require("../prismaClient");
+const { Role } = require("@prisma/client");
 
 const users = [
   {
     id_user: "a12f44b8-98d6-4d24-b1c4-2921bd3ce7f2",
     nama: "RS Balung",
-    email: "ahmadfariddd5@gmail.com",
+    role: Role.USER,
+    email: "ahmadfarid5@gmail.com",
     password: "ahazain12345",
   },
 ];

@@ -244,7 +244,7 @@ class DokterService {
     if (!poli || !dokter)
       throw new NotFoundError("Poli atau dokter tidak ditemukan");
 
-    let imageUrl = null;
+    let imageUrl = dokter.gambar;
     if (file && file.path) {
       const originalFileSize = fs.statSync(file.path).size;
       console.log("Original file size (bytes):", originalFileSize);

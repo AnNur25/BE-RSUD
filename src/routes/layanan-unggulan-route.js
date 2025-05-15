@@ -102,13 +102,13 @@ const { auth } = require("../middlewares/auth-middleware");
  *                   type: string
  *                   example: "Internal Server Error"
  */
-// route.post(
-//   "/",
-//   auth,
-//   multer.array("file"),
-//   multerErrorHandler,
-//   layananUnggulan.createLayananUnggulan
-// );
+route.post(
+  "/",
+  auth,
+  multer.array("file"),
+  multerErrorHandler,
+  layananUnggulan.createLayananUnggulan
+);
 
 /**
  * @swagger
