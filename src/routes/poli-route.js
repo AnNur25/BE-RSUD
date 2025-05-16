@@ -1,7 +1,7 @@
 const express = require("express");
 const Route = express.Router();
 const poliController = require("../controllers/poli-controller");
-const { auth } = require("../middlewares/auth-middleware");
+const { auth, authorizeRole } = require("../middlewares/auth-middleware");
 
 /**
  * @swagger
@@ -101,7 +101,7 @@ const { auth } = require("../middlewares/auth-middleware");
  *                   type: string
  *                   example: "Internal Server Error"
  */
-Route.post("/", auth, poliController.createPoli);
+Route.post("/", auth, authorizeRole("ADMIN"), poliController.createPoli);
 
 /**
  * @swagger
@@ -500,7 +500,7 @@ Route.get("/:id_poli/dokter", auth, poliController.getDokterByPoli);
  *                   type: string
  *                   example: "Internal Server Error"
  */
-Route.put("/:id_poli", auth, poliController.updatePoli);
+Route.put("/:id_poli", auth, authorizeRole("ADMIN"), poliController.updatePoli);
 
 /**
  * @swagger
