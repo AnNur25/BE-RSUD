@@ -30,7 +30,7 @@ const komentarRoute = require("./src/routes/komentar-route");
 const mediaSosial = require("./src/routes/media-sosial-route");
 const port = envConfig.port;
 
-app.use(cookieParser(cookieSecret));
+app.use(cookieParser());
 app.use(
   cors({ allowedHeaders: ["Content-Type", "Authorization"], credentials: true })
 );
@@ -50,7 +50,7 @@ app.use("/swagger-ui", express.static(swaggerUiDist.getAbsoluteFSPath()));
 
 app.use("/api/v1/auth", authRoute);
 app.use("/api/v1/auth", oauthRoute);
-app.use("/", profileRoute);
+app.use("/api/v1", profileRoute);
 app.use("/dokter", dokterRoute);
 app.use("/pelayanan", pelayananRoute);
 app.use("/poli", poliRoute);
@@ -61,17 +61,17 @@ app.use("/berita", komentarRoute);
 app.use("/banner", bannerRoute);
 app.use("/layanan-unggulan", layananUnggulanRoute);
 app.use("/api/v1/media-sosial", mediaSosial);
-
 app.use((err, req, res, next) => {
   console.error(err);
-  if (
-    err instanceof UnauthorizedError ||
-    err instanceof BadRequestError ||
-    err instanceof NotFoundError
-  ) {
-    return responseHelper.error(res, err);
-  }
-  return responseHelper.error(res, new Error("Internal Server Error"));
+
+  const statusCode = err.statusCode || 500;
+  const message = err.message || "Internal Server Error";
+
+  return res.status(statusCode).json({
+    success: false,
+    statusCode,
+    message,
+  });
 });
 
 app.get("/", (req, res) => {

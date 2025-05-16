@@ -3,33 +3,36 @@ const cookie = require("cookie-signature");
 const { cookieSecret, aksesSecret } = require("../configs/env-config");
 
 function auth(req, res, next) {
-  const rawToken = req.cookies.aksesToken;
-  if (!rawToken) {
-    const error = new Error("Token tidak ditemukan");
-    error.statusCode = 401;
-    error.status = "Failed";
-    return next(error);
-  }
-
-  const unsigned = cookie.unsign(rawToken, cookieSecret);
-
-  if (!unsigned) {
-    const error = new Error("Token tidak valid(signature tidak cocok)");
-    error.statusCode = 401;
-    error.status = "Failed";
-    return next(error);
-  }
-
-  jwt.verify(unsigned, aksesSecret, (error, user) => {
-    if (error) {
-      const error = new Error("Token JWT tidak valid atau sudah expired");
+  try {
+    const rawToken = req.cookies.aksesToken;
+    if (!rawToken) {
+      const error = new Error("Token tidak ditemukan");
       error.statusCode = 401;
-      error.status = "Failed";
-      return next(error);
+      throw error;
     }
-    req.user = user;
-    next();
-  });
+
+    const unsigned = cookie.unsign(rawToken, cookieSecret);
+    if (!unsigned) {
+      const error = new Error("Token tidak valid (signature tidak cocok)");
+      error.statusCode = 401;
+      throw error;
+    }
+
+    jwt.verify(unsigned, aksesSecret, (error, user) => {
+      if (error) {
+        const error = new Error("Token JWT tidak valid atau sudah expired");
+        error.statusCode = 401;
+        error.status = "Failed";
+        next(error);
+      }
+      req.user = user;
+      next();
+    });
+  } catch (error) {
+    error.statusCode = error.statusCode || 401;
+    error.status = "Failed";
+    next(error); // ✅ lempar ke global error handler
+  }
 }
 
 function authorizeRole(...roles) {
@@ -45,3 +48,4 @@ function authorizeRole(...roles) {
 }
 
 module.exports = { auth, authorizeRole };
+

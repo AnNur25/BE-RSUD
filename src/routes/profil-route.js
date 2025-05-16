@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const profilController = require("../controllers/profil-controller");
 
-const { auth } = require("../middlewares/auth-middleware");
+const { auth, authorizeRole } = require("../middlewares/auth-middleware");
 
 /**
  * @swagger
@@ -99,7 +99,19 @@ const { auth } = require("../middlewares/auth-middleware");
  *                   type: string
  *                   example: "Detail error dari server."
  */
-router.get("/profil", auth, profilController.getProfile);
+router.get(
+  "/profil",
+  auth,
+  authorizeRole("ADMIN", "USER"),
+  profilController.getProfile
+);
+
+router.put(
+  "/profil",
+  auth,
+  authorizeRole("USER"),
+  profilController.updateProfil
+);
 
 /**
  * @swagger
@@ -199,7 +211,12 @@ router.get("/profil", auth, profilController.getProfile);
  *                   type: string
  *                   example: "Detail error dari server."
  */
-router.put("/profil", auth, profilController.updatePassw);
+router.put(
+  "/profil",
+  auth,
+  authorizeRole("ADMIN", "USER"),
+  profilController.updatePassw
+);
 
 /**
  * @swagger

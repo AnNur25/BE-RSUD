@@ -36,6 +36,30 @@ class ProfilService {
       email: foundUser.email,
     };
   }
+  static async updateProfil({ nama, email, no_wa, user }) {
+    if (!nama || !email || !no_wa) {
+      throw new BadRequestError("Semua field (nama, email, no_wa) wajib diisi");
+    }
+
+    const existingUser = await prisma.user.findUnique({
+      where: { id_user: user.id_user },
+    });
+
+    if (!existingUser) {
+      throw new NotFoundError("User tidak ditemukan");
+    }
+
+    const updatedUser = await prisma.user.update({
+      where: { id_user: user.id_user },
+      data: {
+        nama,
+        email,
+        no_wa,
+      },
+    });
+
+    return updatedUser;
+  }
 
   static async updatePassw(user, body) {
     if (!user || !user.email) {
