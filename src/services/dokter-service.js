@@ -20,43 +20,60 @@ class DokterService {
         "Nama, id poli, dan biodata_singkat harus diisi"
       );
     }
-    console.log("File received:", file);
+
     let imageUrl = null;
+
     if (file && file.path) {
       const originalFileSize = fs.statSync(file.path).size;
       console.log("Original file size (bytes):", originalFileSize);
 
-      const resizedImagePath = path.resolve(
-        file.destination,
-        "resized",
-        file.filename
+      const resizedFolderPath = path.resolve(file.destination, "resized");
+
+      // Buat folder 'resized' jika belum ada
+      if (!fs.existsSync(resizedFolderPath)) {
+        fs.mkdirSync(resizedFolderPath, { recursive: true });
+      }
+
+      // Ganti ekstensi ke .webp
+      const webpFilename = file.filename.replace(
+        path.extname(file.filename),
+        ".webp"
       );
-      await sharp(file.path)
-        .jpeg({ quality: 50 })
-        .png({ quality: 50 })
-        .toFile(resizedImagePath);
+
+      const resizedImagePath = path.resolve(resizedFolderPath, webpFilename);
+
+      // Resize dan convert ke .webp
+      await sharp(file.path).webp({ quality: 50 }).toFile(resizedImagePath);
 
       const resizedFileSize = fs.statSync(resizedImagePath).size;
       console.log("Resized file size (bytes):", resizedFileSize);
 
+      // Hapus file sementara hasil upload multer
       fs.unlinkSync(file.path);
-      imageUrl = `../../uploads/resized/${file.filename}`;
+
+      // URL untuk akses gambar dari frontend
+      imageUrl = `${process.env.FRONTEND_URL}/uploads/resized/${webpFilename}`;
       console.log("Image resized and uploaded to:", imageUrl);
     }
-    console.log("Image uploaded to:", imageUrl);
 
     const addData = await prisma.dokter.create({
       data: {
-        nama, //object property shorthand.
+        nama,
         gambar: imageUrl,
         biodata_singkat,
         link_linkedin,
         link_instagram,
         link_facebook,
-        poli: { connect: { id_poli } },
+        poli: {
+          connect: { id_poli },
+        },
       },
     });
-    return { id: addData.id_dokter, nama: addData.nama };
+
+    return {
+      id: addData.id_dokter,
+      nama: addData.nama,
+    };
   }
 
   static async searchDokter({ page, pageSize, keyword }) {
@@ -229,45 +246,66 @@ class DokterService {
     id_poli,
     file,
   }) {
+    // Validasi data wajib
     if (!id_dokter || !nama || !id_poli || !biodata_singkat) {
       throw new BadRequestError(
         "ID Dokter, biodata_singkat, Nama, dan ID Poli harus diisi"
       );
     }
 
-    const dokter = await prisma.dokter.findUnique({
-      where: { id_dokter },
-    });
-    const poli = await prisma.poli.findUnique({
-      where: { id_poli },
-    });
-    if (!poli || !dokter)
-      throw new NotFoundError("Poli atau dokter tidak ditemukan");
+    // Cek apakah dokter dan poli tersedia
+    const dokter = await prisma.dokter.findUnique({ where: { id_dokter } });
+    const poli = await prisma.poli.findUnique({ where: { id_poli } });
 
+    if (!dokter || !poli) {
+      throw new NotFoundError("Poli atau dokter tidak ditemukan");
+    }
+
+    // Gunakan gambar lama jika tidak ada gambar baru
     let imageUrl = dokter.gambar;
+
+    // Proses upload gambar baru
     if (file && file.path) {
+      // Hapus gambar lama jika ada
+      if (dokter.gambar && dokter.gambar.includes("/uploads/resized/")) {
+        const oldImageFilename = path.basename(dokter.gambar);
+        const oldImagePath = path.resolve(
+          file.destination,
+          "resized",
+          oldImageFilename
+        );
+
+        if (fs.existsSync(oldImagePath)) {
+          fs.unlinkSync(oldImagePath);
+        }
+      }
+
+      // Logging ukuran file asli
       const originalFileSize = fs.statSync(file.path).size;
       console.log("Original file size (bytes):", originalFileSize);
+      // Ganti ekstensi ke .webp
+      const newFilename = `${path.parse(file.filename).name}.webp`;
 
       const resizedImagePath = path.resolve(
         file.destination,
         "resized",
-        file.filename
+        newFilename
       );
-      await sharp(file.path)
-        .jpeg({ quality: 50 })
-        .png({ quality: 50 })
-        .toFile(resizedImagePath);
 
+      // Konversi ke .webp
+      await sharp(file.path).webp({ quality: 50 }).toFile(resizedImagePath);
+      // Logging ukuran file hasil resize
       const resizedFileSize = fs.statSync(resizedImagePath).size;
       console.log("Resized file size (bytes):", resizedFileSize);
 
+      // Hapus file asli
       fs.unlinkSync(file.path);
-      imageUrl = `../../uploads/resized/${file.filename}`;
-      console.log("Image resized and uploaded to:", imageUrl);
-    }
-    console.log("Image uploaded to:", imageUrl);
 
+      // Path yang bisa diakses frontend
+      imageUrl = `${process.env.BASE_URL}/uploads/resized/${newFilename}`;
+    }
+
+    // Update data dokter
     const updated = await prisma.dokter.update({
       where: { id_dokter },
       data: {
@@ -277,9 +315,7 @@ class DokterService {
         link_linkedin,
         link_instagram,
         link_facebook,
-        poli: {
-          connect: { id_poli },
-        },
+        poli: { connect: { id_poli } },
       },
     });
 
@@ -290,18 +326,33 @@ class DokterService {
   }
 
   static async deleteDokter({ id_dokter }) {
-    const dokterExists = await prisma.dokter.findUnique({
-      where: { id_dokter: id_dokter },
-    });
+    // Cek dulu apakah dokter ada
+    const dokter = await prisma.dokter.findUnique({ where: { id_dokter } });
 
-    if (!dokterExists) {
-      throw new NotFoundError(`Dokter dengan ID ${id_dokter} tidak ditemukan`);
+    if (!dokter) {
+      throw new NotFoundError("Dokter tidak ditemukan");
     }
-    await prisma.dokter.delete({
-      where: { id_dokter },
-    });
 
-    return null;
+    // Jika ada gambar yang tersimpan, hapus dari folder lokal
+    if (dokter.gambar && dokter.gambar.includes("/uploads/resized/")) {
+      const oldImageFilename = path.basename(dokter.gambar); // ambil nama file saja
+      const oldImagePath = path.resolve("uploads", "resized", oldImageFilename); // path lokal
+
+      if (fs.existsSync(oldImagePath)) {
+        fs.unlinkSync(oldImagePath);
+        console.log("Gambar berhasil dihapus dari folder:", oldImageFilename);
+      } else {
+        console.log(
+          "Gambar tidak ditemukan di folder lokal:",
+          oldImageFilename
+        );
+      }
+    }
+
+    // Hapus data dokter dari database
+    await prisma.dokter.delete({ where: { id_dokter } });
+
+    return { message: "Dokter berhasil dihapus" };
   }
 }
 

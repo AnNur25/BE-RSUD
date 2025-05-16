@@ -1,7 +1,7 @@
 const express = require("express");
 const route = express.Router();
 const JadwalDokterController = require("../controllers/jadwal-dokter-controller");
-const { auth } = require("../middlewares/auth-middleware");
+const { auth, authorizeRole } = require("../middlewares/auth-middleware");
 /**
  * @swagger
  * /jadwal-dokter/search:
@@ -578,7 +578,12 @@ route.get("/", JadwalDokterController.getAllJadwalDokter);
  *                   type: string
  *                   example: "Internal Server Error"
  */
-route.post("/", auth, JadwalDokterController.createJadwalDokter);
+route.post(
+  "/",
+  auth,
+  authorizeRole("ADMIN"),
+  JadwalDokterController.createJadwalDokter
+);
 
 /**
  * @swagger
@@ -718,7 +723,12 @@ route.post("/", auth, JadwalDokterController.createJadwalDokter);
  *                   type: string
  *                   example: "Internal Server Error"
  */
-route.put("/:id_dokter", auth, JadwalDokterController.updateJadwalDokter);
+route.put(
+  "/:id_dokter",
+  auth,
+  authorizeRole("ADMIN"),
+  JadwalDokterController.updateJadwalDokter
+);
 
 /**
  * @swagger
@@ -794,6 +804,7 @@ route.put("/:id_dokter", auth, JadwalDokterController.updateJadwalDokter);
 route.delete(
   "/:id_dokter",
   auth,
+  authorizeRole("ADMIN"),
   JadwalDokterController.deleteJadwalDokterByDokterId
 );
 
