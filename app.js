@@ -29,6 +29,8 @@ const layananUnggulanRoute = require("./src/routes/layanan-unggulan-route");
 const komentarRoute = require("./src/routes/komentar-route");
 const mediaSosial = require("./src/routes/media-sosial-route");
 const port = envConfig.port;
+require("./src/cron/delete-komentar-cron");
+require("./src/cron/cleanup-revoked-token-cron");
 
 app.use(cookieParser());
 app.use(
