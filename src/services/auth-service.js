@@ -9,7 +9,6 @@ class AuthService {
     if (!nama || !email || !password || !no_wa) {
       throw new BadRequestError("Semua field harus diisi");
     }
-   
 
     const existingUser = await prisma.user.findUnique({ where: { email } });
     if (existingUser) {
@@ -44,8 +43,9 @@ class AuthService {
     if (!isMatch) {
       throw new BadRequestError("Invalid email or password");
     }
-    const token = JwtHelper.generateToken(user);
-    return { token };
+    const aksesToken = JwtHelper.generateToken(user);
+    const refreshToken = JwtHelper.generateRefresToken(user);
+    return { aksesToken, refreshToken, user };
   }
 
   static async logout(res) {

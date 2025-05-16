@@ -1,6 +1,8 @@
 require("dotenv").config();
 const envConfig = require("./src/configs/env-config");
+const { cookieSecret } = require("./src/configs/env-config");
 const express = require("express");
+const cookieParser = require("cookie-parser");
 const app = express();
 require("./src/configs/passport-config"); //Hanya dijalankan sekali saat app boot | Maka passport.use(...) sudah teregistrasi ke singleton passport secara global
 const swaggerUi = require("swagger-ui-express");
@@ -24,11 +26,11 @@ const aduanRoute = require("./src/routes/aduan-route");
 const beritaRoute = require("./src/routes/berita-route");
 const bannerRoute = require("./src/routes/banner-route");
 const layananUnggulanRoute = require("./src/routes/layanan-unggulan-route");
-// const postinganRoutes = require("./src/routes/postingan-route");
 const komentarRoute = require("./src/routes/komentar-route");
 const mediaSosial = require("./src/routes/media-sosial-route");
 const port = envConfig.port;
 
+app.use(cookieParser(cookieSecret));
 app.use(
   cors({ allowedHeaders: ["Content-Type", "Authorization"], credentials: true })
 );

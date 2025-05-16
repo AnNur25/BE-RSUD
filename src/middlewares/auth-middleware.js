@@ -1,20 +1,31 @@
 const jwt = require("jsonwebtoken");
-const config = require("../configs/env-config");
-const { UnauthorizedError } = require("../utils/error");
-const secret = config.secretKey;
+const cookie = require("cookie-signature");
+const { cookieSecret, aksesSecret } = require("../configs/env-config");
 
 function auth(req, res, next) {
-  const authorization = req.headers["authorization"];
-  if (!authorization) {
-    return next(new UnauthorizedError("Authorization tidak ditemukan"));
+  const rawToken = req.cookies.aksesToken;
+  if (!rawToken) {
+    const error = new Error("Token tidak ditemukan");
+    error.statusCode = 401;
+    error.status = "Failed";
+    return next(error);
   }
-  const token = authorization.split(" ")[1];
-  if (!token) {
-    return next(new UnauthorizedError("Token tidak ditemukan"));
+
+  const unsigned = cookie.unsign(rawToken, cookieSecret);
+
+  if (!unsigned) {
+    const error = new Error("Token tidak valid(signature tidak cocok)");
+    error.statusCode = 401;
+    error.status = "Failed";
+    return next(error);
   }
-  jwt.verify(token, secret, (error, user) => {
+
+  jwt.verify(unsigned, aksesSecret, (error, user) => {
     if (error) {
-      return next(new UnauthorizedError("Token tidak valid"));
+      const error = new Error("Token JWT tidak valid atau sudah expired");
+      error.statusCode = 401;
+      error.status = "Failed";
+      return next(error);
     }
     req.user = user;
     next();
