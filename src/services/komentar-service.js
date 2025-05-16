@@ -3,6 +3,16 @@ const prisma = require("../prisma/prismaClient");
 const { connect } = require("../routes/berita-route");
 class komentarService {
   static async addKomentar({ id_berita, nama, no_wa, isi_komentar }) {
+    console.log("DEBUG ADD KOMENTAR:", {
+      id_berita,
+      nama,
+      no_wa,
+      isi_komentar,
+      typeof_nama: typeof nama,
+      typeof_no_wa: typeof no_wa,
+      typeof_isi: typeof isi_komentar,
+    });
+
     if (!id_berita || !nama || !no_wa || !isi_komentar) {
       throw new BadRequestError("Semua field wajib di isi");
     }
@@ -178,6 +188,8 @@ class komentarService {
     nama,
     no_wa,
   }) {
+    
+
     if (!id_berita || !id_komentar || !isi_komentar) {
       throw new BadRequestError(
         "Berita ID, komentar ID, dan isi komentar wajib diisi"
@@ -217,7 +229,7 @@ class komentarService {
         nama,
         no_wa,
         parentId: id_komentar,
-        isVisible: false,
+        isVisible: true,
       },
     });
 

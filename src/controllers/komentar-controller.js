@@ -8,12 +8,8 @@ class KomentarController {
       const { nama: inputNama, no_wa: inputNoWa, isi_komentar } = req.body;
       const user = req.user;
 
-      const nama = inputNama || (user && user.nama);
-      const no_wa = inputNoWa || (user && user.no_wa);
-
-      if (!nama || !no_wa || !isi_komentar) {
-        return response.badRequest(res, "Semua field wajib diisi");
-      }
+      const nama = inputNama ?? user?.nama ?? null;
+      const no_wa = inputNoWa ?? user?.no_wa ?? null;
 
       const data = await komentarService.addKomentar({
         id_berita,
@@ -21,11 +17,14 @@ class KomentarController {
         no_wa,
         isi_komentar,
       });
+
       return response.created(res, data, "berhasil menambah komentar");
     } catch (error) {
+      console.error("ERROR ADD KOMENTAR:", error);
       return response.error(res, error);
     }
   }
+
   static async listKomentar(req, res) {
     try {
       const dataKomentar = await komentarService.listKomentar();
@@ -65,8 +64,14 @@ class KomentarController {
   static async replayKomentar(req, res) {
     try {
       const { id_berita, id_komentar } = req.params;
-      const { message, nama: inputNama, no_wa: inputNoWa } = req.body;
+      const { nama: inputNama, no_wa: inputNoWa, isi_komentar } = req.body;
       const user = req.user;
+
+      console.log("DEBUG REPLAY KOMENTAR:", {
+        id_berita,
+        id_komentar,
+        isi_komentar,
+      });
 
       let nama = inputNama;
       let no_wa = inputNoWa;
@@ -81,7 +86,7 @@ class KomentarController {
         id_berita,
         id_komentar,
         id_user: user?.id_user,
-        isi_komentar: message,
+        isi_komentar,
         nama,
         no_wa,
       });
