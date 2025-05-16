@@ -21,41 +21,41 @@ class BannerService {
 
     const uploadedImages = await Promise.all(
       files.map(async (file) => {
-      console.log("File received:", file);
-      let imageUrl = null;
-      if (file && file.path) {
-        const originalFileSize = fs.statSync(file.path).size;
-        console.log("Original file size (bytes):", originalFileSize);
+        console.log("File received:", file);
+        let imageUrl = null;
+        if (file && file.path) {
+          const originalFileSize = fs.statSync(file.path).size;
+          console.log("Original file size (bytes):", originalFileSize);
 
-        const resizedImagePath = path.resolve(
-        file.destination,
-        "resized",
-        file.filename
-        );
-        await sharp(file.path)
-        .jpeg({ quality: 50 })
-        .png({ quality: 50 })
-        .toFile(resizedImagePath);
+          const resizedImagePath = path.resolve(
+            file.destination,
+            "resized",
+            file.filename
+          );
+          await sharp(file.path)
+            .jpeg({ quality: 50 })
+            .png({ quality: 50 })
+            .toFile(resizedImagePath);
 
-        const resizedFileSize = fs.statSync(resizedImagePath).size;
-        console.log("Resized file size (bytes):", resizedFileSize);
+          const resizedFileSize = fs.statSync(resizedImagePath).size;
+          console.log("Resized file size (bytes):", resizedFileSize);
 
-        fs.unlinkSync(file.path);
-        imageUrl = `../../uploads/resized/${file.filename}`;
-        console.log("Image resized and uploaded to:", imageUrl);
-      }
-      console.log("Image uploaded to:", imageUrl);
+          fs.unlinkSync(file.path);
+          imageUrl = `../../uploads/resized/${file.filename}`;
+          console.log("Image resized and uploaded to:", imageUrl);
+        }
+        console.log("Image uploaded to:", imageUrl);
 
-      const savedBanner = await prisma.banner.create({
-        data: {
-        gambar: imageUrl,
-        },
-      });
+        const savedBanner = await prisma.banner.create({
+          data: {
+            gambar: imageUrl,
+          },
+        });
 
-      return {
-        id_banner: savedBanner.id_banner,
-        gambar: savedBanner.gambar,
-      };
+        return {
+          id_banner: savedBanner.id_banner,
+          gambar: savedBanner.gambar,
+        };
       })
     );
 
@@ -76,20 +76,13 @@ class BannerService {
     if (!ids || !Array.isArray(ids) || ids.length === 0) {
       throw new BadRequestError("ID banner yang akan dihapus tidak ditemukan");
     }
-    console.log("ID yang dikirim:", ids);
 
     const existingBanners = await prisma.banner.findMany({
       where: { id_banner: { in: ids } },
-      select: { id_banner: true },
+      select: { id_banner: true, gambar: true }, // sesuaikan field
     });
 
-    console.log(
-      "ID yang ditemukan:",
-      existingBanners.map((b) => b.id_banner)
-    );
-
     const existingIds = existingBanners.map((banner) => banner.id_banner);
-
     const invalidIds = ids.filter((id) => !existingIds.includes(id));
     if (invalidIds.length > 0) {
       throw new NotFoundError(
@@ -97,6 +90,16 @@ class BannerService {
       );
     }
 
+    // Hapus file gambarnya
+    for (const banner of existingBanners) {
+      const imageRelativePath = banner.gambar.replace("../../", ""); // jadi 'uploads/resized/namafile.jpg'
+      const filePath = path.resolve(imageRelativePath);
+      if (fs.existsSync(filePath)) {
+        fs.unlinkSync(filePath); // atau pakai fs.promises.unlink(filePath)
+      }
+    }
+
+    // Hapus data dari DB
     await prisma.banner.deleteMany({
       where: { id_banner: { in: ids } },
     });
