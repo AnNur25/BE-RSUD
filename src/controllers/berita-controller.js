@@ -3,13 +3,14 @@ const responseHelper = require("../utils/response");
 class Berita {
   static async createBerita(req, res) {
     try {
-      const { judul, ringkasan, isi } = req.body;
+      const { judul, ringkasan, isi, tanggal_berita } = req.body;
       const file = req.file;
       const berita = await beritaService.createBerita({
         judul,
         ringkasan,
         isi,
         file,
+        tanggal_berita
       });
       return responseHelper.created(res, berita, "Berita berhasil dibuat");
     } catch (error) {
@@ -45,13 +46,14 @@ class Berita {
   static async updateBerita(req, res) {
     try {
       const { id } = req.params;
-      const { judul, ringkasan, isi } = req.body;
+      const { judul, ringkasan, isi, tanggal_berita } = req.body;
       const file = req.file;
       const berita = await beritaService.updateBerita({
         id,
         judul,
         ringkasan,
         isi,
+        tanggal_berita,
         file,
       });
       return responseHelper.success(res, berita, "Berita berhasil diperbarui");
