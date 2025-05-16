@@ -1,6 +1,6 @@
 const route = require("express").Router();
 const beritaController = require("../controllers/berita-controller");
-const { auth } = require("../middlewares/auth-middleware");
+const { auth, authorizeRole } = require("../middlewares/auth-middleware");
 const multer = require("../middlewares/multer-middleware");
 const multerErrorHandler = require("../middlewares/multer-error-handling-middleware");
 
@@ -113,6 +113,7 @@ const multerErrorHandler = require("../middlewares/multer-error-handling-middlew
 route.post(
   "/",
   auth,
+  authorizeRole("ADMIN"),
   multer.single("gambar_sampul"),
   beritaController.createBerita,
   multerErrorHandler
@@ -604,6 +605,7 @@ route.get("/:id", beritaController.getBeritaById);
 route.put(
   "/:id",
   auth,
+  authorizeRole("ADMIN"),
   multerErrorHandler,
   multer.single("gambar_sampul"),
   beritaController.updateBerita
@@ -698,7 +700,12 @@ route.put(
  *                   type: string
  *                   example: "Internal Server Error"
  */
-route.delete("/:id", auth, beritaController.deleteBerita);
+route.delete(
+  "/:id",
+  auth,
+  authorizeRole("ADMIN"),
+  beritaController.deleteBerita
+);
 
 /**
  * @swagger
@@ -905,7 +912,12 @@ route.get("/:id/galeri-berita", auth, beritaController.getGaleriBerita);
  *                   type: string
  *                   example: "Internal Server Error"
  */
-route.delete("/:id/galeri-berita", auth, beritaController.deleteGambar);
+route.delete(
+  "/:id/galeri-berita",
+  auth,
+  authorizeRole("ADMIN"),
+  beritaController.deleteGambar
+);
 
 /**
  * @swagger
@@ -1034,6 +1046,7 @@ route.delete("/:id/galeri-berita", auth, beritaController.deleteGambar);
 route.post(
   "/:id/galeri-berita",
   auth,
+  authorizeRole("ADMIN"),
   multer.array("gambar_tambahan"),
   multerErrorHandler,
   beritaController.uploadGambar
