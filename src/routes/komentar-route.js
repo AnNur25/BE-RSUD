@@ -1,7 +1,7 @@
 const express = require("express");
 const route = express.Router();
 const komentarController = require("../controllers/komentar-controller");
-const { auth } = require("../middlewares/auth-middleware");
+const { auth, authorizeRole } = require("../middlewares/auth-middleware");
 
 /**
  * @swagger
@@ -106,7 +106,12 @@ const { auth } = require("../middlewares/auth-middleware");
  *                   type: string
  *                   example: "Internal Server Error"
  */
-route.post("/:id_berita/komentar", auth, komentarController.addKomentar);
+route.post(
+  "/:id_berita/komentar",
+  auth,
+  authorizeRole("ADMIN"),
+  komentarController.addKomentar
+);
 
 /**
  * @swagger
@@ -204,17 +209,23 @@ route.post("/:id_berita/komentar", auth, komentarController.addKomentar);
  *                   type: string
  *                   example: "Internal Server Error"
  */
-route.get("/:id/komentar", komentarController.listKomentar);
+route.get(
+  "/:id/komentar",
+  authorizeRole("ADMIN"),
+  komentarController.listKomentar
+);
 
 route.get("/:id/komentar/visible", komentarController.listKomentarVisible);
 route.patch(
   "/:id/komentar/:id_komentar",
   auth,
+  authorizeRole("ADMIN"),
   komentarController.isVisibleKomentar
 );
 route.post(
-  "/:id_berita/komentar/:id_komentar/replay",
+  "/:id_berita/komentar/:id_komentar/reply",
   auth,
+  authorizeRole("ADMIN", "USER"),
   komentarController.replayKomentar
 );
 
