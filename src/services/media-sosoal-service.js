@@ -37,6 +37,15 @@ class MediaSosialServis {
       }
     }
   }
+
+  static async getMediaSosial() {
+    const existingData = await prisma.embedIg.findMany();
+    if (!existingData) {
+      throw new NotFoundError("data tidak ada / kosong");
+    }
+
+    return existingData;
+  }
 }
 
 module.exports = MediaSosialServis;

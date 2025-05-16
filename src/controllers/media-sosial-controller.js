@@ -31,6 +31,14 @@ class MediaSosialController {
       return response.error(res, error);
     }
   }
+  static async getMediaSosial(req,res){
+    try {
+      const data = await mediaSosialServis.getMediaSosial();
+      return response.success(res, data, "berhasil menampilkan embed ig")
+    } catch (error) {
+      return response.error(res,error)
+    }
+  }
 }
 
 module.exports = MediaSosialController;
