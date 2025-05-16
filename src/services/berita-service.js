@@ -6,8 +6,8 @@ const sharp = require("sharp");
 const fs = require("fs");
 
 class BeritaService {
-  static async createBerita({ judul, ringkasan, isi, file }) {
-    if (!file || !judul || !ringkasan || !isi) {
+  static async createBerita({ judul, ringkasan, isi, file, tanggal_berita }) {
+    if (!file || !judul || !ringkasan || !isi || !tanggal_berita) {
       // Jika file sudah terupload tapi data tidak lengkap, hapus file supaya gak numpuk
       if (file && file.path && fs.existsSync(file.path)) {
         fs.unlinkSync(file.path);
@@ -17,6 +17,11 @@ class BeritaService {
 
     console.log("File received:", file);
     let imageUrl = null;
+    const resizedFolderPath = path.resolve(file.destination, "resized");
+
+    if (!fs.existsSync(resizedFolderPath)) {
+      fs.mkdirSync(resizedFolderPath, { recursive: true });
+    }
 
     try {
       if (file && file.path) {
@@ -51,6 +56,7 @@ class BeritaService {
           judul,
           ringkasan,
           isi,
+          tanggal_berita,
           gambar_sampul: imageUrl,
         },
       });
@@ -59,6 +65,11 @@ class BeritaService {
         id: beritaBaru.id_berita,
         judul: beritaBaru.judul,
         tanggal_dibuat: new Intl.DateTimeFormat("id-ID", {
+          day: "2-digit",
+          month: "long",
+          year: "numeric",
+        }).format(new Date(beritaBaru.tanggal_berita)),
+        tanggal_default: new Intl.DateTimeFormat("id-ID", {
           day: "2-digit",
           month: "long",
           year: "numeric",
@@ -109,6 +120,11 @@ class BeritaService {
         day: "2-digit",
         month: "long",
         year: "numeric",
+      }).format(new Date(berita.tanggal_berita)),
+      tanggal_default: new Intl.DateTimeFormat("id-ID", {
+        day: "2-digit",
+        month: "long",
+        year: "numeric",
       }).format(new Date(berita.createdAt)),
     }));
 
@@ -147,12 +163,26 @@ class BeritaService {
         year: "numeric",
         hour: "2-digit",
         minute: "2-digit",
+      }).format(new Date(berita.tanggal_berita)),
+      tanggal_default: new Intl.DateTimeFormat("id-ID", {
+        day: "2-digit",
+        month: "long",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
       }).format(new Date(berita.createdAt)),
       gambar_tambahan: berita.gambar_tambahan.map((gambar) => gambar.url),
     };
   }
-  static async updateBerita({ id, judul, ringkasan, isi, file }) {
-    if (!id || !judul || !ringkasan || !isi) {
+  static async updateBerita({
+    id,
+    judul,
+    ringkasan,
+    isi,
+    file,
+    tanggal_berita,
+  }) {
+    if (!id || !judul || !ringkasan || !isi || !tanggal_berita) {
       if (file && file.path && fs.existsSync(file.path)) {
         fs.unlinkSync(file.path);
       }
@@ -216,6 +246,7 @@ class BeritaService {
           judul,
           ringkasan,
           isi,
+          tanggal_berita,
           gambar_sampul: imageUrl,
         },
       });
@@ -224,6 +255,11 @@ class BeritaService {
         id: updatedBerita.id_berita,
         judul: updatedBerita.judul,
         tanggal_dibuat: new Intl.DateTimeFormat("id-ID", {
+          day: "2-digit",
+          month: "long",
+          year: "numeric",
+        }).format(new Date(updatedBerita.tanggal_berita)),
+        tanggal_default: new Intl.DateTimeFormat("id-ID", {
           day: "2-digit",
           month: "long",
           year: "numeric",
@@ -460,6 +496,11 @@ class BeritaService {
       ringkasan: potongKalimat(berita.ringkasan, 20),
       gambar_sampul: berita.gambar_sampul,
       tanggal_dibuat: new Intl.DateTimeFormat("id-ID", {
+        day: "2-digit",
+        month: "long",
+        year: "numeric",
+      }).format(new Date(berita.tanggal_berita)),
+      tanggal_default: new Intl.DateTimeFormat("id-ID", {
         day: "2-digit",
         month: "long",
         year: "numeric",

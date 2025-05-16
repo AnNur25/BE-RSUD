@@ -56,6 +56,7 @@ model Berita {
   ringkasan       String
   isi             String
   gambar_sampul   String
+  tanggal_berita  String?
   createdAt       DateTime @default(now())
   gambar_tambahan Gambar[]
   komentar Komentar[]
@@ -103,14 +104,14 @@ model Aduan {
   createdAt   DateTime      @default(now())
   responAdmin ResponAdmin[]
 }
-model Postingan {
-  id                 Int      @id @default(autoincrement())
-  caption            String
-  image_url          String
-  post_to_instagram  Boolean  @default(false)
-  instagram_post_status String? // Bisa berisi "SUCCESS", "FAILED", atau null
-  created_at         DateTime @default(now())
-}
+// model Postingan {
+//   id                 Int      @id @default(autoincrement())
+//   caption            String
+//   image_url          String
+//   post_to_instagram  Boolean  @default(false)
+//   instagram_post_status String? // Bisa berisi "SUCCESS", "FAILED", atau null
+//   created_at         DateTime @default(now())
+// }
 
 
 model ResponAdmin {
