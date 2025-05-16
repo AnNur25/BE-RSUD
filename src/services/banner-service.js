@@ -14,37 +14,39 @@ class BannerService {
     const totalBanner = jumlahBanner + files.length;
 
     if (totalBanner > 4) {
+      files.forEach((file) => {
+        if (file.path && fs.existsSync(file.path)) {
+          fs.unlinkSync(file.path);
+        }
+      });
+
       throw new BadRequestError(
         `Maksimal 4 banner. Saat ini sudah ada ${jumlahBanner} banner.`
       );
     }
 
-    const uploadedImages = await Promise.all(
-      files.map(async (file) => {
-        console.log("File received:", file);
-        let imageUrl = null;
-        if (file && file.path) {
-          const originalFileSize = fs.statSync(file.path).size;
-          console.log("Original file size (bytes):", originalFileSize);
+    const uploadedImages = [];
+    const savedBanners = [];
 
-          const resizedImagePath = path.resolve(
-            file.destination,
-            "resized",
-            file.filename
-          );
-          await sharp(file.path)
-            .jpeg({ quality: 50 })
-            .png({ quality: 50 })
-            .toFile(resizedImagePath);
+    try {
+      for (const file of files) {
+        const originalPath = file.path;
+        const fileNameWithoutExt = path.parse(file.filename).name;
+        const webpFilename = `${fileNameWithoutExt}.webp`;
 
-          const resizedFileSize = fs.statSync(resizedImagePath).size;
-          console.log("Resized file size (bytes):", resizedFileSize);
+        const resizedPath = path.resolve(
+          file.destination,
+          "resized",
+          webpFilename
+        );
 
-          fs.unlinkSync(file.path);
-          imageUrl = `../../uploads/resized/${file.filename}`;
-          console.log("Image resized and uploaded to:", imageUrl);
-        }
-        console.log("Image uploaded to:", imageUrl);
+        // Resize dan konversi ke .webp
+        await sharp(originalPath).webp({ quality: 50 }).toFile(resizedPath);
+
+        // Hapus file original
+        if (fs.existsSync(originalPath)) fs.unlinkSync(originalPath);
+
+        const imageUrl = `${process.env.FRONTEND_URL}/uploads/resized/${webpFilename}`;
 
         const savedBanner = await prisma.banner.create({
           data: {
@@ -52,14 +54,40 @@ class BannerService {
           },
         });
 
-        return {
+        uploadedImages.push({
           id_banner: savedBanner.id_banner,
           gambar: savedBanner.gambar,
-        };
-      })
-    );
+        });
+        savedBanners.push(savedBanner);
+      }
 
-    return uploadedImages;
+      return uploadedImages;
+    } catch (error) {
+      // Rollback semua: hapus file dan data DB
+      files.forEach((file) => {
+        const fileNameWithoutExt = path.parse(file.filename).name;
+        const webpFilename = `${fileNameWithoutExt}.webp`;
+
+        const resizedPath = path.resolve(
+          file.destination,
+          "resized",
+          webpFilename
+        );
+        if (fs.existsSync(resizedPath)) fs.unlinkSync(resizedPath);
+
+        if (file.path && fs.existsSync(file.path)) {
+          fs.unlinkSync(file.path);
+        }
+      });
+
+      for (const saved of savedBanners) {
+        await prisma.banner.delete({
+          where: { id_banner: saved.id_banner },
+        });
+      }
+
+      throw error;
+    }
   }
 
   static async getBanner() {
@@ -85,6 +113,11 @@ class BannerService {
     const existingIds = existingBanners.map((banner) => banner.id_banner);
     const invalidIds = ids.filter((id) => !existingIds.includes(id));
     if (invalidIds.length > 0) {
+      files.forEach((file) => {
+        if (file && file.path && fs.existsSync(file.path)) {
+          fs.unlinkSync(file.path);
+        }
+      });
       throw new NotFoundError(
         `Banner dengan ID berikut tidak ditemukan: ${invalidIds.join(", ")}`
       );
