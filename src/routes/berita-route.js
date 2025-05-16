@@ -611,7 +611,7 @@ route.put(
   beritaController.updateBerita
 );
 
-//=======route galeri========
+
 
 /**
  * @swagger
@@ -706,6 +706,8 @@ route.delete(
   authorizeRole("ADMIN"),
   beritaController.deleteBerita
 );
+
+//=======route galeri========
 
 /**
  * @swagger
@@ -802,7 +804,7 @@ route.delete(
  *                   type: string
  *                   example: "Internal Server Error"
  */
-route.get("/:id/galeri-berita", auth, beritaController.getGaleriBerita);
+route.get("/:id/galeri-berita", beritaController.getGaleriBerita);
 
 /**
  * @swagger
