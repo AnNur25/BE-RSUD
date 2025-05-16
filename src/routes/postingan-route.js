@@ -1,14 +1,14 @@
-// app.js atau index.js - File utama aplikasi Express
-require("dotenv").config();
-const express = require("express");
-const sharp = require("sharp");
-const router = express.Router();
-const prisma = require("../prisma/prismaClient"); // sesuaikan path-nya
-const imageKit = require("../configs/imagekit-config"); // sesuaikan path-nya
-const { IgApiClient } = require("instagram-private-api");
-const { get } = require("request-promise");
-const multerConfig = require("../middlewares/multer-middleware");
-const multerErrorHandler = require("../middlewares/multer-error-handling-middleware");
+// // app.js atau index.js - File utama aplikasi Express
+// require("dotenv").config();
+// const express = require("express");
+// const sharp = require("sharp");
+// const router = express.Router();
+// const prisma = require("../prisma/prismaClient"); // sesuaikan path-nya
+// const imageKit = require("../configs/imagekit-config"); // sesuaikan path-nya
+// const { IgApiClient } = require("instagram-private-api");
+// const { get } = require("request-promise");
+// const multerConfig = require("../middlewares/multer-middleware");
+// const multerErrorHandler = require("../middlewares/multer-error-handling-middleware");
 
 // /**
 //  * Function to post image to Instagram

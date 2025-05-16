@@ -1,24 +1,39 @@
-const prisma = require("../prisma/client"); // contoh prisma client
+const prisma = require("../prisma/prismaClient"); // contoh prisma client
+const { BadRequestError, NotFoundError } = require("../utils/error");
 
 class MediaSosialServis {
   static async updateLinks(links) {
-    const existingEmbeds = await prisma.iGEmbed.findMany({
-      take: 4,
-      orderBy: { id: "asc" },
+    // Validasi: maksimal 4 link
+    if (links.length > 4) {
+      throw new BadRequestError("Maksimal 4 link yang diperbolehkan");
+    }
+
+    // Ambil semua embed yang ada, urutkan supaya update konsisten
+    const existingEmbeds = await prisma.embedIg.findMany({
+      orderBy: { createdAt: "asc" },
     });
 
-    if (existingEmbeds.length === 4) {
-      for (let i = 0; i < 4; i++) {
-        await prisma.iGEmbed.update({
-          where: { id: existingEmbeds[i].id },
-          data: { link: links[i] },
+    // Update atau tambahkan embed baru
+    for (let i = 0; i < links.length; i++) {
+      if (existingEmbeds[i]) {
+        await prisma.embedIg.update({
+          where: { id_embed: existingEmbeds[i].id_embed },
+          data: { link_embed: links[i] },
+        });
+      } else {
+        await prisma.embedIg.create({
+          data: { link_embed: links[i] },
         });
       }
-    } else {
-      // Kalau belum lengkap, hapus semua dulu lalu insert ulang
-      await prisma.iGEmbed.deleteMany({});
-      for (const link of links) {
-        await prisma.iGEmbed.create({ data: { link } });
+    }
+
+    // Hapus embed yang tidak diperlukan (kelebihan dari 4 atau dari panjang links)
+    if (existingEmbeds.length > links.length) {
+      const embedsToDelete = existingEmbeds.slice(links.length);
+      for (const embed of embedsToDelete) {
+        await prisma.embedIg.delete({
+          where: { id_embed: embed.id_embed },
+        });
       }
     }
   }

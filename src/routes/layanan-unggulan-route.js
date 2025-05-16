@@ -4,111 +4,112 @@ const multerErrorHandler = require("../middlewares/multer-error-handling-middlew
 const multer = require("../middlewares/multer-middleware");
 const { auth } = require("../middlewares/auth-middleware");
 
-/**
- * @swagger
- * /layanan-unggulan:
- *   post:
- *     summary: Membuat layanan unggulan baru
- *     description: Endpoint untuk membuat layanan unggulan baru beserta upload gambar dan caption masing-masing gambar.
- *     tags:
- *       - Layanan Unggulan
- *     security:
- *       - bearerAuth: []
- *     requestBody:
- *       required: true
- *       content:
- *         multipart/form-data:
- *           schema:
- *             type: object
- *             required:
- *               - judul
- *               - deskripsi
- *               - file
- *               - gambarCaption
- *             properties:
- *               judul:
- *                 type: string
- *                 example: "Program Bedah Rumah"
- *               deskripsi:
- *                 type: string
- *                 example: "Program bantuan renovasi rumah tidak layak huni."
- *               file:
- *                 type: array
- *                 items:
- *                   type: string
- *                   format: binary
- *                 description: Upload gambar (minimal 1, maksimal 4 gambar)
- *               gambarCaption:
- *                 type: string
- *                 example: '[{"caption":"Tampak depan rumah"}, {"caption":"Proses renovasi"}, {"caption":"Tampak belakang rumah"}]'
- *     responses:
- *       "201":
- *         description: Layanan Unggulan berhasil dibuat
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: "Layanan Unggulan berhasil dibuat."
- *                 data:
- *                   type: object
- *                   properties:
- *                     id:
- *                       type: string
- *                       example: "okok"
- *                     judul:
- *                       type: string
- *                       example: "Program Bedah Rumah"
- *                     deskripsi:
- *                       type: string
- *                       example: "Program bantuan renovasi rumah tidak layak huni."
- *                     gambarCaptions:
- *                       type: array
- *                       items:
- *                         type: object
- *                         properties:
- *                           id:
- *                             type: string
- *                             example: "ojio7bj"
- *                           gambar:
- *                             type: string
- *                             example: "https://ik.imagekit.io/abc123/bedah-rumah-1.jpg"
- *                           nama_file:
- *                             type: string
- *                             example: "bedah-rumah-1.jpg"
- *                           caption:
- *                             type: string
- *                             example: "Tampak depan rumah"
- *       "400":
- *         description: Validasi gagal (seperti jumlah gambar, caption kosong, atau format salah)
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: "Format gambarCaption tidak valid: Format caption harus berupa array"
- *       "500":
- *         description: Terjadi kesalahan server
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: "Internal Server Error"
- */
-route.post(
-  "/",
-  auth,
-  multer.array("file"),
-  multerErrorHandler,
-  layananUnggulan.createLayananUnggulan
-);
+// /**
+//  * @swagger
+//  * /layanan-unggulan:
+//  *   post:
+//  *     summary: Membuat layanan unggulan baru
+//  *     description: Endpoint untuk membuat layanan unggulan baru beserta upload gambar dan caption masing-masing gambar.
+//  *     tags:
+//  *       - Layanan Unggulan
+//  *     security:
+//  *       - bearerAuth: []
+//  *     requestBody:
+//  *       required: true
+//  *       content:
+//  *         multipart/form-data:
+//  *           schema:
+//  *             type: object
+//  *             required:
+//  *               - judul
+//  *               - deskripsi
+//  *               - file
+//  *               - gambarCaption
+//  *             properties:
+//  *               judul:
+//  *                 type: string
+//  *                 example: "Program Bedah Rumah"
+//  *               deskripsi:
+//  *                 type: string
+//  *                 example: "Program bantuan renovasi rumah tidak layak huni."
+//  *               file:
+//  *                 type: array
+//  *                 items:
+//  *                   type: string
+//  *                   format: binary
+//  *                 description: Upload gambar (minimal 1, maksimal 4 gambar)
+//  *               gambarCaption:
+//  *                 type: string
+//  *                 example: '[{"caption":"Tampak depan rumah"}, {"caption":"Proses renovasi"}, {"caption":"Tampak belakang rumah"}]'
+//  *     responses:
+//  *       "201":
+//  *         description: Layanan Unggulan berhasil dibuat
+//  *         content:
+//  *           application/json:
+//  *             schema:
+//  *               type: object
+//  *               properties:
+//  *                 message:
+//  *                   type: string
+//  *                   example: "Layanan Unggulan berhasil dibuat."
+//  *                 data:
+//  *                   type: object
+//  *                   properties:
+//  *                     id:
+//  *                       type: string
+//  *                       example: "okok"
+//  *                     judul:
+//  *                       type: string
+//  *                       example: "Program Bedah Rumah"
+//  *                     deskripsi:
+//  *                       type: string
+//  *                       example: "Program bantuan renovasi rumah tidak layak huni."
+//  *                     gambarCaptions:
+//  *                       type: array
+//  *                       items:
+//  *                         type: object
+//  *                         properties:
+//  *                           id:
+//  *                             type: string
+//  *                             example: "ojio7bj"
+//  *                           gambar:
+//  *                             type: string
+//  *                             example: "https://ik.imagekit.io/abc123/bedah-rumah-1.jpg"
+//  *                           nama_file:
+//  *                             type: string
+//  *                             example: "bedah-rumah-1.jpg"
+//  *                           caption:
+//  *                             type: string
+//  *                             example: "Tampak depan rumah"
+//  *       "400":
+//  *         description: Validasi gagal (seperti jumlah gambar, caption kosong, atau format salah)
+//  *         content:
+//  *           application/json:
+//  *             schema:
+//  *               type: object
+//  *               properties:
+//  *                 message:
+//  *                   type: string
+//  *                   example: "Format gambarCaption tidak valid: Format caption harus berupa array"
+//  *       "500":
+//  *         description: Terjadi kesalahan server
+//  *         content:
+//  *           application/json:
+//  *             schema:
+//  *               type: object
+//  *               properties:
+//  *                 message:
+//  *                   type: string
+//  *                   example: "Internal Server Error"
+//  */
+
+// route.post(
+//   "/",
+//   auth,
+//   multer.array("file"),
+//   multerErrorHandler,
+//   layananUnggulan.createLayananUnggulan
+// );
 
 /**
  * @swagger

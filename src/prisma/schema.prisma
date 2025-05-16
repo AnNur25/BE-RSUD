@@ -18,7 +18,7 @@ model User {
   resetTokenExp   DateTime?  
   
   responAdmin ResponAdmin[]
-  komentar komentar[]
+  komentar Komentar[]
 }
 
 enum Role{
@@ -54,14 +54,15 @@ model Berita {
   gambar_sampul   String
   createdAt       DateTime @default(now())
   gambar_tambahan Gambar[]
-  komentar komentar[]
+  komentar Komentar[]
 }
-model embed{
+model EmbedIg{
   id_embed String @id @default(uuid())
   link_embed String 
+  createdAt DateTime @default(now())
 }
 
-model komentar {
+model Komentar {
   id_komentar String @id @default(uuid())
   nama String
   no_wa String
@@ -73,8 +74,8 @@ model komentar {
   
   // Self-reference untuk reply komentar
   parentId       String?       
-  parent         komentar?     @relation("KomentarParent", fields: [parentId], references: [id_komentar])
-  replies        komentar[]    @relation("KomentarParent")
+  parent         Komentar?     @relation("KomentarParent", fields: [parentId], references: [id_komentar])
+  replies        Komentar[]    @relation("KomentarParent")
 
   berita Berita @relation(fields: [berita_id], references: [id_berita])
   user User? @relation(fields: [user_id], references: [id_user])
@@ -126,10 +127,6 @@ model Pelayanan {
   JangkaWaktu    String
   Biaya          Float
   jadwaldokter   JadwalDokter[]
-}
-model MediaSosial{
-  id_media_sosial String @id @default(uuid())
-  link  String?
 }
 
 model Dokter {
