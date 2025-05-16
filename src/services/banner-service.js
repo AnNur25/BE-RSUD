@@ -107,32 +107,38 @@ class BannerService {
 
     const existingBanners = await prisma.banner.findMany({
       where: { id_banner: { in: ids } },
-      select: { id_banner: true, gambar: true }, // sesuaikan field
+      select: { id_banner: true, gambar: true },
     });
 
-    const existingIds = existingBanners.map((banner) => banner.id_banner);
+    const existingIds = existingBanners.map((b) => b.id_banner);
     const invalidIds = ids.filter((id) => !existingIds.includes(id));
     if (invalidIds.length > 0) {
-      files.forEach((file) => {
-        if (file && file.path && fs.existsSync(file.path)) {
-          fs.unlinkSync(file.path);
-        }
-      });
       throw new NotFoundError(
         `Banner dengan ID berikut tidak ditemukan: ${invalidIds.join(", ")}`
       );
     }
 
-    // Hapus file gambarnya
+    // Path folder uploads resized dari root project
+    const UPLOADS_FOLDER = path.resolve(__dirname, "../../uploads/resized");
+
     for (const banner of existingBanners) {
-      const imageRelativePath = banner.gambar.replace("../../", ""); // jadi 'uploads/resized/namafile.jpg'
-      const filePath = path.resolve(imageRelativePath);
-      if (fs.existsSync(filePath)) {
-        fs.unlinkSync(filePath); // atau pakai fs.promises.unlink(filePath)
+      if (banner.gambar) {
+        try {
+          const parsedUrl = new URL(banner.gambar);
+          const fileName = path.basename(parsedUrl.pathname);
+          const filePath = path.join(UPLOADS_FOLDER, fileName);
+
+          if (fs.existsSync(filePath)) {
+            fs.unlinkSync(filePath);
+            console.log(`File ${fileName} berhasil dihapus`);
+          }
+        } catch (error) {
+          console.error(`Gagal hapus file ${banner.gambar}`, error);
+        }
       }
     }
 
-    // Hapus data dari DB
+    // Hapus data di database
     await prisma.banner.deleteMany({
       where: { id_banner: { in: ids } },
     });
