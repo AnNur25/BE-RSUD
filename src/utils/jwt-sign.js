@@ -8,6 +8,7 @@ class JwtHelper {
       nama: user.nama,
       email: user.email,
       no_wa: user.no_wa,
+      role: user.role,
     };
 
     const token = jwt.sign(payload, secret, { expiresIn: "1h" });

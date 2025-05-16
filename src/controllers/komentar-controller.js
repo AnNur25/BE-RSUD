@@ -5,14 +5,23 @@ class KomentarController {
   static async addKomentar(req, res) {
     try {
       const { id_berita } = req.params;
-      const { nama, no_wa, isi_komentar } = req.body;
+      const { nama: inputNama, no_wa: inputNoWa, isi_komentar } = req.body;
+      const user = req.user;
+
+      const nama = inputNama || (user && user.nama);
+      const no_wa = inputNoWa || (user && user.no_wa);
+
+      if (!nama || !no_wa || !isi_komentar) {
+        return response.badRequest(res, "Semua field wajib diisi");
+      }
+
       const data = await komentarService.addKomentar({
         id_berita,
         nama,
         no_wa,
         isi_komentar,
       });
-      return response.created(res, data, "berhasil memberikan komentar");
+      return response.created(res, data, "berhasil menambah komentar");
     } catch (error) {
       return response.error(res, error);
     }
