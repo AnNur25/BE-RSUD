@@ -1,7 +1,7 @@
 const express = require("express");
 const route = express.Router();
 const aduanController = require("../controllers/aduan-controller");
-const { auth } = require("../middlewares/auth-middleware");
+const { auth, authorizeRole } = require("../middlewares/auth-middleware");
 /**
  * @swagger
  * /aduan:
@@ -309,66 +309,12 @@ route.get("/", aduanController.getAllVisibleAduan);
  *                   type: string
  *                   example: "Internal Server Error"
  */
-route.patch("/visible/:id", auth, aduanController.aduanIsVisible);
-// /**
-//  * @swagger
-//  * /aduan/{id}:
-//  *   get:
-//  *     summary: Mendapatkan detail aduan berdasarkan ID
-//  *     description: Mengambil satu aduan berdasarkan ID.
-//  *     tags:
-//  *       - Aduan
-//  *     parameters:
-//  *       - in: path
-//  *         name: id
-//  *         required: true
-//  *         schema:
-//  *           type: string
-//  *         description: ID Aduan
-//  *     responses:
-//  *       "200":
-//  *         description: Detail aduan berhasil diambil
-//  *       "404":
-//  *         description: Aduan tidak ditemukan
-//  *       "500":
-//  *         description: Terjadi kesalahan server
-//  */
-// route.get("/:id", aduanController.getAduanById);
-// /**
-//  * @swagger
-//  * /aduan/{id}:
-//  *   put:
-//  *     summary: Memperbarui aduan
-//  *     description: Memperbarui informasi aduan berdasarkan ID.
-//  *     tags:
-//  *       - Aduan
-//  *     parameters:
-//  *       - in: path
-//  *         name: id
-//  *         required: true
-//  *         schema:
-//  *           type: string
-//  *         description: ID Aduan
-//  *     requestBody:
-//  *       required: true
-//  *       content:
-//  *         application/json:
-//  *           schema:
-//  *             type: object
-//  *             properties:
-//  *               judul:
-//  *                 type: string
-//  *               deskripsi:
-//  *                 type: string
-//  *               no_wa:
-//  *                 type: string
-//  *     responses:
-//  *       "200":
-//  *         description: Aduan berhasil diperbarui
-//  *       "500":
-//  *         description: Terjadi kesalahan server
-//  */
-// route.put("/:id", aduanController.updateAduan);
+route.patch(
+  "/visible/:id",
+  auth,
+  authorizeRole("ADMIN"),
+  aduanController.aduanIsVisible
+);
 
 /**
  * @swagger
@@ -432,31 +378,7 @@ route.patch("/visible/:id", auth, aduanController.aduanIsVisible);
  *                   type: string
  *                   example: "Internal Server Error"
  */
-route.delete("/:id", auth, aduanController.deleteAduan);
-// /**
-//  * @swagger
-//  * /aduan/{id}:
-//  *   patch:
-//  *     summary: Menandai aduan sebagai telah dibaca
-//  *     description: Mengubah status aduan menjadi telah dibaca.
-//  *     tags:
-//  *       - Aduan
-//  *     security:
-//  *       - bearerAuth: []
-//  *     parameters:
-//  *       - in: path
-//  *         name: id
-//  *         required: true
-//  *         schema:
-//  *           type: string
-//  *         description: ID Aduan
-//  *     responses:
-//  *       "200":
-//  *         description: Aduan telah ditandai sebagai dibaca
-//  *       "500":
-//  *         description: Terjadi kesalahan server
-//  */
-// route.patch("/:id", auth, aduanController.aduanIsRead);
+route.delete("/:id", auth, authorizeRole("ADMIN"), aduanController.deleteAduan);
 
 /**
  * @swagger
@@ -558,7 +480,12 @@ route.delete("/:id", auth, aduanController.deleteAduan);
  *                   type: string
  *                   example: "Internal Server Error"
  */
-route.post("/reply/:id", auth, aduanController.replyAduan);
+route.post(
+  "/reply/:id",
+  auth,
+  authorizeRole("ADMIN"),
+  aduanController.replyAduan
+);
 
 /**
  * @swagger
