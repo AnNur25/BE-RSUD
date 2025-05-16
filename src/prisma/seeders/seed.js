@@ -1,4 +1,6 @@
 require("dotenv").config();
+const fs = require("fs");
+const path = require("path");
 const prisma = require("../prismaClient");
 const { Role } = require("@prisma/client");
 
@@ -951,6 +953,25 @@ const layananUnggulan = [
   },
 ];
 
+const embedIg = [
+  {
+    id_embed: "okokokok",
+    link_embed: "link 1",
+  },
+  {
+    id_embed: "okokokok2",
+    link_embed: "link 21",
+  },
+  {
+    id_embed: "okokokok3",
+    link_embed: "link 31",
+  },
+  {
+    id_embed: "okokokok4",
+    link_embed: "link 41",
+  },
+];
+
 const gambarCaption = [
   {
     id: "a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6",
@@ -1363,8 +1384,21 @@ const jadwalDokter = [
     id_pelayanan: "f2bd5f40-35e3-4b58-812f-c3e1872d3722",
   },
 ];
-
+// Fungsi hapus semua file di folder
+function clearImageFolder(folderPath) {
+  if (fs.existsSync(folderPath)) {
+    fs.readdirSync(folderPath).forEach((file) => {
+      const filePath = path.join(folderPath, file);
+      if (fs.lstatSync(filePath).isFile()) {
+        fs.unlinkSync(filePath);
+        console.log(`Deleted: ${filePath}`);
+      }
+    });
+  }
+}
 async function main() {
+  const imageFolderPath = path.join(process.cwd(), "uploads/resized");
+  clearImageFolder(imageFolderPath);
   await prisma.jadwalDokter.deleteMany();
   await prisma.dokter.deleteMany();
   await prisma.pelayanan.deleteMany();
@@ -1377,7 +1411,9 @@ async function main() {
   await prisma.banner.deleteMany();
   await prisma.gambarCaption.deleteMany();
   await prisma.layananUnggulan.deleteMany();
+  await prisma.embedIg.deleteMany();
 
+  await prisma.embedIg.createMany({ data: embedIg });
   await prisma.user.createMany({ data: users });
   await prisma.berita.createMany({ data: berita });
   await prisma.gambar.createMany({ data: gambar });
