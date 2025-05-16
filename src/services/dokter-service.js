@@ -302,7 +302,7 @@ class DokterService {
       fs.unlinkSync(file.path);
 
       // Path yang bisa diakses frontend
-      imageUrl = `${process.env.BASE_URL}/uploads/resized/${newFilename}`;
+      imageUrl = `${process.env.FRONTEND_URL}/uploads/resized/${newFilename}`;
     }
 
     // Update data dokter
