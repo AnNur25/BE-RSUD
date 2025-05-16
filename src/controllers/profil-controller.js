@@ -13,6 +13,21 @@ class ProfilController {
     }
   }
 
+  static async updateProfil(req, res) {
+    try {
+      const user = req.user;
+      const { nama, email, no_wa } = req.body;
+      const data = await profilService.updateProfil({
+        nama,
+        email,
+        no_wa,
+        user,
+      });
+      return responseHelper.success(res, data, "berhasil update profil");
+    } catch (error) {
+      return responseHelper.error(res, error);
+    }
+  }
   static async updatePassw(req, res) {
     const user = req.user;
     const { oldPassword, newPassword } = req.body;
