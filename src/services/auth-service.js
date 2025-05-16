@@ -44,8 +44,8 @@ class AuthService {
       throw new BadRequestError("Invalid email or password");
     }
     const aksesToken = JwtHelper.generateToken(user);
-    const refresToken = JwtHelper.generateRefresToken(user);
-    return { aksesToken, refresToken, user };
+    const refreshToken = JwtHelper.generateRefresToken(user);
+    return { aksesToken, refreshToken, user };
   }
 
   static async logout(res) {

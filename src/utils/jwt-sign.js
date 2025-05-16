@@ -1,6 +1,5 @@
 const jwt = require("jsonwebtoken");
-const aksesSecret = require("../configs/env-config").aksesSecret;
-const refresSecret = require("../configs/env-config").refresSecret;
+const { aksesSecret, refreshSecret } = require("../configs/env-config");
 
 class JwtHelper {
   static generateToken(user) {
@@ -19,7 +18,7 @@ class JwtHelper {
     const payload = {
       id_user: user.id_user,
     };
-    const refresToken = jwt.sign(payload, refresSecret, { expiresIn: "1h" });
+    const refresToken = jwt.sign(payload, refreshSecret, { expiresIn: "7d" });
     return refresToken;
   }
 }

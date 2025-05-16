@@ -223,7 +223,7 @@ route.post("/login", authController.login);
  *                   type: string
  *                   example: "Terjadi kesalahan pada server."
  */
-// route.post("/refresh-token", authController.refreshToken);
+route.post("/refresh-token", authController.refresToken);
 
 /**
  * @swagger

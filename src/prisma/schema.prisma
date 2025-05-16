@@ -25,7 +25,11 @@ enum Role{
   ADMIN
   USER
 }
-
+model RevokedToken {
+  id        Int      @id @default(autoincrement())
+  token     String   @unique
+  expiresAt DateTime // Untuk auto-cleanup
+}
 model Banner{
   id_banner   String @id @default(uuid())
   gambar      String
