@@ -1,7 +1,7 @@
 const express = require("express");
 const route = express.Router();
 const pelayanan = require("../controllers/pelayanan-controller");
-const { auth } = require("../middlewares/auth-middleware");
+const { auth, authorizeRole } = require("../middlewares/auth-middleware");
 
 /**
  * @swagger
@@ -108,7 +108,7 @@ const { auth } = require("../middlewares/auth-middleware");
  *                   type: string
  *                   example: "Internal Server Error"
  */
-route.post("/", auth, pelayanan.createPelayanan);
+route.post("/", auth, authorizeRole("ADMIN"), pelayanan.createPelayanan);
 
 /**
  * @swagger
@@ -355,7 +355,12 @@ route.get("/:id_pelayanan", pelayanan.getById);
  *                   type: string
  *                   example: "Internal Server Error"
  */
-route.put("/:id_pelayanan", auth, pelayanan.updatePelayanan);
+route.put(
+  "/:id_pelayanan",
+  auth,
+  authorizeRole("ADMIN"),
+  pelayanan.updatePelayanan
+);
 
 /**
  * @swagger
