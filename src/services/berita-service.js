@@ -8,52 +8,71 @@ const fs = require("fs");
 class BeritaService {
   static async createBerita({ judul, ringkasan, isi, file }) {
     if (!file || !judul || !ringkasan || !isi) {
-      throw new BadRequestError(" Semua field harus diisi");
+      // Jika file sudah terupload tapi data tidak lengkap, hapus file supaya gak numpuk
+      if (file && file.path && fs.existsSync(file.path)) {
+        fs.unlinkSync(file.path);
+      }
+      throw new BadRequestError("Semua field harus diisi");
     }
 
     console.log("File received:", file);
     let imageUrl = null;
-    if (file && file.path) {
-      const originalFileSize = fs.statSync(file.path).size;
-      console.log("Original file size (bytes):", originalFileSize);
 
-      const resizedImagePath = path.resolve(
-        file.destination,
-        "resized",
-        file.filename
-      );
-      await sharp(file.path)
-        .jpeg({ quality: 50 })
-        .png({ quality: 50 })
-        .toFile(resizedImagePath);
+    try {
+      if (file && file.path) {
+        const originalFileSize = fs.statSync(file.path).size;
+        console.log("Original file size (bytes):", originalFileSize);
 
-      const resizedFileSize = fs.statSync(resizedImagePath).size;
-      console.log("Resized file size (bytes):", resizedFileSize);
+        // Buat nama file baru dengan ekstensi .webp
+        const extWebpFilename = file.filename.replace(
+          path.extname(file.filename),
+          ".webp"
+        );
+        const resizedImagePath = path.resolve(
+          file.destination,
+          "resized",
+          extWebpFilename
+        );
 
-      fs.unlinkSync(file.path);
-      imageUrl = `../../uploads/resized/${file.filename}`;
-      console.log("Image resized and uploaded to:", imageUrl);
+        await sharp(file.path).webp({ quality: 50 }).toFile(resizedImagePath);
+
+        const resizedFileSize = fs.statSync(resizedImagePath).size;
+        console.log("Resized file size (bytes):", resizedFileSize);
+
+        // Hapus file asli yang belum diresize
+        fs.unlinkSync(file.path);
+
+        imageUrl = `${process.env.FRONTEND_URL}/uploads/resized/${extWebpFilename}`;
+        console.log("Image resized and uploaded to:", imageUrl);
+      }
+
+      const beritaBaru = await prisma.berita.create({
+        data: {
+          judul,
+          ringkasan,
+          isi,
+          gambar_sampul: imageUrl,
+        },
+      });
+
+      return {
+        id: beritaBaru.id_berita,
+        judul: beritaBaru.judul,
+        tanggal_dibuat: new Intl.DateTimeFormat("id-ID", {
+          day: "2-digit",
+          month: "long",
+          year: "numeric",
+        }).format(new Date(beritaBaru.createdAt)),
+      };
+    } catch (error) {
+      // Kalau error, pastikan file yang diupload dihapus biar gak numpuk
+      if (file && file.path && fs.existsSync(file.path)) {
+        fs.unlinkSync(file.path);
+      }
+      throw error;
     }
-    console.log("Image uploaded to:", imageUrl);
-
-    const beritaBaru = await prisma.berita.create({
-      data: {
-        judul,
-        ringkasan,
-        isi,
-        gambar_sampul: imageUrl,
-      },
-    });
-    return {
-      id: beritaBaru.id_berita,
-      judul: beritaBaru.judul,
-      tanggal_dibuat: new Intl.DateTimeFormat("id-ID", {
-        day: "2-digit",
-        month: "long",
-        year: "numeric",
-      }).format(new Date(beritaBaru.createdAt)),
-    };
   }
+
   static async getBerita(page, pageSize) {
     const {
       skip,
@@ -134,59 +153,91 @@ class BeritaService {
   }
   static async updateBerita({ id, judul, ringkasan, isi, file }) {
     if (!id || !judul || !ringkasan || !isi) {
-      throw new BadRequestError(" Semua field harus diisi");
+      if (file && file.path && fs.existsSync(file.path)) {
+        fs.unlinkSync(file.path);
+      }
+      throw new BadRequestError("Semua field harus diisi");
     }
+
     const berita = await prisma.berita.findUnique({
       where: { id_berita: id },
     });
     if (!berita) {
+      if (file && file.path && fs.existsSync(file.path)) {
+        fs.unlinkSync(file.path);
+      }
       throw new NotFoundError("Id Berita tidak ditemukan");
     }
+
     let imageUrl = berita.gambar_sampul;
-    console.log("File received:", file);
-    if (file && file.path) {
-      const originalFileSize = fs.statSync(file.path).size;
-      console.log("Original file size (bytes):", originalFileSize);
 
-      const resizedImagePath = path.resolve(
-        file.destination,
-        "resized",
-        file.filename
-      );
-      await sharp(file.path)
-        .jpeg({ quality: 50 })
-        .png({ quality: 50 })
-        .toFile(resizedImagePath);
+    try {
+      if (file && file.path) {
+        const originalFileSize = fs.statSync(file.path).size;
+        console.log("Original file size (bytes):", originalFileSize);
 
-      const resizedFileSize = fs.statSync(resizedImagePath).size;
-      console.log("Resized file size (bytes):", resizedFileSize);
+        const extWebpFilename = file.filename.replace(
+          path.extname(file.filename),
+          ".webp"
+        );
+        const resizedImagePath = path.resolve(
+          file.destination,
+          "resized",
+          extWebpFilename
+        );
 
-      fs.unlinkSync(file.path);
-      imageUrl = `../../uploads/resized/${file.filename}`;
-      console.log("Image resized and uploaded to:", imageUrl);
+        await sharp(file.path).webp({ quality: 50 }).toFile(resizedImagePath);
+
+        const resizedFileSize = fs.statSync(resizedImagePath).size;
+        console.log("Resized file size (bytes):", resizedFileSize);
+
+        fs.unlinkSync(file.path);
+
+        // Hapus gambar lama kalau ada
+        if (berita.gambar_sampul) {
+          const oldImagePath = path.resolve(
+            __dirname, // atau path ke folder server kamu sesuai struktur
+            "../../uploads/resized",
+            path.basename(berita.gambar_sampul)
+          );
+          if (fs.existsSync(oldImagePath)) {
+            fs.unlinkSync(oldImagePath);
+            console.log("Gambar lama berhasil dihapus:", oldImagePath);
+          }
+        }
+
+        imageUrl = `${process.env.FRONTEND_URL}/uploads/resized/${extWebpFilename}`;
+        console.log("Image resized and uploaded to:", imageUrl);
+      }
+
+      const updatedBerita = await prisma.berita.update({
+        where: { id_berita: id },
+        data: {
+          judul,
+          ringkasan,
+          isi,
+          gambar_sampul: imageUrl,
+        },
+      });
+
+      return {
+        id: updatedBerita.id_berita,
+        judul: updatedBerita.judul,
+        tanggal_dibuat: new Intl.DateTimeFormat("id-ID", {
+          day: "2-digit",
+          month: "long",
+          year: "numeric",
+        }).format(new Date(updatedBerita.createdAt)),
+      };
+    } catch (error) {
+      // Jika error, hapus file baru yang sudah diupload (resized)
+      if (file && file.path && fs.existsSync(file.path)) {
+        fs.unlinkSync(file.path);
+      }
+      throw error;
     }
-    console.log("Image uploaded to:", imageUrl);
-
-    const updateBerita = await prisma.berita.update({
-      where: { id_berita: id },
-      data: {
-        judul: judul || berita.judul,
-        ringkasan: ringkasan || berita.ringkasan,
-        isi: isi || berita.isi,
-        gambar_sampul: imageUrl,
-      },
-    });
-
-    return {
-      id: updateBerita.id_berita,
-      judul: updateBerita.judul,
-      tanggal_dibuat: new Intl.DateTimeFormat("id-ID", {
-        day: "2-digit",
-        month: "long",
-        year: "numeric",
-      }).format(new Date(berita.createdAt)),
-    };
   }
+
   static async deleteBerita({ id }) {
     const berita = await prisma.berita.findUnique({ where: { id_berita: id } });
     if (!berita) {
@@ -221,6 +272,10 @@ class BeritaService {
       throw new BadRequestError("ID Berita tidak ditemukan");
     }
 
+    if (!files || !Array.isArray(files) || files.length === 0) {
+      throw new BadRequestError("Tidak ada file gambar yang diupload");
+    }
+
     console.log("Mencari berita dengan ID:", id);
 
     const berita = await prisma.berita.findUnique({
@@ -228,6 +283,12 @@ class BeritaService {
     });
 
     if (!berita) {
+      // Hapus semua file yang diupload sebelum error
+      files.forEach((file) => {
+        if (file && file.path && fs.existsSync(file.path)) {
+          fs.unlinkSync(file.path);
+        }
+      });
       throw new NotFoundError("Berita tidak ditemukan");
     }
 
@@ -235,58 +296,89 @@ class BeritaService {
       where: { beritaId: id },
     });
     const totalGambar = jumlahGambar + files.length;
+
     if (totalGambar > 4) {
+      files.forEach((file) => {
+        if (file && file.path && fs.existsSync(file.path)) {
+          fs.unlinkSync(file.path);
+        }
+      });
       throw new BadRequestError(
         `Maksimal 4 gambar per berita. Saat ini sudah ada ${jumlahGambar} gambar.`
       );
     }
+
+    // Pastikan folder resized ada
+    const resizedFolderPath = path.resolve(files[0].destination, "resized");
+    if (!fs.existsSync(resizedFolderPath)) {
+      fs.mkdirSync(resizedFolderPath, { recursive: true });
+    }
+
     const uploadedImages = await Promise.all(
       files.map(async (file) => {
-        console.log("File received:", file);
-        let imageUrl = null;
-        if (file && file.path) {
-          const originalFileSize = fs.statSync(file.path).size;
-          console.log("Original file size (bytes):", originalFileSize);
+        try {
+          console.log("File received:", file);
+          let imageUrl = null;
 
-          const resizedImagePath = path.resolve(
-            file.destination,
-            "resized",
-            file.filename
-          );
-          await sharp(file.path)
-            .jpeg({ quality: 50 })
-            .png({ quality: 50 })
-            .toFile(resizedImagePath);
+          if (file && file.path) {
+            const originalFileSize = fs.statSync(file.path).size;
+            console.log("Original file size (bytes):", originalFileSize);
 
-          const resizedFileSize = fs.statSync(resizedImagePath).size;
-          console.log("Resized file size (bytes):", resizedFileSize);
+            // Ganti ekstensi ke .webp
+            const webpFilename = file.filename.replace(
+              path.extname(file.filename),
+              ".webp"
+            );
 
-          fs.unlinkSync(file.path);
-          imageUrl = `../../uploads/resized/${file.filename}`;
-          console.log("Image resized and uploaded to:", imageUrl);
-        }
-        console.log("Image uploaded to:", imageUrl);
-        const idBerita = berita.id_berita;
-        const savedGambar = await prisma.gambar.create({
-          data: {
-            url: imageUrl,
-            berita: {
-              connect: {
-                id_berita: idBerita,
+            const resizedImagePath = path.resolve(
+              file.destination,
+              "resized",
+              webpFilename
+            );
+
+            // Convert ke webp dengan kualitas 50
+            await sharp(file.path)
+              .webp({ quality: 50 })
+              .toFile(resizedImagePath);
+
+            const resizedFileSize = fs.statSync(resizedImagePath).size;
+            console.log("Resized file size (bytes):", resizedFileSize);
+
+            // Hapus file sementara hasil upload multer
+            fs.unlinkSync(file.path);
+
+            imageUrl = `${process.env.FRONTEND_URL}/uploads/resized/${webpFilename}`;
+            console.log("Image resized and uploaded to:", imageUrl);
+          }
+
+          const savedGambar = await prisma.gambar.create({
+            data: {
+              url: imageUrl,
+              berita: {
+                connect: {
+                  id_berita: berita.id_berita,
+                },
               },
             },
-          },
-        });
+          });
 
-        return {
-          id: savedGambar.id,
-          url: savedGambar.url,
-        };
+          return {
+            id: savedGambar.id,
+            url: savedGambar.url,
+          };
+        } catch (err) {
+          // Kalau error hapus file upload sementara
+          if (file && file.path && fs.existsSync(file.path)) {
+            fs.unlinkSync(file.path);
+          }
+          throw err;
+        }
       })
     );
 
     return uploadedImages;
   }
+
   static async deleteGambar({ beritaId, ids }) {
     if (!Array.isArray(ids) || ids.length === 0) {
       throw new BadRequestError(
