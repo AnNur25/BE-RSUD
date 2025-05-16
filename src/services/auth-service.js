@@ -9,6 +9,7 @@ class AuthService {
     if (!nama || !email || !password || !no_wa) {
       throw new BadRequestError("Semua field harus diisi");
     }
+   
 
     const existingUser = await prisma.user.findUnique({ where: { email } });
     if (existingUser) {

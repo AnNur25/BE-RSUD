@@ -7,7 +7,6 @@ const { auth } = require("../middlewares/auth-middleware");
 // /**
 //  * @swagger
 //  * /layanan-unggulan:
-// <<<<<<< komentar
 //  *   post:
 //  *     summary: Membuat layanan unggulan baru
 //  *     description: Endpoint untuk membuat layanan unggulan baru beserta upload gambar dan caption masing-masing gambar.
@@ -103,19 +102,18 @@ const { auth } = require("../middlewares/auth-middleware");
 //  *                   type: string
 //  *                   example: "Internal Server Error"
 //  */
-// // route.post(
-// //   "/",
-// //   auth,
-// //   multer.array("file"),
-// //   multerErrorHandler,
-// //   layananUnggulan.createLayananUnggulan
-// // );
 
-// /**
-//  * @swagger
-//  * /layanan-unggulan:
-// =======
-// >>>>>>> 2-development
+// route.post(
+//   "/",
+//   auth,
+//   multer.array("file"),
+//   multerErrorHandler,
+//   layananUnggulan.createLayananUnggulan
+// );
+
+/**
+ * @swagger
+ * /layanan-unggulan:
  *   get:
  *     summary: Ambil semua layanan unggulan
  *     tags:
