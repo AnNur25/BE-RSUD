@@ -3,7 +3,7 @@ const Route = express.Router();
 const dokterController = require("../controllers/dokter-controller");
 const multerConfig = require("../middlewares/multer-middleware");
 const multerErrorHandler = require("../middlewares/multer-error-handling-middleware");
-const { auth } = require("../middlewares/auth-middleware");
+const { auth, authorizeRole } = require("../middlewares/auth-middleware");
 
 /**
  * @swagger
@@ -122,6 +122,7 @@ const { auth } = require("../middlewares/auth-middleware");
 Route.post(
   "/",
   auth,
+  authorizeRole("ADMIN"),
   multerConfig.single("file"),
   dokterController.createDokter,
   multerErrorHandler
@@ -643,6 +644,7 @@ Route.get("/:id_dokter", dokterController.getDokterById);
 Route.put(
   "/:id_dokter",
   auth,
+  authorizeRole("ADMIN"),
   multerErrorHandler,
   multerConfig.single("file"),
   dokterController.updateDokter
@@ -738,6 +740,7 @@ Route.put(
 Route.delete(
   "/:id_dokter",
   auth,
+  authorizeRole("ADMIN"),
   multerErrorHandler,
   dokterController.deleteDokter
 );
