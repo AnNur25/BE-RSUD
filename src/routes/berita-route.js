@@ -7,7 +7,7 @@ const multerErrorHandler = require("../middlewares/multer-error-handling-middlew
 //======route berita=======
 /**
  * @swagger
- * /berita:
+ * /api/v1/berita:
  *   post:
  *     summary: Membuat berita baru
  *     description: Endpoint ini digunakan untuk membuat berita baru beserta gambar sampul.
@@ -29,6 +29,10 @@ const multerErrorHandler = require("../middlewares/multer-error-handling-middlew
  *               isi:
  *                 type: string
  *                 example: "Dalam beberapa bulan terakhir, telah terjadi peningkatan signifikan dalam jumlah kasus penyakit yang menyerang anak-anak usia 12 tahun. Para ahli kesehatan menyarankan agar orang tua lebih waspada terhadap gejala awal dan segera mencari bantuan medis jika diperlukan. Pemerintah juga diharapkan untuk meningkatkan kampanye kesadaran dan menyediakan fasilitas kesehatan yang memadai."
+ *               tanggal_berita:
+ *                 type: String
+ *                 format: Date
+ *                 example: "2025-05-17"
  *               gambar_sampul:
  *                 type: string
  *                 format: binary
@@ -121,7 +125,7 @@ route.post(
 
 /**
  * @swagger
- * /berita/search:
+ * /api/v1/berita/search:
  *   get:
  *     summary: Mencari berita berdasarkan kata kunci
  *     description: Endpoint ini digunakan untuk mencari berita berdasarkan judul. Pencarian bersifat case-insensitive.
@@ -254,7 +258,7 @@ route.get("/search", beritaController.searchBerita);
 
 /**
  * @swagger
- * /berita:
+ * /api/v1/berita:
  *   get:
  *     summary: Mendapatkan daftar berita dengan pagination
  *     description: Endpoint ini digunakan untuk mengambil daftar berita dengan pagination. Data dapat difilter menggunakan query parameter `page` dan `pageSize`.
@@ -365,7 +369,7 @@ route.get("/", beritaController.getBerita);
 
 /**
  * @swagger
- * /berita/{id}:
+ * /api/v1/berita/{id}:
  *   get:
  *     summary: Mendapatkan detail berita berdasarkan ID
  *     description: Endpoint ini digunakan untuk mengambil detail berita berdasarkan ID yang diberikan.
@@ -474,14 +478,12 @@ route.get("/:id", beritaController.getBeritaById);
 
 /**
  * @swagger
- * /berita/{id}:
+ * /api/v1/berita/{id}:
  *   put:
  *     summary: Memperbarui berita
  *     description: Endpoint ini digunakan untuk memperbarui berita yang sudah ada berdasarkan ID berita.
  *     tags:
  *       - Berita
- *     security:
- *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -505,6 +507,10 @@ route.get("/:id", beritaController.getBeritaById);
  *               isi:
  *                 type: string
  *                 example: "Isi berita yang diperbarui..."
+ *               tanggal_berita:
+ *                 type: String
+ *                 format: Date
+ *                 example: "2025-05-17"
  *               gambar_sampul:
  *                 type: string
  *                 format: binary
@@ -611,18 +617,14 @@ route.put(
   beritaController.updateBerita
 );
 
-
-
 /**
  * @swagger
- * /berita/{id}:
+ * /api/v1/berita/{id}:
  *   delete:
  *     summary: Menghapus berita berdasarkan ID
  *     description: Endpoint ini digunakan untuk menghapus berita berdasarkan ID yang diberikan.
  *     tags:
  *       - Berita
- *     security:
- *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -711,14 +713,12 @@ route.delete(
 
 /**
  * @swagger
- * /berita/{id}/galeri-berita:
+ * /api/v1/berita/{id}/galeri-berita:
  *   get:
  *     summary: Mendapatkan daftar gambar berdasarkan ID berita
  *     description: Endpoint ini digunakan untuk mengambil semua gambar yang terkait dengan berita tertentu berdasarkan ID berita.
  *     tags:
  *       - Berita
- *     security:
- *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -808,14 +808,12 @@ route.get("/:id/galeri-berita", beritaController.getGaleriBerita);
 
 /**
  * @swagger
- * /berita/{id}/galeri-berita:
+ * /api/v1/berita/{id}/galeri-berita:
  *   delete:
  *     summary: Hapus satu atau lebih gambar dari galeri berita
  *     description: Menghapus gambar-gambar yang terkait dengan sebuah berita berdasarkan ID berita (`id`) dan array ID gambar (`ids`) yang diberikan.
  *     tags:
  *       - Berita
- *     security:
- *       - bearerAuth: []
  *     parameters:
  *       - name: id
  *         in: path
@@ -923,14 +921,12 @@ route.delete(
 
 /**
  * @swagger
- * /berita/{id}/galeri-berita:
+ * /api/v1/berita/{id}/galeri-berita:
  *   post:
  *     summary: Mengunggah gambar tambahan untuk berita
  *     description: Endpoint ini digunakan untuk mengunggah hingga 4 gambar tambahan terkait suatu berita. Jika lebih dari 4 gambar diunggah, akan muncul kesalahan.
  *     tags:
  *       - Berita
- *     security:
- *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -1054,14 +1050,4 @@ route.post(
   beritaController.uploadGambar
 );
 
-/**
- * @swagger
- * components:
- *   securitySchemes:
- *     bearerAuth:
- *       type: http
- *       scheme: bearer
- *       bearerFormat: JWT
- *       description: Masukkan token JWT di sini
- */
 module.exports = route;

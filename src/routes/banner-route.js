@@ -6,7 +6,7 @@ const { auth, authorizeRole } = require("../middlewares/auth-middleware");
 
 /**
  * @swagger
- * /banner:
+ * /api/v1/banner:
  *   post:
  *     summary: Mengunggah banner baru
  *     description: Endpoint untuk mengunggah satu atau lebih gambar banner. Maksimal 4 banner dapat diunggah sekaligus.
@@ -74,7 +74,7 @@ route.post(
 
 /**
  * @swagger
- * /banner:
+ * /api/v1/banner:
  *   get:
  *     summary: Mendapatkan daftar banner
  *     description: Endpoint untuk mendapatkan daftar banner yang tersedia.
@@ -121,7 +121,7 @@ route.get("/", bannerController.getBanner);
 
 /**
  * @swagger
- * /banner:
+ * /api/v1/banner:
  *   delete:
  *     summary: Menghapus banner
  *     description: Endpoint untuk menghapus banner berdasarkan ID yang diberikan.

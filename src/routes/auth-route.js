@@ -5,7 +5,7 @@ const { auth } = require("../middlewares/auth-middleware");
 
 /**
  * @swagger
- * /auth/register-admin:
+ * /api/v1/auth/register:
  *  post:
  *      summary: Registrasi Admin
  *      description: API untuk registrasi akun admin baru.
@@ -21,9 +21,15 @@ const { auth } = require("../middlewares/auth-middleware");
  *                          nama:
  *                              type: string
  *                              example: "binar si'ah"
+ *                          no_wa:
+ *                              type: string
+ *                              example: "+6285939193723"
  *                          email:
  *                              type: string
  *                              example: "binarian@gmail.com"
+ *                          role:
+ *                              type: string
+ *                              example: "ADMIN"
  *                          password:
  *                              type: string
  *                              example: "binarlope"
@@ -93,7 +99,7 @@ route.post("/register", authController.register);
 
 /**
  * @swagger
- * /auth/login:
+ * /api/v1/auth/login:
  *   post:
  *     summary: Login
  *     description: API untuk login pengguna dengan email dan password. Refresh token akan disimpan dalam cookie HttpOnly.
@@ -185,7 +191,7 @@ route.post("/login", authController.login);
 
 /**
  * @swagger
- * /auth/refresh-token:
+ * /api/v1/auth/refresh-token:
  *   post:
  *     summary: Refresh Access Token
  *     description: Mengembalikan access token baru menggunakan refresh token yang disimpan dalam cookie HttpOnly.
@@ -227,7 +233,7 @@ route.post("/refresh-token", authController.refresToken);
 
 /**
  * @swagger
- * /auth/logout:
+ * /api/v1/auth/logout:
  *   post:
  *     summary: Logout
  *     description: API untuk logout admin.
@@ -277,12 +283,6 @@ route.post("/logout", auth, authController.logout);
 /**
  * @swagger
  * components:
- *   securitySchemes:
- *     bearerAuth:
- *       type: http
- *       scheme: bearer
- *       bearerFormat: JWT
- *       description: Masukkan token JWT di sini
  *     cookieAuth:
  *       type: apiKey
  *       in: cookie
@@ -291,24 +291,3 @@ route.post("/logout", auth, authController.logout);
  *         Refresh token disimpan dalam cookie HttpOnly dan digunakan untuk memperoleh access token baru.
  */
 module.exports = route;
-
-// router.post("/register-pj", authController.registerPJ);
-/*
-app.get("/admin", auth, authorizeRole("admin"), (req, res) => {
-  res.json({ message: "Halo Admin, Anda berhasil mengakses halaman ini" });
-});
-
-app.get("/user", auth, authorizeRole("user", "admin"), (req, res) => {
-  res.json({ message: "Halo User, Anda berhasil mengakses halaman ini" });
-});
-
-components:
-  securitySchemes:
-    cookieAuth:
-      type: apiKey
-      in: cookie
-      name: refresh_token
-      description: |
-        Refresh token disimpan dalam cookie HttpOnly dan digunakan untuk memperoleh access token baru.
-
-*/

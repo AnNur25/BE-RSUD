@@ -6,14 +6,12 @@ const { auth, authorizeRole } = require("../middlewares/auth-middleware");
 
 /**
  * @swagger
- * /profil:
+ * api/v1/profil:
  *   get:
  *     summary: Mendapatkan informasi profil pengguna
  *     description: API ini digunakan untuk mengambil data profil pengguna yang sedang login.
  *     tags:
  *       - Profil
- *     security:
- *       - bearerAuth: []
  *     responses:
  *       200:
  *         description: Profil berhasil diambil.
@@ -115,14 +113,12 @@ router.put(
 
 /**
  * @swagger
- * /profil:
+ * api/v1/profil:
  *   put:
  *     summary: Mengubah password pengguna
  *     description: API ini digunakan untuk mengubah password pengguna yang sedang login.
  *     tags:
  *       - Profil
- *     security:
- *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -220,7 +216,7 @@ router.put(
 
 /**
  * @swagger
- * /profil:
+ * api/v1/profil:
  *   post:
  *     summary: Mengirimkan link reset password ke email pengguna
  *     description: API ini digunakan untuk mengirimkan email berisi link reset password kepada pengguna yang telah terautentikasi.
@@ -319,7 +315,7 @@ router.post("/profil", profilController.forgetPassword);
 
 /**
  * @swagger
- * /reset-password:
+ * api/v1/reset-password:
  *   post:
  *     summary: Reset password pengguna dengan token yang dikirim via email
  *     description: API ini digunakan untuk mengganti password pengguna dengan token reset yang dikirim ke email mereka.
@@ -440,14 +436,4 @@ router.post("/profil", profilController.forgetPassword);
  */
 router.post("/reset-password", profilController.resetPassword);
 
-/**
- * @swagger
- * components:
- *   securitySchemes:
- *     bearerAuth:
- *       type: http
- *       scheme: bearer
- *       bearerFormat: JWT
- *       description: Masukkan token JWT di sini
- */
 module.exports = router;

@@ -6,7 +6,7 @@ const { auth, authorizeRole } = require("../middlewares/auth-middleware");
 
 /**
  * @swagger
- * /layanan-unggulan:
+ * api/v1/layanan-unggulan:
  *   get:
  *     summary: Ambil semua layanan unggulan
  *     tags:
@@ -80,14 +80,12 @@ const { auth, authorizeRole } = require("../middlewares/auth-middleware");
 route.get("/", layananUnggulan.getAllLayananUnggulan);
 /**
  * @swagger
- * /layanan-unggulan/{id}:
+ * api/v1/layanan-unggulan/{id}:
  *   put:
  *     summary: Update layanan unggulan
  *     description: Update data layanan unggulan termasuk judul, deskripsi, upload gambar baru, update caption gambar yang sudah ada, dan menghapus gambar yang tidak dipertahankan.
  *     tags:
  *       - Layanan Unggulan
- *     security:
- *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id

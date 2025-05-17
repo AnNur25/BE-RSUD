@@ -7,14 +7,12 @@ const { auth, authorizeRole } = require("../middlewares/auth-middleware");
 
 /**
  * @swagger
- * /dokter:
+ * api/v1/dokter:
  *   post:
  *     summary: Menambahkan data dokter
  *     description: Endpoint untuk menambahkan dokter baru dengan informasi spesialisasi dan pelayanan dokter.
  *     tags:
  *       - Dokter
- *     security:
- *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -130,7 +128,7 @@ Route.post(
 
 /**
  * @swagger
- * /dokter/search:
+ * api/v1/dokter/search:
  *   get:
  *     summary: Mencari dokter berdasarkan kata kunci
  *     description: Endpoint ini digunakan untuk mencari dokter berdasarkan nama atau nama poli. Pencarian bersifat case-insensitive.
@@ -278,7 +276,7 @@ Route.get("/search", dokterController.searchDokter);
 
 /**
  * @swagger
- * /dokter:
+ * api/v1/dokter:
  *   get:
  *     summary: Mendapatkan daftar dokter
  *     description: Endpoint ini digunakan untuk mengambil data semua dokter beserta spesialis dan jenis pelayanan yang mereka tawarkan.
@@ -407,7 +405,7 @@ Route.get("/", dokterController.getDokter);
 
 /**
  * @swagger
- * /dokter/{id_dokter}:
+ * api/v1/dokter/{id_dokter}:
  *   get:
  *     summary: Mendapatkan data dokter berdasarkan ID
  *     description: Endpoint ini digunakan untuk mengambil detail data seorang dokter berdasarkan ID, termasuk informasi poli.
@@ -505,14 +503,12 @@ Route.get("/:id_dokter", dokterController.getDokterById);
 
 /**
  * @swagger
- * /dokter/{id_dokter}:
+ * api/v1/dokter/{id_dokter}:
  *   put:
  *     summary: Memperbarui data dokter
  *     description: Mengupdate informasi dokter berdasarkan ID dokter yang diberikan.
  *     tags:
  *       - Dokter
- *     security:
- *       - bearerAuth: []
  *     parameters:
  *       - name: id_dokter
  *         in: path
@@ -652,14 +648,12 @@ Route.put(
 
 /**
  * @swagger
- * /dokter/{id_dokter}:
+ * api/v1/dokter/{id_dokter}:
  *   delete:
  *     summary: Menghapus dokter berdasarkan ID
  *     description: Endpoint ini digunakan untuk menghapus dokter berdasarkan ID yang diberikan.
  *     tags:
  *       - Dokter
- *     security:
- *       - bearerAuth: []
  *     parameters:
  *       - name: id_dokter
  *         in: path
@@ -745,14 +739,4 @@ Route.delete(
   dokterController.deleteDokter
 );
 
-/**
- * @swagger
- * components:
- *   securitySchemes:
- *     bearerAuth:
- *       type: http
- *       scheme: bearer
- *       bearerFormat: JWT
- *       description: Masukkan token JWT di sini
- */
 module.exports = Route;
