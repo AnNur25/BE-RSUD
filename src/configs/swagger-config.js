@@ -40,6 +40,7 @@ const swaggerOptions = {
     "./src/routes/banner-route.js",
     "./src/routes/layanan-unggulan-route.js",
     "./src/routes/komentar-route.js",
+    "./src/routes/media-sosial-route.js",
   ],
 };
 

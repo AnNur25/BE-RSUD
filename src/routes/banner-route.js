@@ -12,8 +12,6 @@ const { auth, authorizeRole } = require("../middlewares/auth-middleware");
  *     description: Endpoint untuk mengunggah satu atau lebih gambar banner. Maksimal 4 banner dapat diunggah sekaligus.
  *     tags:
  *       - Banner
- *     security:
- *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -127,8 +125,6 @@ route.get("/", bannerController.getBanner);
  *     description: Endpoint untuk menghapus banner berdasarkan ID yang diberikan.
  *     tags:
  *       - Banner
- *     security:
- *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:

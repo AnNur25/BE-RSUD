@@ -7,7 +7,7 @@ const { auth, authorizeRole } = require("../middlewares/auth-middleware");
 
 /**
  * @swagger
- * api/v1/dokter:
+ * /api/v1/dokter:
  *   post:
  *     summary: Menambahkan data dokter
  *     description: Endpoint untuk menambahkan dokter baru dengan informasi spesialisasi dan pelayanan dokter.
@@ -128,7 +128,7 @@ Route.post(
 
 /**
  * @swagger
- * api/v1/dokter/search:
+ * /api/v1/dokter/search:
  *   get:
  *     summary: Mencari dokter berdasarkan kata kunci
  *     description: Endpoint ini digunakan untuk mencari dokter berdasarkan nama atau nama poli. Pencarian bersifat case-insensitive.
@@ -276,7 +276,7 @@ Route.get("/search", dokterController.searchDokter);
 
 /**
  * @swagger
- * api/v1/dokter:
+ * /api/v1/dokter:
  *   get:
  *     summary: Mendapatkan daftar dokter
  *     description: Endpoint ini digunakan untuk mengambil data semua dokter beserta spesialis dan jenis pelayanan yang mereka tawarkan.
@@ -405,7 +405,7 @@ Route.get("/", dokterController.getDokter);
 
 /**
  * @swagger
- * api/v1/dokter/{id_dokter}:
+ * /api/v1/dokter/{id_dokter}:
  *   get:
  *     summary: Mendapatkan data dokter berdasarkan ID
  *     description: Endpoint ini digunakan untuk mengambil detail data seorang dokter berdasarkan ID, termasuk informasi poli.
@@ -503,7 +503,7 @@ Route.get("/:id_dokter", dokterController.getDokterById);
 
 /**
  * @swagger
- * api/v1/dokter/{id_dokter}:
+ * /api/v1/dokter/{id_dokter}:
  *   put:
  *     summary: Memperbarui data dokter
  *     description: Mengupdate informasi dokter berdasarkan ID dokter yang diberikan.
@@ -648,7 +648,7 @@ Route.put(
 
 /**
  * @swagger
- * api/v1/dokter/{id_dokter}:
+ * /api/v1/dokter/{id_dokter}:
  *   delete:
  *     summary: Menghapus dokter berdasarkan ID
  *     description: Endpoint ini digunakan untuk menghapus dokter berdasarkan ID yang diberikan.

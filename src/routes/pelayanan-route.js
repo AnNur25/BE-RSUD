@@ -5,7 +5,7 @@ const { auth, authorizeRole } = require("../middlewares/auth-middleware");
 
 /**
  * @swagger
- * api/v1/pelayanan:
+ * /api/v1/pelayanan:
  *   post:
  *     summary: Menambahkan data Pelayanan Rumah Sakit
  *     description: Endpoint ini digunakan untuk menambahkan data baru mengenai pelayanan rumah sakit.
@@ -110,7 +110,7 @@ route.post("/", auth, authorizeRole("ADMIN"), pelayanan.createPelayanan);
 
 /**
  * @swagger
- * api/v1/pelayanan:
+ * /api/v1/pelayanan:
  *   get:
  *     summary: Mendapatkan semua data Pelayanan Rumah Sakit
  *     description: Endpoint ini digunakan untuk mengambil semua data pelayanan rumah sakit.
@@ -160,7 +160,7 @@ route.get("/", pelayanan.getPelayanan);
 
 /**
  * @swagger
- * api/v1/pelayanan/{id_pelayanan}:
+ * /api/v1/pelayanan/{id_pelayanan}:
  *   get:
  *     summary: Mendapatkan data Pelayanan Rumah Sakit berdasarkan ID
  *     description: Endpoint ini digunakan untuk mengambil satu data pelayanan berdasarkan ID.
@@ -244,7 +244,7 @@ route.get("/", pelayanan.getPelayanan);
 route.get("/:id_pelayanan", pelayanan.getById);
 /**
  * @swagger
- * api/v1/pelayanan/{id_pelayanan}:
+ * /api/v1/pelayanan/{id_pelayanan}:
  *   put:
  *     summary: Memperbarui data Pelayanan Rumah Sakit
  *     description: Endpoint ini digunakan untuk memperbarui data pelayanan berdasarkan ID.

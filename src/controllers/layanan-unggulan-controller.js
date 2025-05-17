@@ -3,7 +3,7 @@ const path = require("path");
 const sharp = require("sharp");
 const responseHelper = require("../utils/response");
 const prisma = require("../prisma/prismaClient");
-const { BadRequestError } = require("../utils/error");
+const { BadRequestError, NotFoundError } = require("../utils/error");
 class LayananUnggulanController {
   static async updateLayananUnggulan(req, res) {
     const { id } = req.params;

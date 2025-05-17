@@ -239,8 +239,6 @@ route.post("/refresh-token", authController.refresToken);
  *     description: API untuk logout admin.
  *     tags:
  *       - Autentikasi
- *     security:
- *       - bearerAuth: []
  *     responses:
  *       200:
  *         description: Berhasil logout.
