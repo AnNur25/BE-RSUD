@@ -4,7 +4,7 @@ const aduanController = require("../controllers/aduan-controller");
 const { auth, authorizeRole } = require("../middlewares/auth-middleware");
 /**
  * @swagger
- * /aduan:
+ * /api/v1/aduan:
  *   post:
  *     summary: Membuat aduan baru
  *     description: Endpoint untuk membuat aduan baru dengan nama pelapor, pesan aduan, dan nomor WhatsApp.
@@ -82,7 +82,7 @@ const { auth, authorizeRole } = require("../middlewares/auth-middleware");
 route.post("/", aduanController.createAduan);
 /**
  * @swagger
- * /aduan/all:
+ * /api/v1/aduan/all:
  *   get:
  *     summary: Mengambil semua data aduan
  *     description: Endpoint untuk mengambil seluruh data aduan beserta respon admin jika ada.
@@ -154,7 +154,7 @@ route.get("/all", aduanController.getAllAduan);
 
 /**
  * @swagger
- * /aduan:
+ * /api/v1/aduan:
  *   get:
  *     summary: Mengambil semua aduan yang terlihat (visible)
  *     description: Endpoint untuk mengambil semua data aduan yang status is_visible = true beserta respon admin.
@@ -226,14 +226,12 @@ route.get("/", aduanController.getAllVisibleAduan);
 
 /**
  * @swagger
- * /aduan/visible/{id}:
+ * /api/v1/aduan/visible/{id}:
  *   patch:
  *     summary: Menampilkan aduan
  *     description: Mengubah status aduan menjadi terlihat (is_visible = true) berdasarkan ID aduan.
  *     tags:
  *       - Aduan
- *     security:
- *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -318,14 +316,12 @@ route.patch(
 
 /**
  * @swagger
- * /aduan/{id}:
+ * /api/v1/aduan/{id}:
  *   delete:
  *     summary: Menghapus aduan
  *     description: Admin dapat menghapus aduan berdasarkan ID.
  *     tags:
  *       - Aduan
- *     security:
- *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -382,14 +378,12 @@ route.delete("/:id", auth, authorizeRole("ADMIN"), aduanController.deleteAduan);
 
 /**
  * @swagger
- * /aduan/reply/{id}:
+ * /api/v1/aduan/reply/{id}:
  *   post:
  *     summary: Membalas aduan
  *     description: Admin membalas aduan dengan mengirimkan pesan sebagai respon.
  *     tags:
  *       - Aduan
- *     security:
- *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -487,14 +481,4 @@ route.post(
   aduanController.replyAduan
 );
 
-/**
- * @swagger
- * components:
- *   securitySchemes:
- *     bearerAuth:
- *       type: http
- *       scheme: bearer
- *       bearerFormat: JWT
- *       description: Masukkan token JWT di sini
- */
 module.exports = route;

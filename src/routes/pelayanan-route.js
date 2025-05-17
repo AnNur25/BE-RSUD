@@ -5,14 +5,12 @@ const { auth, authorizeRole } = require("../middlewares/auth-middleware");
 
 /**
  * @swagger
- * /pelayanan:
+ * /api/v1/pelayanan:
  *   post:
  *     summary: Menambahkan data Pelayanan Rumah Sakit
  *     description: Endpoint ini digunakan untuk menambahkan data baru mengenai pelayanan rumah sakit.
  *     tags:
  *       - Pelayanan Rumah Sakit
- *     security:
- *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -112,7 +110,7 @@ route.post("/", auth, authorizeRole("ADMIN"), pelayanan.createPelayanan);
 
 /**
  * @swagger
- * /pelayanan:
+ * /api/v1/pelayanan:
  *   get:
  *     summary: Mendapatkan semua data Pelayanan Rumah Sakit
  *     description: Endpoint ini digunakan untuk mengambil semua data pelayanan rumah sakit.
@@ -162,7 +160,7 @@ route.get("/", pelayanan.getPelayanan);
 
 /**
  * @swagger
- * /pelayanan/{id_pelayanan}:
+ * /api/v1/pelayanan/{id_pelayanan}:
  *   get:
  *     summary: Mendapatkan data Pelayanan Rumah Sakit berdasarkan ID
  *     description: Endpoint ini digunakan untuk mengambil satu data pelayanan berdasarkan ID.
@@ -246,14 +244,12 @@ route.get("/", pelayanan.getPelayanan);
 route.get("/:id_pelayanan", pelayanan.getById);
 /**
  * @swagger
- * /pelayanan/{id_pelayanan}:
+ * /api/v1/pelayanan/{id_pelayanan}:
  *   put:
  *     summary: Memperbarui data Pelayanan Rumah Sakit
  *     description: Endpoint ini digunakan untuk memperbarui data pelayanan berdasarkan ID.
  *     tags:
  *       - Pelayanan Rumah Sakit
- *     security:
- *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id_pelayanan
@@ -362,14 +358,4 @@ route.put(
   pelayanan.updatePelayanan
 );
 
-/**
- * @swagger
- * components:
- *   securitySchemes:
- *     bearerAuth:
- *       type: http
- *       scheme: bearer
- *       bearerFormat: JWT
- *       description: Masukkan token JWT di sini
- */
 module.exports = route;

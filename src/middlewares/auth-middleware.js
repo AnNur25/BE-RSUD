@@ -31,7 +31,7 @@ function auth(req, res, next) {
   } catch (error) {
     error.statusCode = error.statusCode || 401;
     error.status = "Failed";
-    next(error); // ✅ lempar ke global error handler
+    next(error);
   }
 }
 
@@ -48,4 +48,3 @@ function authorizeRole(...roles) {
 }
 
 module.exports = { auth, authorizeRole };
-

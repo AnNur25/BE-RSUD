@@ -433,11 +433,22 @@ class BeritaService {
       throw new NotFoundError("Tidak ada gambar yang ditemukan untuk dihapus");
     }
 
-    const deletedGambar = gambarList.map((gambar) => ({
-      id: gambar.id,
-      fileName: gambar.url.split("/").pop(),
-    }));
+    const deletedGambar = gambarList.map((gambar) => {
+      const fileName = gambar.url.split("/").pop();
+      const filePath = path.resolve("uploads", "resized", fileName); // sesuaikan folder ini jika beda
 
+      // Hapus file dari disk jika ada
+      if (fs.existsSync(filePath)) {
+        fs.unlinkSync(filePath);
+      }
+
+      return {
+        id: gambar.id,
+        fileName,
+      };
+    });
+
+    // Hapus dari database setelah file berhasil dihapus
     await prisma.gambar.deleteMany({
       where: {
         id: { in: ids },

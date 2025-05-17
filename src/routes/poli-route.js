@@ -5,14 +5,12 @@ const { auth, authorizeRole } = require("../middlewares/auth-middleware");
 
 /**
  * @swagger
- * /poli:
+ * /api/v1/poli:
  *   post:
  *     summary: Menambahkan poli baru
  *     description: Endpoint ini digunakan untuk menambahkan poli baru ke dalam sistem.
  *     tags:
  *       - Poli
- *     security:
- *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -105,7 +103,7 @@ Route.post("/", auth, authorizeRole("ADMIN"), poliController.createPoli);
 
 /**
  * @swagger
- * /poli:
+ * /api/v1/poli:
  *   get:
  *     summary: Mengambil daftar Poli
  *     description: Mengambil semua Poli yang tersedia.
@@ -176,7 +174,7 @@ Route.get("/", poliController.getPoli);
 
 /**
  * @swagger
- * /poli/{id}:
+ * /api/v1/poli/{id}:
  *   get:
  *     summary: Mengambil detail  Poli
  *     description: Mengambil semua Poli yang tersedia.
@@ -270,14 +268,12 @@ Route.get("/:id", poliController.getPoliById);
 
 /**
  * @swagger
- * /poli/{id_poli}/dokter:
+ * /api/v1/poli/{id_poli}/dokter:
  *   get:
  *     summary: Mendapatkan daftar dokter berdasarkan ID poli
  *     description: Endpoint ini digunakan untuk mengambil daftar dokter yang terdaftar pada suatu poli tertentu berdasarkan ID poli.
  *     tags:
  *       - Poli
- *     security:
- *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id_poli
@@ -383,14 +379,12 @@ Route.get("/:id_poli/dokter", auth, poliController.getDokterByPoli);
 
 /**
  * @swagger
- * /poli/{id_poli}:
+ * /api/v1/poli/{id_poli}:
  *   put:
  *     summary: Memperbarui data Poli
  *     description: Mengubah nama poli berdasarkan ID.
  *     tags:
  *       - Poli
- *     security:
- *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id_poli
@@ -502,14 +496,4 @@ Route.get("/:id_poli/dokter", auth, poliController.getDokterByPoli);
  */
 Route.put("/:id_poli", auth, authorizeRole("ADMIN"), poliController.updatePoli);
 
-/**
- * @swagger
- * components:
- *   securitySchemes:
- *     bearerAuth:
- *       type: http
- *       scheme: bearer
- *       bearerFormat: JWT
- *       description: Masukkan token JWT di sini
- */
 module.exports = Route;

@@ -4,7 +4,7 @@ const JadwalDokterController = require("../controllers/jadwal-dokter-controller"
 const { auth, authorizeRole } = require("../middlewares/auth-middleware");
 /**
  * @swagger
- * /jadwal-dokter/search:
+ * api/v1/jadwal-dokter/search:
  *   get:
  *     summary: Cari jadwal dokter berdasarkan tanggal dan poli
  *     description: Endpoint untuk mencari jadwal dokter berdasarkan ID poli dan tanggal tertentu.
@@ -162,7 +162,7 @@ route.get("/search", JadwalDokterController.searchJadwalDokter);
 
 /**
  * @swagger
- * /jadwal-dokter/{id_dokter}:
+ * api/v1/jadwal-dokter/{id_dokter}:
  *   get:
  *     summary: Mendapatkan jadwal dokter berdasarkan ID
  *     description: Endpoint ini digunakan untuk mengambil jadwal dokter berdasarkan ID dokter, beserta informasi dokter, dan daftar layanan yang terkait dengan hari dan jam praktiknya.
@@ -271,7 +271,7 @@ route.get("/:id_dokter", JadwalDokterController.getByIdJadwalDokter);
 
 /**
  * @swagger
- * /jadwal-dokter:
+ * api/v1/jadwal-dokter:
  *   get:
  *     summary: Mendapatkan seluruh jadwal dokter
  *     description: Endpoint ini digunakan untuk mengambil seluruh jadwal dokter beserta informasi dokter, poli, dan daftar pelayanan yang terkait dengan hari dan jam praktiknya. Data ditampilkan dengan sistem pagination berdasarkan jumlah dokter.
@@ -419,14 +419,12 @@ route.get("/", JadwalDokterController.getAllJadwalDokter);
 
 /**
  * @swagger
- * /jadwal-dokter:
+ * api/v1/jadwal-dokter:
  *   post:
  *     summary: Menambahkan jadwal dokter baru
  *     description: Endpoint ini digunakan untuk menambahkan jadwal dokter berdasarkan daftar layanan dan jadwal hari yang dikirim dalam request.
  *     tags:
  *       - Jadwal Dokter
- *     security:
- *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -587,14 +585,12 @@ route.post(
 
 /**
  * @swagger
- * /jadwal-dokter/{id_dokter}:
+ * api/v1/jadwal-dokter/{id_dokter}:
  *   put:
  *     summary: Memperbarui seluruh jadwal dokter
  *     description: Endpoint ini digunakan untuk memperbarui seluruh jadwal dokter berdasarkan ID dokter. Semua jadwal lama akan dihapus dan digantikan dengan data baru.
  *     tags:
  *       - Jadwal Dokter
- *     security:
- *       - bearerAuth: []
  *     parameters:
  *       - name: id_dokter
  *         in: path
@@ -732,14 +728,12 @@ route.put(
 
 /**
  * @swagger
- * /jadwal-dokter/{id_dokter}:
+ * api/v1/jadwal-dokter/{id_dokter}:
  *   delete:
  *     summary: Hapus semua jadwal berdasarkan ID dokter
  *     description: Endpoint ini digunakan untuk menghapus seluruh jadwal dokter berdasarkan ID dokter.
  *     tags:
  *       - Jadwal Dokter
- *     security:
- *       - bearerAuth: []
  *     parameters:
  *       - name: id_dokter
  *         in: path
@@ -808,14 +802,4 @@ route.delete(
   JadwalDokterController.deleteJadwalDokterByDokterId
 );
 
-/**
- * @swagger
- * components:
- *   securitySchemes:
- *     bearerAuth:
- *       type: http
- *       scheme: bearer
- *       bearerFormat: JWT
- *       description: Masukkan token JWT di sini
- */
 module.exports = route;

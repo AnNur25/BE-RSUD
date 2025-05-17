@@ -6,7 +6,7 @@ const { auth, authorizeRole } = require("../middlewares/auth-middleware");
 
 /**
  * @swagger
- * /layanan-unggulan:
+ * /api/v1/layanan-unggulan:
  *   get:
  *     summary: Ambil semua layanan unggulan
  *     tags:
@@ -80,14 +80,12 @@ const { auth, authorizeRole } = require("../middlewares/auth-middleware");
 route.get("/", layananUnggulan.getAllLayananUnggulan);
 /**
  * @swagger
- * /layanan-unggulan/{id}:
+ * /api/v1/layanan-unggulan/{id}:
  *   put:
  *     summary: Update layanan unggulan
  *     description: Update data layanan unggulan termasuk judul, deskripsi, upload gambar baru, update caption gambar yang sudah ada, dan menghapus gambar yang tidak dipertahankan.
  *     tags:
  *       - Layanan Unggulan
- *     security:
- *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -115,7 +113,7 @@ route.get("/", layananUnggulan.getAllLayananUnggulan);
  *               existingImages:
  *                 type: string
  *                 description: JSON string berisi daftar gambar yang masih dipertahankan beserta caption terbarunya.
- *                 example: '[{"id":"img1","caption":"Tampak depan rumah baru"}, {"id":"img2","caption":"Progres renovasi"}]'
+ *                 example: '[{"id":"04b6f8f9-4abd-4bb0-a9c6-43959dc06cc0", "caption":"ok"}]'
  *               gambarCaption:
  *                 type: string
  *                 description: JSON string caption untuk gambar baru (jika ada file yang diupload)

@@ -3,16 +3,6 @@ const prisma = require("../prisma/prismaClient");
 const { connect } = require("../routes/berita-route");
 class komentarService {
   static async addKomentar({ id_berita, nama, no_wa, isi_komentar }) {
-    console.log("DEBUG ADD KOMENTAR:", {
-      id_berita,
-      nama,
-      no_wa,
-      isi_komentar,
-      typeof_nama: typeof nama,
-      typeof_no_wa: typeof no_wa,
-      typeof_isi: typeof isi_komentar,
-    });
-
     if (!id_berita || !nama || !no_wa || !isi_komentar) {
       throw new BadRequestError("Semua field wajib di isi");
     }
@@ -21,6 +11,7 @@ class komentarService {
       data: {
         nama,
         no_wa,
+        isVisible: true,
         isi_komentar,
         berita: { connect: { id_berita } },
       },
@@ -52,6 +43,7 @@ class komentarService {
         id_komentar: komentar.id_komentar,
         nama: komentar.nama,
         isi_komentar: komentar.isi_komentar,
+        isVisible: komentar.isVisible,
         tanggal_komentar: formatTanggal(komentar.createdAt),
       };
 
@@ -78,6 +70,7 @@ class komentarService {
           id_komentar: balasan.id_komentar,
           nama: balasan.nama,
           isi_komentar: balasan.isi_komentar,
+          isVisible: balasan.isVisible,
           tanggal_komentar: balasan.tanggal_komentar,
         });
       } else {
@@ -88,6 +81,7 @@ class komentarService {
               id_komentar: balasan.id_komentar,
               nama: balasan.nama,
               isi_komentar: balasan.isi_komentar,
+              isVisible: balasan.isVisible,
               tanggal_komentar: balasan.tanggal_komentar,
             },
           ],
@@ -100,6 +94,7 @@ class komentarService {
       id_komentar: k.id_komentar ?? null,
       nama: k.nama ?? null,
       isi_komentar: k.isi_komentar ?? null,
+      isVisible: k.isVisible ?? null,
       tanggal_komentar: k.tanggal_komentar ?? null,
       replies: k.replies || [],
     }));
@@ -131,6 +126,7 @@ class komentarService {
         id_komentar: komentar.id_komentar,
         nama: komentar.nama,
         isi_komentar: komentar.isi_komentar,
+        isVisible: komentar.isVisible,
         tanggal_komentar: formatTanggal(komentar.createdAt),
       };
 
@@ -188,8 +184,6 @@ class komentarService {
     nama,
     no_wa,
   }) {
-    
-
     if (!id_berita || !id_komentar || !isi_komentar) {
       throw new BadRequestError(
         "Berita ID, komentar ID, dan isi komentar wajib diisi"
