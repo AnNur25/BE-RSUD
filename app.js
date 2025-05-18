@@ -29,12 +29,26 @@ const layananUnggulanRoute = require("./src/routes/layanan-unggulan-route");
 const komentarRoute = require("./src/routes/komentar-route");
 const mediaSosial = require("./src/routes/media-sosial-route");
 const port = envConfig.port;
+const passport = require("passport");
+
+app.use(passport.initialize());
 require("./src/cron/delete-komentar-cron");
 require("./src/cron/cleanup-revoked-token-cron");
+
 app.use(cookieParser());
+
 app.use(
-  cors({ allowedHeaders: ["Content-Type", "Authorization"], credentials: true })
+  cors({
+    origin: process.env.FRONTEND_URL || "https://rsdbalung.vercel.app",
+    credentials: true, // PENTING: harus true untuk mengizinkan cookies
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
 );
+
+// Tambahkan middleware ini untuk memastikan opsi preflight CORS bekerja dengan baik
+app.options("*", cors());
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
