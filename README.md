@@ -31,12 +31,12 @@ A clean and modular **Express.js** backend application for RSUD (Rumah Sakit Umu
 ├── 📁 node_modules/            # Folder dependensi npm (auto-generated)
 │
 ├── 📂 src/                     # Source code utama
-│   ├── 🛠️ configs/            # Konfigurasi global (DB, CORS, dll)
+│   ├── 🛠️ configs/             # Konfigurasi global (DB, CORS, dll)
 │   ├── 🧠 controllers/         # Logic untuk handle HTTP request
 │   ├── 🧩 services/            # Business logic (dipanggil controller)
 │   ├── 🚦 routes/              # Definisi endpoint / rute aplikasi
 │   ├── 🔧 prisma/              # File schema & konfigurasi Prisma ORM
-│   ├── 🛡️ middlewares/        # Middleware Express (auth, error handler, dll)
+│   ├── 🛡️ middlewares/         # Middleware Express (auth, error handler, dll)
 │   └── 🧰 utils/               # Fungsi bantu (validator, helper, dll)
 │
 ├── 🧪 test/                    # Folder untuk integration / unit testing
