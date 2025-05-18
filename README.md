@@ -27,26 +27,27 @@ A clean and modular **Express.js** backend application for RSUD (Rumah Sakit Umu
 
 
 ```bash
-📁 Capstone-RSUD/
-├── 📁 src/
-│   ├── 📁 configs/           # Konfigurasi global (DB, CORS, dll)
-│   ├── 📁 controllers/       # Logic untuk handle HTTP request
-│   ├── 📁 services/          # Business logic (dipanggil oleh controller)
-│   ├── 📁 routes/            # Daftar dan manajemen endpoint
-│   ├── 📁 prisma/            # File Prisma (schema.prisma, migrations)
-│   ├── 📁 middlewares/       # Middleware Express (auth, error handler, dll)
-│   └── 📁 utils/             # Fungsi bantu (helper, validator, formatter, dll)
+📦 Capstone-RSUD/
+├── 📁 node_modules/            # Folder dependensi npm (auto-generated)
 │
-├── 📁 test/                  # integration testing
+├── 📂 src/                     # Source code utama
+│   ├── 🛠️ configs/            # Konfigurasi global (DB, CORS, dll)
+│   ├── 🧠 controllers/         # Logic untuk handle HTTP request
+│   ├── 🧩 services/            # Business logic (dipanggil controller)
+│   ├── 🚦 routes/              # Definisi endpoint / rute aplikasi
+│   ├── 🔧 prisma/              # File schema & konfigurasi Prisma ORM
+│   ├── 🛡️ middlewares/        # Middleware Express (auth, error handler, dll)
+│   └── 🧰 utils/               # Fungsi bantu (validator, helper, dll)
 │
-├── 📁 uploads/               # Folder penyimpanan file upload
-│   └── 📁 resized/           # Gambar hasil resize (via sharp)
+├── 🧪 test/                    # Folder untuk integration / unit testing
 │
-├── 📄 .env                   # Konfigurasi environment (PORT, DB_URL, dll)
-├── 📄 .gitignore             # File & folder yang diabaikan Git
-├── 📄 app.js                 # Entry point aplikasi (setup server & middleware)
-└── 📄 package.json           # Info project & dependensi npm
-
+├── 🖼️ uploads/                 # Tempat penyimpanan file upload
+│   └── 📏 resized/             # Hasil resize gambar (via sharp)
+│
+├── 📄 .env                     # Variabel lingkungan (PORT, DB_URL, dll)
+├── 📄 .gitignore               # File & folder yang tidak di-push ke Git
+├── 🚀 app.js                   # Entry point Express.js
+└── 📜 package.json             # Info project & daftar dependensi
 ```
 
 ## Installation
