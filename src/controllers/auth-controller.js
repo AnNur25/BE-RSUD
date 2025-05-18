@@ -39,14 +39,14 @@ class AuthController {
       res.cookie("aksesToken", cookie.sign(result.aksesToken, cookieSecret), {
         httpOnly: true,
         secure: cookieSecure,
-        sameSite: "Strict",
+        sameSite: "None",
         expires: new Date(Date.now() + 15 * 60 * 1000),
         path: "/api/v1",
       });
       res.cookie("refreshToken", result.refreshToken, {
         httpOnly: true,
         secure: cookieSecure,
-        sameSite: "Strict",
+        sameSite: "None",
         expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
         path: "/api/v1/auth",
       });
@@ -90,14 +90,14 @@ class AuthController {
       res.cookie("aksesToken", cookie.sign(newAksesToken, cookieSecret), {
         httpOnly: true,
         secure: cookieSecure,
-        sameSite: "Strict",
+        sameSite: "None", // supaya cookie dikirim saat cross-site request
         expires: new Date(Date.now() + 15 * 60 * 1000),
         path: "/api/v1",
       });
       res.cookie("refreshToken", newRefreshToken, {
         httpOnly: true,
         secure: cookieSecure,
-        sameSite: "Strict",
+        sameSite: "None",
         expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
         path: "/api/v1/auth",
       });
