@@ -95,26 +95,34 @@ Once the installation is complete, you can start the application using one of th
 Buat file `.env` di root project dan isi dengan variabel-variabel berikut:
 
 ```env
-# Database connection string
-DATABASE_URL=""
+# 🌐 === ENVIRONMENT VARIABLES ===
 
-# Server port
-PORT=
+# 📦 Database
+DATABASE_URL=""             # Connection string ke database (PostgreSQL)
 
-# JWT secret key for authentication
-JWT_SECRET=
+# 🚀 Server
+PORT=3000                   # Port server berjalan
 
-# ImageKit configuration
-IMAGEKIT_PUBLICKEY=""
-IMAGEKIT_PRIVATEKEY=""
-IMAGEKIT_URL=""
+# 🔐 Authentication
+JWT_SECRET=""               # Secret utama untuk JWT
+REFRESH_SECRET_KEY=""       # Secret untuk refresh token
+COOKIE_SECRET=""            # Secret untuk cookie signing
 
-# Email credentials for Nodemailer or similar service
-EMAIL_USER=
-EMAIL_PASS=
+# 📧 Email (Nodemailer)
+EMAIL_USER=""               # Alamat email pengirim
+EMAIL_PASS=""               # App password SMTP
 
-# Frontend application URL (for CORS or redirect links)
-FRONTEND_URL=""
+# 🌍 Frontend URL
+FRONTEND_URL=""             # Untuk redirect OAuth / CORS
+
+# 🔐 Google OAuth2
+GOOGLE_CLIENT_ID=""
+GOOGLE_CLIENT_SECRET=""
+GOOGLE_CALLBACK_URL=""      # Contoh: http://localhost:3000/auth/google/callback
+
+# 🧪 Deployment
+VERCEL_ENV=""               # Digunakan untuk environment check (dev/prod)
+
 ```
 
 ## Database
