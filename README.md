@@ -27,21 +27,26 @@ A clean and modular **Express.js** backend application for RSUD (Rumah Sakit Umu
 
 
 ```bash
-Capstone-RSUD/
-├── src/
-│   ├── configs/
-│   ├── controllers/
-│   ├── services/
-│   ├── routes/
-│   ├── prisma/
-│   ├── middlewares/
-│   └── utils/
+📁 Capstone-RSUD/
+├── 📁 src/
+│   ├── 📁 configs/           # Konfigurasi global (DB, CORS, dll)
+│   ├── 📁 controllers/       # Logic untuk handle HTTP request
+│   ├── 📁 services/          # Business logic (dipanggil oleh controller)
+│   ├── 📁 routes/            # Daftar dan manajemen endpoint
+│   ├── 📁 prisma/            # File Prisma (schema.prisma, migrations)
+│   ├── 📁 middlewares/       # Middleware Express (auth, error handler, dll)
+│   └── 📁 utils/             # Fungsi bantu (helper, validator, formatter, dll)
 │
-├── test/
-├── .env
-├── .gitignore
-├── app.js
-└── package.json
+├── 📁 test/                  # Unit dan integration testing
+│
+├── 📁 uploads/               # Folder penyimpanan file upload
+│   └── 📁 resized/           # Gambar hasil resize (via sharp)
+│
+├── 📄 .env                   # Konfigurasi environment (PORT, DB_URL, dll)
+├── 📄 .gitignore             # File & folder yang diabaikan Git
+├── 📄 app.js                 # Entry point aplikasi (setup server & middleware)
+└── 📄 package.json           # Info project & dependensi npm
+
 ```
 
 ## Installation
