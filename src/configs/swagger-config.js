@@ -18,15 +18,15 @@ const swaggerOptions = {
         description: "Development server",
       },
     ],
-      // components: {
-      //   securitySchemes: {
-      //     bearerAuth: {
-      //       type: "http",
-      //       scheme: "bearer",
-      //       bearerFormat: "JWT",
-      //     },
-      //   },
-      // },
+    // components: {
+    //   securitySchemes: {
+    //     bearerAuth: {
+    //       type: "http",
+    //       scheme: "bearer",
+    //       bearerFormat: "JWT",
+    //     },
+    //   },
+    // },
   },
   apis: [
     "./src/routes/aduan-route.js",
@@ -37,6 +37,7 @@ const swaggerOptions = {
     "./src/routes/profil-route.js",
     "./src/routes/pelayanan-route.js",
     "./src/routes/auth-route.js",
+    "./src/routes/oauth-route.js",
     "./src/routes/banner-route.js",
     "./src/routes/layanan-unggulan-route.js",
     "./src/routes/komentar-route.js",
