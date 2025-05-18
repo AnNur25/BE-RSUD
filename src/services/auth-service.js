@@ -45,6 +45,18 @@ class AuthService {
     }
     const aksesToken = JwtHelper.generateToken(user);
     const refreshToken = JwtHelper.generateRefresToken(user);
+    await prisma.revokedToken.upsert({
+      where: { user_id: user.id_user },
+      update: {
+        token: refreshToken,
+        expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+      },
+      create: {
+        user_id: user.id_user,
+        token: refreshToken,
+        expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+      },
+    });
     return { aksesToken, refreshToken, user };
   }
 

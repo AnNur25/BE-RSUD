@@ -19,6 +19,7 @@ model User {
   
   responAdmin ResponAdmin[]
   komentar Komentar[]
+  revokedToken RevokedToken[]
 }
 
 enum Role{
@@ -28,7 +29,10 @@ enum Role{
 model RevokedToken {
   id        Int      @id @default(autoincrement())
   token     String   @unique
-  expiresAt DateTime // Untuk auto-cleanup
+  expiresAt DateTime 
+  user_id   String @unique
+
+  user User @relation(fields: [user_id], references: [id_user])
 }
 model Banner{
   id_banner   String @id @default(uuid())
