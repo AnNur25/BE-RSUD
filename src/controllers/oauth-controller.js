@@ -49,7 +49,7 @@ class OauthController {
       res.cookie("aksesToken", cookie.sign(aksesToken, cookieSecret), {
         httpOnly: true,
         secure: cookieSecure,
-        sameSite: "None", // untuk cross-domain
+        sameSite: "None", 
         expires: new Date(Date.now() + 15 * 60 * 1000),
         path: "/api/v1",
       });
