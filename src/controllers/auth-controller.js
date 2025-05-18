@@ -77,15 +77,32 @@ class AuthController {
         throw new UnauthorizedError("User tidak ditemukan");
       }
 
-      await prisma.revokedToken.create({
-        data: {
-          token: rawRefreshToken,
-          expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-        },
+      const revoked = await prisma.revokedToken.findUnique({
+        where: { user_id: userId },
       });
+
+      if (!revoked || revoked.token !== rawRefreshToken) {
+        throw new UnauthorizedError(
+          "Refresh token tidak valid atau sudah kadaluarsa"
+        );
+      }
 
       const newAksesToken = JwtHelper.generateToken(currentUser);
       const newRefreshToken = JwtHelper.generateRefresToken(currentUser);
+
+      // (update jika ada, create jika belum)
+      await prisma.revokedToken.upsert({
+        where: { user_id: userId },
+        update: {
+          token: newRefreshToken,
+          expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+        },
+        create: {
+          user_id: userId,
+          token: newRefreshToken,
+          expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+        },
+      });
 
       res.cookie("aksesToken", cookie.sign(newAksesToken, cookieSecret), {
         httpOnly: true,
@@ -115,7 +132,22 @@ class AuthController {
   }
   static async logout(req, res) {
     try {
-      await authService.logout(res);
+      const rawRefreshToken = req.cookies.refreshToken;
+      if (!rawRefreshToken) {
+        throw new UnauthorizedError("Refresh token tidak ditemukan");
+      }
+
+      const decoded = jwt.verify(rawRefreshToken, refreshSecret);
+      const userId = decoded.id_user;
+
+      await prisma.revokedToken.deleteMany({
+        where: { user_id: userId },
+      });
+
+      // Hapus cookie
+      res.clearCookie("aksesToken", { path: "/api/v1" });
+      res.clearCookie("refreshToken", { path: "/api/v1/auth" });
+
       return responseHelper.success(res, null, "Berhasil logout");
     } catch (error) {
       return responseHelper.error(res, error);

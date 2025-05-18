@@ -2,7 +2,7 @@ const cron = require("node-cron");
 const prisma = require("../prisma/prismaClient");
 
 cron.schedule(
-  "0 0 * * *",
+  "0 0 * * *", //setiap hari pukul 00:00 (tengah malam)
   async () => {
     try {
       const result = await prisma.revokedToken.deleteMany({
