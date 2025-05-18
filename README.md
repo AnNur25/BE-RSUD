@@ -6,19 +6,25 @@ A clean and modular **Express.js** backend application for RSUD (Rumah Sakit Umu
 
 ## Tech Stack
 
-- **Node.js** with **Express.js** (`express`) — lightweight web framework
-- **Prisma ORM** (`prisma`, `@prisma/client`) — modern ORM for database access
-- **JWT** (`jsonwebtoken`) — secure authentication
-- **PostgreSQL / Supabase** — relational database
-- **bcrypt** (`bcrypt`) — password hashing
-- **CORS** (`cors`) — enable cross-origin resource sharing
-- **Environment Configuration** (`dotenv`) — manage environment variables
-- **Session Management** (`express-session`) — manage user sessions
-- **Image Upload & CDN** (`imagekit`) — handle image uploads
-- **File Upload** (`multer`) — handle multipart/form-data
-- **Email Sending** (`nodemailer`) — send emails via SMTP
-- **Auto Reload During Development** (`nodemon`) — live-reload server
-- **API Documentation** (`swagger-jsdoc`, `swagger-ui-express`) — auto-generate API docs from comments
+- **Node.js** with **Express.js** (`express`) — lightweight web framework  
+- **Prisma ORM** (`prisma`, `@prisma/client`) — modern ORM for database access  
+- **JWT** (`jsonwebtoken`) — secure authentication  
+- **PostgreSQL / Supabase** — relational database  
+- **bcrypt** (`bcrypt`) — password hashing  
+- **Session Management** (`express-session`) — manage user sessions  
+- **Cookie Handling** (`cookie-parser`, `cookie-signature`) — handle and sign cookies  
+- **CORS** (`cors`) — enable cross-origin resource sharing  
+- **Environment Configuration** (`dotenv`) — manage environment variables  
+- **File Upload** (`multer`) — handle multipart/form-data  
+- **Image Processing** (`sharp`) — resize and optimize images  
+- **Email Sending** (`nodemailer`) — send emails via SMTP  
+- **Task Scheduling** (`node-cron`) — schedule automated tasks  
+- **Google OAuth** (`passport`, `passport-google-oauth20`) — Google login authentication  
+- **Auto Reload During Development** (`nodemon`) — auto-reload server during development  
+- **API Documentation** (`swagger-jsdoc`, `swagger-ui-express`, `swagger-ui-dist`) — auto-generate API docs  
+- **HTTP Requests** (`request`, `request-promise`) — make HTTP requests (deprecated)  
+- **Timezone Handling** (`moment-timezone`) — manage and convert timezones  
+
 
 ```bash
 Capstone-RSUD/
