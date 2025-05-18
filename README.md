@@ -37,7 +37,7 @@ A clean and modular **Express.js** backend application for RSUD (Rumah Sakit Umu
 │   ├── 📁 middlewares/       # Middleware Express (auth, error handler, dll)
 │   └── 📁 utils/             # Fungsi bantu (helper, validator, formatter, dll)
 │
-├── 📁 test/                  # Unit dan integration testing
+├── 📁 test/                  # integration testing
 │
 ├── 📁 uploads/               # Folder penyimpanan file upload
 │   └── 📁 resized/           # Gambar hasil resize (via sharp)
