@@ -41,14 +41,14 @@ class AuthController {
         secure: cookieSecure,
         sameSite: "None",
         expires: new Date(Date.now() + 15 * 60 * 1000),
-        path: "/api/v1",
+        path: "/",
       });
       res.cookie("refreshToken", result.refreshToken, {
         httpOnly: true,
         secure: cookieSecure,
         sameSite: "None",
         expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-        path: "/api/v1/auth",
+        path: "/",
       });
       return responseHelper.success(res, result, "Login Success");
     } catch (error) {
@@ -109,14 +109,14 @@ class AuthController {
         secure: cookieSecure,
         sameSite: "None", // supaya cookie dikirim saat cross-site request
         expires: new Date(Date.now() + 15 * 60 * 1000),
-        path: "/api/v1",
+        path: "/",
       });
       res.cookie("refreshToken", newRefreshToken, {
         httpOnly: true,
         secure: cookieSecure,
         sameSite: "None",
         expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-        path: "/api/v1/auth",
+        path: "/",
       });
       return responseHelper.success(
         res,

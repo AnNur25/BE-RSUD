@@ -79,10 +79,10 @@ model Komentar {
   isVisible Boolean @default(false)
   berita_id String
   user_id String?
+  parentId       String?       
 
   
   // Self-reference untuk reply komentar
-  parentId       String?       
   parent         Komentar?     @relation("KomentarParent", fields: [parentId], references: [id_komentar])
   replies        Komentar[]    @relation("KomentarParent")
 
