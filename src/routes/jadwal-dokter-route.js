@@ -160,6 +160,8 @@ const { auth, authorizeRole } = require("../middlewares/auth-middleware");
  */
 route.get("/search", JadwalDokterController.searchJadwalDokter);
 
+route.get("/seacrh/dokter", JadwalDokterController.searchJadwalByDokter)
+
 /**
  * @swagger
  * api/v1/jadwal-dokter/{id_dokter}:

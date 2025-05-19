@@ -186,6 +186,7 @@ class JadwalDokterService {
       },
     };
   }
+  static async searchJadwalByDokter({ nama_dokter }) {}
   static async getJadwalDokterById({ id_dokter }) {
     const jadwalList = await prisma.jadwalDokter.findMany({
       where: {

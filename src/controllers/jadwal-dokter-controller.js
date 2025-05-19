@@ -46,6 +46,20 @@ class JadwalDokterController {
     }
   }
 
+  static async searchJadwalByDokter(req, res) {
+    try {
+      const { nama_dokter } = req.query;
+      const data = await jadwalDokterService.searchJadwalByDokter(nama_dokter);
+      return responseHelper.success(
+        res,
+        data,
+        "berhasil menampilkan jadwal dokter berdasarkan pencarian nama dokter"
+      );
+    } catch (error) {
+      return responseHelper.error(res, error);
+    }
+  }
+
   static async getAllJadwalDokter(req, res) {
     try {
       const page = parseInt(req.query.page) || 1;
