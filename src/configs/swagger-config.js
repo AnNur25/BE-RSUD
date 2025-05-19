@@ -18,15 +18,6 @@ const swaggerOptions = {
         description: "Development server",
       },
     ],
-    // components: {
-    //   securitySchemes: {
-    //     bearerAuth: {
-    //       type: "http",
-    //       scheme: "bearer",
-    //       bearerFormat: "JWT",
-    //     },
-    //   },
-    // },
   },
   apis: [
     "./src/routes/aduan-route.js",
