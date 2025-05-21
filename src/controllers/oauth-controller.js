@@ -63,7 +63,7 @@ class OauthController {
       });
 
       res.redirect(
-        `${redirectTo}?aksesToken=${aksesToken}&refreshToken=${refreshToken}`
+        `${redirectTo}?authSuccess=true?aksesToken=${aksesToken}&refreshToken=${refreshToken}`
       );
     })(req, res, next);
   }

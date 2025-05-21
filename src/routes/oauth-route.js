@@ -56,7 +56,7 @@ route.get("/google", oauthController.googleLogin);
  *
  *       Jika login berhasil:
  *       - User akan di-redirect ke URL `redirectTo` (yang sebelumnya dikirim via state)
- *       - URL akan mengandung query `?authSuccess=true`
+ *       - URL akan mengandung query `?authSuccess=true?aksesToken=xxx&refreshToken=xxx`
  *
  *       Jika login gagal:
  *       - Akan redirect ke frontend dengan query `?error=oauth_failed&reason=...`
@@ -72,6 +72,74 @@ route.get("/google", oauthController.googleLogin);
  *         description: Redirect ke frontend (berisi parameter keberhasilan atau error)
  */
 route.get("/google/callback", oauthController.googleCallback);
+
+/**
+ * @swagger
+ * /api/v1/auth/set-cookie:
+ *   post:
+ *     tags:
+ *       - OAuth
+ *     summary: Set cookie secara manual dari token yang dikirim frontend
+ *     description: |
+ *       Endpoint ini digunakan untuk menyimpan token `aksesToken` dan `refreshToken` ke dalam cookie secara manual.
+ *       Cocok digunakan ketika frontend menerima token dari redirect URL dan ingin menyimpan token ke dalam cookie secara eksplisit (misalnya setelah login via popup).
+ *
+ *       - Cookie `aksesToken` akan disimpan selama 15 menit.
+ *       - Cookie `refreshToken` akan disimpan selama 7 hari.
+ *       - Cookie akan menggunakan atribut `httpOnly`, `secure`, dan `SameSite` sesuai dengan mode production.
+ *
+ *       ⚠️ Token harus dikirim melalui body dalam format JSON, bukan sebagai query atau header.
+ *
+ *       Contoh alur:
+ *       1. Frontend menerima `aksesToken` dan `refreshToken` dari redirect URL.
+ *       2. Frontend mengirim `POST /api/v1/auth/set-cookie` dengan body:
+ *          ```json
+ *          {
+ *            "aksesToken": "xxx",
+ *            "refreshToken": "yyy"
+ *          }
+ *          ```
+ *       3. Backend akan menyimpan token tersebut ke cookie.
+ *
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - aksesToken
+ *               - refreshToken
+ *             properties:
+ *               aksesToken:
+ *                 type: string
+ *                 description: Token akses (JWT)
+ *               refreshToken:
+ *                 type: string
+ *                 description: Token refresh (JWT)
+ *
+ *     responses:
+ *       200:
+ *         description: Cookie berhasil diset
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *       400:
+ *         description: Token tidak lengkap (aksesToken atau refreshToken kosong)
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: Token tidak lengkap
+ */
 route.post("/set-cookie", oauthController.setCookie);
 
 module.exports = route;
