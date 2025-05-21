@@ -49,9 +49,9 @@ class OauthController {
       res.cookie("aksesToken", cookie.sign(aksesToken, cookieSecret), {
         httpOnly: true,
         secure: cookieSecure,
-        sameSite: "None", 
+        sameSite: "None",
         expires: new Date(Date.now() + 15 * 60 * 1000),
-        path: "/api/v1",
+        path: "/",
       });
 
       res.cookie("refreshToken", refreshToken, {
@@ -59,7 +59,7 @@ class OauthController {
         secure: cookieSecure,
         sameSite: "None", // Ubah ke None untuk cross-domain
         expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-        path: "/api/v1/auth",
+        path: "/",
       });
 
       return res.redirect(`${redirectTo}?authSuccess=true`);
