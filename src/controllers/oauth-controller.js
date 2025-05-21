@@ -49,7 +49,7 @@ class OauthController {
       res.cookie("aksesToken", cookie.sign(aksesToken, cookieSecret), {
         httpOnly: true,
         secure: cookieSecure,
-        sameSite: "None",
+        sameSite: cookieSecure ? "None" : "Lax",
         expires: new Date(Date.now() + 15 * 60 * 1000),
         path: "/",
       });
@@ -57,13 +57,40 @@ class OauthController {
       res.cookie("refreshToken", refreshToken, {
         httpOnly: true,
         secure: cookieSecure,
-        sameSite: "None", // Ubah ke None untuk cross-domain
+        sameSite: cookieSecure ? "None" : "Lax", // Ubah ke None untuk cross-domain
         expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
         path: "/",
       });
 
-      return res.redirect(`${redirectTo}?authSuccess=true`);
+      res.redirect(
+        `${redirectTo}?aksesToken=${aksesToken}&refreshToken=${refreshToken}`
+      );
     })(req, res, next);
+  }
+  static setCookie(req, res) {
+    const { aksesToken, refreshToken } = req.body;
+
+    if (!aksesToken || !refreshToken) {
+      return res.status(400).json({ error: "Token tidak lengkap" });
+    }
+
+    res.cookie("aksesToken", cookie.sign(aksesToken, cookieSecret), {
+      httpOnly: true,
+      secure: cookieSecure,
+      sameSite: cookieSecure ? "None" : "Lax",
+      expires: new Date(Date.now() + 15 * 60 * 1000),
+      path: "/",
+    });
+
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      secure: cookieSecure,
+      sameSite: cookieSecure ? "None" : "Lax", // Ubah ke None untuk cross-domain
+      expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+      path: "/",
+    });
+
+    res.json({ success: true });
   }
 }
 module.exports = OauthController;

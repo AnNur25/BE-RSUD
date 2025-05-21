@@ -1,6 +1,7 @@
 const express = require("express");
 const route = express.Router();
 const oauthController = require("../controllers/oauth-controller");
+const { auth } = require("../middlewares/auth-middleware");
 
 /**
  * @swagger
@@ -71,5 +72,6 @@ route.get("/google", oauthController.googleLogin);
  *         description: Redirect ke frontend (berisi parameter keberhasilan atau error)
  */
 route.get("/google/callback", oauthController.googleCallback);
+route.post("/set-cookie", oauthController.setCookie);
 
 module.exports = route;
