@@ -133,6 +133,7 @@ class AuthController {
   static async logout(req, res) {
     try {
       const rawRefreshToken = req.cookies.refreshToken;
+      console.log("Raw Refresh Token:", rawRefreshToken);
       if (!rawRefreshToken) {
         throw new UnauthorizedError("Refresh token tidak ditemukan");
       }
@@ -144,7 +145,6 @@ class AuthController {
         where: { user_id: userId },
       });
 
-      // Hapus cookie
       res.clearCookie("aksesToken", { path: "/api/v1" });
       res.clearCookie("refreshToken", { path: "/api/v1/auth" });
 

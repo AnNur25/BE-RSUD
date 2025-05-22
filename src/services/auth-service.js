@@ -66,14 +66,6 @@ class AuthService {
     });
     return { aksesToken, refreshToken, user };
   }
-
-  static async logout(res) {
-    res.clearCookie("refreshToken", {
-      expires: new Date(Date.now()),
-      httpOnly: true,
-      sameSite: "Strict",
-    });
-  }
 }
 
 module.exports = AuthService;

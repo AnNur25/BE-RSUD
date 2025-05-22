@@ -35,6 +35,8 @@ app.use(passport.initialize());
 require("./src/cron/delete-komentar-cron");
 require("./src/cron/cleanup-revoked-token-cron");
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 app.use(
@@ -48,9 +50,6 @@ app.use(
 
 // Tambahkan middleware ini untuk memastikan opsi preflight CORS bekerja dengan baik
 app.options("*", cors());
-
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 
 app.use(
   "/api-docs",
@@ -95,3 +94,4 @@ app.get("/", (req, res) => {
 app.listen(port, () => {
   console.log(`LOPE YOU ${port}`);
 });
+module.exports = app;
