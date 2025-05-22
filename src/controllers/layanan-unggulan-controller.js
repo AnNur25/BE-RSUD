@@ -1,7 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 const sharp = require("sharp");
-const responseHelper = require("../utils/response");
+const responseHelper = require("../helpers/response");
 const prisma = require("../prisma/prismaClient");
 const { BadRequestError, NotFoundError } = require("../utils/error");
 class LayananUnggulanController {

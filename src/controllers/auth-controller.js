@@ -1,4 +1,4 @@
-const responseHelper = require("../utils/response");
+const responseHelper = require("../helpers/response");
 const jwt = require("jsonwebtoken");
 const prisma = require("../prisma/prismaClient");
 const authService = require("../services/auth-service");

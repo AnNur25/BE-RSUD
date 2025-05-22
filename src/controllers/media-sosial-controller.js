@@ -1,4 +1,4 @@
-const response = require("../utils/response");
+const response = require("../helpers/response");
 const mediaSosialServis = require("../services/media-sosoal-service");
 const { BadRequestError, NotFoundError } = require("../utils/error");
 
@@ -31,12 +31,12 @@ class MediaSosialController {
       return response.error(res, error);
     }
   }
-  static async getMediaSosial(req,res){
+  static async getMediaSosial(req, res) {
     try {
       const data = await mediaSosialServis.getMediaSosial();
-      return response.success(res, data, "berhasil menampilkan embed ig")
+      return response.success(res, data, "berhasil menampilkan embed ig");
     } catch (error) {
-      return response.error(res,error)
+      return response.error(res, error);
     }
   }
 }

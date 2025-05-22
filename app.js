@@ -11,7 +11,7 @@ const {
   BadRequestError,
   NotFoundError,
 } = require("./src/utils/error");
-const responseHelper = require("./src/utils/response");
+const responseHelper = require("./src/helpers/response");
 const cors = require("cors");
 const swaggerSpec = require("./src/configs/swagger-config");
 const swaggerUiDist = require("swagger-ui-dist");

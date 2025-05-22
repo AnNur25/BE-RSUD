@@ -1,4 +1,4 @@
-const responseHelper = require("../utils/response");
+const responseHelper = require("../helpers/response");
 const dokterService = require("../services/dokter-service");
 
 class DokterController {

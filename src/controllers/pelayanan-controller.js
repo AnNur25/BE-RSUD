@@ -1,5 +1,5 @@
 const pelayananService = require("../services/pelayanan-service");
-const responseHelper = require("../utils/response");
+const responseHelper = require("../helpers/response");
 
 class PelayananController {
   static async createPelayanan(req, res) {
