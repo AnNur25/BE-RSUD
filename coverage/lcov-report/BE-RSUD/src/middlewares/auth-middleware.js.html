@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">42.42% </span>
+                <span class="strong">48.48% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>14/33</span>
+                <span class='fraction'>16/33</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">75% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>3/4</span>
+                <span class='fraction'>2/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">42.42% </span>
+                <span class="strong">48.48% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>14/33</span>
+                <span class='fraction'>16/33</span>
             </div>
         
             
@@ -118,35 +118,35 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -177,26 +177,26 @@ function auth(req, res, next) {
     }
 &nbsp;
     const unsigned = cookie.unsign(rawToken, cookieSecret);
-    <span class="missing-if-branch" title="if path not taken" >I</span>if (!unsigned) {
-      const error = <span class="cstat-no" title="statement not covered" >new Error("Token tidak valid (signature tidak cocok)");</span>
-<span class="cstat-no" title="statement not covered" >      error.statusCode = 401;</span>
-<span class="cstat-no" title="statement not covered" >      throw error;</span>
+    <span class="missing-if-branch" title="else path not taken" >E</span>if (!unsigned) {
+      const error = new Error("Token tidak valid (signature tidak cocok)");
+      error.statusCode = 401;
+      throw error;
     }
 &nbsp;
-    jwt.verify(unsigned, aksesSecret, (error, user) =&gt; {
-      <span class="missing-if-branch" title="if path not taken" >I</span>if (error) {
+<span class="cstat-no" title="statement not covered" >    jwt.verify(unsigned, aksesSecret, <span class="fstat-no" title="function not covered" >(e</span>rror, user) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >      if (error) {</span>
         const error = <span class="cstat-no" title="statement not covered" >new Error("Token JWT tidak valid atau sudah expired");</span>
 <span class="cstat-no" title="statement not covered" >        error.statusCode = 401;</span>
 <span class="cstat-no" title="statement not covered" >        error.status = "Failed";</span>
 <span class="cstat-no" title="statement not covered" >        return next(err);</span>
       }
-      req.user = user;
-      next();
+<span class="cstat-no" title="statement not covered" >      req.user = user;</span>
+<span class="cstat-no" title="statement not covered" >      next();</span>
     });
   } catch (error) {
-<span class="cstat-no" title="statement not covered" >    error.statusCode = error.statusCode || 401;</span>
-<span class="cstat-no" title="statement not covered" >    error.status = "Failed";</span>
-<span class="cstat-no" title="statement not covered" >    next(error);</span>
+    error.statusCode = error.statusCode || <span class="branch-1 cbranch-no" title="branch not covered" >401;</span>
+    error.status = "Failed";
+    next(error);
   }
 }
 &nbsp;
@@ -220,7 +220,7 @@ module.exports = { auth, authorizeRole };
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T16:02:04.870Z
+                at 2025-05-22T17:52:30.073Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>
