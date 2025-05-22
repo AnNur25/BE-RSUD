@@ -42,13 +42,12 @@ app.use(cookieParser());
 app.use(
   cors({
     origin: process.env.FRONTEND_URL || "https://rsdbalung.vercel.app",
-    credentials: true, // PENTING: harus true untuk mengizinkan cookies
+    credentials: true, 
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 
-// Tambahkan middleware ini untuk memastikan opsi preflight CORS bekerja dengan baik
 app.options("*", cors());
 
 app.use(

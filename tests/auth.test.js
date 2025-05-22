@@ -1,5 +1,5 @@
 const supertest = require("supertest");
-const app = require("../app");
+const app = require("../app"); //bisa akses semua route & middleware
 const passwordStrengthTest = require("owasp-password-strength-test");
 
 describe("SUKSES: test endpoint auth", () => {
@@ -18,7 +18,7 @@ describe("SUKSES: test endpoint auth", () => {
     const result = passwordStrengthTest.test(payload.password);
     expect(result.strong).toBe(true);
 
-    const response = await supertest(app)
+    const response = await supertest(app) //supertest itu seperti "simulasi postman otomatis" yang bisa mengirim request langsung ke app-nya Express — tanpa benar-benar membuat server hidup.
       .post("/api/v1/auth/register")
       .send(payload);
 
