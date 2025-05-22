@@ -27,7 +27,7 @@ enum Role{
   USER
 }
 model RevokedToken {
-  id        Int      @id @default(autoincrement())
+  id        String @id @default(uuid())
   token     String   @unique
   expiresAt DateTime 
   user_id   String @unique

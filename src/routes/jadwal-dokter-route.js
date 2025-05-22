@@ -160,7 +160,155 @@ const { auth, authorizeRole } = require("../middlewares/auth-middleware");
  */
 route.get("/search", JadwalDokterController.searchJadwalDokter);
 
-route.get("/seacrh/dokter", JadwalDokterController.searchJadwalByNameDokter);
+/**
+ * @swagger
+ * /api/v1/jadwal-dokter/search-nama:
+ *   get:
+ *     summary: Cari jadwal dokter berdasarkan nama
+ *     description: Endpoint untuk mencari jadwal dokter berdasarkan nama dokter. Pencarian bersifat partial match (mengandung kata).
+ *     tags:
+ *       - Jadwal Dokter
+ *     parameters:
+ *       - in: query
+ *         name: nama
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Nama dokter yang ingin dicari.
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *           default: 1
+ *         description: Nomor halaman.
+ *       - in: query
+ *         name: pageSize
+ *         schema:
+ *           type: integer
+ *           default: 10
+ *         description: Jumlah data per halaman.
+ *     responses:
+ *       200:
+ *         description: Berhasil mengambil daftar jadwal dokter
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 200
+ *                 message:
+ *                   type: string
+ *                   example: "Pencarian dokter dengan nama 'siti' berhasil."
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     dokter:
+ *                       type: array
+ *                       items:
+ *                         type: object
+ *                         properties:
+ *                           id_dokter:
+ *                             type: string
+ *                           nama_dokter:
+ *                             type: string
+ *                           gambar_dokter:
+ *                             type: string
+ *                             example: "https://example.com/image.jpg"
+ *                           poli:
+ *                             type: object
+ *                             properties:
+ *                               id_poli:
+ *                                 type: string
+ *                               nama_poli:
+ *                                 type: string
+ *                           layananList:
+ *                             type: array
+ *                             items:
+ *                               type: object
+ *                               properties:
+ *                                 id_pelayanan:
+ *                                   type: string
+ *                                 nama_pelayanan:
+ *                                   type: string
+ *                                 jadwal:
+ *                                   type: array
+ *                                   items:
+ *                                     type: object
+ *                                     properties:
+ *                                       hari:
+ *                                         type: string
+ *                                       sesi:
+ *                                         type: string
+ *                                       jam_mulai:
+ *                                         type: string
+ *                                       jam_selesai:
+ *                                         type: string
+ *                     pagination:
+ *                       type: object
+ *                       properties:
+ *                         currentPage:
+ *                           type: integer
+ *                         pageSize:
+ *                           type: integer
+ *                         totalItems:
+ *                           type: integer
+ *                         totalPages:
+ *                           type: integer
+ *       400:
+ *         description: Permintaan tidak valid
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 400
+ *                 message:
+ *                   type: string
+ *                   example: "Nama dokter wajib diisi"
+ *       404:
+ *         description: Data tidak ditemukan
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 404
+ *                 message:
+ *                   type: string
+ *                   example: "Tidak ditemukan dokter dengan nama 'siti'"
+ *       500:
+ *         description: Terjadi kesalahan pada server
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 statusCode:
+ *                   type: integer
+ *                   example: 500
+ *                 message:
+ *                   type: string
+ *                   example: "Internal Server Error"
+ */
+route.get("/search-nama", JadwalDokterController.searchJadwalByNameDokter);
 
 /**
  * @swagger

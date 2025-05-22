@@ -48,12 +48,20 @@ class JadwalDokterController {
 
   static async searchJadwalByNameDokter(req, res) {
     try {
-      const { nama_dokter } = req.query;
-      const data = await jadwalDokterService.searchJadwalByDokter(nama_dokter);
+      const { nama, page, pageSize } = req.query;
+      const currentPage = parseInt(page) || 1;
+      const currentPageSize = parseInt(pageSize) || 10;
+
+      const result = await jadwalDokterService.searchJadwalDokterByName({
+        nama,
+        page: currentPage,
+        pageSize: currentPageSize,
+      });
+
       return responseHelper.success(
         res,
-        data,
-        "berhasil menampilkan jadwal dokter berdasarkan pencarian nama dokter"
+        result,
+        `Pencarian dokter dengan nama '${nama}' berhasil.`
       );
     } catch (error) {
       return responseHelper.error(res, error);
