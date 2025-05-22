@@ -39,3 +39,11 @@ untuk testing api unit test atau integrasi tes
 ## Fungsi folder middleware
 
 untuk autentifikasi atau proses sebelum di handle sepenuhnya oleh controller/service
+
+## Fungsi folder coverage
+
+folder ini muncul dengan sendirinya ketika menjalankan jest dengan opsi --coverage. berfungsi untuk Untuk memberikan laporan seberapa banyak kode program yang diuji oleh test.
+
+- npm test = memberi tahu hasil test endpoint
+- coverage = memberi tahu kualitas dan cakupan testnya
+coverage memberi tahu apakah kita sudah benar-benar mengetes seluruh aplikasi.
