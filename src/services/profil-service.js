@@ -8,7 +8,7 @@ const secret = config.secretKey;
 const {
   sendSuccesPasswordEmail,
   sendForgotPasswordEmail,
-} = require("../utils/mailer");
+} = require("../helpers/mailer");
 const bcrypt = require("bcrypt");
 const {
   BadRequestError,

@@ -3,7 +3,7 @@ const { BadRequestError, NotFoundError } = require("../utils/error");
 const bcrypt = require("bcrypt");
 const JwtHelper = require("../utils/jwt-sign");
 const { Role } = require("@prisma/client");
-const { validatePasswordStrength } = require("../helpers/password-validator");
+const { validatePasswordStrength } = require("../utils/password-validator");
 
 class AuthService {
   static async register({ nama, email, password, no_wa, role }) {

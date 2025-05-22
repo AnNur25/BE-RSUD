@@ -1,4 +1,4 @@
-const { BaseError } = require("./error");
+const { BaseError } = require("../utils/error");
 
 class ResponseHelper {
   static success(res, data, message = "Success", statusCode = 200) {
