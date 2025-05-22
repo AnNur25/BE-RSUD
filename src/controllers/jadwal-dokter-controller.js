@@ -46,7 +46,7 @@ class JadwalDokterController {
     }
   }
 
-  static async searchJadwalByDokter(req, res) {
+  static async searchJadwalByNameDokter(req, res) {
     try {
       const { nama_dokter } = req.query;
       const data = await jadwalDokterService.searchJadwalByDokter(nama_dokter);
