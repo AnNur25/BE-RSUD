@@ -1,4 +1,4 @@
-const responseHelper = require("../helpers/response");
+const responseHelper = require("../helpers/response-helper");
 const poliService = require("../services/poli-service");
 const PoliService = require("../services/poli-service");
 class PoliController {

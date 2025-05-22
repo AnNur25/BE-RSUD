@@ -1,6 +1,6 @@
 const cookie = require("cookie-signature");
 const { cookieSecure, cookieSecret } = require("../configs/env-config");
-const JwtHelper = require("../utils/jwt-sign");
+const JwtHelper = require("../utils/jwt-sign-utils");
 const passport = require("passport");
 class OauthController {
   static googleLogin(req, res, next) {

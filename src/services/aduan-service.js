@@ -3,7 +3,7 @@ const {
   BadRequestError,
   NotFoundError,
   ForbiddenError,
-} = require("../utils/error");
+} = require("../utils/error-handling-utils");
 
 class AduanService {
   static async createAduan({ nama, message, no_wa }) {

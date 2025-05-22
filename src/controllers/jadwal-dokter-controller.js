@@ -1,5 +1,5 @@
 const jadwalDokterService = require("../services/jadwal-dokter-service");
-const responseHelper = require("../helpers/response");
+const responseHelper = require("../helpers/response-helper");
 
 class JadwalDokterController {
   static async createJadwalDokter(req, res) {

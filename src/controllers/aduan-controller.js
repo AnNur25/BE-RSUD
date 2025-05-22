@@ -1,5 +1,5 @@
 const aduanService = require("../services/aduan-service");
-const responseHelper = require("../helpers/response");
+const responseHelper = require("../helpers/response-helper");
 
 class AduanController {
   static async createAduan(req, res) {

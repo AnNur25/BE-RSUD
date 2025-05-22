@@ -1,4 +1,4 @@
-const { BadRequestError, NotFoundError } = require("../utils/error");
+const { BadRequestError, NotFoundError } = require("../utils/error-handling-utils");
 const prisma = require("../prisma/prismaClient");
 const fs = require("fs");
 const path = require("path");

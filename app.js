@@ -10,8 +10,8 @@ const {
   UnauthorizedError,
   BadRequestError,
   NotFoundError,
-} = require("./src/utils/error");
-const responseHelper = require("./src/helpers/response");
+} = require("./src/utils/error-handling-utils");
+const responseHelper = require("./src/helpers/response-helper");
 const cors = require("cors");
 const swaggerSpec = require("./src/configs/swagger-config");
 const swaggerUiDist = require("swagger-ui-dist");

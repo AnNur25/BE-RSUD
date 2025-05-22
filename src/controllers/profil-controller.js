@@ -1,5 +1,5 @@
 const profilService = require("../services/profil-service");
-const responseHelper = require("../helpers/response");
+const responseHelper = require("../helpers/response-helper");
 
 class ProfilController {
   static async getProfile(req, res) {

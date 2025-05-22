@@ -1,4 +1,4 @@
-const { BadRequestError, NotFoundError } = require("../utils/error");
+const { BadRequestError, NotFoundError } = require("../utils/error-handling-utils");
 const prisma = require("../prisma/prismaClient");
 const { connect } = require("../routes/berita-route");
 class komentarService {

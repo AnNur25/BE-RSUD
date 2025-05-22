@@ -1,6 +1,6 @@
-const response = require("../helpers/response");
+const response = require("../helpers/response-helper");
 const mediaSosialServis = require("../services/media-sosoal-service");
-const { BadRequestError, NotFoundError } = require("../utils/error");
+const { BadRequestError, NotFoundError } = require("../utils/error-handling-utils");
 
 class MediaSosialController {
   static async updateMediaSosial(req, res) {

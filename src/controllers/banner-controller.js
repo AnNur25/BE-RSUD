@@ -1,4 +1,4 @@
-const responseHelper = require("../helpers/response");
+const responseHelper = require("../helpers/response-helper");
 const bannerService = require("../services/banner-service");
 
 class BannerController {
