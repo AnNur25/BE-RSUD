@@ -186,12 +186,44 @@ class JadwalDokterService {
       },
     };
   }
-  static async searchJadwalByDokter({ nama_dokter }) {}
-  static async getJadwalDokterById({ id_dokter }) {
+  static async searchJadwalDokterByName({ nama, page, pageSize }) {
+    if (!nama) {
+      throw new BadRequestError("Nama dokter wajib diisi");
+    }
+
+    const {
+      skip,
+      take,
+      page: currentPage,
+      pageSize: currentPageSize,
+    } = Pagination.paginate(page, pageSize);
+
+    const totalItems = await prisma.jadwalDokter.count({
+      where: {
+        dokter: {
+          nama: {
+            contains: nama,
+            mode: "insensitive", // agar tidak case sensitive
+          },
+        },
+      },
+    });
+
+    if (totalItems === 0) {
+      throw new NotFoundError(`Tidak ditemukan dokter dengan nama '${nama}'`);
+    }
+
     const jadwalList = await prisma.jadwalDokter.findMany({
       where: {
-        id_dokter,
+        dokter: {
+          nama: {
+            contains: nama,
+            mode: "insensitive",
+          },
+        },
       },
+      skip,
+      take,
       include: {
         dokter: {
           include: {
@@ -202,12 +234,17 @@ class JadwalDokterService {
       },
     });
 
-    if (jadwalList.length === 0) {
-      throw new NotFoundError(`Dokter dengan ID ${id_dokter} tidak ditemukan.`);
-    }
-
     const formatted = mapDokterResponse(jadwalList);
-    return { dokter: formatted[0] };
+
+    return {
+      dokter: formatted,
+      pagination: {
+        currentPage,
+        pageSize: currentPageSize,
+        totalItems,
+        totalPages: Math.ceil(totalItems / currentPageSize),
+      },
+    };
   }
 
   static async updateJadwalDokter({ id_dokter }, { layananList }) {

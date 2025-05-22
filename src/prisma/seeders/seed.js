@@ -13,6 +13,14 @@ const users = [
     password: "ahazain12345",
   },
 ];
+const revokedToken = [
+  {
+    id: "ook",
+    token: "wwrree",
+   expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000),
+    user_id: "a12f44b8-98d6-4d24-b1c4-2921bd3ce7f2",
+  },
+];
 
 const berita = [
   {
@@ -1406,6 +1414,7 @@ async function main() {
   await prisma.aduan.deleteMany();
   await prisma.berita.deleteMany();
   await prisma.gambar.deleteMany();
+  await prisma.revokedToken.deleteMany();
   await prisma.user.deleteMany();
   await prisma.poli.deleteMany();
   await prisma.banner.deleteMany();
@@ -1415,6 +1424,7 @@ async function main() {
 
   await prisma.embedIg.createMany({ data: embedIg });
   await prisma.user.createMany({ data: users });
+  await prisma.revokedToken.createMany({ data: revokedToken });
   await prisma.berita.createMany({ data: berita });
   await prisma.gambar.createMany({ data: gambar });
   await prisma.aduan.createMany({ data: aduan });
