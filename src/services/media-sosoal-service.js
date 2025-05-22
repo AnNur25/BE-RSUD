@@ -1,5 +1,5 @@
 const prisma = require("../prisma/prismaClient"); // contoh prisma client
-const { BadRequestError, NotFoundError } = require("../utils/error");
+const { BadRequestError, NotFoundError } = require("../utils/error-handling-utils");
 
 class MediaSosialServis {
   static async updateLinks(links) {

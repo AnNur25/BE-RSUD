@@ -1,5 +1,5 @@
-const { BadRequestError, NotFoundError } = require("../utils/error");
-const Pagination = require("../utils/pagination");
+const { BadRequestError, NotFoundError } = require("../utils/error-handling-utils");
+const Pagination = require("../utils/pagination-utils");
 const prisma = require("../prisma/prismaClient");
 
 class PelayananService {

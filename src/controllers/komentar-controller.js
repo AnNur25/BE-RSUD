@@ -1,4 +1,4 @@
-const response = require("../helpers/response");
+const response = require("../helpers/response-helper");
 const komentarService = require("../services/komentar-service");
 
 class KomentarController {

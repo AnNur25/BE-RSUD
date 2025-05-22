@@ -1,7 +1,7 @@
 const prisma = require("../prisma/prismaClient");
-const { BadRequestError, NotFoundError } = require("../utils/error");
-const Pagination = require("../utils/pagination");
-const { mapDokterResponse } = require("../helpers/jadwal-dokter-mapping");
+const { BadRequestError, NotFoundError } = require("../utils/error-handling-utils");
+const Pagination = require("../utils/pagination-utils");
+const { mapDokterResponse } = require("../helpers/jadwal-map-helper");
 
 class JadwalDokterService {
   static async createJadwalDokter({ id_dokter, layananList }) {

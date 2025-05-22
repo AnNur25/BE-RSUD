@@ -1,6 +1,6 @@
 require("dotenv").config();
 const prisma = require("../prisma/prismaClient");
-const JwtHelper = require("../utils/jwt-sign");
+const JwtHelper = require("../utils/jwt-sign-utils");
 const jwt = require("jsonwebtoken");
 const config = require("../configs/env-config");
 const secret = config.secretKey;
@@ -8,13 +8,13 @@ const secret = config.secretKey;
 const {
   sendSuccesPasswordEmail,
   sendForgotPasswordEmail,
-} = require("../helpers/mailer");
+} = require("../helpers/nodemailer-helper");
 const bcrypt = require("bcrypt");
 const {
   BadRequestError,
   NotFoundError,
   UnauthorizedError,
-} = require("../utils/error");
+} = require("../utils/error-handling-utils");
 
 class ProfilService {
   static async getProfile(user) {

@@ -1,9 +1,9 @@
 const fs = require("fs");
 const path = require("path");
 const sharp = require("sharp");
-const responseHelper = require("../helpers/response");
+const responseHelper = require("../helpers/response-helper");
 const prisma = require("../prisma/prismaClient");
-const { BadRequestError, NotFoundError } = require("../utils/error");
+const { BadRequestError, NotFoundError } = require("../utils/error-handling-utils");
 class LayananUnggulanController {
   static async updateLayananUnggulan(req, res) {
     const { id } = req.params;

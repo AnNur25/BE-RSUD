@@ -1,4 +1,4 @@
-const responseHelper = require("../helpers/response");
+const responseHelper = require("../helpers/response-helper");
 const jwt = require("jsonwebtoken");
 const prisma = require("../prisma/prismaClient");
 const authService = require("../services/auth-service");
@@ -8,8 +8,8 @@ const {
   cookieSecret,
   refreshSecret,
 } = require("../configs/env-config");
-const { UnauthorizedError } = require("../utils/error");
-const JwtHelper = require("../utils/jwt-sign");
+const { UnauthorizedError } = require("../utils/error-handling-utils");
+const JwtHelper = require("../utils/jwt-sign-utils");
 
 class AuthController {
   static async register(req, res) {

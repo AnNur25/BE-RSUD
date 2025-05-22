@@ -1,6 +1,6 @@
 const prisma = require("../prisma/prismaClient");
-const { BadRequestError, NotFoundError } = require("../utils/error");
-const Pagination = require("../utils/pagination");
+const { BadRequestError, NotFoundError } = require("../utils/error-handling-utils");
+const Pagination = require("../utils//pagination-utils");
 const path = require("path"); //salah satu properti dari object file yang menunjuk ke lokasi file di disk/server
 const sharp = require("sharp");
 const fs = require("fs");

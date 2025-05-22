@@ -1,5 +1,5 @@
 const prisma = require("../prisma/prismaClient");
-const { BadRequestError, NotFoundError } = require("../utils/error");
+const { BadRequestError, NotFoundError } = require("../utils/error-handling-utils");
 
 class PoliService {
   static async createPoli({ nama_poli }) {
