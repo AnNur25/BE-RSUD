@@ -74,8 +74,10 @@ class ProfilService {
       throw new BadRequestError("Password lama dan password baru harus diisi.");
     }
 
-    if (newPassword.length < 8) {
-      throw new BadRequestError("Password baru harus minimal 8 karakter.");
+    try {
+      validatePasswordStrength(newPassword);
+    } catch (err) {
+      throw new BadRequestError(err.message);
     }
 
     const foundUser = await prisma.user.findUnique({
@@ -148,6 +150,12 @@ class ProfilService {
       decoded = jwt.verify(token, process.env.RESET_PASSWORD_SECRET);
     } catch (err) {
       throw new UnauthorizedError("Token tidak valid atau sudah kadaluarsa.");
+    }
+
+    try {
+      validatePasswordStrength(newPassw);
+    } catch (err) {
+      throw new BadRequestError(err.message);
     }
 
     const hashedPassword = await bcrypt.hash(newPassw, 10);

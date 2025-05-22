@@ -3,14 +3,21 @@ const { BadRequestError, NotFoundError } = require("../utils/error");
 const bcrypt = require("bcrypt");
 const JwtHelper = require("../utils/jwt-sign");
 const { Role } = require("@prisma/client");
+const { validatePasswordStrength } = require("../helpers/password-validator");
 
 class AuthService {
   static async register({ nama, email, password, no_wa, role }) {
     if (!nama || !email || !password || !no_wa) {
       throw new BadRequestError("Semua field harus diisi");
     }
+    try {
+      validatePasswordStrength(password);
+    } catch (err) {
+      throw new BadRequestError(err.message);
+    }
 
     const existingUser = await prisma.user.findUnique({ where: { email } });
+    
     if (existingUser) {
       throw new BadRequestError("Email sudah terdaftar");
     }
