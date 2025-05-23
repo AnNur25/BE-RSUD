@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">27.58% </span>
+                <span class="strong">68.96% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>8/29</span>
+                <span class='fraction'>20/29</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">20% </span>
+                <span class="strong">80% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/5</span>
+                <span class='fraction'>4/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">27.58% </span>
+                <span class="strong">68.96% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>8/29</span>
+                <span class='fraction'>20/29</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line medium'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -141,9 +141,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -153,10 +153,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -175,11 +175,11 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -202,10 +202,10 @@ class PoliController {
     }
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  st</span>atic async getPoli(req, res) {
-<span class="cstat-no" title="statement not covered" >    try {</span>
-      const poli = <span class="cstat-no" title="statement not covered" >await poliService.getPoli();</span>
-<span class="cstat-no" title="statement not covered" >      return responseHelper.success(</span>
+  static async getPoli(req, res) {
+    try {
+      const poli = await poliService.getPoli();
+      return responseHelper.success(
         res,
         poli,
         "Berhasil menampilkan Daftar Poli"
@@ -214,11 +214,11 @@ class PoliController {
 <span class="cstat-no" title="statement not covered" >      return responseHelper.error(res, error);</span>
     }
   }
-<span class="fstat-no" title="function not covered" >  st</span>atic async getPoliById(req, res) {
-<span class="cstat-no" title="statement not covered" >    try {</span>
-      const id_poli = <span class="cstat-no" title="statement not covered" >req.params.id;</span>
-      const poli = <span class="cstat-no" title="statement not covered" >await PoliService.getPoliById({ id_poli });</span>
-<span class="cstat-no" title="statement not covered" >      return responseHelper.success(res, poli, "Berhasil mengambil data poli");</span>
+  static async getPoliById(req, res) {
+    try {
+      const id_poli = req.params.id;
+      const poli = await PoliService.getPoliById({ id_poli });
+      return responseHelper.success(res, poli, "Berhasil mengambil id poli");
     } catch (error) {
 <span class="cstat-no" title="statement not covered" >      return responseHelper.error(res, error);</span>
     }
@@ -236,12 +236,12 @@ class PoliController {
 <span class="cstat-no" title="statement not covered" >      return responseHelper.error(res, error);</span>
     }
   }
-<span class="fstat-no" title="function not covered" >  st</span>atic async updatePoli(req, res) {
-<span class="cstat-no" title="statement not covered" >    try {</span>
-      const { id_poli } = <span class="cstat-no" title="statement not covered" >req.params;</span>
-      const { nama_poli } = <span class="cstat-no" title="statement not covered" >req.body;</span>
-      const poli = <span class="cstat-no" title="statement not covered" >await PoliService.updatePoli({ id_poli }, { nama_poli });</span>
-<span class="cstat-no" title="statement not covered" >      return responseHelper.success(res, poli, "perubahan berhasil disimpan");</span>
+  static async updatePoli(req, res) {
+    try {
+      const { id_poli } = req.params;
+      const { nama_poli } = req.body;
+      const poli = await PoliService.updatePoli({ id_poli }, { nama_poli });
+      return responseHelper.success(res, poli, "perubahan berhasil disimpan");
     } catch (error) {
 <span class="cstat-no" title="statement not covered" >      return responseHelper.error(res, error);</span>
     }
@@ -256,7 +256,7 @@ module.exports = PoliController;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-23T01:02:29.972Z
+                at 2025-05-23T01:36:26.009Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

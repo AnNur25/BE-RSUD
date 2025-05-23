@@ -63,6 +63,7 @@ class AuthController {
         throw new UnauthorizedError("Refresh token tidak ditemukan");
       }
       const decoded = jwt.verify(rawRefreshToken, refreshSecret);
+      console.log("Decoded Token:", decoded);
       const userId = decoded.id_user;
       if (!userId) {
         throw new UnauthorizedError(

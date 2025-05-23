@@ -1,9 +1,14 @@
 const prisma = require("../prisma/prismaClient");
-const { BadRequestError, NotFoundError } = require("../utils/error-handling-utils");
+const {
+  BadRequestError,
+  NotFoundError,
+} = require("../utils/error-handling-utils");
 const bcrypt = require("bcrypt");
 const JwtHelper = require("../utils/jwt-sign-utils");
 const { Role } = require("@prisma/client");
-const { validatePasswordStrength } = require("../utils/password-validator-utils");
+const {
+  validatePasswordStrength,
+} = require("../utils/password-validator-utils");
 
 class AuthService {
   static async register({ nama, email, password, no_wa, role }) {
@@ -17,7 +22,7 @@ class AuthService {
     }
 
     const existingUser = await prisma.user.findUnique({ where: { email } });
-    
+
     if (existingUser) {
       throw new BadRequestError("Email sudah terdaftar");
     }
@@ -53,13 +58,13 @@ class AuthService {
     const aksesToken = JwtHelper.generateToken(user);
     const refreshToken = JwtHelper.generateRefresToken(user);
     await prisma.revokedToken.upsert({
-      where: { user_id: user.id_user },
+      where: { user_id: String(user.id_user) },
       update: {
         token: refreshToken,
         expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
       },
       create: {
-        user_id: user.id_user,
+        user_id: String(user.id_user),
         token: refreshToken,
         expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
       },
