@@ -1,41 +1,94 @@
 const supertest = require("supertest");
+const app = require("../app");
 const jwt = require("jsonwebtoken");
 const cookie = require("cookie-signature");
-const app = require("../app");
-const { aksesSecret, cookieSecret } = require("../src/configs/env-config");
+const { cookieSecret, aksesSecret } = require("../src/configs/env-config");
 
-describe("SUKSES: test endpoint poli dengan autentikasi", () => {
-  test("POST /api/v1/poli - Success with valid token", async () => {
+describe("SUKSES: test endpoint CRUD Poli", () => {
+  let signedToken;
+
+  beforeEach(() => {
     const payload = {
-      nama_poli: "Umum",
-    };
-    const userPayload = {
-      id: "stringid",
+      id_user: "okoko",
+      nama: "Test Admin",
+      email: "admin@gmail.com",
+      no_wa: "08123456789",
       role: "ADMIN",
-      nama: "Admin Baru",
-      email: "adminbaru@gmail.com",
     };
 
-    const token = jwt.sign(userPayload, aksesSecret);
+    const token = jwt.sign(payload, aksesSecret, { expiresIn: "15m" });
+    signedToken = cookie.sign(token, cookieSecret);
+  });
 
-    // Coba format cookie sederhana dulu (tanpa signature)
-    let response = await supertest(app)
+  it("POST /api/v1/poli", async () => {
+    const poliData = {
+      nama_poli: "umum",
+    };
+
+    const response = await supertest(app)
       .post("/api/v1/poli")
-      .set("Cookie", `aksesToken=${token}`)
-      .send(payload);
+      .set("Cookie", `aksesToken=${signedToken}`)
+      .send(poliData)
+      .expect(201);
 
-    // Jika gagal, coba dengan signed cookie
-    if (response.status !== 201) {
-      const signedToken = cookie.sign(token, cookieSecret);
-      response = await supertest(app)
-        .post("/api/v1/poli")
-        .set("Cookie", `aksesToken=s%3A${encodeURIComponent(signedToken)}`)
-        .send(payload);
-    }
+    expect(response.body).toHaveProperty("success", true);
+    expect(response.body).toHaveProperty("statusCode", 201);
+    expect(response.body).toHaveProperty(
+      "message",
+      "Poli berhasil ditambahkan"
+    );
+    expect(response.body.data).toHaveProperty("id_poli");
+    expect(response.body.data).toHaveProperty("nama_poli", "Poli Umum");
+  });
 
-    expect(response.status).toBe(201);
-    expect(response.body.success).toBe(true);
-    expect(response.body.message).toBe("Poli berhasil ditambahkan");
-    expect(response.body.data).toHaveProperty("nama_poli", "Umum");
+  it("GET /api/v1/poli", async () => {
+    const response = await supertest(app).get("/api/v1/poli").expect(200);
+
+    expect(response.body).toHaveProperty("success", true);
+    expect(response.body).toHaveProperty("statusCode", 200);
+    expect(response.body).toHaveProperty(
+      "message",
+      "Berhasil menampilkan Daftar Poli"
+    );
+    expect(
+      response.body.data.every((item) => item.hasOwnProperty("id_poli"))
+    ).toBe(true);
+
+    expect(
+      response.body.data.every((item) => item.hasOwnProperty("nama_poli"))
+    ).toBe(true);
+  });
+  it("GET /api/v1/poli/:id", async () => {
+    const response = await supertest(app)
+      .get("/api/v1/poli/f4b34b36-b702-4294-9cf1-476eb5a57e1e")
+      .expect(200);
+
+    expect(response.body).toHaveProperty("success", true);
+    expect(response.body).toHaveProperty("statusCode", 200);
+    expect(response.body).toHaveProperty(
+      "message",
+      "Berhasil mengambil id poli"
+    );
+    expect(response.body.data).toHaveProperty("id_poli");
+    expect(response.body.data).toHaveProperty("nama_poli");
+  });
+  it("PUT /api/v1/poli/:id", async () => {
+    const poliData = {
+      nama_poli: "umum",
+    };
+
+    const response = await supertest(app)
+      .put("/api/v1/poli/f4b34b36-b702-4294-9cf1-476eb5a57e1e")
+      .set("Cookie", `aksesToken=${signedToken}`)
+      .send(poliData)
+      .expect(200);
+
+    expect(typeof response.body.data).toBe("object"); 
+    expect(response.body).toHaveProperty("success", true); 
+    expect(response.body).toHaveProperty("statusCode", 200); 
+    expect(response.body).toHaveProperty("message", "Berhasil update poli"); 
+    
+    expect(response.body.data).toHaveProperty("id_poli");
+    expect(response.body.data).toHaveProperty("nama_poli");
   });
 });

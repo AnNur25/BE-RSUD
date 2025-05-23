@@ -29,7 +29,7 @@ class PoliController {
     try {
       const id_poli = req.params.id;
       const poli = await PoliService.getPoliById({ id_poli });
-      return responseHelper.success(res, poli, "Berhasil mengambil data poli");
+      return responseHelper.success(res, poli, "Berhasil mengambil id poli");
     } catch (error) {
       return responseHelper.error(res, error);
     }
