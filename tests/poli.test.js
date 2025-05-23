@@ -72,9 +72,29 @@ describe("SUKSES: test endpoint CRUD Poli", () => {
     expect(response.body.data).toHaveProperty("id_poli");
     expect(response.body.data).toHaveProperty("nama_poli");
   });
+  it("GET /api/v1/poli/:id/dokter", async () => {
+    const response = await supertest(app)
+      .get("/api/v1/poli/95d1f57c-01cf-49f3-bb6c-32a5dba8f300/dokter")
+      .set("Cookie", `aksesToken=${signedToken}`)
+      .expect(200);
+
+    expect(response.body).toHaveProperty("success", true);
+    expect(response.body).toHaveProperty("statusCode", 200);
+    expect(response.body).toHaveProperty(
+      "message",
+      "Berhasil menampilkan daftar dokter berdasarkan poli"
+    );
+    expect(
+      response.body.data.every((item) => item.hasOwnProperty("id_dokter"))
+    ).toBe(true);
+
+    expect(
+      response.body.data.every((item) => item.hasOwnProperty("nama"))
+    ).toBe(true);
+  });
   it("PUT /api/v1/poli/:id", async () => {
     const poliData = {
-      nama_poli: "umum",
+      nama_poli: "bedah",
     };
 
     const response = await supertest(app)
@@ -83,12 +103,14 @@ describe("SUKSES: test endpoint CRUD Poli", () => {
       .send(poliData)
       .expect(200);
 
-    expect(typeof response.body.data).toBe("object"); 
-    expect(response.body).toHaveProperty("success", true); 
-    expect(response.body).toHaveProperty("statusCode", 200); 
-    expect(response.body).toHaveProperty("message", "Berhasil update poli"); 
-    
-    expect(response.body.data).toHaveProperty("id_poli");
-    expect(response.body.data).toHaveProperty("nama_poli");
+    expect(typeof response.body.data).toBe("string");
+    expect(response.body).toHaveProperty("success", true);
+    expect(response.body).toHaveProperty("statusCode", 200);
+    expect(response.body).toHaveProperty(
+      "message",
+      "perubahan berhasil disimpan"
+    );
+
+    expect(response.body.data).toBe("Poli Spesialis Bedah");
   });
 });
