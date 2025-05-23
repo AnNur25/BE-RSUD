@@ -1,41 +1,44 @@
-const supertest = require("supertest");
+// test/poli.test.js
+const request = require("supertest");
+const app = require("../app"); // Import app Express Anda
 const jwt = require("jsonwebtoken");
 const cookie = require("cookie-signature");
-const app = require("../app");
-const { aksesSecret, cookieSecret } = require("../src/configs/env-config");
+const { cookieSecret, aksesSecret } = require("../src/configs/env-config");
 
-describe("SUKSES: test endpoint poli dengan autentikasi", () => {
-  test("POST /api/v1/poli - Success with valid token", async () => {
+describe("POST /api/v1/poli", () => {
+  let signedToken;
+
+  beforeEach(() => {
     const payload = {
-      nama_poli: "Umum",
-    };
-    const userPayload = {
-      id: "stringid",
+      id_user: "okoko",
+      nama: "Test Admin",
+      email: "admin@gmail.com",
+      no_wa: "08123456789",
       role: "ADMIN",
-      nama: "Admin Baru",
-      email: "adminbaru@gmail.com",
     };
 
-    const token = jwt.sign(userPayload, aksesSecret);
+    const token = jwt.sign(payload, aksesSecret, { expiresIn: "15m" });
+    signedToken = cookie.sign(token, cookieSecret);
+  });
 
-    // Coba format cookie sederhana dulu (tanpa signature)
-    let response = await supertest(app)
+  it("should create poli umum successfully", async () => {
+    const poliData = {
+      nama_poli: "umum",
+    };
+
+    const response = await request(app)
       .post("/api/v1/poli")
-      .set("Cookie", `aksesToken=${token}`)
-      .send(payload);
+      .set("Cookie", `aksesToken=${signedToken}`)
+      .send(poliData)
+      .expect(201);
 
-    // Jika gagal, coba dengan signed cookie
-    if (response.status !== 201) {
-      const signedToken = cookie.sign(token, cookieSecret);
-      response = await supertest(app)
-        .post("/api/v1/poli")
-        .set("Cookie", `aksesToken=s%3A${encodeURIComponent(signedToken)}`)
-        .send(payload);
-    }
-
-    expect(response.status).toBe(201);
-    expect(response.body.success).toBe(true);
-    expect(response.body.message).toBe("Poli berhasil ditambahkan");
-    expect(response.body.data).toHaveProperty("nama_poli", "Umum");
+    expect(response.body).toHaveProperty("success", true);
+    expect(response.body).toHaveProperty("statusCode", 201);
+    expect(response.body).toHaveProperty(
+      "message",
+      "Poli berhasil ditambahkan"
+    );
+    expect(response.body.data).toHaveProperty("id_poli");
+    expect(response.body.data).toHaveProperty("nama_poli", "Poli Umum");
   });
 });

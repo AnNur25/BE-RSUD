@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1747936350344" clover="3.2.0">
-  <project timestamp="1747936350344" name="All files">
-    <metrics statements="1548" coveredstatements="362" conditionals="662" coveredconditionals="8" methods="181" coveredmethods="4" elements="2391" coveredelements="374" complexity="0" loc="1548" ncloc="1548" packages="10" files="54" classes="54"/>
+<coverage generated="1747962150199" clover="3.2.0">
+  <project timestamp="1747962150199" name="All files">
+    <metrics statements="1548" coveredstatements="370" conditionals="662" coveredconditionals="13" methods="181" coveredmethods="8" elements="2391" coveredelements="391" complexity="0" loc="1548" ncloc="1548" packages="10" files="54" classes="54"/>
     <package name="BE-RSUD">
-      <metrics statements="61" coveredstatements="60" conditionals="6" coveredconditionals="3" methods="3" coveredmethods="2"/>
+      <metrics statements="61" coveredstatements="56" conditionals="6" coveredconditionals="1" methods="3" coveredmethods="1"/>
       <file name="app.js" path="C:\Users\ACER\BE-RSUD\app.js">
-        <metrics statements="61" coveredstatements="60" conditionals="6" coveredconditionals="3" methods="3" coveredmethods="2"/>
+        <metrics statements="61" coveredstatements="56" conditionals="6" coveredconditionals="1" methods="3" coveredmethods="1"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
@@ -58,10 +58,10 @@
         <line num="75" count="1" type="stmt"/>
         <line num="76" count="1" type="stmt"/>
         <line num="77" count="1" type="stmt"/>
-        <line num="78" count="2" type="stmt"/>
-        <line num="80" count="2" type="cond" truecount="1" falsecount="1"/>
-        <line num="81" count="2" type="cond" truecount="1" falsecount="1"/>
-        <line num="83" count="2" type="stmt"/>
+        <line num="78" count="0" type="stmt"/>
+        <line num="80" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="81" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="83" count="0" type="stmt"/>
         <line num="90" count="1" type="stmt"/>
         <line num="91" count="0" type="stmt"/>
         <line num="93" count="1" type="stmt"/>
@@ -100,7 +100,7 @@
       </file>
     </package>
     <package name="BE-RSUD.src.controllers">
-      <metrics statements="497" coveredstatements="53" conditionals="121" coveredconditionals="0" methods="70" coveredmethods="0"/>
+      <metrics statements="497" coveredstatements="57" conditionals="121" coveredconditionals="0" methods="70" coveredmethods="1"/>
       <file name="aduan-controller.js" path="C:\Users\ACER\BE-RSUD\src\controllers\aduan-controller.js">
         <metrics statements="34" coveredstatements="3" conditionals="2" coveredconditionals="0" methods="6" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
@@ -572,14 +572,14 @@
         <line num="67" count="1" type="stmt"/>
       </file>
       <file name="poli-controller.js" path="C:\Users\ACER\BE-RSUD\src\controllers\poli-controller.js">
-        <metrics statements="29" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="5" coveredmethods="0"/>
+        <metrics statements="29" coveredstatements="8" conditionals="0" coveredconditionals="0" methods="5" coveredmethods="1"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
-        <line num="6" count="0" type="stmt"/>
-        <line num="7" count="0" type="stmt"/>
-        <line num="9" count="0" type="stmt"/>
-        <line num="10" count="0" type="stmt"/>
+        <line num="6" count="1" type="stmt"/>
+        <line num="7" count="1" type="stmt"/>
+        <line num="9" count="1" type="stmt"/>
+        <line num="10" count="1" type="stmt"/>
         <line num="12" count="0" type="stmt"/>
         <line num="17" count="0" type="stmt"/>
         <line num="18" count="0" type="stmt"/>
@@ -648,7 +648,7 @@
       </file>
     </package>
     <package name="BE-RSUD.src.helpers">
-      <metrics statements="41" coveredstatements="10" conditionals="14" coveredconditionals="0" methods="9" coveredmethods="0"/>
+      <metrics statements="41" coveredstatements="11" conditionals="14" coveredconditionals="1" methods="9" coveredmethods="1"/>
       <file name="jadwal-map-helper.js" path="C:\Users\ACER\BE-RSUD\src\helpers\jadwal-map-helper.js">
         <metrics statements="14" coveredstatements="1" conditionals="6" coveredconditionals="0" methods="3" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
@@ -689,10 +689,10 @@
         <line num="62" count="1" type="stmt"/>
       </file>
       <file name="response-helper.js" path="C:\Users\ACER\BE-RSUD\src\helpers\response-helper.js">
-        <metrics statements="8" coveredstatements="2" conditionals="8" coveredconditionals="0" methods="3" coveredmethods="0"/>
+        <metrics statements="8" coveredstatements="3" conditionals="8" coveredconditionals="1" methods="3" coveredmethods="1"/>
         <line num="1" count="1" type="stmt"/>
         <line num="5" count="0" type="stmt"/>
-        <line num="14" count="0" type="stmt"/>
+        <line num="14" count="1" type="stmt"/>
         <line num="23" count="0" type="stmt"/>
         <line num="24" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="25" count="0" type="cond" truecount="0" falsecount="2"/>
@@ -701,41 +701,41 @@
       </file>
     </package>
     <package name="BE-RSUD.src.middlewares">
-      <metrics statements="60" coveredstatements="28" conditionals="24" coveredconditionals="4" methods="8" coveredmethods="2"/>
+      <metrics statements="60" coveredstatements="28" conditionals="24" coveredconditionals="7" methods="8" coveredmethods="4"/>
       <file name="auth-middleware.js" path="C:\Users\ACER\BE-RSUD\src\middlewares\auth-middleware.js">
-        <metrics statements="33" coveredstatements="16" conditionals="12" coveredconditionals="3" methods="4" coveredmethods="2"/>
+        <metrics statements="33" coveredstatements="16" conditionals="12" coveredconditionals="6" methods="4" coveredmethods="4"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
-        <line num="6" count="2" type="stmt"/>
-        <line num="7" count="2" type="stmt"/>
-        <line num="8" count="2" type="cond" truecount="1" falsecount="1"/>
+        <line num="6" count="1" type="stmt"/>
+        <line num="7" count="1" type="stmt"/>
+        <line num="8" count="1" type="cond" truecount="1" falsecount="1"/>
         <line num="9" count="0" type="stmt"/>
         <line num="10" count="0" type="stmt"/>
         <line num="11" count="0" type="stmt"/>
-        <line num="14" count="2" type="stmt"/>
-        <line num="15" count="2" type="cond" truecount="1" falsecount="1"/>
-        <line num="16" count="2" type="stmt"/>
-        <line num="17" count="2" type="stmt"/>
-        <line num="18" count="2" type="stmt"/>
-        <line num="21" count="0" type="stmt"/>
-        <line num="22" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="14" count="1" type="stmt"/>
+        <line num="15" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="16" count="0" type="stmt"/>
+        <line num="17" count="0" type="stmt"/>
+        <line num="18" count="0" type="stmt"/>
+        <line num="21" count="1" type="stmt"/>
+        <line num="22" count="1" type="cond" truecount="1" falsecount="1"/>
         <line num="23" count="0" type="stmt"/>
         <line num="24" count="0" type="stmt"/>
         <line num="25" count="0" type="stmt"/>
         <line num="26" count="0" type="stmt"/>
-        <line num="28" count="0" type="stmt"/>
-        <line num="29" count="0" type="stmt"/>
-        <line num="32" count="2" type="cond" truecount="1" falsecount="1"/>
-        <line num="33" count="2" type="stmt"/>
-        <line num="34" count="2" type="stmt"/>
+        <line num="28" count="1" type="stmt"/>
+        <line num="29" count="1" type="stmt"/>
+        <line num="32" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="33" count="0" type="stmt"/>
+        <line num="34" count="0" type="stmt"/>
         <line num="39" count="27" type="stmt"/>
-        <line num="40" count="0" type="cond" truecount="0" falsecount="4"/>
+        <line num="40" count="1" type="cond" truecount="3" falsecount="1"/>
         <line num="41" count="0" type="stmt"/>
         <line num="42" count="0" type="stmt"/>
         <line num="43" count="0" type="stmt"/>
         <line num="44" count="0" type="stmt"/>
-        <line num="46" count="0" type="stmt"/>
+        <line num="46" count="1" type="stmt"/>
         <line num="50" count="1" type="stmt"/>
       </file>
       <file name="multer-error-handling-middleware.js" path="C:\Users\ACER\BE-RSUD\src\middlewares\multer-error-handling-middleware.js">
@@ -955,7 +955,7 @@
       </file>
     </package>
     <package name="BE-RSUD.src.services">
-      <metrics statements="706" coveredstatements="59" conditionals="481" coveredconditionals="0" methods="81" coveredmethods="0"/>
+      <metrics statements="706" coveredstatements="66" conditionals="481" coveredconditionals="3" methods="81" coveredmethods="1"/>
       <file name="aduan-service.js" path="C:\Users\ACER\BE-RSUD\src\services\aduan-service.js">
         <metrics statements="33" coveredstatements="3" conditionals="25" coveredconditionals="0" methods="10" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
@@ -1575,24 +1575,24 @@
         <line num="81" count="1" type="stmt"/>
       </file>
       <file name="poli-service.js" path="C:\Users\ACER\BE-RSUD\src\services\poli-service.js">
-        <metrics statements="55" coveredstatements="3" conditionals="34" coveredconditionals="0" methods="7" coveredmethods="0"/>
+        <metrics statements="55" coveredstatements="10" conditionals="34" coveredconditionals="3" methods="7" coveredmethods="1"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
-        <line num="6" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="6" count="1" type="cond" truecount="1" falsecount="1"/>
         <line num="7" count="0" type="stmt"/>
-        <line num="9" count="0" type="stmt"/>
-        <line num="10" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="9" count="1" type="stmt"/>
+        <line num="10" count="1" type="cond" truecount="1" falsecount="1"/>
         <line num="11" count="0" type="stmt"/>
-        <line num="17" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="18" count="0" type="stmt"/>
+        <line num="17" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="18" count="1" type="stmt"/>
         <line num="19" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="20" count="0" type="stmt"/>
         <line num="21" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="22" count="0" type="stmt"/>
         <line num="24" count="0" type="stmt"/>
         <line num="28" count="0" type="stmt"/>
-        <line num="32" count="0" type="stmt"/>
-        <line num="38" count="0" type="stmt"/>
+        <line num="32" count="1" type="stmt"/>
+        <line num="38" count="1" type="stmt"/>
         <line num="42" count="0" type="stmt"/>
         <line num="46" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="47" count="0" type="stmt"/>

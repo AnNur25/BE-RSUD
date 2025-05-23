@@ -23,7 +23,7 @@ function auth(req, res, next) {
         const error = new Error("Token JWT tidak valid atau sudah expired");
         error.statusCode = 401;
         error.status = "Failed";
-        return next(err);
+        return next(error);
       }
       req.user = user;
       next();

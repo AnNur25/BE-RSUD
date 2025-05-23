@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">5.45% </span>
+                <span class="strong">18.18% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>3/55</span>
+                <span class='fraction'>10/55</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">8.82% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/34</span>
+                <span class='fraction'>3/34</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">14.28% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/7</span>
+                <span class='fraction'>1/7</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">5.45% </span>
+                <span class="strong">18.18% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>3/55</span>
+                <span class='fraction'>10/55</span>
             </div>
         
             
@@ -198,27 +198,23 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -228,9 +224,13 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -327,21 +327,21 @@
 const { BadRequestError, NotFoundError } = require("../utils/error-handling-utils");
 &nbsp;
 class PoliService {
-<span class="fstat-no" title="function not covered" >  st</span>atic async createPoli({ nama_poli }) {
-<span class="cstat-no" title="statement not covered" >    if (!nama_poli) {</span>
+  static async createPoli({ nama_poli }) {
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (!nama_poli) {
 <span class="cstat-no" title="statement not covered" >      throw new BadRequestError("nama poli harus diisi");</span>
     }
-    const poliName = <span class="cstat-no" title="statement not covered" >nama_poli.trim().toLowerCase();</span>
-<span class="cstat-no" title="statement not covered" >    if (!poliName) {</span>
+    const poliName = nama_poli.trim().toLowerCase();
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (!poliName) {
 <span class="cstat-no" title="statement not covered" >      throw new BadRequestError(</span>
         "Nama Poli tidak boleh kosong atau hanya spasi"
       );
     }
 &nbsp;
     let formattedNamaPoli;
-<span class="cstat-no" title="statement not covered" >    if (poliName === "umum") {</span>
-<span class="cstat-no" title="statement not covered" >      formattedNamaPoli = "Poli Umum";</span>
-    } else <span class="cstat-no" title="statement not covered" >if (poliName === "vct") {</span>
+    if (poliName === "umum") {
+      formattedNamaPoli = "Poli Umum";
+    } else <span class="cstat-no" title="statement not covered" ><span class="missing-if-branch" title="else path not taken" >E</span>if (poliName === "vct") {</span>
 <span class="cstat-no" title="statement not covered" >      formattedNamaPoli = "Poli VCT";</span>
     } else <span class="cstat-no" title="statement not covered" >if (poliName === "gigi") {</span>
 <span class="cstat-no" title="statement not covered" >      formattedNamaPoli = "Poli Gigi";</span>
@@ -354,13 +354,13 @@ class PoliService {
         .join(" ")}`;
     }
 &nbsp;
-    const poli = <span class="cstat-no" title="statement not covered" >await prisma.poli.create({</span>
+    const poli = await prisma.poli.create({
       data: {
         nama_poli: formattedNamaPoli,
       },
     });
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return poli;</span>
+    return poli;
   }
 &nbsp;
 <span class="fstat-no" title="function not covered" >  st</span>atic async getPoli() {
@@ -460,7 +460,7 @@ module.exports = PoliService;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-22T17:52:30.073Z
+                at 2025-05-23T01:02:29.972Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>
