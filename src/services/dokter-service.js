@@ -1,5 +1,8 @@
 const prisma = require("../prisma/prismaClient");
-const { BadRequestError, NotFoundError } = require("../utils/error-handling-utils");
+const {
+  BadRequestError,
+  NotFoundError,
+} = require("../utils/error-handling-utils");
 const Pagination = require("../utils/pagination-utils");
 const path = require("path");
 const sharp = require("sharp");
@@ -15,8 +18,13 @@ class DokterService {
     id_poli,
     file,
   }) {
-    // Validasi wajib
-    if (!nama || !id_poli || !biodata_singkat) {
+    if (
+      !id_poli ||
+      !nama ||
+      nama.trim() === "" ||
+      !biodata_singkat ||
+      biodata_singkat.trim() === ""
+    ) {
       // Hapus file upload jika ada sebelum throw error
       if (file && file.path && fs.existsSync(file.path)) {
         fs.unlinkSync(file.path);
@@ -25,14 +33,12 @@ class DokterService {
         );
       }
       throw new BadRequestError(
-        "Nama, id poli, dan biodata_singkat harus diisi"
+        "Nama, Poli, dan Biodata singkat harus diisi"
       );
     }
 
-    // Validasi apakah id_poli ada di DB
     const existingPoli = await prisma.poli.findUnique({ where: { id_poli } });
     if (!existingPoli) {
-      // Hapus file upload jika ada sebelum throw error
       if (file && file.path && fs.existsSync(file.path)) {
         fs.unlinkSync(file.path);
         console.log("File asli dihapus karena id_poli tidak ditemukan");
@@ -72,12 +78,10 @@ class DokterService {
         // Hapus file sementara hasil upload multer (file asli)
         fs.unlinkSync(file.path);
 
-       
         imageUrl = `${process.env.FRONTEND_URL}/uploads/resized/${webpFilename}`;
         console.log("Image resized and uploaded to:", imageUrl);
       }
 
-      
       const addData = await prisma.dokter.create({
         data: {
           nama,
