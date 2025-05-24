@@ -22,6 +22,7 @@ class DokterController {
         link_facebook,
         file,
       });
+
       return responseHelper.created(res, dokter, "Dokter berhasil ditambahkan");
     } catch (error) {
       return responseHelper.error(res, error);
