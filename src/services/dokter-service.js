@@ -72,12 +72,12 @@ class DokterService {
         // Hapus file sementara hasil upload multer (file asli)
         fs.unlinkSync(file.path);
 
-        // URL untuk akses gambar dari frontend
+       
         imageUrl = `${process.env.FRONTEND_URL}/uploads/resized/${webpFilename}`;
         console.log("Image resized and uploaded to:", imageUrl);
       }
 
-      // Simpan ke database
+      
       const addData = await prisma.dokter.create({
         data: {
           nama,

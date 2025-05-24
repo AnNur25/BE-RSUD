@@ -122,8 +122,8 @@ Route.post(
   auth,
   authorizeRole("ADMIN"),
   multerConfig.single("file"),
-  dokterController.createDokter,
-  multerErrorHandler
+  multerErrorHandler,
+  dokterController.createDokter
 );
 
 /**
