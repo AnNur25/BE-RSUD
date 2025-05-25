@@ -43,7 +43,7 @@ class DokterService {
         fs.unlinkSync(file.path);
         console.log("File asli dihapus karena id_poli tidak ditemukan");
       }
-      throw new NotFoundError("Id poli tidak ditemukan di database");
+      throw new NotFoundError("Poli tidak ditemukan");
     }
 
     let imageUrl = null;
