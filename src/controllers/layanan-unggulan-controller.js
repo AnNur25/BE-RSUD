@@ -3,7 +3,10 @@ const path = require("path");
 const sharp = require("sharp");
 const responseHelper = require("../helpers/response-helper");
 const prisma = require("../prisma/prismaClient");
-const { BadRequestError, NotFoundError } = require("../utils/error-handling-utils");
+const {
+  BadRequestError,
+  NotFoundError,
+} = require("../utils/error-handling-utils");
 class LayananUnggulanController {
   static async updateLayananUnggulan(req, res) {
     const { id } = req.params;
@@ -81,8 +84,7 @@ class LayananUnggulanController {
 
             resizedFiles.push(resizedImagePath);
 
-            fs.unlinkSync(file.path); // Hapus file asli
-
+            fs.unlinkSync(file.path);
             const imageUrl = `${process.env.FRONTEND_URL}/uploads/resized/${webpFilename}`;
 
             return {
@@ -104,7 +106,6 @@ class LayananUnggulanController {
           data: { judul, deskripsi },
         });
 
-        // Ambil gambar yang akan dihapus dari DB sebelum delete
         const gambarToDelete = await tx.gambarCaption.findMany({
           where: {
             layananId: id,
@@ -112,7 +113,6 @@ class LayananUnggulanController {
           },
         });
 
-        // Hapus data dari DB
         await tx.gambarCaption.deleteMany({
           where: {
             layananId: id,
@@ -120,16 +120,14 @@ class LayananUnggulanController {
           },
         });
 
-        // Hapus file .webp yang tidak digunakan
         gambarToDelete.forEach((gambar) => {
-          const fileName = path.basename(gambar.gambar); // ambil nama file dari URL
+          const fileName = path.basename(gambar.gambar);
           const filePath = path.resolve("uploads/resized", fileName);
           if (fs.existsSync(filePath)) {
             fs.unlinkSync(filePath);
           }
         });
 
-        // Update caption existing images
         const updatePromises = parsedExistingImages.map((img) =>
           tx.gambarCaption.update({
             where: { id: img.id },
@@ -138,7 +136,6 @@ class LayananUnggulanController {
         );
         await Promise.all(updatePromises);
 
-        // Tambah gambar baru
         if (uploadedImages.length > 0) {
           await tx.gambarCaption.createMany({
             data: uploadedImages.map((img, index) => ({
@@ -153,7 +150,6 @@ class LayananUnggulanController {
 
       responseHelper.success(res, null, "Layanan Unggulan berhasil diupdate.");
     } catch (error) {
-      // Hapus file webp yang sempat disimpan jika terjadi error
       for (const filePath of resizedFiles) {
         if (fs.existsSync(filePath)) {
           fs.unlinkSync(filePath);
