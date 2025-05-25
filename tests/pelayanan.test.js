@@ -40,6 +40,7 @@ describe("POST PUT DELETE data pelayanan", () => {
     );
     expect(response.body).toHaveProperty("data.id");
     expect(response.body).toHaveProperty("data.nama_pelayanan");
+    createPelayananId = response.body.data.id;
   });
   it("response 400, badrequest | POST /api/v1/pelayanan", async () => {
     const response = await supertest(app)
@@ -55,9 +56,28 @@ describe("POST PUT DELETE data pelayanan", () => {
 
     expect(response.statusCode).toBe(400);
     expect(response.body).toHaveProperty("success", false);
+    expect(response.body).toHaveProperty("message", "Semua field wajib diisi");
+  });
+  it("response 200, get all pelayanan | GET /api/v1/pelayanan", async () => {
+    const response = await supertest(app).get("/api/v1/pelayanan");
+
+    expect(response.statusCode).toBe(200);
+    expect(response.body).toHaveProperty("success", true);
     expect(response.body).toHaveProperty(
       "message",
-      "Semua field wajib diisi"
+      "Berhasil mendapatkan data pelayanan"
     );
+    expect(Array.isArray(response.body.data)).toBe(true);
+  });
+  it("response 200, get pelayanan by id | GET /api/v1/pelayanan/:id_pelayanan", async () => {
+    const response = await supertest(app)
+      .get(`/api/v1/pelayanan/${createPelayananId}`)
+      .set("Cookie", [`aksesToken=${signedToken}`]);
+
+    expect(response.statusCode).toBe(200);
+    expect(response.body).toHaveProperty("success", true);
+    expect(response.body).toHaveProperty("message", "Data pelayanan ditemukan");
+    expect(response.body.data).toHaveProperty("id_pelayanan");
+    expect(response.body.data).toHaveProperty("nama_pelayanan");
   });
 });
