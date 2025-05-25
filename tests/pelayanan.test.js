@@ -148,4 +148,28 @@ describe("POST GET PUT DELETE data pelayanan", () => {
       "Pelayanan dengan ID 999999 tidak ditemukan"
     );
   });
+  //====MASIH BELUM DIBUTUHKAN DELETE===
+  //   it("response 200, delete pelayanan | DELETE /api/v1/pelayanan/:id_pelayanan", async () => {
+  //     const response = await supertest(app)
+  //       .delete(`/api/v1/pelayanan/${createPelayananId}`)
+  //       .set("Cookie", [`aksesToken=${signedToken}`]);
+
+  //     expect(response.statusCode).toBe(200);
+  //     expect(response.body).toHaveProperty("success", true);
+  //     expect(response.body).toHaveProperty(
+  //       "message",
+  //       "Pelayanan berhasil dihapus"
+  //     );
+  //   });
+  //   it("response 404, not found | DELETE /api/v1/pelayanan/:id_pelayanan", async () => {
+  //     const response = await supertest(app)
+  //       .delete("/api/v1/pelayanan/999999")
+  //       .set("Cookie", [`aksesToken=${signedToken}`]);
+  //     expect(response.statusCode).toBe(404);
+  //     expect(response.body).toHaveProperty("success", false);
+  //     expect(response.body).toHaveProperty(
+  //       "message",
+  //       "Pelayanan dengan ID 999999 tidak ditemukan"
+  //     );
+  //   });
 });

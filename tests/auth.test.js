@@ -1,15 +1,19 @@
 const supertest = require("supertest");
-const app = require("../app"); //bisa akses semua route & middleware
+const app = require("../app");
 const passwordStrengthTest = require("owasp-password-strength-test");
+const cookie = require("cookie-signature"); // ✅ Tambahkan ini
+const { cookieSecret } = require("../src/configs/env-config"); // sesuaikan path jika perlu
 
 describe("SUKSES: test endpoint auth", () => {
   let refreshTokenCookie = "";
   let accessTokenCookie = "";
 
+  const emailUnik = `adminbaru+${Date.now()}@gmail.com`; // ✅ agar tidak bentrok
+
   test("POST /api/v1/auth/register", async () => {
     const payload = {
       nama: "Admin Baru",
-      email: "adminbaru@gmail.com",
+      email: emailUnik,
       password: "@Ahazain123",
       no_wa: "081234567890",
       role: "ADMIN",
@@ -18,7 +22,7 @@ describe("SUKSES: test endpoint auth", () => {
     const result = passwordStrengthTest.test(payload.password);
     expect(result.strong).toBe(true);
 
-    const response = await supertest(app) //supertest itu seperti "simulasi postman otomatis" yang bisa mengirim request langsung ke app-nya Express — tanpa benar-benar membuat server hidup.
+    const response = await supertest(app)
       .post("/api/v1/auth/register")
       .send(payload);
 
@@ -32,7 +36,7 @@ describe("SUKSES: test endpoint auth", () => {
 
   test("POST /api/v1/auth/login", async () => {
     const payload = {
-      email: "adminbaru@gmail.com",
+      email: emailUnik,
       password: "@Ahazain123",
     };
 
@@ -82,9 +86,19 @@ describe("SUKSES: test endpoint auth", () => {
         cookie.startsWith("aksesToken=")
       );
       if (newAccessTokenCookie) {
-        accessTokenCookie = newAccessTokenCookie.split(";")[0];
+        accessTokenCookie = newAccessTokenCookie.split(";")[0]; // ✅ langsung ambil saja
       }
     }
+  });
+  console.log("Access Token Cookie:", accessTokenCookie);
+  test("GET /api/v1/profil", async () => {
+    const response = await supertest(app)
+      .get("/api/v1/profil")
+      .set("Cookie", [accessTokenCookie]);
+
+    expect(response.statusCode).toBe(200);
+    expect(response.body).toHaveProperty("message", "Profile berhasil diambil");
+    expect(response.body).toHaveProperty("data");
   });
 
   test("POST /api/v1/auth/logout", async () => {
