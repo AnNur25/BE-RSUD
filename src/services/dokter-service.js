@@ -32,9 +32,7 @@ class DokterService {
           "File asli dihapus karena validasi gagal: data wajib kosong"
         );
       }
-      throw new BadRequestError(
-        "Nama, Poli, dan Biodata singkat harus diisi"
-      );
+      throw new BadRequestError("Nama, Poli, dan Biodata singkat harus diisi");
     }
 
     const existingPoli = await prisma.poli.findUnique({ where: { id_poli } });
@@ -287,17 +285,20 @@ class DokterService {
     id_poli,
     file,
   }) {
-    // Validasi data wajib
-    if (!id_dokter || !nama || !id_poli || !biodata_singkat) {
+    if (
+      !nama ||
+      nama.trim() === "" ||
+      !id_poli ||
+      !biodata_singkat ||
+      biodata_singkat.trim() === ""
+    ) {
       if (file && file.path && fs.existsSync(file.path)) {
         fs.unlinkSync(file.path);
         console.log(
           "File asli dihapus karena validasi gagal: data wajib kosong"
         );
       }
-      throw new BadRequestError(
-        "ID Dokter, biodata_singkat, Nama, dan ID Poli harus diisi"
-      );
+      throw new BadRequestError("Nama, Poli, dan Biodata singkat harus diisi");
     }
 
     // Cek apakah dokter dan poli tersedia
