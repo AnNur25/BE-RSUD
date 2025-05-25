@@ -262,18 +262,17 @@
 <a name='L197'></a><a href='#L197'>197</a>
 <a name='L198'></a><a href='#L198'>198</a>
 <a name='L199'></a><a href='#L199'>199</a>
-<a name='L200'></a><a href='#L200'>200</a>
-<a name='L201'></a><a href='#L201'>201</a>
-<a name='L202'></a><a href='#L202'>202</a>
-<a name='L203'></a><a href='#L203'>203</a>
-<a name='L204'></a><a href='#L204'>204</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<a name='L200'></a><a href='#L200'>200</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -350,7 +349,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -368,7 +366,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -380,9 +377,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -397,7 +392,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -406,7 +400,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -420,7 +413,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -468,13 +460,16 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const fs = require("fs");
 const path = require("path");
 const sharp = require("sharp");
 const responseHelper = require("../helpers/response-helper");
 const prisma = require("../prisma/prismaClient");
-const { BadRequestError, NotFoundError } = require("../utils/error-handling-utils");
+const {
+  BadRequestError,
+  NotFoundError,
+} = require("../utils/error-handling-utils");
 class LayananUnggulanController {
 <span class="fstat-no" title="function not covered" >  st</span>atic async updateLayananUnggulan(req, res) {
     const { id } = <span class="cstat-no" title="statement not covered" >req.params;</span>
@@ -552,8 +547,7 @@ class LayananUnggulanController {
 &nbsp;
 <span class="cstat-no" title="statement not covered" >            resizedFiles.push(resizedImagePath);</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >            fs.unlinkSync(file.path); </span>// Hapus file asli
-&nbsp;
+<span class="cstat-no" title="statement not covered" >            fs.unlinkSync(file.path);</span>
             const imageUrl = <span class="cstat-no" title="statement not covered" >`${process.env.FRONTEND_URL}/uploads/resized/${webpFilename}`;</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >            return {</span>
@@ -575,7 +569,6 @@ class LayananUnggulanController {
           data: { judul, deskripsi },
         });
 &nbsp;
-        // Ambil gambar yang akan dihapus dari DB sebelum delete
         const gambarToDelete = <span class="cstat-no" title="statement not covered" >await tx.gambarCaption.findMany({</span>
           where: {
             layananId: id,
@@ -583,7 +576,6 @@ class LayananUnggulanController {
           },
         });
 &nbsp;
-        // Hapus data dari DB
 <span class="cstat-no" title="statement not covered" >        await tx.gambarCaption.deleteMany({</span>
           where: {
             layananId: id,
@@ -591,16 +583,14 @@ class LayananUnggulanController {
           },
         });
 &nbsp;
-        // Hapus file .webp yang tidak digunakan
 <span class="cstat-no" title="statement not covered" >        gambarToDelete.forEach(<span class="fstat-no" title="function not covered" >(g</span>ambar) =&gt; {</span>
-          const fileName = <span class="cstat-no" title="statement not covered" >path.basename(gambar.gambar);</span> // ambil nama file dari URL
+          const fileName = <span class="cstat-no" title="statement not covered" >path.basename(gambar.gambar);</span>
           const filePath = <span class="cstat-no" title="statement not covered" >path.resolve("uploads/resized", fileName);</span>
 <span class="cstat-no" title="statement not covered" >          if (fs.existsSync(filePath)) {</span>
 <span class="cstat-no" title="statement not covered" >            fs.unlinkSync(filePath);</span>
           }
         });
 &nbsp;
-        // Update caption existing images
         const updatePromises = <span class="cstat-no" title="statement not covered" >parsedExistingImages.map(<span class="fstat-no" title="function not covered" >(i</span>mg) =&gt;</span>
 <span class="cstat-no" title="statement not covered" >          tx.gambarCaption.update({</span>
             where: { id: img.id },
@@ -609,7 +599,6 @@ class LayananUnggulanController {
         );
 <span class="cstat-no" title="statement not covered" >        await Promise.all(updatePromises);</span>
 &nbsp;
-        // Tambah gambar baru
 <span class="cstat-no" title="statement not covered" >        if (uploadedImages.length &gt; 0) {</span>
 <span class="cstat-no" title="statement not covered" >          await tx.gambarCaption.createMany({</span>
             data: uploadedImages.map(<span class="fstat-no" title="function not covered" >(i</span>mg, index) =&gt; (<span class="cstat-no" title="statement not covered" >{</span>
@@ -624,7 +613,6 @@ class LayananUnggulanController {
 &nbsp;
 <span class="cstat-no" title="statement not covered" >      responseHelper.success(res, null, "Layanan Unggulan berhasil diupdate.");</span>
     } catch (error) {
-      // Hapus file webp yang sempat disimpan jika terjadi error
 <span class="cstat-no" title="statement not covered" >      for (const filePath of resizedFiles) {</span>
 <span class="cstat-no" title="statement not covered" >        if (fs.existsSync(filePath)) {</span>
 <span class="cstat-no" title="statement not covered" >          fs.unlinkSync(filePath);</span>
@@ -679,7 +667,7 @@ module.exports = LayananUnggulanController;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-24T04:29:34.970Z
+                at 2025-05-25T07:45:04.964Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>
