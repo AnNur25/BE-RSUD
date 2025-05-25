@@ -3,6 +3,9 @@ const prisma = require("../prisma/prismaClient");
 const JwtHelper = require("../utils/jwt-sign-utils");
 const jwt = require("jsonwebtoken");
 const config = require("../configs/env-config");
+const {
+  validatePasswordStrength,
+} = require("../utils/password-validator-utils");
 const secret = config.secretKey;
 // const frontend_url = config.frontend;
 const {
@@ -62,6 +65,7 @@ class ProfilService {
   }
 
   static async updatePassw(user, body) {
+    console.log("User dari middleware auth:", user);
     if (!user || !user.email) {
       throw new UnauthorizedError(
         "Tidak terautentikasi. Silakan login kembali."

@@ -22,7 +22,7 @@ describe("SUKSES: POST PUT DELETE data dokter", () => {
       nama: "Test Admin",
       email: "admin@gmail.com",
       no_wa: "08123456789",
-      role: "ADMIN",
+      // role: "USER",
     };
 
     const token = jwt.sign(payload, aksesSecret, { expiresIn: "15m" });
