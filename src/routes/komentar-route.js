@@ -275,7 +275,7 @@ route.get(
  * /api/v1/berita/{id}/komentar/visible:
  *   get:
  *     summary: Berhasil menampilkan list komentar visible
- *     description: Endpoint ini digunakan untuk mendapatkan semua komentar dan balasannya berdasarkan ID berita. Hanya dapat diakses oleh pengguna dengan role ADMIN.
+ *     description: Endpoint ini digunakan untuk mendapatkan semua komentar dan balasannya berdasarkan ID berita
  *     tags:
  *       - Komentar
  *     parameters:
