@@ -1,4 +1,7 @@
-const { BadRequestError, NotFoundError } = require("../utils/error-handling-utils");
+const {
+  BadRequestError,
+  NotFoundError,
+} = require("../utils/error-handling-utils");
 const Pagination = require("../utils/pagination-utils");
 const prisma = require("../prisma/prismaClient");
 
@@ -65,6 +68,15 @@ class PelayananService {
       throw new NotFoundError(
         `Pelayanan dengan ID ${id_pelayanan} tidak ditemukan`
       );
+    if (
+      !nama_pelayanan ||
+      !Persyaratan ||
+      !Prosedur ||
+      !JangkaWaktu ||
+      Biaya === undefined
+    ) {
+      throw new BadRequestError("Semua field wajib diisi");
+    }
 
     const updatedPelayanan = await prisma.pelayanan.update({
       where: { id_pelayanan },

@@ -3,9 +3,6 @@ const app = require("../app");
 const jwt = require("jsonwebtoken");
 const cookie = require("cookie-signature");
 const { cookieSecret, aksesSecret } = require("../src/configs/env-config");
-const path = require("path");
-const { test } = require("owasp-password-strength-test");
-const prisma = require("../src/prisma/prismaClient");
 
 describe("GET data dokter kosong", () => {
   it("response 404, Data Dokter Kosong", async () => {
@@ -25,7 +22,7 @@ describe("SUKSES: POST PUT DELETE data dokter", () => {
       nama: "Test Admin",
       email: "admin@gmail.com",
       no_wa: "08123456789",
-      role: "ADMIN",
+      // role: "USER",
     };
 
     const token = jwt.sign(payload, aksesSecret, { expiresIn: "15m" });

@@ -208,7 +208,7 @@ router.put(
  *                   example: "Detail error dari server."
  */
 router.put(
-  "/profil",
+  "/profil/ubah-password",
   auth,
   authorizeRole("ADMIN", "USER"),
   profilController.updatePassw

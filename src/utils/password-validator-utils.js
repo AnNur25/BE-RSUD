@@ -12,6 +12,7 @@ function validatePasswordStrength(password) {
     const message = result.errors.join(" ");
     throw new Error(`Password lemah: ${message}`);
   }
+  return result;
 }
 
 module.exports = {
