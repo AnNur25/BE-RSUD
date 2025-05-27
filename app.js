@@ -40,6 +40,8 @@ app.use(cookieParser());
 const allowedOrigins = [
   "https://rsdbalung.vercel.app",
   "http://localhost:5173",
+  "http://localhost:3000",
+  "https://rs-balung-cp.vercel.app/",
 ];
 
 // app.use(
