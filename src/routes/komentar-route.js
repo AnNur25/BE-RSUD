@@ -122,12 +122,7 @@ const { auth, authorizeRole } = require("../middlewares/auth-middleware");
  *                   type: string
  *                   example: Terjadi kesalahan pada server
  */
-route.post(
-  "/:id_berita/komentar",
-  auth,
-  authorizeRole("ADMIN"),
-  komentarController.addKomentar
-);
+route.post("/:id_berita/komentar", komentarController.addKomentar);
 
 /**
  * @swagger
