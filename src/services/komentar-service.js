@@ -1,4 +1,7 @@
-const { BadRequestError, NotFoundError } = require("../utils/error-handling-utils");
+const {
+  BadRequestError,
+  NotFoundError,
+} = require("../utils/error-handling-utils");
 const prisma = require("../prisma/prismaClient");
 const { connect } = require("../routes/berita-route");
 class komentarService {
@@ -105,6 +108,7 @@ class komentarService {
   static async listKomentarVisible() {
     const semuaKomentar = await prisma.komentar.findMany({
       where: { isVisible: true },
+      id_berita: id_berita,
       orderBy: { createdAt: "asc" },
     });
 
