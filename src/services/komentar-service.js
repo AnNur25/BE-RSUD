@@ -110,7 +110,6 @@ class komentarService {
 
     return hasil;
   }
-
   static async listKomentarVisible({ id_berita }) {
     const semuaKomentar = await prisma.komentar.findMany({
       where: { isVisible: true, berita_id: id_berita },
