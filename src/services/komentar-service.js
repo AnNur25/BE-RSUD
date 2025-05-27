@@ -22,8 +22,14 @@ class komentarService {
     return dataKomentar;
   }
 
-  static async listKomentar() {
+  static async listKomentar({ id_berita }) {
+    if (!id_berita) {
+      throw new BadRequestError(
+        "ID berita diperlukan untuk mengambil komentar"
+      );
+    }
     const semuaKomentar = await prisma.komentar.findMany({
+      where: { berita_id: id_berita },
       orderBy: { createdAt: "asc" },
     });
 
@@ -105,10 +111,9 @@ class komentarService {
     return hasil;
   }
 
-  static async listKomentarVisible() {
+  static async listKomentarVisible({ id_berita }) {
     const semuaKomentar = await prisma.komentar.findMany({
-      where: { isVisible: true },
-      id_berita: id_berita,
+      where: { isVisible: true, berita_id: id_berita },
       orderBy: { createdAt: "asc" },
     });
 

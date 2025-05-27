@@ -409,7 +409,7 @@ route.get(
  *                   type: string
  *                   example: Terjadi kesalahan pada server
  */
-route.get("/:id/komentar/visible", komentarController.listKomentarVisible);
+route.get("/:id_berita/komentar/visible", komentarController.listKomentarVisible);
 
 /**
  * @swagger
