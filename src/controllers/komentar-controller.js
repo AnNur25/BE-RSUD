@@ -27,7 +27,8 @@ class KomentarController {
 
   static async listKomentar(req, res) {
     try {
-      const dataKomentar = await komentarService.listKomentar();
+      const { id_berita } = req.params;
+      const dataKomentar = await komentarService.listKomentar({ id_berita });
       return response.success(
         res,
         dataKomentar,
@@ -39,7 +40,10 @@ class KomentarController {
   }
   static async listKomentarVisible(req, res) {
     try {
-      const dataKomentar = await komentarService.listKomentarVisible();
+      const { id_berita } = req.params;
+      const dataKomentar = await komentarService.listKomentarVisible({
+        id_berita,
+      });
       return response.success(
         res,
         dataKomentar,
