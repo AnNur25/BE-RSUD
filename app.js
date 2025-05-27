@@ -37,40 +37,59 @@ require("./src/cron/cleanup-revoked-token-cron");
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+
+// Fixed CORS configuration
 const allowedOrigins = [
   "https://rsdbalung.vercel.app",
   "http://localhost:5173",
   "http://localhost:3000",
-  "https://rs-balung-cp.vercel.app/",
+  "https://rs-balung-cp.vercel.app", // Removed trailing slash
 ];
-
-// app.use(
-//   cors({
-//     origin: process.env.FRONTEND_URL || "https://rsdbalung.vercel.app",
-//     credentials: true,
-//     methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
-//     allowedHeaders: ["Content-Type", "Authorization"],
-//   })
-// );
 
 app.use(
   cors({
     origin: function (origin, callback) {
-      // allow requests with no origin like mobile apps or curl
+      // Allow requests with no origin (like mobile apps, Postman, Swagger UI)
       if (!origin) return callback(null, true);
+
+      // Check if origin is in allowed list
       if (allowedOrigins.indexOf(origin) !== -1) {
         callback(null, true);
       } else {
+        // For development/testing purposes, you might want to be more permissive
+        // Comment out the line below in production
+        console.warn(`CORS: Origin ${origin} not allowed`);
         callback(new Error("Not allowed by CORS"));
       }
     },
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
+    allowedHeaders: [
+      "Content-Type",
+      "Authorization",
+      "X-Requested-With",
+      "Accept",
+      "Origin",
+    ],
   })
 );
 
+// Handle preflight requests
 app.options("*", cors());
+
+// Special CORS handling for Swagger UI
+app.use("/api-docs", (req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header(
+    "Access-Control-Allow-Methods",
+    "GET, POST, PUT, DELETE, PATCH, OPTIONS"
+  );
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Content-Type, Authorization, X-Requested-With, Accept, Origin"
+  );
+  next();
+});
 
 app.use(
   "/api-docs",
@@ -83,6 +102,7 @@ app.use(
 
 app.use("/swagger-ui", express.static(swaggerUiDist.getAbsoluteFSPath()));
 
+// Routes
 app.use("/api/v1/auth", authRoute);
 app.use("/api/v1/auth", oauthRoute);
 app.use("/api/v1", profileRoute);
@@ -96,8 +116,10 @@ app.use("/api/v1/berita", komentarRoute);
 app.use("/api/v1/banner", bannerRoute);
 app.use("/api/v1/layanan-unggulan", layananUnggulanRoute);
 app.use("/api/v1/media-sosial", mediaSosial);
+
+// Error handling middleware
 app.use((err, req, res, next) => {
-  console.error(err);
+  console.error("Error details:", err);
 
   const statusCode = err.statusCode || 500;
   const message = err.message || "Internal Server Error";
@@ -112,7 +134,9 @@ app.use((err, req, res, next) => {
 app.get("/", (req, res) => {
   res.send("the system works !!!");
 });
+
 app.listen(port, () => {
   console.log(`LOPE YOU ${port}`);
 });
+
 module.exports = app;
