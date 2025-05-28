@@ -148,8 +148,8 @@ class AuthController {
         where: { user_id: userId },
       });
 
-      res.clearCookie("aksesToken", { path: "/api/v1" });
-      res.clearCookie("refreshToken", { path: "/api/v1/auth" });
+      res.clearCookie("aksesToken", { path: "/" });
+      res.clearCookie("refreshToken", { path: "/" });
 
       return responseHelper.success(res, null, "Berhasil logout");
     } catch (error) {
