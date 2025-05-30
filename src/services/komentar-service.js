@@ -5,21 +5,29 @@ const {
 const prisma = require("../prisma/prismaClient");
 const { connect } = require("../routes/berita-route");
 class komentarService {
-  static async addKomentar({ id_berita, nama, no_wa, isi_komentar }) {
-    if (!id_berita || !nama || !no_wa || !isi_komentar) {
-      throw new BadRequestError("Semua field wajib di isi");
+  static async addKomentar({ id_berita, nama, no_wa, isi_komentar, user }) {
+    if (!id_berita || !isi_komentar) {
+      throw new BadRequestError("Field id_berita dan isi_komentar wajib diisi");
     }
 
-    const dataKomentar = await prisma.komentar.create({
+    // Jika user tidak ada, nama dan no_wa wajib diisi
+    if (!user && (!nama || !no_wa)) {
+      throw new BadRequestError(
+        "Field nama dan no_wa wajib diisi jika tidak login"
+      );
+    }
+
+    const komentar = await prisma.komentar.create({
       data: {
         nama,
         no_wa,
-        isVisible: true,
         isi_komentar,
+        isVisible: true,
         berita: { connect: { id_berita } },
       },
     });
-    return dataKomentar;
+
+    return komentar;
   }
 
   static async listKomentar({ id_berita }) {

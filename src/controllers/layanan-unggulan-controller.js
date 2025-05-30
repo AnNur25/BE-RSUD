@@ -15,6 +15,7 @@ class LayananUnggulanController {
     const resizedFiles = [];
 
     try {
+      // VALIDASI DATA DASAR
       if (!judul || !deskripsi) {
         throw new BadRequestError("Judul dan deskripsi harus diisi");
       }
@@ -38,6 +39,7 @@ class LayananUnggulanController {
         );
       }
 
+      // PARSING EXISTING IMAGES
       let parsedExistingImages = [];
       try {
         parsedExistingImages = JSON.parse(existingImages);
@@ -46,14 +48,15 @@ class LayananUnggulanController {
       }
 
       const existingIds = parsedExistingImages.map((img) => img.id);
-
       const totalGambarSetelahUpdate = existingIds.length + jumlahFileBaru;
+
       if (totalGambarSetelahUpdate < 1) {
         throw new BadRequestError(
           "Layanan harus memiliki minimal 1 gambar-caption."
         );
       }
 
+      // PARSING CAPTIONS
       let parsedGambarCaptions = [];
       if (gambarCaption) {
         try {
@@ -63,35 +66,38 @@ class LayananUnggulanController {
         }
       }
 
+      // ✅ PROSES GAMBAR hanya setelah validasi lolos
       let uploadedImages = [];
 
       if (files && files.length > 0) {
-        const uploadPromises = files.map(async (file) => {
+        const resizedFolder = path.resolve(files[0].destination, "resized");
+        if (!fs.existsSync(resizedFolder)) {
+          fs.mkdirSync(resizedFolder, { recursive: true });
+        }
+
+        const uploadPromises = files.map(async (file, index) => {
           const fileNameWithoutExt = path.parse(file.filename).name;
           const webpFilename = `${fileNameWithoutExt}.webp`;
-
-          const resizedFolder = path.resolve(file.destination, "resized");
-          if (!fs.existsSync(resizedFolder)) {
-            fs.mkdirSync(resizedFolder, { recursive: true });
-          }
-
           const resizedImagePath = path.resolve(resizedFolder, webpFilename);
 
           try {
+            // ✅ Resize hanya dilakukan jika validasi di atas sudah lolos
             await sharp(file.path)
               .webp({ quality: 50 })
               .toFile(resizedImagePath);
 
             resizedFiles.push(resizedImagePath);
 
-            fs.unlinkSync(file.path);
-            const imageUrl = `${process.env.FRONTEND_URL}/uploads/resized/${webpFilename}`;
+            // Hapus file asli yang belum diubah
+            if (fs.existsSync(file.path)) fs.unlinkSync(file.path);
 
+            const imageUrl = `${process.env.FRONTEND_URL}/uploads/resized/${webpFilename}`;
             return {
               url: imageUrl,
               originalName: file.originalname,
             };
           } catch (err) {
+            // Jika resize gagal, hapus file asli dan lempar error
             if (fs.existsSync(file.path)) fs.unlinkSync(file.path);
             throw new Error(`Gagal memproses gambar: ${file.originalname}`);
           }
@@ -100,6 +106,7 @@ class LayananUnggulanController {
         uploadedImages = await Promise.all(uploadPromises);
       }
 
+      // ✅ TRANSAKSI DIMULAI HANYA JIKA VALIDASI DAN PROSES FILE LANCAR
       await prisma.$transaction(async (tx) => {
         await tx.layananUnggulan.update({
           where: { id_layanan_unggulan: id },
@@ -120,6 +127,7 @@ class LayananUnggulanController {
           },
         });
 
+        // Hapus file lokal dari gambar yang dihapus dari DB
         gambarToDelete.forEach((gambar) => {
           const fileName = path.basename(gambar.gambar);
           const filePath = path.resolve("uploads/resized", fileName);
@@ -128,6 +136,7 @@ class LayananUnggulanController {
           }
         });
 
+        // Update caption existing
         const updatePromises = parsedExistingImages.map((img) =>
           tx.gambarCaption.update({
             where: { id: img.id },
@@ -136,6 +145,7 @@ class LayananUnggulanController {
         );
         await Promise.all(updatePromises);
 
+        // Tambah gambar baru
         if (uploadedImages.length > 0) {
           await tx.gambarCaption.createMany({
             data: uploadedImages.map((img, index) => ({
@@ -148,13 +158,18 @@ class LayananUnggulanController {
         }
       });
 
+      // ✅ Jika semua sukses
       responseHelper.success(res, null, "Layanan Unggulan berhasil diupdate.");
     } catch (error) {
-      for (const filePath of resizedFiles) {
-        if (fs.existsSync(filePath)) {
-          fs.unlinkSync(filePath);
+      // ❌ Jika ada error, bersihkan SEMUA FILE (resized maupun raw)
+      [...resizedFiles, ...(files?.map((f) => f.path) || [])].forEach(
+        (filePath) => {
+          if (fs.existsSync(filePath)) {
+            fs.unlinkSync(filePath);
+          }
         }
-      }
+      );
+
       responseHelper.error(res, error);
     }
   }
