@@ -63,7 +63,7 @@ class OauthController {
       });
 
       res.redirect(
-        `${redirectTo}?authSuccess=true?aksesToken=${aksesToken}&refreshToken=${refreshToken}`
+        `http://localhost:5173/?authSuccess=true?aksesToken=${aksesToken}&refreshToken=${refreshToken}`
       );
     })(req, res, next);
   }

@@ -22,6 +22,11 @@ model User {
   revokedToken RevokedToken[]
 }
 
+model Direktur{
+  id_direktur String @id @default(uuid())
+  gambar      String
+}
+
 enum Role{
   ADMIN
   USER
