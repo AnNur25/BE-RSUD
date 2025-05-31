@@ -111,3 +111,66 @@
 - pastikan ssl otomatis perpanjangan `sudo crontab -e`, tambahkan di line paling bawah `0 3 * * * /usr/bin/certbot renew --quiet`
 
 - selesai bisa di cek situsnya misalkan `https://newshub.store` or `https://www.newshub.store`
+
+## set up dan deploy frontend
+
+- git clone repo frontend
+- npm i --legacy-peer-deps (untuk memaksa versi tetap ke instal meskipun tidak kompatibel)
+- tambah .env dengan `nano .env` misalkan isi `VITE_API_URL=https://www.newshub.store`
+- build proyek `npm run build`
+- salin hasil build ke folder nginx `sudo mkdir -p /var/www/newshub-frontend`, `sudo cp -r build/* /var/www/newshub-frontend/`
+- config nginx `sudo nano /etc/nginx/sites-available/newshub.store`
+- Isi dengan konfigurasi berikut:
+
+  ```nginx
+  server {
+      server_name newshub.store www.newshub.store;
+
+      # ========= Frontend SSR React ========
+      location / {
+          proxy_pass http://localhost:44375/;
+          proxy_http_version 1.1;
+          proxy_set_header Upgrade $http_upgrade;
+          proxy_set_header Connection 'upgrade';
+          proxy_set_header Host $host;
+          proxy_cache_bypass $http_upgrade;
+      }
+
+      # ========= Backend API =========
+      location /api {
+          proxy_pass http://localhost:3000;  # Ganti port jika bukan 3000
+          proxy_http_version 1.1;
+          proxy_set_header Upgrade $http_upgrade;
+          proxy_set_header Connection 'upgrade';
+          proxy_set_header Host $host;
+          proxy_cache_bypass $http_upgrade;
+      }
+
+      listen 443 ssl; # managed by Certbot
+      ssl_certificate /etc/letsencrypt/live/newshub.store/fullchain.pem; # managed by Certbot
+      ssl_certificate_key /etc/letsencrypt/live/newshub.store/privkey.pem; # managed by Certbot
+      include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+      ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+  }
+
+  server {
+      if ($host = www.newshub.store) {
+          return 301 https://$host$request_uri;
+      } # managed by Certbot
+
+      if ($host = newshub.store) {
+          return 301 https://$host$request_uri;
+      } # managed by Certbot
+
+      listen 80;
+      server_name newshub.store www.newshub.store;
+      return 404; # managed by Certbot
+  }
+
+  ```
+
+- aktifkan config dan reload `sudo nginx -t`, `sudo systemctl restart nginx`
+- pasang ssl pada frontend, pilih 1 reisntal `sudo certbot --nginx -d newshub.store -d www.newshub.store`
+- running apps `pm2 start npx --name frontend -- react-router-serve ./build/server/index.js`
+- jika error cek running di berapa frontend `sudo lsof -i -P -n | grep LISTEN`
+- jika berbeda seperti di config nginx, bisa disesuikan dan reload nginx
