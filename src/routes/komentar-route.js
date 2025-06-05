@@ -2,6 +2,7 @@ const express = require("express");
 const route = express.Router();
 const komentarController = require("../controllers/komentar-controller");
 const { auth, authorizeRole } = require("../middlewares/auth-middleware");
+const optionalAuth = require("../middlewares/optional-auth");
 
 /**
  * @swagger
@@ -122,7 +123,11 @@ const { auth, authorizeRole } = require("../middlewares/auth-middleware");
  *                   type: string
  *                   example: Terjadi kesalahan pada server
  */
-route.post("/:id_berita/komentar", komentarController.addKomentar);
+route.post(
+  "/:id_berita/komentar",
+  optionalAuth,
+  komentarController.addKomentar
+);
 
 /**
  * @swagger
@@ -409,7 +414,10 @@ route.get(
  *                   type: string
  *                   example: Terjadi kesalahan pada server
  */
-route.get("/:id_berita/komentar/visible", komentarController.listKomentarVisible);
+route.get(
+  "/:id_berita/komentar/visible",
+  komentarController.listKomentarVisible
+);
 
 /**
  * @swagger
