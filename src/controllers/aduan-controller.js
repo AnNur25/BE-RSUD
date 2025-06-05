@@ -46,7 +46,9 @@ class AduanController {
 
   static async getAllAduan(req, res) {
     try {
-      const data = await aduanService.getAllAduan();
+      const page = parseInt(req.query.page) || 1;
+      const pageSize = parseInt(req.query.pageSize) || 12;
+      const data = await aduanService.getAllAduan({ page, pageSize });
       responseHelper.success(res, data, "Data aduan berhasil diambil.");
     } catch (error) {
       responseHelper.error(res, error);
