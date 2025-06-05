@@ -5,7 +5,7 @@ const axios = require("axios");
 class KomentarController {
   static async addKomentar(req, res) {
     try {
-      const SECRET = "6LcgaUwrAAAAAGlrK7B_7Bq18DBtco7qxpTJkqRt";
+      const SECRET = process.env.RECAPTCHA_SECRET_KEY;
 
       console.log("REQ.PARAMS:", req.params);
       console.log("REQ.BODY:", req.body);
