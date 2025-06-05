@@ -32,8 +32,7 @@ const port = envConfig.port;
 const passport = require("passport");
 
 app.use(passport.initialize());
-require("./src/cron/delete-komentar-cron");
-require("./src/cron/cleanup-revoked-token-cron");
+require("./src/cron/cronJobs"); 
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -97,7 +96,6 @@ app.use(
 
 app.use("/swagger-ui", express.static(swaggerUiDist.getAbsoluteFSPath()));
 
-
 app.use("/api/v1/auth", authRoute);
 app.use("/api/v1/auth", oauthRoute);
 app.use("/api/v1", profileRoute);
@@ -112,7 +110,6 @@ app.use("/api/v1/banner", bannerRoute);
 app.use("/api/v1/layanan-unggulan", layananUnggulanRoute);
 app.use("/api/v1/media-sosial", mediaSosial);
 app.use("/api/v1", direkturRoute);
-
 
 app.use((err, req, res, next) => {
   console.error("Error details:", err);

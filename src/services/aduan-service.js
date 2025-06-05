@@ -4,6 +4,7 @@ const {
   NotFoundError,
   ForbiddenError,
 } = require("../utils/error-handling-utils");
+const Pagination = require("../utils/pagination-utils");
 
 class AduanService {
   static async createAduan({ nama, message, no_wa }) {
@@ -31,11 +32,21 @@ class AduanService {
     };
   }
 
-  static async getAllAduan() {
+  static async getAllAduan({ page, pageSize }) {
+    const {
+      skip,
+      take,
+      page: currentPage,
+      pageSize: currentPageSize,
+    } = Pagination.paginate(page, pageSize);
+    const totalItems = await prisma.aduan.count();
     const data = await prisma.aduan.findMany({
+      skip,
+      take,
       include: { responAdmin: true },
       orderBy: { createdAt: "desc" },
     });
+    const totalPages = Math.ceil(totalItems / currentPageSize);
     return {
       data_aduan: data.map((aduan) => ({
         id: aduan.id_aduan,
@@ -58,6 +69,12 @@ class AduanService {
           }).format(new Date(respon.createdAt)),
         })),
       })),
+      pagination: {
+        currentPage,
+        pageSize: currentPageSize,
+        totalItems,
+        totalPages,
+      },
     };
   }
 
@@ -88,6 +105,12 @@ class AduanService {
           }).format(new Date(respon.createdAt)),
         })),
       })),
+      pagination: {
+        currentPage,
+        pageSize: currentPageSize,
+        totalItems,
+        totalPages,
+      },
     };
   }
 

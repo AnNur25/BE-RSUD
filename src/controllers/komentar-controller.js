@@ -5,7 +5,7 @@ const axios = require("axios");
 class KomentarController {
   static async addKomentar(req, res) {
     try {
-      const SECRET = "6LcgaUwrAAAAAGlrK7B_7Bq18DBtco7qxpTJkqRt";
+      const SECRET = process.env.RECAPTCHA_SECRET_KEY;
 
       console.log("REQ.PARAMS:", req.params);
       console.log("REQ.BODY:", req.body);
@@ -16,10 +16,10 @@ class KomentarController {
         nama: inputNama,
         no_wa: inputNoWa,
         isi_komentar,
-        recaptcha_token, // ← Ubah dari recaptchaValue ke recaptcha_token
+        recaptcha_token,
       } = req.body;
 
-      const user = req.user;
+      const user = req.user ?? null;
 
       const nama = inputNama ?? user?.nama ?? null;
       const no_wa = inputNoWa ?? user?.no_wa ?? null;
@@ -57,6 +57,7 @@ class KomentarController {
         nama,
         no_wa,
         isi_komentar,
+        user,
       });
 
       return response.created(res, komentar, "Berhasil menambah komentar");
