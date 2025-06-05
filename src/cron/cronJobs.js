@@ -92,3 +92,5 @@ process.on("SIGTERM", () => {
   console.log("\n🛑 Received SIGTERM, shutting down gracefully...");
   process.exit(0);
 });
+
+console.log("tes");
