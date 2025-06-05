@@ -93,4 +93,3 @@ process.on("SIGTERM", () => {
   process.exit(0);
 });
 
-console.log("tes");
