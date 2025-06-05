@@ -24,6 +24,7 @@ class komentarService {
         isi_komentar,
         isVisible: true,
         berita: { connect: { id_berita } },
+        ...(user && { user: { connect: { id_user: user.id_user } } }), // FK ke user
       },
     });
 
