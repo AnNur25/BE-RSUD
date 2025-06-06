@@ -78,7 +78,7 @@ class OauthController {
         });
 
         res.redirect(
-          `http://localhost:3000/api/v1/auth/testing?authSuccess=true?aksesToken=${aksesToken}&refreshToken=${refreshToken}`
+          `${redirectTo}?authSuccess=true?aksesToken=${aksesToken}&refreshToken=${refreshToken}`
         );
       }
     )(req, res, next);
