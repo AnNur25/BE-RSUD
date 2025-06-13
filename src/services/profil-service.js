@@ -37,6 +37,7 @@ class ProfilService {
       id_user: foundUser.id_user,
       nama: foundUser.nama,
       email: foundUser.email,
+      no_wa: foundUser.no_wa,
     };
   }
   static async updateProfil({ nama, email, no_wa, user }) {

@@ -32,7 +32,7 @@ const port = envConfig.port;
 const passport = require("passport");
 
 app.use(passport.initialize());
-require("./src/cron/cronJobs"); 
+require("./src/cron/cronJobs");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -43,45 +43,35 @@ const allowedOrigins = [
   "https://rsdbalung.vercel.app",
   "http://localhost:5173",
   "http://localhost:3000",
-  "https://rs-balung-cp.vercel.app", // Removed trailing slash
+  "http://31.97.50.117:3000",
+  "https://www.newshub.store",
+  "https://newshub.store",
+  "https://rs-balung-cp.vercel.app",
 ];
 
-app.use(
-  cors({
-    origin: function (origin, callback) {
-      if (!origin) return callback(null, true);
+// Middleware CORS untuk semua route
+app.use((req, res, next) => {
+  const origin = req.headers.origin;
 
-      if (allowedOrigins.indexOf(origin) !== -1) {
-        callback(null, true);
-      } else {
-        console.warn(`CORS: Origin ${origin} not allowed`);
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
-    credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
-    allowedHeaders: [
-      "Content-Type",
-      "Authorization",
-      "X-Requested-With",
-      "Accept",
-      "Origin",
-    ],
-  })
-);
+  if (allowedOrigins.includes(origin)) {
+    res.setHeader("Access-Control-Allow-Origin", origin);
+    res.setHeader("Access-Control-Allow-Credentials", "true");
+  }
 
-app.options("*", cors());
-
-app.use("/api-docs", (req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header(
+  res.setHeader(
     "Access-Control-Allow-Methods",
     "GET, POST, PUT, DELETE, PATCH, OPTIONS"
   );
-  res.header(
+  res.setHeader(
     "Access-Control-Allow-Headers",
     "Content-Type, Authorization, X-Requested-With, Accept, Origin"
   );
+
+  // Preflight response
+  if (req.method === "OPTIONS") {
+    return res.sendStatus(200);
+  }
+
   next();
 });
 
@@ -127,9 +117,8 @@ app.use((err, req, res, next) => {
 app.get("/", (req, res) => {
   res.send("the system works !!!");
 });
-
-app.listen(port, () => {
-  console.log(`LOPE YOU ${port}`);
+app.listen(3000, "0.0.0.0", () => {
+  console.log("Server running on port 3000");
 });
 
 module.exports = app;

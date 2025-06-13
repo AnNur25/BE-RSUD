@@ -142,4 +142,12 @@ route.get("/google/callback", oauthController.googleCallback);
  */
 route.post("/set-cookie", oauthController.setCookie);
 
+route.get("/testing", (req, res) => {
+  res.send({
+    message: "Testing OAuth route",
+    aksesToken: req.cookies.aksesToken,
+    refreshToken: req.cookies.refreshToken,
+  });
+});
+
 module.exports = route;
