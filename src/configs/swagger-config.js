@@ -14,6 +14,19 @@ const swaggerOptions = {
         description: "Development server",
       },
       {
+        url: "https://newshub.store/",
+        description: "Production server (non-www)",
+      },
+      {
+        url: "http://31.97.50.117:3000/",
+        description: "Development server",
+      },
+      {
+        url: "https://www.newshub.store/",
+        description: "Development server",
+      },
+
+      {
         url: "https://rs-balung-cp.vercel.app/",
         description: "Development server",
       },
