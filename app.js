@@ -1,4 +1,6 @@
 require("dotenv").config();
+const path = require("path");
+require("dotenv").config({ path: path.resolve(__dirname, ".env") });
 const envConfig = require("./src/configs/env-config");
 const express = require("express");
 const cookieParser = require("cookie-parser");
@@ -30,7 +32,7 @@ const mediaSosial = require("./src/routes/media-sosial-route");
 const direkturRoute = require("./src/routes/direktur-route");
 const port = envConfig.port;
 const passport = require("passport");
-
+const fs = require("fs");
 app.use(passport.initialize());
 require("./src/cron/cronJobs");
 
@@ -85,7 +87,18 @@ app.use(
 );
 
 app.use("/swagger-ui", express.static(swaggerUiDist.getAbsoluteFSPath()));
+console.log("Environment Variables Check:");
+console.log("NODE_ENV:", process.env.NODE_ENV);
+console.log("FRONTEND_URL:", process.env.FRONTEND_URL);
+console.log("PORT:", process.env.PORT);
 
+// Serve static files - PASTIKAN ADA INI
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
+// UNTUK handle /api/uploads - TAMBAHKAN INI
+app.use("/api/uploads", express.static(path.join(__dirname, "uploads")));
+// Cek apakah .env file ada
+console.log(".env file exists:", fs.existsSync(".env"));
 app.use("/api/v1/auth", authRoute);
 app.use("/api/v1/auth", oauthRoute);
 app.use("/api/v1", profileRoute);

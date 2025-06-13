@@ -46,6 +46,7 @@ const swaggerOptions = {
     "./src/routes/layanan-unggulan-route.js",
     "./src/routes/komentar-route.js",
     "./src/routes/media-sosial-route.js",
+     "./src/routes/direktur-route.js",
   ],
 };
 
