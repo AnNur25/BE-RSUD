@@ -1412,6 +1412,7 @@ async function main() {
   await prisma.pelayanan.deleteMany();
   await prisma.responAdmin.deleteMany();
   await prisma.aduan.deleteMany();
+  await prisma.komentar.deleteMany(); 
   await prisma.berita.deleteMany();
   await prisma.gambar.deleteMany();
   await prisma.revokedToken.deleteMany();
