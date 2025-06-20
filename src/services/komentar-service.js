@@ -61,6 +61,7 @@ class komentarService {
         id_komentar: komentar.id_komentar,
         nama: komentar.nama,
         isi_komentar: komentar.isi_komentar,
+        no_wa: komentar.no_wa,
         isVisible: komentar.isVisible,
         tanggal_komentar: formatTanggal(komentar.createdAt),
       };
@@ -88,6 +89,7 @@ class komentarService {
           id_komentar: balasan.id_komentar,
           nama: balasan.nama,
           isi_komentar: balasan.isi_komentar,
+          no_wa: balasan.no_wa,
           isVisible: balasan.isVisible,
           tanggal_komentar: balasan.tanggal_komentar,
         });
@@ -99,6 +101,7 @@ class komentarService {
               id_komentar: balasan.id_komentar,
               nama: balasan.nama,
               isi_komentar: balasan.isi_komentar,
+              no_wa: balasan.no_wa,
               isVisible: balasan.isVisible,
               tanggal_komentar: balasan.tanggal_komentar,
             },
@@ -112,6 +115,7 @@ class komentarService {
       id_komentar: k.id_komentar ?? null,
       nama: k.nama ?? null,
       isi_komentar: k.isi_komentar ?? null,
+      no_wa: k.no_wa ?? null,
       isVisible: k.isVisible ?? null,
       tanggal_komentar: k.tanggal_komentar ?? null,
       replies: k.replies || [],
@@ -143,6 +147,7 @@ class komentarService {
         id_komentar: komentar.id_komentar,
         nama: komentar.nama,
         isi_komentar: komentar.isi_komentar,
+        no_wa: komentar.no_wa,
         isVisible: komentar.isVisible,
         tanggal_komentar: formatTanggal(komentar.createdAt),
       };
