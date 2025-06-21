@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Pelayanan" ALTER COLUMN "Biaya" SET DATA TYPE TEXT;

@@ -131,7 +131,7 @@ model Pelayanan {
   Persyaratan    String
   Prosedur       String
   JangkaWaktu    String
-  Biaya          Float
+  Biaya          String
   jadwaldokter   JadwalDokter[]
 }
 
