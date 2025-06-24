@@ -18,17 +18,8 @@ const swaggerOptions = {
         description: "Production server (non-www)",
       },
       {
-        url: "http://31.97.50.117:3000/",
-        description: "Development server",
-      },
-      {
-        url: "https://www.newshub.store/",
-        description: "Development server",
-      },
-
-      {
-        url: "https://rs-balung-cp.vercel.app/",
-        description: "Development server",
+        url: "https://rs.newshub.store/",
+        description: "Production server (non-www)",
       },
     ],
   },
@@ -46,7 +37,7 @@ const swaggerOptions = {
     "./src/routes/layanan-unggulan-route.js",
     "./src/routes/komentar-route.js",
     "./src/routes/media-sosial-route.js",
-     "./src/routes/direktur-route.js",
+    "./src/routes/direktur-route.js",
   ],
 };
 
