@@ -942,7 +942,7 @@ const pelayanan = [
     Prosedur:
       "Pasien mendaftar ke bagian administrasi, Pasien menunggu kunjungan dokter, Pasien mengikuti prosedur medis yang dianjurkan oleh dokter",
     JangkaWaktu: "1-2 hari setelah pendaftaran.",
-    Biaya: 50000,
+    Biaya: "A",
   },
 ];
 
