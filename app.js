@@ -49,6 +49,7 @@ const allowedOrigins = [
   "https://www.newshub.store",
   "https://newshub.store",
   "https://rs-balung-cp.vercel.app",
+  "https://rs.newshub.store/",
 ];
 
 // Middleware CORS untuk semua route
