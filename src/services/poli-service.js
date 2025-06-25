@@ -4,12 +4,12 @@ const { BadRequestError, NotFoundError } = require("../utils/error-handling-util
 class PoliService {
   static async createPoli({ nama_poli }) {
     if (!nama_poli) {
-      throw new BadRequestError("nama poli harus diisi");
+      throw new BadRequestError("Kolom tidak boleh kosong");
     }
     const poliName = nama_poli.trim().toLowerCase();
     if (!poliName) {
       throw new BadRequestError(
-        "Nama Poli tidak boleh kosong atau hanya spasi"
+        "Kolom tidak boleh kosong"
       );
     }
 
@@ -94,7 +94,7 @@ class PoliService {
   }
   static async updatePoli({ id_poli }, { nama_poli }) {
     if (!id_poli || !nama_poli) {
-      throw new BadRequestError("ID Poli atau nama-poli harus diisi");
+      throw new BadRequestError("Kolom tidak boleh kosong");
     }
     const poliExist = await prisma.poli.findUnique({
       where: { id_poli },

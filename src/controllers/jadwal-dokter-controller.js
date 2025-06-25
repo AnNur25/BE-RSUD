@@ -12,7 +12,7 @@ class JadwalDokterController {
       return responseHelper.success(
         res,
         result,
-        "Jadwal dokter berhasil ditambahkan",
+        "Jadwal berhasil ditambahkan",
         201
       );
     } catch (error) {
@@ -112,7 +112,7 @@ class JadwalDokterController {
       return responseHelper.success(
         res,
         result,
-        "Jadwal dokter berhasil diperbarui"
+        "Perubahan berhasil disimpan"
       );
     } catch (error) {
       return responseHelper.error(res, error);
