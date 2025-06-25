@@ -129,7 +129,7 @@ class ProfilService {
         resetTokenExp: new Date(Date.now() + 15 * 60 * 1000),
       },
     });
-    const resetLink = `http://rsdbalung.vercel.app/reset-password?token=${resetToken}`;
+    const resetLink = `https://rs.newshub.store/reset-password?token=${resetToken}`;
 
     await sendForgotPasswordEmail(email, resetLink);
 
