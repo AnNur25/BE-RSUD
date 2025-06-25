@@ -118,6 +118,12 @@ class ProfilService {
       throw new NotFoundError("User tidak ditemukan.");
     }
 
+    if (!foundUser.password || foundUser.password.trim() === "") {
+      throw new BadRequestError(
+        "Akun ini menggunakan login Google. Reset password tidak tersedia. Silakan login dengan Google."
+      );
+    }
+
     const resetToken = jwt.sign({ email }, process.env.RESET_PASSWORD_SECRET, {
       expiresIn: "15m",
     });
