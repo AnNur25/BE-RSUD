@@ -172,7 +172,7 @@ class DokterService {
       },
     });
     if (!result || result.length === 0) {
-      throw new NotFoundError("data dokter tidak tersedia");
+      throw new NotFoundError("Data Dokter Tidak Ditemukan");
     }
     const mappedResult = result.map((dokter) => ({
       id_dokter: dokter.id_dokter,
@@ -244,7 +244,7 @@ class DokterService {
 
   static async getDokterById(id_dokter) {
     if (!id_dokter) {
-      throw new BadRequestError("ID Dokter harus disertakan");
+      throw new BadRequestError("ID Dokter Harus Disertakan");
     }
 
     const dokter = await prisma.dokter.findUnique({
@@ -255,7 +255,7 @@ class DokterService {
     });
 
     if (!dokter) {
-      throw new NotFoundError(`Dokter dengan ID ${id_dokter} tidak ditemukan`);
+      throw new NotFoundError(`Dokter Dengan ID ${id_dokter} Tidak Ditemukan`);
     }
 
     return {
@@ -295,7 +295,7 @@ class DokterService {
       if (file && file.path && fs.existsSync(file.path)) {
         fs.unlinkSync(file.path);
         console.log(
-          "File asli dihapus karena validasi gagal: data wajib kosong"
+          "File Asli Dihapus Karena Validasi Gagal: Data Wajib Kosong"
         );
       }
       throw new BadRequestError("Nama, Poli, dan Biodata singkat harus diisi");
