@@ -78,7 +78,7 @@ class KomentarController {
       return response.success(
         res,
         dataKomentar,
-        "Berhasil menampilkan list komentar"
+        "Komentar berhasil ditampilkan"
       );
     } catch (error) {
       return response.error(res, error);
@@ -104,8 +104,8 @@ class KomentarController {
       const { id_komentar } = req.params;
       const data = await komentarService.isVisibleKomentar({ id_komentar });
       const message = data.isVisible
-        ? "Komentar berhasil diaktifkan."
-        : "Komentar berhasil dinonaktifkan.";
+        ? "Komentar berhasil ditampilkan."
+        : "Komentar berhasil disembunyikan.";
       return response.success(res, message);
     } catch (error) {
       return response.error(res, error);

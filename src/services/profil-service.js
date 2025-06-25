@@ -43,7 +43,7 @@ class ProfilService {
   }
   static async updateProfil({ nama, email, no_wa, user }) {
     if (!nama || !email || !no_wa) {
-      throw new BadRequestError("Semua field (nama, email, no_wa) wajib diisi");
+      throw new BadRequestError("Kolom tidak boleh kosong");
     }
 
     const existingUser = await prisma.user.findUnique({
@@ -77,7 +77,7 @@ class ProfilService {
     const { oldPassword, newPassword } = body;
 
     if (!oldPassword || !newPassword) {
-      throw new BadRequestError("Password lama dan password baru harus diisi.");
+      throw new BadRequestError("Kolom tidak boleh kosong");
     }
 
     try {
@@ -96,7 +96,7 @@ class ProfilService {
       foundUser.password
     );
     if (!isPasswordValid) {
-      throw new BadRequestError("Password lama tidak valid.");
+      throw new BadRequestError("Password lama tidak sesuai");
     }
 
     const hashedPassword = await bcrypt.hash(newPassword, 10);
@@ -115,7 +115,7 @@ class ProfilService {
     });
 
     if (!foundUser) {
-      throw new NotFoundError("User tidak ditemukan.");
+      throw new NotFoundError("Email anda tidak terdaftar sebagai akun");
     }
 
     if (!foundUser.password || foundUser.password.trim() === "") {
@@ -147,13 +147,13 @@ class ProfilService {
   static async resetPassword(token, { newPassw, confirmPassw }) {
     if (!token || !newPassw || !confirmPassw) {
       throw new BadRequestError(
-        "Token, password baru, dan konfirmasi password diperlukan."
+        "kolom tidak boleh kosong"
       );
     }
 
     if (newPassw !== confirmPassw) {
       throw new BadRequestError(
-        "Konfirmasi password tidak sama dengan password baru."
+        "Password baru dan konfirmasi password tidak sama"
       );
     }
 
@@ -183,7 +183,7 @@ class ProfilService {
 
     await sendSuccesPasswordEmail(decoded.email);
 
-    return { message: "Password berhasil diperbarui." };
+    return { message: "Password berhasil diperbarui" };
   }
 }
 

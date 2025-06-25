@@ -34,7 +34,7 @@ class MediaSosialController {
   static async getMediaSosial(req, res) {
     try {
       const data = await mediaSosialServis.getMediaSosial();
-      return response.success(res, data, "berhasil menampilkan embed ig");
+      return response.success(res, data, "Media sosial berhasil diperbarui");
     } catch (error) {
       return response.error(res, error);
     }
