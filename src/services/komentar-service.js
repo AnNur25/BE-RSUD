@@ -13,7 +13,7 @@ class komentarService {
     // Jika user tidak ada, nama dan no_wa wajib diisi
     if (!user && (!nama || !no_wa)) {
       throw new BadRequestError(
-        "Field nama dan no_wa wajib diisi jika tidak login"
+        "Kolom tidak boleh kosong"
       );
     }
 

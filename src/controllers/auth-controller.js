@@ -25,7 +25,7 @@ class AuthController {
       return responseHelper.created(
         res,
         result,
-        "Akun Admin berhasil registrasi"
+        "Pendaftaran berhasil"
       );
     } catch (error) {
       return responseHelper.error(res, error);
