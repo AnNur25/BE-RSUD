@@ -67,7 +67,7 @@ class ProfilController {
         newPassw,
         confirmPassw,
       });
-      return responseHelper.success(res, result, "Password berhasil direset");
+      return responseHelper.success(res, result, "Password berhasil diubah");
     } catch (error) {
       return responseHelper.error(res, error);
     }

@@ -13,7 +13,7 @@ const {
 class AuthService {
   static async register({ nama, email, password, no_wa, role }) {
     if (!nama || !email || !password || !no_wa) {
-      throw new BadRequestError("Semua field harus diisi");
+      throw new BadRequestError("Kolom tidak boleh kosong");
     }
     try {
       validatePasswordStrength(password);
@@ -43,17 +43,17 @@ class AuthService {
 
   static async login({ email, password }) {
     if (!email || !password) {
-      throw new BadRequestError("Email dan password harus diisi");
+      throw new BadRequestError("Kolom tidak boleh kosong");
     }
 
     const user = await prisma.user.findUnique({ where: { email } });
     if (!user) {
-      throw new BadRequestError("Invalid email or password");
+      throw new BadRequestError("Email dan password yang anda masukkan tidak sesuai");
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      throw new BadRequestError("Invalid email or password");
+      throw new BadRequestError("Email dan password yang anda masukkan tidak sesuai");
     }
     const aksesToken = JwtHelper.generateToken(user);
     const refreshToken = JwtHelper.generateRefresToken(user);
