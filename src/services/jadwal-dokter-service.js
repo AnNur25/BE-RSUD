@@ -16,7 +16,7 @@ class JadwalDokterService {
 
       if (!Array.isArray(hariList) || hariList.length === 0) {
         throw new BadRequestError(
-          "Setiap layanan harus memiliki daftar hari (hariList) yang valid."
+          "Kolom tidak boleh kosong"
         );
       }
 
@@ -25,7 +25,7 @@ class JadwalDokterService {
 
         if (!hari || !jam_mulai || !jam_selesai) {
           throw new BadRequestError(
-            "Setiap jadwal harus memiliki hari, jam_mulai, dan jam_selesai."
+            "Kolom tidak boleh kosong"
           );
         }
 
@@ -210,7 +210,7 @@ class JadwalDokterService {
     });
 
     if (totalItems === 0) {
-      throw new NotFoundError(`Tidak ditemukan dokter dengan nama '${nama}'`);
+      throw new NotFoundError(`Data tidak tersedia`);
     }
 
     const jadwalList = await prisma.jadwalDokter.findMany({

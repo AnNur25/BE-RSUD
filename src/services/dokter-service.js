@@ -32,7 +32,7 @@ class DokterService {
           "File asli dihapus karena validasi gagal: data wajib kosong"
         );
       }
-      throw new BadRequestError("Nama, Poli, dan Biodata singkat harus diisi");
+      throw new BadRequestError("Kolom tidak boleh kosong");
     }
 
     const existingPoli = await prisma.poli.findUnique({ where: { id_poli } });
@@ -172,7 +172,7 @@ class DokterService {
       },
     });
     if (!result || result.length === 0) {
-      throw new NotFoundError("Data Dokter Tidak Ditemukan");
+      throw new NotFoundError("Data dokter tidak tersedia");
     }
     const mappedResult = result.map((dokter) => ({
       id_dokter: dokter.id_dokter,

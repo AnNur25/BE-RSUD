@@ -6,7 +6,7 @@ class BannerController {
     try {
       const files = req.files;
       const banner = await bannerService.createBanner({ files });
-      return responseHelper.created(res, banner, "Banner berhasil dibuat.");
+      return responseHelper.created(res, banner, "Foto berhasil ditambahkan");
     } catch (error) {
       responseHelper.error(res, error);
     }

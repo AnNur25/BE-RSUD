@@ -38,7 +38,7 @@ class AduanController {
       });
 
       const addAduan = await aduanService.createAduan({ nama, message, no_wa });
-      responseHelper.created(res, addAduan, "Aduan berhasil dibuat.");
+      responseHelper.created(res, addAduan, "Aduan berhasil dibuat");
     } catch (error) {
       responseHelper.error(res, error);
     }
