@@ -12,7 +12,7 @@ class Berita {
         file,
         tanggal_berita
       });
-      return responseHelper.created(res, berita, "Berita berhasil dibuat");
+      return responseHelper.created(res, berita, "Berita berhasil ditambahkan");
     } catch (error) {
       return responseHelper.error(res, error);
     }
@@ -56,7 +56,7 @@ class Berita {
         tanggal_berita,
         file,
       });
-      return responseHelper.success(res, berita, "Berita berhasil diperbarui");
+      return responseHelper.success(res, berita, "Perubahan berhasil disimpan");
     } catch (error) {
       return responseHelper.error(res, error);
     }
@@ -90,7 +90,7 @@ class Berita {
       const { id } = req.params;
       const files = req.files;
       const gambar = await beritaService.uploadGambar({ id, files });
-      return responseHelper.created(res, gambar, "Gambar berhasil diunggah");
+      return responseHelper.created(res, gambar, "Foto berhasil ditambahkan");
     } catch (error) {
       return responseHelper.error(res, error);
     }
@@ -106,7 +106,7 @@ class Berita {
       return responseHelper.success(
         res,
         deleteGambar,
-        "Gambar berhasil dihapus"
+        "Foto berhasil dihapus"
       );
     } catch (error) {
       return responseHelper.error(res, error);

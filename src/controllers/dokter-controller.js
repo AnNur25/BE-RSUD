@@ -96,7 +96,7 @@ class DokterController {
       return responseHelper.success(
         res,
         updatedDokter,
-        "Berhasil mengupdate Dokter"
+        "Perubahan berhasil disimpan"
       );
     } catch (error) {
       return responseHelper.error(res, error);
@@ -107,7 +107,7 @@ class DokterController {
     try {
       const { id_dokter } = req.params;
       await dokterService.deleteDokter({ id_dokter });
-      return responseHelper.success(res, null, "Berhasil hapus data Dokter");
+      return responseHelper.success(res, null, "Data dokter berhasil dihapus");
     } catch (error) {
       return responseHelper.error(res, error);
     }

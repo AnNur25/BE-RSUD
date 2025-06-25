@@ -20,7 +20,7 @@ class PelayananService {
       !JangkaWaktu ||
       Biaya === undefined
     ) {
-      throw new BadRequestError("Semua field wajib diisi");
+      throw new BadRequestError("Kolom tidak boleh kosong");
     }
 
     const pelayanan = await prisma.pelayanan.create({
@@ -75,7 +75,7 @@ class PelayananService {
       !JangkaWaktu ||
       Biaya === undefined
     ) {
-      throw new BadRequestError("Semua field wajib diisi");
+      throw new BadRequestError("Kolom tidak boleh kosong");
     }
 
     const updatedPelayanan = await prisma.pelayanan.update({

@@ -12,7 +12,7 @@ class BeritaService {
       if (file && file.path && fs.existsSync(file.path)) {
         fs.unlinkSync(file.path);
       }
-      throw new BadRequestError("Semua field harus diisi");
+      throw new BadRequestError("Kolom tidak boleh kosong");
     }
 
     console.log("File received:", file);
@@ -186,7 +186,7 @@ class BeritaService {
       if (file && file.path && fs.existsSync(file.path)) {
         fs.unlinkSync(file.path);
       }
-      throw new BadRequestError("Semua field harus diisi");
+      throw new BadRequestError("kolom tidak boleh kosong");
     }
 
     const berita = await prisma.berita.findUnique({

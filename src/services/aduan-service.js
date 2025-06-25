@@ -10,7 +10,7 @@ class AduanService {
   static async createAduan({ nama, message, no_wa }) {
     if (!nama || !message || !no_wa) {
       throw new BadRequestError(
-        "Semua field (nama, message, no_wa) harus diisi."
+        "Kolom tidak boleh kosong"
       );
     }
 

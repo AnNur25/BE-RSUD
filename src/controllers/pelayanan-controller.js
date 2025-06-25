@@ -16,7 +16,7 @@ class PelayananController {
       return responseHelper.success(
         res,
         newPelayanan,
-        "Pelayanan berhasil ditambahkan",
+        "Layanan berhasil ditambahkan",
         201
       );
     } catch (error) {
@@ -56,7 +56,7 @@ class PelayananController {
       return responseHelper.success(
         res,
         updated,
-        "Pelayanan berhasil diperbarui"
+        "Perubahan berhasil disimpan"
       );
     } catch (error) {
       return responseHelper.error(res, error);

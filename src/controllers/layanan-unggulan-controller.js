@@ -66,7 +66,7 @@ class LayananUnggulanController {
         }
       }
 
-      // ✅ PROSES GAMBAR hanya setelah validasi lolos
+      // PROSES GAMBAR hanya setelah validasi lolos
       let uploadedImages = [];
 
       if (files && files.length > 0) {
@@ -81,7 +81,7 @@ class LayananUnggulanController {
           const resizedImagePath = path.resolve(resizedFolder, webpFilename);
 
           try {
-            // ✅ Resize hanya dilakukan jika validasi di atas sudah lolos
+            // resize hanya dilakukan jika validasi di atas sudah lolos
             await sharp(file.path)
               .webp({ quality: 50 })
               .toFile(resizedImagePath);
@@ -106,7 +106,7 @@ class LayananUnggulanController {
         uploadedImages = await Promise.all(uploadPromises);
       }
 
-      // ✅ TRANSAKSI DIMULAI HANYA JIKA VALIDASI DAN PROSES FILE LANCAR
+      // TRANSAKSI DIMULAI HANYA JIKA VALIDASI DAN PROSES FILE LANCAR
       await prisma.$transaction(async (tx) => {
         await tx.layananUnggulan.update({
           where: { id_layanan_unggulan: id },
@@ -158,10 +158,10 @@ class LayananUnggulanController {
         }
       });
 
-      // ✅ Jika semua sukses
-      responseHelper.success(res, null, "Layanan Unggulan berhasil diupdate.");
+      // Jika semua sukses
+      responseHelper.success(res, null, "Perubahan berhasil disimpan");
     } catch (error) {
-      // ❌ Jika ada error, bersihkan SEMUA FILE (resized maupun raw)
+      // Jika ada error, bersihkan SEMUA FILE (resized maupun raw)
       [...resizedFiles, ...(files?.map((f) => f.path) || [])].forEach(
         (filePath) => {
           if (fs.existsSync(filePath)) {

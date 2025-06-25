@@ -143,7 +143,7 @@ class BannerService {
       where: { id_banner: { in: ids } },
     });
 
-    return { message: `${ids.length} banner berhasil dihapus.` };
+    return { message: `${ids.length} Foto berhasil dihapus.` };
   }
 }
 
