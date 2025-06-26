@@ -22,11 +22,7 @@ class AuthController {
         no_wa,
         role,
       });
-      return responseHelper.created(
-        res,
-        result,
-        "Pendaftaran berhasil"
-      );
+      return responseHelper.created(res, result, "Pendaftaran berhasil");
     } catch (error) {
       return responseHelper.error(res, error);
     }
@@ -38,16 +34,16 @@ class AuthController {
       const result = await authService.login({ email, password });
       res.cookie("aksesToken", cookie.sign(result.aksesToken, cookieSecret), {
         httpOnly: true,
-        secure: cookieSecure,
-        sameSite: cookieSecure ? "None" : "Lax",
+        secure: cookieSecure, //prodaction == true
+        sameSite: cookieSecure ? "None" : "Lax", //none
         expires: new Date(Date.now() + 15 * 60 * 1000),
         path: "/",
       });
 
       res.cookie("refreshToken", result.refreshToken, {
         httpOnly: true,
-        secure: cookieSecure,
-        sameSite: cookieSecure ? "None" : "Lax", // Ubah ke None untuk cross-domain
+        secure: cookieSecure, //local == false
+        sameSite: cookieSecure ? "None" : "Lax", //lax
         expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
         path: "/",
       });
