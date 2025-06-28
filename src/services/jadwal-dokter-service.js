@@ -1,5 +1,8 @@
 const prisma = require("../prisma/prismaClient");
-const { BadRequestError, NotFoundError } = require("../utils/error-handling-utils");
+const {
+  BadRequestError,
+  NotFoundError,
+} = require("../utils/error-handling-utils");
 const Pagination = require("../utils/pagination-utils");
 const { mapDokterResponse } = require("../helpers/jadwal-map-helper");
 
@@ -15,18 +18,14 @@ class JadwalDokterService {
       const { id_pelayanan, hariList } = layanan;
 
       if (!Array.isArray(hariList) || hariList.length === 0) {
-        throw new BadRequestError(
-          "Kolom tidak boleh kosong"
-        );
+        throw new BadRequestError("Kolom tidak boleh kosong");
       }
 
       for (const hariData of hariList) {
         const { hari, jam_mulai, jam_selesai } = hariData;
 
         if (!hari || !jam_mulai || !jam_selesai) {
-          throw new BadRequestError(
-            "Kolom tidak boleh kosong"
-          );
+          throw new BadRequestError("Kolom tidak boleh kosong");
         }
 
         const normalizedHari =
@@ -243,6 +242,38 @@ class JadwalDokterService {
         pageSize: currentPageSize,
         totalItems,
         totalPages: Math.ceil(totalItems / currentPageSize),
+      },
+    };
+  }
+  static async getDokterById(id_dokter) {
+    if (!id_dokter) {
+      throw new BadRequestError("ID Dokter harus disertakan");
+    }
+
+    const dokter = await prisma.dokter.findUnique({
+      where: { id_dokter: id_dokter },
+      include: {
+        poli: true,
+      },
+    });
+
+    if (!dokter) {
+      throw new NotFoundError(`Dokter dengan ID ${id_dokter} tidak ditemukan`);
+    }
+
+    return {
+      dokter: {
+        id_dokter: dokter.id_dokter,
+        nama: dokter.nama,
+        gambar: dokter.gambar,
+        biodata_singkat: dokter.biodata_singkat,
+        link_linkedin: dokter.link_linkedin,
+        link_instagram: dokter.link_instagram,
+        link_facebook: dokter.link_facebook,
+        poli: {
+          id_poli: dokter.poli?.id_poli,
+          nama_poli: dokter.poli?.nama_poli,
+        },
       },
     };
   }

@@ -85,9 +85,7 @@ class JadwalDokterController {
   static async getByIdJadwalDokter(req, res) {
     try {
       const { id_dokter } = req.params;
-      const result = await jadwalDokterService.getJadwalDokterById({
-        id_dokter,
-      });
+      const result = await jadwalDokterService.getDokterById(id_dokter);
 
       return responseHelper.success(
         res,
@@ -109,11 +107,7 @@ class JadwalDokterController {
         { layananList }
       );
 
-      return responseHelper.success(
-        res,
-        result,
-        "Perubahan berhasil disimpan"
-      );
+      return responseHelper.success(res, result, "Perubahan berhasil disimpan");
     } catch (error) {
       return responseHelper.error(res, error);
     }
