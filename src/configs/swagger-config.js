@@ -14,7 +14,11 @@ const swaggerOptions = {
         description: "Development server",
       },
       {
-        url: "https://newshub.store/",
+        url: "http://31.97.107.5:3000/",
+        description: "Development server",
+      },
+      {
+        url: "https://rsdbalung.newshub.store/",
         description: "Production server (non-www)",
       },
       {
