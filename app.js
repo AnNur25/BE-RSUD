@@ -42,14 +42,11 @@ app.use(cookieParser());
 
 // Fixed CORS configuration
 const allowedOrigins = [
-  "https://rsdbalung.vercel.app",
   "http://localhost:5173",
   "http://localhost:3000",
-  "http://31.97.50.117:3000",
+  "http://31.97.107.5:3000",
   "https://www.newshub.store",
-  "https://newshub.store",
-  "https://rs-balung-cp.vercel.app",
-  "https://rs.newshub.store/",
+  "https://rsdbalung.newshub.store",
 ];
 
 // Middleware CORS untuk semua route
