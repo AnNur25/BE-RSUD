@@ -201,3 +201,16 @@
 - jika error cek running di berapa frontend `sudo lsof -i -P -n | grep LISTEN`
 - jika berbeda seperti di config nginx, bisa disesuikan dan reload nginx
 - kemudian jika ada pembaruan code tinggal jalankan `npm run build` setalah itu `pm2 restart frontend`
+
+## Ubah domain sistem
+
+- ping domain | Jalankan `ping rsdbalung.newshub.store`
+- masuk `sudo nano /etc/nginx/sites-available/rs.newshub.store` ubah server name menjadi domain yang di inginkan dan hapus SSL yang ada. ex `server_name rsdbalung.newshub.store;`
+- Jalankan restart nginx, berikut `sudo nginxx -t` dan `sudo systemctl restart nginx`
+- Jalankan perintah untuk generate SSL baru `sudo certbot --nginx -d rsdbalung.newshub.store`
+- Rename file konfigurasi supaya konsisten `sudo mv /etc/nginx/sites-available/rs.newshub.store /etc/nginx/sites-available/rsdbalung.newshub.store`
+- Update symlink `sudo rm /etc/nginx/sites-enabled/rs.newshub.store` kemudian jalankan `sudo ln -sf /etc/nginx/sites-available/rsdbalung.newshub.store /etc/nginx/sites-enabled/`
+- reload nginx seperti sebelumnya
+- kemudian jangan lupa ubah domain sebelumnya menjadi domain terbaru .env untuk BE-RSUD(backend) dan rsdbalung(frontend)
+- kemudian tambah/ daftarkan domain ke console oauth.
+- Jangan lupa tambahkan domain ke swagger dan app.js swagger agar bisa digunakan docsnya
