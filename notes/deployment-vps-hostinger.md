@@ -213,3 +213,4 @@
 - reload nginx seperti sebelumnya
 - kemudian jangan lupa ubah domain sebelumnya menjadi domain terbaru .env untuk BE-RSUD(backend) dan rsdbalung(frontend)
 - kemudian tambah/ daftarkan domain ke console oauth.
+- Jangan lupa tambahkan domain ke swagger dan app.js swagger agar bisa digunakan docsnya
