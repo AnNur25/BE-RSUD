@@ -3,7 +3,7 @@
 // const {
 //   validatePasswordStrength,
 // } = require("../src/utils/password-validator-utils");
-// const cookie = require("cookie-signature"); // ✅ Tambahkan ini
+// const cookie = require("cookie-signature"); // Tambahkan ini
 // const { cookieSecret } = require("../src/configs/env-config"); // sesuaikan path jika perlu
 
 // describe("SUKSES: test endpoint auth", () => {

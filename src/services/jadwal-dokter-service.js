@@ -250,31 +250,31 @@ class JadwalDokterService {
       throw new BadRequestError("ID Dokter harus disertakan");
     }
 
-    const dokter = await prisma.dokter.findUnique({
-      where: { id_dokter: id_dokter },
+   
+    const jadwalList = await prisma.jadwalDokter.findMany({
+      where: {
+        dokter: {
+          id_dokter: id_dokter,
+        },
+      },
       include: {
-        poli: true,
+        dokter: {
+          include: {
+            poli: true,
+          },
+        },
+        pelayanan: true,
       },
     });
 
-    if (!dokter) {
+    if (!jadwalList || jadwalList.length === 0) {
       throw new NotFoundError(`Dokter dengan ID ${id_dokter} tidak ditemukan`);
     }
 
+    const formatted = mapDokterResponse(jadwalList);
+
     return {
-      dokter: {
-        id_dokter: dokter.id_dokter,
-        nama: dokter.nama,
-        gambar: dokter.gambar,
-        biodata_singkat: dokter.biodata_singkat,
-        link_linkedin: dokter.link_linkedin,
-        link_instagram: dokter.link_instagram,
-        link_facebook: dokter.link_facebook,
-        poli: {
-          id_poli: dokter.poli?.id_poli,
-          nama_poli: dokter.poli?.nama_poli,
-        },
-      },
+      dokter: formatted[0],
     };
   }
 
