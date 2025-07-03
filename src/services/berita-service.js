@@ -294,37 +294,41 @@ class BeritaService {
     });
     return null;
   }
-  static async getGambarByBerita({ id }) {
-    if (!id) {
+  static async getGambarByBerita({ slug }) {
+    if (!slug) {
       throw new BadRequestError("ID Berita tidak ditemukan");
     }
     const gambarList = await prisma.gambar.findMany({
-      where: { beritaId: id },
-      select: { id: true, url: true },
+      where: { berita: { slug } },
+      select: {
+        id: true,
+        url: true,
+        berita: {
+          select: {
+            slug: true,
+          },
+        },
+      },
     });
     if (gambarList.length === 0) {
       throw new NotFoundError("Ops, galeri kosong");
     }
 
-    const gambar = await prisma.gambar.findMany({
-      where: { beritaId: id },
-    });
-
     return gambarList;
   }
-  static async uploadGambar({ id, files }) {
-    if (!id) {
-      throw new BadRequestError("ID Berita tidak ditemukan");
+  static async uploadGambar({ slug, files }) {
+    if (!slug) {
+      throw new BadRequestError("slug Berita tidak ditemukan");
     }
 
     if (!files || !Array.isArray(files) || files.length === 0) {
       throw new BadRequestError("Tidak ada file gambar yang diupload");
     }
 
-    console.log("Mencari berita dengan ID:", id);
+    console.log("Mencari berita dengan slug:", slug);
 
     const berita = await prisma.berita.findUnique({
-      where: { id_berita: id },
+      where: { slug: slug },
     });
 
     if (!berita) {
@@ -338,7 +342,7 @@ class BeritaService {
     }
 
     const jumlahGambar = await prisma.gambar.count({
-      where: { beritaId: id },
+      where: { berita: { slug } },
     });
     const totalGambar = jumlahGambar + files.length;
 
@@ -401,7 +405,7 @@ class BeritaService {
               url: imageUrl,
               berita: {
                 connect: {
-                  id_berita: berita.id_berita,
+                  slug: berita.slug,
                 },
               },
             },
@@ -410,6 +414,7 @@ class BeritaService {
           return {
             id: savedGambar.id,
             url: savedGambar.url,
+            slug: berita.slug,
           };
         } catch (err) {
           // Kalau error hapus file upload sementara
@@ -424,17 +429,26 @@ class BeritaService {
     return uploadedImages;
   }
 
-  static async deleteGambar({ beritaId, ids }) {
+  static async deleteGambar({ slug, ids }) {
     if (!Array.isArray(ids) || ids.length === 0) {
       throw new BadRequestError(
         "ID Gambar harus berupa array dan tidak boleh kosong"
       );
     }
+    const berita = await prisma.berita.findUnique({
+      where: { slug },
+    });
+
+    if (!berita) {
+      throw new NotFoundError("Berita tidak ditemukan");
+    }
 
     const gambarList = await prisma.gambar.findMany({
       where: {
         id: { in: ids },
-        beritaId: beritaId,
+        berita: {
+          slug: slug,
+        },
       },
     });
 
@@ -461,7 +475,9 @@ class BeritaService {
     await prisma.gambar.deleteMany({
       where: {
         id: { in: ids },
-        beritaId: beritaId,
+        berita: {
+          slug: slug,
+        },
       },
     });
 

@@ -10,7 +10,7 @@ class Berita {
         ringkasan,
         isi,
         file,
-        tanggal_berita
+        tanggal_berita,
       });
       return responseHelper.created(res, berita, "Berita berhasil ditambahkan");
     } catch (error) {
@@ -74,8 +74,8 @@ class Berita {
   }
   static async getGaleriBerita(req, res) {
     try {
-      const { id } = req.params;
-      const gambarList = await beritaService.getGambarByBerita({ id });
+      const { slug } = req.params;
+      const gambarList = await beritaService.getGambarByBerita({ slug });
       return responseHelper.success(
         res,
         gambarList,
@@ -87,9 +87,9 @@ class Berita {
   }
   static async uploadGambar(req, res) {
     try {
-      const { id } = req.params;
+      const { slug } = req.params;
       const files = req.files;
-      const gambar = await beritaService.uploadGambar({ id, files });
+      const gambar = await beritaService.uploadGambar({ slug, files });
       return responseHelper.created(res, gambar, "Foto berhasil ditambahkan");
     } catch (error) {
       return responseHelper.error(res, error);
@@ -98,21 +98,17 @@ class Berita {
 
   static async deleteGambar(req, res) {
     try {
-      const beritaId = req.params.id;
+      const slug = req.params.slug;
       const { ids } = req.body;
 
-      const deleteGambar = await beritaService.deleteGambar({ beritaId, ids });
+      const deleteGambar = await beritaService.deleteGambar({ slug, ids });
 
-      return responseHelper.success(
-        res,
-        deleteGambar,
-        "Foto berhasil dihapus"
-      );
+      return responseHelper.success(res, deleteGambar, "Foto berhasil dihapus");
     } catch (error) {
       return responseHelper.error(res, error);
     }
   }
-  berita;
+
   static async searchBerita(req, res) {
     try {
       const page = parseInt(req.query.page) || 1;
