@@ -14,7 +14,6 @@
 // });
 // describe("SUKSES: POST PUT DELETE data dokter", () => {
 //   let signedToken;
-//   let createdDokterId;
 
 //   beforeEach(() => {
 //     const payload = {
@@ -22,12 +21,15 @@
 //       nama: "Test Admin",
 //       email: "admin@gmail.com",
 //       no_wa: "08123456789",
-//       // role: "USER",
+//       role: "ADMIN",
 //     };
 
 //     const token = jwt.sign(payload, aksesSecret, { expiresIn: "15m" });
 //     signedToken = cookie.sign(token, cookieSecret);
 //   });
+//   let createdDokterSlug;
+//   let createdDokterId;
+
 //   it("response 201, created | POST /api/v1/dokter", async () => {
 //     const response = await supertest(app)
 //       .post("/api/v1/dokter")
@@ -50,6 +52,7 @@
 //     );
 //     expect(response.body).toHaveProperty("data.id");
 //     expect(response.body).toHaveProperty("data.nama", "Dr. ChatGPT");
+//     createdDokterSlug = response.body.data.slug;
 //     createdDokterId = response.body.data.id;
 //   });
 //   it("response 400, badrequest | POST /api/v1/dokter", async () => {
@@ -65,10 +68,7 @@
 
 //     expect(response.statusCode).toBe(400);
 //     expect(response.body).toHaveProperty("success", false);
-//     expect(response.body).toHaveProperty(
-//       "message",
-//       "Nama, Poli, dan Biodata singkat harus diisi"
-//     );
+//     expect(response.body).toHaveProperty("message", "Kolom tidak boleh kosong");
 //   });
 //   it("response 404, not found Poli |POST /api/v1/dokter", async () => {
 //     const response = await supertest(app)
@@ -105,7 +105,7 @@
 //     expect(response.body).toHaveProperty("success", true);
 //     expect(response.body).toHaveProperty(
 //       "message",
-//       "Berhasil mengupdate Dokter"
+//       "Perubahan berhasil disimpan"
 //     );
 //     expect(response.body).toHaveProperty("data.id");
 //     expect(response.body).toHaveProperty("data.nama", "Dr. ChatGPT");
@@ -162,6 +162,7 @@
 //     response.body.data.Dokter.forEach((dokter) => {
 //       expect(dokter).toHaveProperty("id_dokter");
 //       expect(dokter).toHaveProperty("nama");
+//       expect(dokter).toHaveProperty("slug");
 //       expect(dokter).toHaveProperty("gambar");
 //       expect(dokter).toHaveProperty("biodata_singkat");
 //       expect(dokter).toHaveProperty("link_linkedin");
@@ -211,9 +212,9 @@
 //     expect(response.body.data.pagination).toHaveProperty("totalItems");
 //     expect(response.body.data.pagination).toHaveProperty("totalPages");
 //   });
-//   it("response 200, success |GET /api/v1/dokter/:id", async () => {
+//   it("response 200, success |GET /api/v1/dokter/:slug", async () => {
 //     const response = await supertest(app).get(
-//       `/api/v1/dokter/${createdDokterId}`
+//       `/api/v1/dokter/${createdDokterSlug}`
 //     );
 
 //     expect(response.body).toHaveProperty("success", true);
@@ -245,7 +246,7 @@
 //     expect(response.body).toHaveProperty("statusCode", 200);
 //     expect(response.body).toHaveProperty(
 //       "message",
-//       "Berhasil hapus data Dokter"
+//       "Data dokter berhasil dihapus"
 //     );
 //   });
 //   it("response 404, not found |DELETE /api/v1/dokter/:id", async () => {

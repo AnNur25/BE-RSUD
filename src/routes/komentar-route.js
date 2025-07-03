@@ -6,7 +6,7 @@ const optionalAuth = require("../middlewares/optional-auth");
 
 /**
  * @swagger
- * /api/v1/berita/{id_berita}/komentar:
+ * /api/v1/berita/{slug}/komentar:
  *   post:
  *     summary: Menambahkan komentar pada berita
  *     description: Endpoint ini digunakan untuk menambahkan komentar ke dalam berita berdasarkan ID berita. Hanya pengguna dengan role ADMIN yang dapat mengakses endpoint ini.
@@ -14,7 +14,7 @@ const optionalAuth = require("../middlewares/optional-auth");
  *       - Komentar
  *     parameters:
  *       - in: path
- *         name: id_berita
+ *         name: slug
  *         required: true
  *         description: ID berita yang akan dikomentari
  *         schema:
@@ -123,15 +123,11 @@ const optionalAuth = require("../middlewares/optional-auth");
  *                   type: string
  *                   example: Terjadi kesalahan pada server
  */
-route.post(
-  "/:id_berita/komentar",
-  optionalAuth,
-  komentarController.addKomentar
-);
+route.post("/:slug/komentar", optionalAuth, komentarController.addKomentar);
 
 /**
  * @swagger
- * /api/v1/berita/{id}/komentar:
+ * /api/v1/berita/{slug}/komentar:
  *   get:
  *     summary: Mendapatkan daftar komentar berdasarkan berita
  *     description: Endpoint ini digunakan untuk mendapatkan semua komentar dan balasannya berdasarkan ID berita. Hanya dapat diakses oleh pengguna dengan role ADMIN.
@@ -139,7 +135,7 @@ route.post(
  *       - Komentar
  *     parameters:
  *       - in: path
- *         name: id
+ *         name: slug
  *         required: true
  *         description: ID berita (UUID)
  *         schema:
@@ -269,7 +265,7 @@ route.post(
  *                   example: Terjadi kesalahan pada server
  */
 route.get(
-  "/:id_berita/komentar",
+  "/:slug/komentar",
   auth,
   authorizeRole("ADMIN"),
   komentarController.listKomentar
@@ -277,7 +273,7 @@ route.get(
 
 /**
  * @swagger
- * /api/v1/berita/{id}/komentar/visible:
+ * /api/v1/berita/{slug}/komentar/visible:
  *   get:
  *     summary: Berhasil menampilkan list komentar visible
  *     description: Endpoint ini digunakan untuk mendapatkan semua komentar dan balasannya berdasarkan ID berita
@@ -287,7 +283,7 @@ route.get(
  *       - in: path
  *         name: id
  *         required: true
- *         description: ID berita (UUID)
+ *         description: slug
  *         schema:
  *           type: string
  *     responses:
@@ -415,13 +411,13 @@ route.get(
  *                   example: Terjadi kesalahan pada server
  */
 route.get(
-  "/:id_berita/komentar/visible",
+  "/:slug/komentar/visible",
   komentarController.listKomentarVisible
 );
 
 /**
  * @swagger
- * /api/v1/{id}/komentar/{id_komentar}:
+ * /api/v1/{slug}/komentar/{id_komentar}:
  *   patch:
  *     summary: Toggle status visible komentar
  *     description: Mengubah status `isVisible` komentar menjadi aktif atau nonaktif berdasarkan `id_komentar`. Hanya dapat diakses oleh pengguna dengan role ADMIN.
@@ -539,7 +535,7 @@ route.get(
  *                   example: Terjadi kesalahan pada server
  */
 route.patch(
-  "/:id/komentar/:id_komentar",
+  "/:slug/komentar/:id_komentar",
   auth,
   authorizeRole("ADMIN"),
   komentarController.isVisibleKomentar
@@ -547,7 +543,7 @@ route.patch(
 
 /**
  * @swagger
- * /api/v1/{id_berita}/komentar/{id_komentar}/reply:
+ * /api/v1/{slug}/komentar/{id_komentar}/reply:
  *   post:
  *     summary: Membalas komentar pada berita
  *     description: Membuat balasan komentar pada komentar induk tertentu di berita. Hanya dapat diakses oleh user dengan role ADMIN atau USER.
@@ -555,7 +551,7 @@ route.patch(
  *       - Komentar
  *     parameters:
  *       - in: path
- *         name: id_berita
+ *         name: slug
  *         required: true
  *         description: ID berita tempat komentar berada (UUID string)
  *         schema:
@@ -697,7 +693,7 @@ route.patch(
  *                   example: Komentar induk tidak ditemukan
  */
 route.post(
-  "/:id_berita/komentar/:id_komentar/reply",
+  "/:slug/komentar/:id_komentar/reply",
   auth,
   authorizeRole("ADMIN", "USER"),
   komentarController.replayKomentar
