@@ -244,6 +244,7 @@ route.get("/", pelayanan.getPelayanan);
  *                   example: "Internal Server Error."
  */
 route.get("/:slug", pelayanan.getBySlug);
+
 /**
  * @swagger
  * /api/v1/pelayanan/{id_pelayanan}:

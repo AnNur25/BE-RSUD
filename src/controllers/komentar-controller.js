@@ -11,7 +11,7 @@ class KomentarController {
       console.log("REQ.BODY:", req.body);
       console.log("REQ.USER:", req.user);
 
-      const { id_berita } = req.params;
+      const { slug } = req.params;
       const {
         nama: inputNama,
         no_wa: inputNoWa,
@@ -45,7 +45,7 @@ class KomentarController {
       }
 
       console.log("Data untuk komentarService:", {
-        id_berita,
+        slug,
         nama,
         no_wa,
         isi_komentar,
@@ -53,7 +53,7 @@ class KomentarController {
       });
 
       const komentar = await komentarService.addKomentar({
-        id_berita,
+        slug,
         nama,
         no_wa,
         isi_komentar,
@@ -73,8 +73,8 @@ class KomentarController {
 
   static async listKomentar(req, res) {
     try {
-      const { id_berita } = req.params;
-      const dataKomentar = await komentarService.listKomentar({ id_berita });
+      const { slug } = req.params;
+      const dataKomentar = await komentarService.listKomentar({ slug });
       return response.success(
         res,
         dataKomentar,
@@ -86,9 +86,9 @@ class KomentarController {
   }
   static async listKomentarVisible(req, res) {
     try {
-      const { id_berita } = req.params;
+      const { slug } = req.params;
       const dataKomentar = await komentarService.listKomentarVisible({
-        id_berita,
+        slug,
       });
       return response.success(
         res,
@@ -113,12 +113,12 @@ class KomentarController {
   }
   static async replayKomentar(req, res) {
     try {
-      const { id_berita, id_komentar } = req.params;
+      const { slug, id_komentar } = req.params;
       const { nama: inputNama, no_wa: inputNoWa, isi_komentar } = req.body;
       const user = req.user;
 
       console.log("DEBUG REPLAY KOMENTAR:", {
-        id_berita,
+        slug,
         id_komentar,
         isi_komentar,
       });
@@ -133,7 +133,7 @@ class KomentarController {
       }
 
       const data = await komentarService.replayKomentar({
-        id_berita,
+        slug,
         id_komentar,
         id_user: user?.id_user,
         isi_komentar,
