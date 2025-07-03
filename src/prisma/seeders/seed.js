@@ -937,13 +937,53 @@ const poli = [
 const pelayanan = [
   {
     id_pelayanan: "f2bd5f40-35e3-4b58-812f-c3e1872d3722",
+    nama_pelayanan: "Rawat Jalan",
+    Persyaratan:
+      "1. Pasien umum : KTP dan mengisi data pasien baru, 2. Pasien JKN : KTP, Kartu JKN, Rujukan Puskesmas, SEP rawat jalan",
+    Prosedur:
+      "Semua pasien yang akan mengakses pelayanan di klinik spesialis yang dituju harus mendaftarkan diri dan terdaftar di SIM-RS melalui admisi sesuai status penjamin masing-masing. Bagi pasien dengan penjamin JKN dan JKN Ketenagakerjaan melalui pendaftaran di admisi JKN, sedangkan bagi pasien umum, Jasa Raharja, dan asuransi lain melalui pendaftaran admisi umum.",
+    JangkaWaktu: "60 menit",
+    Biaya: "Rp 20.000 + Rp 15.000 (administrasi rekam medik bagi pasien baru)",
+  },
+  {
+    id_pelayanan: "f2bd5f40-35e3-4b58-812f-c3e1872d2344",
     nama_pelayanan: "Rawat Inap",
     Persyaratan:
-      "Fotokopi KTP,Fotokopi kartu BPJS,Surat Rujukan dari dokter jika ada",
+      "Pasien Umum (bayar)",
+    Prosedur:
+      "Pasien rawat inap di RSD Balung dapat berasal dari Poliklinik atau IGD. Jika dinyatakan perlu dirawat, pasien akan didaftarkan di bagian Admisi dan ditempatkan sesuai ketersediaan kelas perawatan. Setelah itu, pasien menjalani perawatan di ruang rawat inap. Setelah perawatan, pasien bisa dinyatakan sembuh dan diperbolehkan pulang, memilih pulang atas permintaan sendiri (APS), dirujuk ke fasilitas lain, atau jika meninggal akan diproses pemulasaran jenazahnya. Sebelum keluar, pasien wajib menyelesaikan administrasi rumah sakit.",
+    JangkaWaktu: "Pelayanan rawat inap buka 24 jam",
+    Biaya: "Rp 90.000 - Rp 250.000",
+  },
+  {
+    id_pelayanan: "f2bd5f40-35e3-4b58-812f-c3e1872d3455",
+    nama_pelayanan: "Farmasi",
+    Persyaratan:
+      "1. Resep dari dokter, 2. Pasien Umum melakukan pembayaran sesuai tagihan obat",
+    Prosedur:
+      "1. Pasien datang ke Instalasi Farmasi membawa resep dari dokter, 2. Petugas farmasi menerima dan melakukan screening resep meliputi kelengkapan data pasien, dokter, serta rincian obat, 3. Jika terdapat ketidaksesuaian, petugas melakukan klarifikasi ke dokter atau perawat terkait, 4. Jika resep valid, pasien umum akan diberitahu total harga obat dan memilih untuk membeli seluruhnya, sebagian, atau membatalkan, 5. Jika pasien melanjutkan pembelian, petugas memberikan nomor resep dan menghitung biaya, 6. Petugas menyiapkan obat sesuai resep, menulis etiket, mengemas, dan mencatat administrasi, 7. Obat dicek ulang sebelum diserahkan ke pasien, disertai edukasi jika diperlukan, 8. Waktu pelayanan maksimal 30 menit untuk obat non-racik dan 60 menit untuk obat racik, 9. Biaya disesuaikan dengan harga obat yang diberikan.",
+    JangkaWaktu: "30 - 60 menit",
+    Biaya: "Pelayanan Obat : Menyesuaikan harga obat yang di serah terimakan",
+  },
+  {
+    id_pelayanan: "f2bd5f40-35e3-4b58-812f-c3e1872d4566",
+    nama_pelayanan: "Laboratorium",
+    Persyaratan:
+      "1. Permintaan pemeriksaan laboratorium melalui sistem, 2. Memakai gelang pasien.",
+    Prosedur:
+      "Semua pasien yang akan mengakses pelayanan di Instalasi Laboratorium harus terdaftar di SIM-RS baik sebagai pasien Rawat Jalan, APS, Pasien IGD maupun pasien Rawat Inap.",
+    JangkaWaktu: "Paling cepat <= 15 menit dan paling lama <= 90 menit",
+    Biaya: "Tarif pemeriksaan per parameter sesuai ketentuan Tarif Perda",
+  },
+  {
+    id_pelayanan: "f2bd5f40-35e3-4b58-812f-c3e1872d5677",
+    nama_pelayanan: "Radiologi",
+    Persyaratan:
+      "1. Permintaan pemeriksaan laboratorium melalui sistem, 2. Memakai gelang pasien.",
     Prosedur:
       "Pasien mendaftar ke bagian administrasi, Pasien menunggu kunjungan dokter, Pasien mengikuti prosedur medis yang dianjurkan oleh dokter",
-    JangkaWaktu: "1-2 hari setelah pendaftaran.",
-    Biaya: "A",
+    JangkaWaktu: "Paling cepat <= 1 jam dan paling lama <= 24 jam",
+    Biaya: "1. Umum : Peraturan Daerah Kabupaten Jember Nomor 1 Tahun 2020, 2. JKN : Peraturan Menteri Kesehatan Nomor 3 Tahun 2023.",
   },
 ];
 
@@ -1207,14 +1247,14 @@ const dokter = [
   },
   {
     id_dokter: "4f1b3db7-f8fc-4a4e-9db6-101e7b34a004",
-    nama: "dr. Isty Rindryastuti, Sp.PD (RIN)",
+    nama: "dr. Isti Rindryastuti, Sp.PD (RIN)",
     gambar: null,
     biodata_singkat: "dokter baik",
     id_poli: "95d1f57c-01cf-49f3-bb6c-32a5dba8f300",
   },
   {
     id_dokter: "5f1b3db7-f8fc-4a4e-9db6-101e7b34a005",
-    nama: "dr. Sherrvy Eva Wijayaningrum,M.Biomed., Sp.PD (SEW)",
+    nama: "dr. Shervy Eva Wijayaningrum,M.Biomed., Sp.PD (SEW)",
     gambar: null,
     biodata_singkat: "dokter baik",
     id_poli: "95d1f57c-01cf-49f3-bb6c-32a5dba8f300",
@@ -1253,7 +1293,7 @@ const dokter = [
   },
   {
     id_dokter: "10f1b3db7-f8fc-4a4e-9db6-101e7b34a010",
-    nama: "dr. Miftahul Falah Ahmad, Sp.OG (MFA)",
+    nama: "dr. Cahyawati Arisusilo Sp.OG , MMRS",
     gambar: null,
     biodata_singkat: "dokter baik",
     id_poli: "c6224773-dfdb-42a0-a98f-df74f07fbc9c",
@@ -1306,7 +1346,6 @@ const dokter = [
     nama: "dr. Heni Wijayanti, Sp.M (HWJ)",
     gambar: null,
     biodata_singkat: "dokter baik",
-
     id_poli: "7fc5d07f-2f99-433a-b78a-4f56a5045db3",
   },
 

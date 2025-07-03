@@ -214,9 +214,9 @@
 <a name='L149'></a><a href='#L149'>149</a>
 <a name='L150'></a><a href='#L150'>150</a>
 <a name='L151'></a><a href='#L151'>151</a>
-<a name='L152'></a><a href='#L152'>152</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<a name='L152'></a><a href='#L152'>152</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">11x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -364,7 +364,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">11x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const response = require("../helpers/response-helper");
 const komentarService = require("../services/komentar-service");
 const axios = require("axios");
@@ -378,7 +378,7 @@ class KomentarController {
 <span class="cstat-no" title="statement not covered" >      console.log("REQ.BODY:", req.body);</span>
 <span class="cstat-no" title="statement not covered" >      console.log("REQ.USER:", req.user);</span>
 &nbsp;
-      const { id_berita } = <span class="cstat-no" title="statement not covered" >req.params;</span>
+      const { slug } = <span class="cstat-no" title="statement not covered" >req.params;</span>
       const {
         nama: inputNama,
         no_wa: inputNoWa,
@@ -412,7 +412,7 @@ class KomentarController {
       }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >      console.log("Data untuk komentarService:", {</span>
-        id_berita,
+        slug,
         nama,
         no_wa,
         isi_komentar,
@@ -420,7 +420,7 @@ class KomentarController {
       });
 &nbsp;
       const komentar = <span class="cstat-no" title="statement not covered" >await komentarService.addKomentar({</span>
-        id_berita,
+        slug,
         nama,
         no_wa,
         isi_komentar,
@@ -440,8 +440,8 @@ class KomentarController {
 &nbsp;
 <span class="fstat-no" title="function not covered" >  st</span>atic async listKomentar(req, res) {
 <span class="cstat-no" title="statement not covered" >    try {</span>
-      const { id_berita } = <span class="cstat-no" title="statement not covered" >req.params;</span>
-      const dataKomentar = <span class="cstat-no" title="statement not covered" >await komentarService.listKomentar({ id_berita });</span>
+      const { slug } = <span class="cstat-no" title="statement not covered" >req.params;</span>
+      const dataKomentar = <span class="cstat-no" title="statement not covered" >await komentarService.listKomentar({ slug });</span>
 <span class="cstat-no" title="statement not covered" >      return response.success(</span>
         res,
         dataKomentar,
@@ -453,9 +453,9 @@ class KomentarController {
   }
 <span class="fstat-no" title="function not covered" >  st</span>atic async listKomentarVisible(req, res) {
 <span class="cstat-no" title="statement not covered" >    try {</span>
-      const { id_berita } = <span class="cstat-no" title="statement not covered" >req.params;</span>
+      const { slug } = <span class="cstat-no" title="statement not covered" >req.params;</span>
       const dataKomentar = <span class="cstat-no" title="statement not covered" >await komentarService.listKomentarVisible({</span>
-        id_berita,
+        slug,
       });
 <span class="cstat-no" title="statement not covered" >      return response.success(</span>
         res,
@@ -480,12 +480,12 @@ class KomentarController {
   }
 <span class="fstat-no" title="function not covered" >  st</span>atic async replayKomentar(req, res) {
 <span class="cstat-no" title="statement not covered" >    try {</span>
-      const { id_berita, id_komentar } = <span class="cstat-no" title="statement not covered" >req.params;</span>
+      const { slug, id_komentar } = <span class="cstat-no" title="statement not covered" >req.params;</span>
       const { nama: inputNama, no_wa: inputNoWa, isi_komentar } = <span class="cstat-no" title="statement not covered" >req.body;</span>
       const user = <span class="cstat-no" title="statement not covered" >req.user;</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >      console.log("DEBUG REPLAY KOMENTAR:", {</span>
-        id_berita,
+        slug,
         id_komentar,
         isi_komentar,
       });
@@ -500,7 +500,7 @@ class KomentarController {
       }
 &nbsp;
       const data = <span class="cstat-no" title="statement not covered" >await komentarService.replayKomentar({</span>
-        id_berita,
+        slug,
         id_komentar,
         id_user: user?.id_user,
         isi_komentar,
@@ -523,7 +523,7 @@ module.exports = KomentarController;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-07-03T07:53:54.181Z
+                at 2025-07-03T16:08:13.628Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>
