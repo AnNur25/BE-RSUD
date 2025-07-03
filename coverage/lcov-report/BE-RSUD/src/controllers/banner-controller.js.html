@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">17.64% </span>
+                <span class="strong">82.35% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>3/17</span>
+                <span class='fraction'>14/17</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/3</span>
+                <span class='fraction'>3/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">17.64% </span>
+                <span class="strong">82.35% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>3/17</span>
+                <span class='fraction'>14/17</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -100,60 +100,60 @@
 <a name='L35'></a><a href='#L35'>35</a>
 <a name='L36'></a><a href='#L36'>36</a>
 <a name='L37'></a><a href='#L37'>37</a>
-<a name='L38'></a><a href='#L38'>38</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<a name='L38'></a><a href='#L38'>38</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">11x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">11x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const responseHelper = require("../helpers/response-helper");
 const bannerService = require("../services/banner-service");
 &nbsp;
 class BannerController {
-<span class="fstat-no" title="function not covered" >  st</span>atic async createBanner(req, res) {
-<span class="cstat-no" title="statement not covered" >    try {</span>
-      const files = <span class="cstat-no" title="statement not covered" >req.files;</span>
-      const banner = <span class="cstat-no" title="statement not covered" >await bannerService.createBanner({ files });</span>
-<span class="cstat-no" title="statement not covered" >      return responseHelper.created(res, banner, "Foto berhasil ditambahkan");</span>
+  static async createBanner(req, res) {
+    try {
+      const files = req.files;
+      const banner = await bannerService.createBanner({ files });
+      return responseHelper.created(res, banner, "Foto berhasil ditambahkan");
     } catch (error) {
 <span class="cstat-no" title="statement not covered" >      responseHelper.error(res, error);</span>
     }
   }
-<span class="fstat-no" title="function not covered" >  st</span>atic async getBanner(req, res) {
-<span class="cstat-no" title="statement not covered" >    try {</span>
-      const banner = <span class="cstat-no" title="statement not covered" >await bannerService.getBanner();</span>
-<span class="cstat-no" title="statement not covered" >      return responseHelper.success(</span>
+  static async getBanner(req, res) {
+    try {
+      const banner = await bannerService.getBanner();
+      return responseHelper.success(
         res,
         banner,
         "Berhasil mendapatkan banner."
@@ -162,11 +162,11 @@ class BannerController {
 <span class="cstat-no" title="statement not covered" >      responseHelper.error(res, error);</span>
     }
   }
-<span class="fstat-no" title="function not covered" >  st</span>atic async deleteBanner(req, res) {
-<span class="cstat-no" title="statement not covered" >    try {</span>
-      const { ids } = <span class="cstat-no" title="statement not covered" >req.body;</span>
-      const file = <span class="cstat-no" title="statement not covered" >await bannerService.deleteBanner({ ids });</span>
-<span class="cstat-no" title="statement not covered" >      return responseHelper.success(res, null, file.message);</span>
+  static async deleteBanner(req, res) {
+    try {
+      const { ids } = req.body;
+      const file = await bannerService.deleteBanner({ ids });
+      return responseHelper.success(res, null, file.message);
     } catch (error) {
 <span class="cstat-no" title="statement not covered" >      responseHelper.error(res, error);</span>
     }
@@ -181,7 +181,7 @@ module.exports = BannerController;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-07-03T07:53:54.181Z
+                at 2025-07-03T16:08:13.628Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>
