@@ -810,7 +810,7 @@ route.delete(
  *                   type: string
  *                   example: "Internal Server Error"
  */
-route.get("/:id/galeri-berita", beritaController.getGaleriBerita);
+route.get("/:slug/galeri-berita", beritaController.getGaleriBerita);
 
 /**
  * @swagger
@@ -919,7 +919,7 @@ route.get("/:id/galeri-berita", beritaController.getGaleriBerita);
  *                   example: "Internal Server Error"
  */
 route.delete(
-  "/:id/galeri-berita",
+  "/:slug/galeri-berita",
   auth,
   authorizeRole("ADMIN"),
   beritaController.deleteGambar
@@ -1048,7 +1048,7 @@ route.delete(
  *                   example: "Internal Server Error"
  */
 route.post(
-  "/:id/galeri-berita",
+  "/:slug/galeri-berita",
   auth,
   authorizeRole("ADMIN"),
   multer.array("gambar_tambahan"),
