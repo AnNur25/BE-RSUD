@@ -139,6 +139,8 @@ route.post("/", auth, authorizeRole("ADMIN"), pelayanan.createPelayanan);
  *                         type: integer
  *                       nama_pelayanan:
  *                         type: string
+ *                       slug:
+ *                         type: string
  *       500:
  *         description: Terjadi kesalahan pada server
  *         content:
@@ -160,7 +162,7 @@ route.get("/", pelayanan.getPelayanan);
 
 /**
  * @swagger
- * /api/v1/pelayanan/{id_pelayanan}:
+ * /api/v1/pelayanan/{slug}:
  *   get:
  *     summary: Mendapatkan data Pelayanan Rumah Sakit berdasarkan ID
  *     description: Endpoint ini digunakan untuk mengambil satu data pelayanan berdasarkan ID.
@@ -168,7 +170,7 @@ route.get("/", pelayanan.getPelayanan);
  *       - Pelayanan Rumah Sakit
  *     parameters:
  *       - in: path
- *         name: id_pelayanan
+ *         name: slug
  *         required: true
  *         schema:
  *           type: string
@@ -241,7 +243,7 @@ route.get("/", pelayanan.getPelayanan);
  *                   type: string
  *                   example: "Internal Server Error."
  */
-route.get("/:id_pelayanan", pelayanan.getById);
+route.get("/:slug", pelayanan.getBySlug);
 /**
  * @swagger
  * /api/v1/pelayanan/{id_pelayanan}:
