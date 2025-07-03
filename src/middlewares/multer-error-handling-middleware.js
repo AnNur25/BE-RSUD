@@ -7,7 +7,7 @@ const multerErrorHandler = (err, req, res, next) => {
       LIMIT_FILE_SIZE: "Ukuran file melebihi 5MB",
       LIMIT_FILE_COUNT: "Maksimal 4 gambar yang diperbolehkan diunggah",
       LIMIT_FIELD_KEY: "Nama field tidak valid",
-      LIMIT_UNEXPECTED_FILE: "Format gambar harus berupa JPG/PNG",
+      LIMIT_UNEXPECTED_FILE: "Format gambar harus berupa JPG, JPEG, dan PNG",
       SINGLE_FILE_LIMIT: "Hanya satu gambar yang diizinkan untuk diupload",
     };
 
@@ -16,8 +16,7 @@ const multerErrorHandler = (err, req, res, next) => {
       status: "Failed",
       message: errorMessages[err.code] || "Error upload file",
     });
-  }
-  else if (err) {
+  } else if (err) {
     return res.status(400).json({
       statusCode: 400,
       status: "Failed",

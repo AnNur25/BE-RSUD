@@ -1,6 +1,6 @@
 const multer = require("multer");
-const path = require("path");//Menangani jalur file & ambil ekstensi
-const fs = require("fs");//cek dan buat folder unggahan
+const path = require("path"); //Menangani jalur file & ambil ekstensi
+const fs = require("fs"); //cek dan buat folder unggahan
 
 //===route folder uunggahan===
 const uploadFile = path.join(__dirname, "../../uploads");
@@ -22,12 +22,12 @@ const storage = multer.diskStorage({
 
 //===filter mime===
 const fileFilter = (req, file, cb) => {
-  const allowedMimeTypes = ["image/jpeg", "image/png"];
+  const allowedMimeTypes = ["image/jpeg", "image/png", "image/jpg"];
 
   if (allowedMimeTypes.includes(file.mimetype)) {
     cb(null, true);
   } else {
-    cb(new Error("Hanya gambar jpg/png yang diperbolehkan"), false);
+    cb(new Error("Hanya gambar jpg/jpeg dan png yang diperbolehkan"), false);
   }
 };
 
