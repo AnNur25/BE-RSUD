@@ -4,6 +4,7 @@ const {
 } = require("../utils/error-handling-utils");
 const Pagination = require("../utils/pagination-utils");
 const prisma = require("../prisma/prismaClient");
+const generateUniqueSlug = require("../utils/slug-detail-pelayanan-rs");
 
 class PelayananService {
   static async createPelayanan({
@@ -13,6 +14,7 @@ class PelayananService {
     JangkaWaktu,
     Biaya,
   }) {
+    const slug = await generateUniqueSlug(nama_pelayanan);
     if (
       !nama_pelayanan ||
       !Persyaratan ||
@@ -24,12 +26,13 @@ class PelayananService {
     }
 
     const pelayanan = await prisma.pelayanan.create({
-      data: { nama_pelayanan, Persyaratan, Prosedur, JangkaWaktu, Biaya },
+      data: { nama_pelayanan, Persyaratan, Prosedur, JangkaWaktu, Biaya, slug },
     });
 
     return {
       id: pelayanan.id_pelayanan,
       nama_pelayanan: pelayanan.nama_pelayanan,
+      slug: pelayanan.slug,
     };
   }
 
@@ -38,17 +41,18 @@ class PelayananService {
       select: {
         id_pelayanan: true,
         nama_pelayanan: true,
+        slug: true,
       },
     });
   }
-  static async getPelayananById(id_pelayanan) {
+  static async getPelayananBySlug(slug) {
     const pelayanan = await prisma.pelayanan.findUnique({
-      where: { id_pelayanan },
+      where: { slug },
     });
 
-    if (!pelayanan) {
+    if (!slug) {
       throw new NotFoundError(
-        `Pelayanan dengan ID ${id_pelayanan} tidak ditemukan.`
+        `Pelayanan dengan slug: ${slug} tidak ditemukan.`
       );
     }
 

@@ -308,6 +308,9 @@ route.get("/search", beritaController.searchBerita);
  *                           judul:
  *                             type: string
  *                             example: "Judul Berita Contoh"
+ *                           slug:
+ *                             type: string
+ *                             example: "judul-berita-contoh"
  *                           ringkasan:
  *                             type: string
  *                             example: "lorem ipsum dolor sit amet..."
@@ -369,19 +372,19 @@ route.get("/", beritaController.getBerita);
 
 /**
  * @swagger
- * /api/v1/berita/{id}:
+ * /api/v1/berita/{slug}:
  *   get:
- *     summary: Mendapatkan detail berita berdasarkan ID
+ *     summary: Mendapatkan detail berita berdasarkan slug
  *     description: Endpoint ini digunakan untuk mengambil detail berita berdasarkan ID yang diberikan.
  *     tags:
  *       - Berita
  *     parameters:
  *       - in: path
- *         name: id
+ *         name: slug
  *         required: true
  *         schema:
  *           type: string
- *         description: ID berita yang ingin diambil detailnya
+ *         description: slug berita yang ingin diambil detailnya
  *     responses:
  *       "200":
  *         description: Berhasil menampilkan detail berita.
@@ -408,6 +411,9 @@ route.get("/", beritaController.getBerita);
  *                     judul:
  *                       type: string
  *                       example: "Judul Berita Contoh"
+ *                     slug:
+ *                       type: string
+ *                       example: "judul-bberita-contoh"
  *                     ringkasan:
  *                       type: string
  *                       example: "Ringkasan berita singkat."
@@ -474,7 +480,7 @@ route.get("/", beritaController.getBerita);
  *                   type: string
  *                   example: "Internal Server Error"
  */
-route.get("/:id", beritaController.getBeritaById);
+route.get("/:slug", beritaController.getBeritaBySlug);
 
 /**
  * @swagger

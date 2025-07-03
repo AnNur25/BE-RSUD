@@ -36,10 +36,10 @@ class PelayananController {
       return responseHelper.error(res, error);
     }
   }
-  static async getById(req, res) {
+  static async getBySlug(req, res) {
     try {
-      const { id_pelayanan } = req.params;
-      const data = await pelayananService.getPelayananById(id_pelayanan);
+      const { slug } = req.params;
+      const data = await pelayananService.getPelayananBySlug(slug);
       return responseHelper.success(res, data, "Data pelayanan ditemukan");
     } catch (error) {
       return responseHelper.error(res, error);

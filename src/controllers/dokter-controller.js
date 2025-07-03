@@ -57,10 +57,10 @@ class DokterController {
       return responseHelper.error(res, error);
     }
   }
-  static async getDokterById(req, res) {
+  static async getDokterBySlug(req, res) {
     try {
-      const { id_dokter } = req.params;
-      const dokter = await dokterService.getDokterById(id_dokter);
+      const { slug } = req.params;
+      const dokter = await dokterService.getDokterBySlug(slug);
       return responseHelper.success(
         res,
         dokter,

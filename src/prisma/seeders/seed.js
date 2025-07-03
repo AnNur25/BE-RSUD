@@ -3,6 +3,7 @@ const fs = require("fs");
 const path = require("path");
 const prisma = require("../prismaClient");
 const { Role } = require("@prisma/client");
+const generateUniqueSlug = require("../../utils/slug-judul-berita");
 
 const users = [
   {
@@ -17,7 +18,7 @@ const revokedToken = [
   {
     id: "ook",
     token: "wwrree",
-   expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000),
+    expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000),
     user_id: "a12f44b8-98d6-4d24-b1c4-2921bd3ce7f2",
   },
 ];
@@ -1412,7 +1413,7 @@ async function main() {
   await prisma.pelayanan.deleteMany();
   await prisma.responAdmin.deleteMany();
   await prisma.aduan.deleteMany();
-  await prisma.komentar.deleteMany(); 
+  await prisma.komentar.deleteMany();
   await prisma.berita.deleteMany();
   await prisma.gambar.deleteMany();
   await prisma.revokedToken.deleteMany();
@@ -1426,7 +1427,18 @@ async function main() {
   await prisma.embedIg.createMany({ data: embedIg });
   await prisma.user.createMany({ data: users });
   await prisma.revokedToken.createMany({ data: revokedToken });
-  await prisma.berita.createMany({ data: berita });
+  for (const item of berita) {
+    const slug = await generateUniqueSlug(item.judul);
+    await prisma.berita.create({
+      data: {
+        ...item,
+        slug,
+        tanggal_berita: new Date().toLocaleDateString("id-ID"),
+      },
+    });
+    console.log(`Berita ditambahkan dengan slug: ${slug}`);
+  }
+  // await prisma.berita.createMany({ data: berita });
   await prisma.gambar.createMany({ data: gambar });
   await prisma.aduan.createMany({ data: aduan });
   await prisma.responAdmin.createMany({ data: responAdmin });

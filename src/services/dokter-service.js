@@ -7,6 +7,7 @@ const Pagination = require("../utils/pagination-utils");
 const path = require("path");
 const sharp = require("sharp");
 const fs = require("fs");
+const generateUniqueSlug = require("../utils/slug-detail-dokter");
 
 class DokterService {
   static async createDokter({
@@ -18,6 +19,7 @@ class DokterService {
     id_poli,
     file,
   }) {
+    const slug = await generateUniqueSlug(nama);
     if (
       !id_poli ||
       !nama ||
@@ -83,6 +85,7 @@ class DokterService {
       const addData = await prisma.dokter.create({
         data: {
           nama,
+          slug,
           gambar: imageUrl,
           biodata_singkat,
           link_linkedin,
@@ -97,6 +100,7 @@ class DokterService {
       return {
         id: addData.id_dokter,
         nama: addData.nama,
+        slug: addData.slug,
       };
     } catch (error) {
       // Kalau gagal dan sudah ada file resized, hapus
@@ -214,6 +218,7 @@ class DokterService {
       select: {
         id_dokter: true,
         nama: true,
+        slug: true,
         gambar: true,
         biodata_singkat: true,
         link_linkedin: true,
@@ -242,26 +247,27 @@ class DokterService {
     };
   }
 
-  static async getDokterById(id_dokter) {
-    if (!id_dokter) {
-      throw new BadRequestError("ID Dokter Harus Disertakan");
+  static async getDokterBySlug(slug) {
+    if (!slug) {
+      throw new BadRequestError("Slug Dokter Harus Disertakan");
     }
 
     const dokter = await prisma.dokter.findUnique({
-      where: { id_dokter: id_dokter },
+      where: { slug },
       include: {
         poli: true,
       },
     });
 
-    if (!dokter) {
-      throw new NotFoundError(`Dokter Dengan ID ${id_dokter} Tidak Ditemukan`);
+    if (!slug) {
+      throw new NotFoundError(`Dokter Dengan slug: ${slug} Tidak Ditemukan`);
     }
 
     return {
       dokter: {
         id_dokter: dokter.id_dokter,
         nama: dokter.nama,
+        slug: dokter.slug,
         gambar: dokter.gambar,
         biodata_singkat: dokter.biodata_singkat,
         link_linkedin: dokter.link_linkedin,

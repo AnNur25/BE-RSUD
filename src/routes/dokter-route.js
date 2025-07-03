@@ -68,6 +68,9 @@ const { auth, authorizeRole } = require("../middlewares/auth-middleware");
  *                     nama:
  *                       type: string
  *                       example: "Dr. Andi"
+ *                     slug:
+ *                       type: string
+ *                       example: "dr-andi"
  *       400:
  *         description: Data tidak lengkap atau file tidak diunggah.
  *         content:
@@ -405,7 +408,7 @@ Route.get("/", dokterController.getDokter);
 
 /**
  * @swagger
- * /api/v1/dokter/{id_dokter}:
+ * /api/v1/dokter/{slug}:
  *   get:
  *     summary: Mendapatkan data dokter berdasarkan ID
  *     description: Endpoint ini digunakan untuk mengambil detail data seorang dokter berdasarkan ID, termasuk informasi poli.
@@ -413,7 +416,7 @@ Route.get("/", dokterController.getDokter);
  *       - Dokter
  *     parameters:
  *       - in: path
- *         name: id_dokter
+ *         name: slug
  *         required: true
  *         schema:
  *           type: string
@@ -499,7 +502,7 @@ Route.get("/", dokterController.getDokter);
  *                   type: string
  *                   example: "Internal Server Error"
  */
-Route.get("/:id_dokter", dokterController.getDokterById);
+Route.get("/:slug", dokterController.getDokterBySlug);
 
 /**
  * @swagger
