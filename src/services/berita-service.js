@@ -1,12 +1,17 @@
 const prisma = require("../prisma/prismaClient");
-const { BadRequestError, NotFoundError } = require("../utils/error-handling-utils");
+const {
+  BadRequestError,
+  NotFoundError,
+} = require("../utils/error-handling-utils");
 const Pagination = require("../utils//pagination-utils");
 const path = require("path"); //salah satu properti dari object file yang menunjuk ke lokasi file di disk/server
 const sharp = require("sharp");
 const fs = require("fs");
+const generateUniqueSlug = require("../utils/slug-judul-berita");
 
 class BeritaService {
   static async createBerita({ judul, ringkasan, isi, file, tanggal_berita }) {
+    const slug = await generateUniqueSlug(judul);
     if (!file || !judul || !ringkasan || !isi || !tanggal_berita) {
       // Jika file sudah terupload tapi data tidak lengkap, hapus file supaya gak numpuk
       if (file && file.path && fs.existsSync(file.path)) {
@@ -54,6 +59,7 @@ class BeritaService {
       const beritaBaru = await prisma.berita.create({
         data: {
           judul,
+          slug,
           ringkasan,
           isi,
           tanggal_berita,
@@ -64,6 +70,7 @@ class BeritaService {
       return {
         id: beritaBaru.id_berita,
         judul: beritaBaru.judul,
+        slug: beritaBaru.slug,
         tanggal_dibuat: new Intl.DateTimeFormat("id-ID", {
           day: "2-digit",
           month: "long",
@@ -114,6 +121,7 @@ class BeritaService {
     const beritaData = berita.map((berita) => ({
       id: berita.id_berita,
       judul: potongKalimat(berita.judul, 8),
+      slug: berita.slug,
       ringkasan: potongKalimat(berita.ringkasan, 20),
       gambar_sampul: berita.gambar_sampul,
       tanggal_dibuat: new Intl.DateTimeFormat("id-ID", {
@@ -140,12 +148,12 @@ class BeritaService {
       },
     };
   }
-  static async getBeritaById({ id }) {
-    if (!id) {
-      throw new NotFoundError("ID Berita tidak ditemukan");
+  static async getBeritaBySlug({ slug }) {
+    if (!slug) {
+      throw new NotFoundError("slug Berita tidak ditemukan");
     }
     const berita = await prisma.berita.findUnique({
-      where: { id_berita: id },
+      where: { slug: slug },
       include: { gambar_tambahan: true },
     });
     if (!berita) {
@@ -154,6 +162,7 @@ class BeritaService {
     return {
       id: berita.id_berita,
       judul: berita.judul,
+      slug: berita.slug,
       ringkasan: berita.ringkasan,
       isi: berita.isi,
       gambar_sampul: berita.gambar_sampul,

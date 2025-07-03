@@ -29,10 +29,10 @@ class Berita {
     }
   }
 
-  static async getBeritaById(req, res) {
+  static async getBeritaBySlug(req, res) {
     try {
-      const { id } = req.params;
-      const berita = await beritaService.getBeritaById({ id });
+      const { slug } = req.params;
+      const berita = await beritaService.getBeritaBySlug({ slug });
       return responseHelper.success(
         res,
         berita,

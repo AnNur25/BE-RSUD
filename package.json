@@ -35,6 +35,7 @@
     "passport-google-oauth20": "^2.0.0",
     "prisma": "^6.5.0",
     "sharp": "^0.34.1",
+    "slugify": "^1.6.6",
     "supertest": "^7.1.1",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-dist": "^5.20.6",

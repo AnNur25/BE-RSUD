@@ -62,6 +62,7 @@ model GambarCaption {
 model Berita {
   id_berita       String   @id @default(uuid())
   judul           String
+  slug            String   @unique
   ringkasan       String
   isi             String
   gambar_sampul   String
@@ -128,6 +129,7 @@ model ResponAdmin {
 model Pelayanan {
   id_pelayanan   String         @id @default(uuid())
   nama_pelayanan String
+  slug           String   @unique
   Persyaratan    String
   Prosedur       String
   JangkaWaktu    String
@@ -138,6 +140,7 @@ model Pelayanan {
 model Dokter {
   id_dokter    String         @id @default(uuid())
   nama         String
+  slug         String   @unique
   gambar       String?
   biodata_singkat String
   link_instagram String?
