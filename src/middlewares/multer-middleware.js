@@ -27,7 +27,7 @@ const fileFilter = (req, file, cb) => {
   if (allowedMimeTypes.includes(file.mimetype)) {
     cb(null, true);
   } else {
-    cb(new Error("Hanya gambar jpg,jpeg, dan png yang diperbolehkan"), false);
+    cb(new Error("Hanya gambar jpg/jpeg dan png yang diperbolehkan"), false);
   }
 };
 
