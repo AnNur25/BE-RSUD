@@ -1442,9 +1442,29 @@ async function main() {
   await prisma.gambar.createMany({ data: gambar });
   await prisma.aduan.createMany({ data: aduan });
   await prisma.responAdmin.createMany({ data: responAdmin });
-  await prisma.pelayanan.createMany({ data: pelayanan });
+  for (const item of pelayanan) {
+    const slug = await generateUniqueSlug(item.nama_pelayanan);
+    await prisma.pelayanan.create({
+      data: {
+        ...item,
+        slug,
+      },
+    });
+    console.log(`pelayanan ditambahkan dengan slug: ${slug}`);
+  }
+  // await prisma.pelayanan.createMany({ data: pelayanan });
   await prisma.poli.createMany({ data: poli });
-  await prisma.dokter.createMany({ data: dokter });
+  for (const item of dokter) {
+    const slug = await generateUniqueSlug(item.nama);
+    await prisma.dokter.create({
+      data: {
+        ...item,
+        slug,
+      },
+    });
+    console.log(`dokter ditambahkan dengan slug: ${slug}`);
+  }
+  // await prisma.dokter.createMany({ data: dokter });
   await prisma.jadwalDokter.createMany({ data: jadwalDokter });
   await prisma.banner.createMany({ data: banner });
   await prisma.layananUnggulan.createMany({ data: layananUnggulan });
