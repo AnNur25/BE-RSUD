@@ -2,6 +2,7 @@ const express = require("express");
 const route = express.Router();
 const authController = require("../controllers/auth-controller");
 const { auth } = require("../middlewares/auth-middleware");
+const { loginLimiter } = require("../middlewares/rate-limit-middleware");
 
 /**
  * @swagger
@@ -187,7 +188,7 @@ route.post("/register", authController.register);
  *                   type: string
  *                   example: "Internal Server Error."
  */
-route.post("/login", authController.login);
+route.post("/login", loginLimiter, authController.login);
 
 /**
  * @swagger
