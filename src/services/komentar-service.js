@@ -5,16 +5,14 @@ const {
 const prisma = require("../prisma/prismaClient");
 const { connect } = require("../routes/berita-route");
 class komentarService {
-  static async addKomentar({ id_berita, nama, no_wa, isi_komentar, user }) {
-    if (!id_berita || !isi_komentar) {
-      throw new BadRequestError("Field id_berita dan isi_komentar wajib diisi");
+  static async addKomentar({ slug, nama, no_wa, isi_komentar, user }) {
+    if (!slug || !isi_komentar) {
+      throw new BadRequestError("Field slug dan isi_komentar wajib diisi");
     }
 
     // Jika user tidak ada, nama dan no_wa wajib diisi
     if (!user && (!nama || !no_wa)) {
-      throw new BadRequestError(
-        "Kolom tidak boleh kosong"
-      );
+      throw new BadRequestError("Kolom tidak boleh kosong");
     }
 
     const komentar = await prisma.komentar.create({
@@ -23,7 +21,7 @@ class komentarService {
         no_wa,
         isi_komentar,
         isVisible: true,
-        berita: { connect: { id_berita } },
+        berita: { connect: { slug } },
         ...(user && { user: { connect: { id_user: user.id_user } } }), // FK ke user
       },
     });
@@ -31,14 +29,18 @@ class komentarService {
     return komentar;
   }
 
-  static async listKomentar({ id_berita }) {
-    if (!id_berita) {
+  static async listKomentar({ slug }) {
+    if (!slug) {
       throw new BadRequestError(
-        "ID berita diperlukan untuk mengambil komentar"
+        "slug berita diperlukan untuk mengambil komentar"
       );
     }
     const semuaKomentar = await prisma.komentar.findMany({
-      where: { berita_id: id_berita },
+      where: {
+        berita: {
+          slug: slug,
+        },
+      },
       orderBy: { createdAt: "asc" },
     });
 
@@ -123,9 +125,15 @@ class komentarService {
 
     return hasil;
   }
-  static async listKomentarVisible({ id_berita }) {
+
+  static async listKomentarVisible({ slug }) {
     const semuaKomentar = await prisma.komentar.findMany({
-      where: { isVisible: true, berita_id: id_berita },
+      where: {
+        isVisible: true,
+        berita: {
+          slug: slug,
+        },
+      },
       orderBy: { createdAt: "asc" },
     });
 
@@ -199,16 +207,16 @@ class komentarService {
     });
   }
   static async replayKomentar({
-    id_berita,
+    slug,
     id_komentar,
     isi_komentar,
     id_user,
     nama,
     no_wa,
   }) {
-    if (!id_berita || !id_komentar || !isi_komentar) {
+    if (!slug || !id_komentar || !isi_komentar) {
       throw new BadRequestError(
-        "Berita ID, komentar ID, dan isi komentar wajib diisi"
+        "slug, komentar ID, dan isi komentar wajib diisi"
       );
     }
 
@@ -223,7 +231,7 @@ class komentarService {
 
     // Validasi berita
     const berita = await prisma.berita.findUnique({
-      where: { id_berita },
+      where: { slug },
     });
 
     if (!berita) {
@@ -240,11 +248,21 @@ class komentarService {
     const balasan = await prisma.komentar.create({
       data: {
         isi_komentar,
-        berita_id: id_berita,
-        user_id: id_user || null,
+        berita: {
+          connect: {
+            slug: slug,
+          },
+        },
+        user: id_user
+          ? {
+              connect: { id_user },
+            }
+          : undefined,
         nama,
         no_wa,
-        parentId: id_komentar,
+        parent: {
+          connect: { id_komentar: id_komentar },
+        },
         isVisible: true,
       },
     });
