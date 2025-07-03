@@ -128,8 +128,4 @@ app.use((err, req, res, next) => {
 app.get("/", (req, res) => {
   res.send("the system works !!!");
 });
-app.listen(3000, "0.0.0.0", () => {
-  console.log("Server running on port 3000");
-});
-
 module.exports = app;
